@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="0aee7c44-0c99-498a-a040-544eb29c3bb6" name="Default" comment="" />
+    <list default="true" id="0aee7c44-0c99-498a-a040-544eb29c3bb6" name="Default" comment="">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/vcs.xml" />
+    </list>
     <ignored path="_.iws" />
     <ignored path=".idea/workspace.xml" />
     <ignored path=".idea/dataSources.local.xml" />
@@ -62,11 +64,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Candidate.class.php" pinned="false" current-in-tab="true">
+      <file leaf-file-name="Candidate.class.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/subdomains/include/Candidate.class.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="15">
-              <caret line="1" column="33" selection-start-line="1" selection-start-column="33" selection-end-line="1" selection-end-column="33" />
+            <state relative-caret-position="315">
+              <caret line="21" column="52" selection-start-line="21" selection-start-column="52" selection-end-line="21" selection-end-column="52" />
               <folding>
                 <marker date="1468261455000" expanded="true" signature="4065:4120" ph="INSERT INTO `candidates`... " />
                 <marker date="1468261455000" expanded="true" signature="4277:4300" ph="UPDATE `cand... " />
@@ -97,20 +99,13 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="pre.php" pinned="false" current-in-tab="false">
+      <file leaf-file-name="pre.php" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/subdomains/pre.php">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="1515">
               <caret line="101" column="0" selection-start-line="101" selection-start-column="0" selection-end-line="101" selection-end-column="0" />
               <folding />
             </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="cms_db.sql" pinned="false" current-in-tab="false">
-        <entry file="file://$USER_HOME$/Downloads/cms_db.sql">
-          <provider selected="true" editor-type-id="LargeFileEditor">
-            <state />
           </provider>
         </entry>
       </file>
@@ -125,6 +120,9 @@
         </entry>
       </file>
     </leaf>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
@@ -146,7 +144,7 @@
     <option name="width" value="1400" />
     <option name="height" value="765" />
   </component>
-  <component name="ProjectLevelVcsManager" settingsEditedManually="false">
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <OptionsSetting value="true" id="Add" />
     <OptionsSetting value="true" id="Remove" />
     <OptionsSetting value="true" id="Checkout" />
@@ -264,9 +262,9 @@
     </panes>
   </component>
   <component name="PropertiesComponent">
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="/usr/bin/git" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="settings.editor.selected.configurable" value="reference.webide.settings.project.settings.php" />
+    <property name="settings.editor.selected.configurable" value="vcs.Git" />
     <property name="settings.editor.splitter.proportion" value="0.2" />
   </component>
   <component name="RunManager">
@@ -316,12 +314,12 @@
       <workItem from="1468518686250" duration="3101000" />
       <workItem from="1468597273856" duration="681000" />
       <workItem from="1468601929176" duration="4000" />
-      <workItem from="1468851833675" duration="2116000" />
+      <workItem from="1468851833675" duration="2539000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="11778000" />
+    <option name="totallyTimeSpent" value="12201000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-3" y="23" width="1400" height="765" extended-state="0" />
@@ -626,11 +624,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$USER_HOME$/Downloads/cms_db.sql">
-      <provider selected="true" editor-type-id="LargeFileEditor">
-        <state />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/subdomains/www/work_experience.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -718,14 +711,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/subdomains/pre.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1515">
-          <caret line="101" column="0" selection-start-line="101" selection-start-column="0" selection-end-line="101" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/subdomains/client/cms_menu.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="585">
@@ -768,8 +753,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/subdomains/include/Candidate.class.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="15">
-          <caret line="1" column="33" selection-start-line="1" selection-start-column="33" selection-end-line="1" selection-end-column="33" />
+        <state relative-caret-position="315">
+          <caret line="21" column="52" selection-start-line="21" selection-start-column="52" selection-end-line="21" selection-end-column="52" />
           <folding>
             <marker date="1468261455000" expanded="true" signature="4065:4120" ph="INSERT INTO `candidates`... " />
             <marker date="1468261455000" expanded="true" signature="4277:4300" ph="UPDATE `cand... " />
@@ -786,6 +771,19 @@
             <marker date="1468261455000" expanded="true" signature="37464:37497" ph="SELECT ${{$q... " />
             <marker date="1468261455000" expanded="true" signature="39214:39247" ph="SELECT ${{$q... " />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/Downloads/cms_db.sql">
+      <provider selected="true" editor-type-id="LargeFileEditor">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/subdomains/pre.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1515">
+          <caret line="101" column="0" selection-start-line="101" selection-start-column="0" selection-end-line="101" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>
