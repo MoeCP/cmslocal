@@ -1,0 +1,82 @@
+{include file="themes/$theme/header.html"}
+{if $feedback neq ''}
+<script>
+alert('{$feedback}');
+</script>
+{/if}
+{literal}
+<script language="JavaScript">
+function check_quotiety()
+{
+    var r = $("readability").value;
+    var i = $("informational_quality").value;
+    var t = $("timeliness").value;
+    var sum = Number(r) + Number(i) + Number(t);
+    if (r == '')
+    {
+        alert("Please enter Punctuation/Grammar/Spelling!");
+    } else if (i == '')
+    {
+        alert("Please enter Quality of Writing");
+    } else if (t == '')
+    {
+        alert("Please enter Timeliness/Frequent Submissions ");
+    } else if (sum > 1) {
+        alert("Quotieties addition result should equal to 1");
+    } else {
+        if (sum < 1 ) {
+            var last = 1 - Number(r) - Number(i);
+            $("timeliness").value = last;
+        }
+        if (window.confirm("Are you sure to update the copywriter ranking quotiety?"))
+        {
+            $("operation").value = "save";
+            $("ranking_quotiety").submit();
+        }
+    }
+}
+</script>
+{/literal}
+<div id="page-box1">
+  <h2>Specify New Copywriter Ranking Quotity</h2>
+  <div id="campaign-search" >
+    <strong></strong>
+  </div>
+  <div class="form-item" >
+<form action="" method="post" name="ranking_quotiety" id="ranking_quotiety" >
+  <input type="hidden" name="operation" id="operation" value="" />
+  <input type="hidden" name="readability_id" id="readability_id" value="{$readability.pref_id}" />
+  <input type="hidden" name="quality_id" id="quality_id" value="{$informational_quality.pref_id}" />
+  <input type="hidden" name="timeliness_id" id="timeliness_id" value="{$timeliness.pref_id}" />
+  <table border="0" cellspacing="1" cellpadding="4" align="center" width="100%">
+  <tr>
+    <td class="moduleTitle" colspan=2></td>
+  </tr>
+  <tr>
+    <td class="bodyBold">Basic Information</td>
+    <td align="right" class="requiredHint">Required Information</td>
+  </tr>
+  <tr>
+    <td class="blackLine" colspan=2><img src="/image/misc/s.gif"></td>
+  </tr>
+  <tr>
+    <td class="requiredInput">Punctuation/Grammar/Spelling:</td>
+    <td><input type="text" id="readability" name="readability" value="{if $readability.pref_value > 0 }{$readability.pref_value}{else}0.33{/if}"/></td>
+  </tr>
+  <tr>
+    <td class="requiredInput">Quality of Writing:</td>
+    <td><input type="text" id="informational_quality" name="informational_quality" value="{if $informational_quality.pref_value > 0 }{$informational_quality.pref_value}{else}0.33{/if}"/></td>
+  </tr>
+  <tr>
+    <td class="requiredInput">Timeliness/Frequent Submissions:</td>
+    <td><input type="text" id="timeliness" name="timeliness" value="{if $timeliness.pref_value > 0}{$timeliness.pref_value}{else}0.34{/if}"/></td>
+  </tr>
+  <tr>
+    <td>&nbsp;</td>
+    <td><input type="button" class="button" name="save" value="Save" onclick="check_quotiety()"/></td>
+  </tr>
+</table>
+</form>
+  </div>
+</div>
+{include file="themes/$theme/footer.html"}

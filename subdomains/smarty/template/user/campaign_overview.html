@@ -1,0 +1,151 @@
+<div>
+<h2>New Assignments</h2>
+{if $role == 'copy writer' || $role == 'editor'}
+<table border="0" cellspacing="1" cellpadding="4" align="center" width="99%" class="campaign-table sortableTable" >
+<tr>
+  <th class="campaign-table-top-left" >Campaign Name</th>
+  <th>Progress of Assignment Acceptance</th>
+  <th>{if $role == 'copy writer'}Editor{else}Project Manager{/if}</th>
+  <th># of articles in progress</th>
+  <!--{if $role == 'editor'}
+  <th>Deadline</th>
+  {/if}-->
+  <th class="campaign-table-top-right" >Action</th>
+</tr>
+{foreach from=$reports.new_report item=item name="loop"}
+<tr  class="{if $smarty.foreach.loop.iteration % 2 eq 0}even{else}odd{/if}" >
+  <td>{$reports.campaign[$item.campaign_id]}</td>
+  <td> 
+  <a  href="/article/acceptance.php?campaign_id={$item.campaign_id}">
+    <div class="graph" valign="center">
+        <strong class="bar" style='width: {$item.pct_total_assigned|string_format:"%.2f"}%;'>{$item.pct_total_assigned|string_format:"%.2f"}%</strong>
+    </div>
+  </a>
+  </td>
+  <td>{if $role == 'copy writer'}{$reports.campaign.editor[$item.campaign_id]}{else}{$reports.campaign.pm[$item.campaign_id]}{/if}</td>
+  <td>{$item.working_on|default:'0'}</td>
+  <!--{if $role == 'editor'}
+  <td>{$reports.campaign.date_end[$item.campaign_id]}</td>
+  {/if}-->
+  <td><a href="javascript:void(0)" onclick="openWindow('/client_campaign/campaign_style_guide.php?campaign_id={$item.campaign_id}', 'height=500,width=600,status=no,toolbar=no,menubar=no,location=no,resizable=yes,scrollbars=yes');"  >Style Guide</a></td>
+</tr>
+{/foreach}
+</table>
+<table border="0" cellspacing="0" cellpadding="0" align="center" width="99%" class="all-link-text">
+  <tr><td align="right" >Click <a href="/article/acceptance.php" >here</a> to see all articles</td></tr>
+</table>
+{/if}
+{*{if $role == 'designer' || $role == 'editor'}
+<table border="0" cellspacing="1" cellpadding="4" align="center" width="99%" class="campaign-table sortableTable" >
+<tr>
+  <th class="campaign-table-top-left" >Campaign Name</th>
+  <th>Progress of Assignment Acceptance</th>
+  <th>{if $role == 'designer'}Editor{else}Project Manager{/if}</th>
+  <th># of images in progress</th>
+  {if $role == 'editor'}
+  <th>Deadline</th>
+  {/if}
+  <th class="campaign-table-top-right" >Action</th>
+</tr>
+{foreach from=$reports2.new_report item=item name="loop"}
+<tr  class="{if $smarty.foreach.loop.iteration % 2 eq 0}even{else}odd{/if}" >
+  <td>{$reports2.campaign[$item.campaign_id]}</td>
+  <td> 
+  <a  href="/graphics/acceptance.php?campaign_id={$item.campaign_id}">
+    <div class="graph" valign="center">
+        <strong class="bar" style='width: {$item.pct_total_assigned|string_format:"%.2f"}%;'>{$item.pct_total_assigned|string_format:"%.2f"}%</strong>
+    </div>
+  </a>
+  </td>
+  <td>{if $role == 'designer'}{$reports2.campaign.editor[$item.campaign_id]}{else}{$reports2.campaign.pm[$item.campaign_id]}{/if}</td>
+  <td>{$item.working_on|default:'0'}</td>
+  {if $role == 'editor'}
+  <td>{$reports2.campaign.date_end[$item.campaign_id]}</td>
+  {/if}
+  <td><a href="javascript:void(0)" onclick="openWindow('/client_campaign/campaign_style_guide.php?campaign_id={$item.campaign_id}', 'height=500,width=600,status=no,toolbar=no,menubar=no,location=no,resizable=yes,scrollbars=yes');"  >Style Guide</a></td>
+</tr>
+{/foreach}
+</table>
+<table border="0" cellspacing="0" cellpadding="0" align="center" width="99%" class="all-link-text">
+  <tr><td align="right" >Click <a href="/graphics/acceptance.php" >here</a> to see all images</td></tr>
+</table>
+{/if}*}
+</div>
+<div>
+<h2>Current Assignments</h2>
+{if $role == 'copy writer' || $role == 'editor'}
+<table border="0" cellspacing="1" cellpadding="4" align="center" width="99%" class="campaign-table sortableTable" >
+<tr>
+  <th class="campaign-table-top-left" >Campaign Name</th>
+  <th>Progress</th>
+  <th>{if $role == 'copy writer'}Editor{else}Project Manager{/if}</th>
+  <th># of articles in progress</th>
+  <!--{if $role == 'editor'}
+  <th>Deadline</th>
+  {/if}-->
+  <th class="campaign-table-top-right" >Action</th>
+</tr>
+{foreach from=$reports.img_report item=item name="loop"}
+{if  $item.percent < 100}
+<tr  class="{if $smarty.foreach.loop.iteration % 2 eq 0}even{else}odd{/if}" >
+  <td>{$reports.campaign[$item.campaign_id]}</td>
+  <td>      
+  {*<a {if $item.is_pop_style_guide eq 1}onclick="javascript:show({$item.campaign_id})"{/if} href="/article/{if $role == 'editor'}article_list.php{else}article_keyword_list.php{/if}?campaign_id={$item.campaign_id}">*}
+  <a {if $item.is_pop_style_guide eq 1}onclick="javascript:show({$item.campaign_id})"{/if} href="/article/article_keyword_list.php?campaign_id={$item.campaign_id}">
+    <div class="graph" valign="center">
+        <strong {if $item.total_rejected > 0}class="rejectedbar"{else}class="bar"{/if} style='width: {$item.percent|string_format:"%.2f"}%;'>{$item.percent|string_format:"%.2f"}%</strong>
+    </div>
+  </a>
+  </td>
+  <td>{if $role == 'copy writer'}{$reports.campaign.editor[$item.campaign_id]}{else}{$reports.campaign.pm[$item.campaign_id]}{/if}</td>
+  <td>{$item.working_on|default:'0'}</td>
+  <!--{if $role == 'editor'}
+  <td>{$reports.campaign.date_end[$item.campaign_id]}</td>
+  {/if}-->
+  <td><a href="javascript:void(0)" onclick="openWindow('/client_campaign/campaign_style_guide.php?campaign_id={$item.campaign_id}', 'height=500,width=600,status=no,toolbar=no,menubar=no,location=no,resizable=yes,scrollbars=yes');"  >Style Guide</a></td>
+</tr>
+{/if}
+{/foreach}
+</table>
+<table border="0" cellspacing="0" cellpadding="0" align="center" width="99%" class="all-link-text">
+  <tr><td align="right" >Click <a href="/client_campaign/ed_cp_campaign_list.php" >here</a> to see all campaigns</td></tr>
+</table>
+{/if}
+{if $role == 'designer' || $role == 'editor'}
+{*<table border="0" cellspacing="1" cellpadding="4" align="center" width="99%" class="campaign-table sortableTable" >
+<tr>
+  <th class="campaign-table-top-left" >Campaign Name</th>
+  <th>Progress</th>
+  <th>{if $role == 'designer'}Editor{else}Project Manager{/if}</th>
+  <th># of images in progress</th>
+  {if $role == 'editor'}
+  <th>Deadline</th>
+  {/if}
+  <th class="campaign-table-top-right" >Action</th>
+</tr>
+{foreach from=$reports2.img_report item=item name="loop"}
+{if  $item.percent < 100}
+<tr  class="{if $smarty.foreach.loop.iteration % 2 eq 0}even{else}odd{/if}" >
+  <td>{$reports2.campaign[$item.campaign_id]}</td>
+  <td> 
+  <a {if $item.is_pop_style_guide eq 1}onclick="javascript:show({$item.campaign_id})"{/if} href="/graphics/image_keyword_list.php?campaign_id={$item.campaign_id}">
+    <div class="graph" valign="center">
+        <strong {if $item.total_rejected > 0}class="rejectedbar"{else}class="bar"{/if} style='width: {$item.percent|string_format:"%.2f"}%;'>{$item.percent|string_format:"%.2f"}%</strong>
+    </div>
+  </a>
+  </td>
+  <td>{if $role == 'designer'}{$reports2.campaign.editor[$item.campaign_id]}{else}{$reports2.campaign.pm[$item.campaign_id]}{/if}</td>
+  <td>{$item.working_on|default:'0'}</td>
+  {if $role == 'editor'}
+  <td>{$reports2.campaign.date_end[$item.campaign_id]}</td>
+  {/if}
+  <td><a href="javascript:void(0)" onclick="openWindow('/client_campaign/campaign_style_guide.php?campaign_id={$item.campaign_id}', 'height=500,width=600,status=no,toolbar=no,menubar=no,location=no,resizable=yes,scrollbars=yes');"  >Style Guide</a></td>
+</tr>
+{/if}
+{/foreach}
+</table>
+<table border="0" cellspacing="0" cellpadding="0" align="center" width="99%" class="all-link-text">
+  <tr><td align="right" >Click <a href="/graphics/designer_campaign_list.php" >here</a> to see all campaigns</td></tr>
+</table>*}
+{/if}
+</div>

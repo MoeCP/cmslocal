@@ -1,0 +1,58 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset={$sys_charset}" />
+<title>{$page_title}</title>
+<style type="text/css">@import url("/themes/{$theme}/style.css"); </style>
+<link rel="stylesheet" type="text/css" media="all" href="/js/calendar/calendar.css" />
+<link rel="shortcut icon" href="/images/favicon.ico" />
+<script type="text/javascript" src="/js/calendar/calendar.js"></script>
+<script type="text/javascript" src="/js/calendar/lang/calendar-en.js"></script>
+<script type="text/javascript" src="/js/calendar/calendar-setup.js"></script>
+<script type="text/javascript" src="/js/common.js"></script>
+<script type="text/javascript" src="/js/jquery-1.6.1.min.js"></script>
+{literal}
+<!--[if IE]>
+<style type="text/css" media="screen">
+body { behavior: url("/themes/Default/csshover.htc"); }
+</style>
+<![endif]-->
+{/literal}
+</head>
+
+<body {$onload} background="/image/bgall.jpg">
+<table width="100%"  border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td width="1%">&nbsp;</td>
+    <td><img src="/image/home_logo.jpg" width="244" height="77" /></td>
+    <td width="29%" style="vertical-align:top;text-align:right;">
+      <div id="date_now_notice">{$smarty.now|date_format:"%A, %B %e, %Y, %I:%M %p"}</div>
+    </td>
+  </tr>
+  <tr>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+  </tr>
+</table>
+
+<table cellspacing="0" cellpadding="0" border="0" width="100%">
+<tr><td>
+  <table cellspacing="0" cellpadding="0" border="0" width="100%">
+  <tr>
+  {if $is_include_left eq true}
+  <td class="leftRegion">{include file="themes/$theme/left.html"}</td>
+  {/if}<td class="mainContent">
+
+  <!-- quick pane start -->
+  <div class="tab-page">
+  <table border="0" class="quick_pane" cellspacing="1" cellpadding="3" width="100%">
+    <tr class="subMenuTr">
+	<td class="subMenuLabel">
+      {foreach from=$quick_pane item=quick_menu name="loop_quick_menu"}
+      <a href="{$quick_menu.url}">{$quick_menu.lable}</a>&nbsp;&gt;
+      {/foreach}
+	</td></tr>
+  </table>
+  </div>
+  <!-- quick pane start -->

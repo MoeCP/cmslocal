@@ -1,0 +1,34 @@
+<table border="0" cellspacing="1" cellpadding="4" width="100%" class="divTrends">
+{foreach from=$results item=item name="loop" key=key}
+  {if $key%2 == 0}<tr>{/if}
+    <td width="50%" valign="top" class="tdTrends">
+      <div class="divTrends" >
+        <div class="divTrendLabel">{$item.label}</div>
+        <div class="divTrendResults" >
+        {foreach from=$item.rs item=subitem name="subloop" key=subkey}
+        <div class="divTrendResult">
+        <table width="100%" {if $subkey%2==0}class="grayrow"{/if}>
+        <tr  class="divTrendResultlink">
+          <td width="70%">
+          {if $subitem.link != ''}<a href="{$subitem.link}" target="_blank">{$subitem.title}</a>{else}{$subitem.title}{/if}
+          </td>
+          <td>{$subitem.pubDate}</td>
+        </tr>
+        <tr class="divTrendResultContent">
+          <td colspan="2">{$subitem.content}</td>
+        </tr>
+        </table>
+        </div>
+        <div>&nbsp;</div>
+        {/foreach}
+        </div>
+      </div>
+      {if $item.more != ''}
+      <div class="divTrendReadMore" >
+        <a href="{$item.more}" target="_blank">More Results</a>
+      </div>
+      {/if}
+    </td>
+  {if $key%2 == 1}</tr>{/if}
+  {/foreach}
+</table>

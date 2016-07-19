@@ -1,0 +1,115 @@
+{include file="themes/$theme/header.html"}
+
+{literal}
+<style>
+    .graph { 
+        position: relative; /* IE is dumb */
+        width: 400px; 
+        border: 1px solid #B1D632; 
+        padding: 2px; 
+    }
+    .graph .bar { 
+        display: block;
+        position: relative;
+        background: #B1D632; 
+        text-align: center; 
+        color: #333; 
+        height: 2em; 
+        line-height: 2em;            
+    }
+    .graph .bar span { position: absolute; left: 1em; }
+</style>
+{/literal}
+
+{if $feedback ne ''}
+<script language="JavaScript">
+<!--
+alert('{$feedback}');
+//-->
+</script>
+{/if}
+
+<table border="0" cellspacing="1" cellpadding="4" align="left" width="90%">
+<tr><td>
+  <table align="right" width="100%"  cellspacing="1" cellpadding="4" >
+    <tr><td colspan="20"><img src="/image/logo.gif" width="212" height="40" alt="Company Logo" border="0"></td></tr>
+    <tr><td align="left" colspan="8">CKMediaGroup Copywriter Progress Report</td><td align="right" colspan="5">{$smarty.now|date_format:"%A, %B %e, %Y"}</td></tr>
+    <tr class="sortableTab">
+	<th align="center" height="25" rowspan="2" >Campaign Name</th>
+	<th align="center" colspan="3">Total Submitted Today</th>
+	<th align="center" rowspan="2">Total Completed UPTO DATE</th>	
+	<th align="center" rowspan="2">Total Possible Duplication</th>	
+	<th align="center" rowspan="2">type1</th>
+	<th align="center" rowspan="2">type2</th>
+	<th align="center" rowspan="2">type3</th>
+	<th align="center" rowspan="2">Total Articles</th>
+	<th align="center" rowspan="2">Start Date</th>
+	<th align="center"rowspan="2">End Date</th>
+    </tr>
+    <tr>
+	<th align="center">type1</th>
+	<th align="center">type2</th>
+	<th align="center">type3</th>
+    </tr>
+    {foreach from=$campaign_reports item=report name="loop"}
+    <tr class="odd">
+	<td align="left" height="25" ><a href="/client_campaign/keyword_list.php?campaign_id={$report.campaign_id}"><b>{$report.campaign_name}</b></a></td>
+	<td align="center">{if $report.today_submitted.0>0}<a href="/client_campaign/keyword_list.php?campaign_id={$report.campaign_id}&article_status=4&article_type=0&perPage=50&is_today=1" />{$report.today_submitted.0}</a>{else}0{/if}</td>
+	<td align="center">{if $report.today_submitted.1>0}<a href="/client_campaign/keyword_list.php?campaign_id={$report.campaign_id}&article_status=4&article_type=1&perPage=50&is_today=1" />{$report.today_submitted.1}</a>{else}0{/if}</td>
+	<td align="center">{if $report.today_submitted.2>0}<a href="/client_campaign/keyword_list.php?campaign_id={$report.campaign_id}&article_status=4&article_type=2&perPage=50&is_today=1" />{$report.today_submitted.2}</a>{else}0{/if}</td>
+	<td align="center">{$report.submitted}</td>
+	<td align="center">{if $report.google_duplicated_total>0}<a href="/client_campaign/keyword_list.php?campaign_id={$report.campaign_id}&article_status=1gd&perPage=50" />{$report.google_duplicated_total}</a>{else}0{/if}</td>
+	<td align="center">{if $report.0>0 }{$report.0}{else}0{/if}</td>
+	<td align="center">{if $report.1>0 }{$report.1}{else}0{/if}</td>
+	<td align="center">{if $report.2>0 }{$report.2}{else}0{/if}</td>
+	<td align="center">{$report.total}</td>
+	<td align="center">{$report.date_start}</td>
+	<td align="center">{$report.date_end}</td>
+     </tr>
+     {foreachelse}
+     <tr class="odd">
+	<td align="center" colspan="15" >There is no availible results</td>
+     </tr>
+    {/foreach}
+  </table>
+</td></tr>
+
+<!--<tr><td>
+<table border="0" cellspacing="1" cellpadding="4" align="left" width="99%">
+{foreach from=$result item=item name="loop"}
+  <tr><td width="15%"><a href="/client_campaign/list.php?client_id={$item.client_id}&company_name={$item.company_name}"><b>{$item.company_name}</b></a></td><td>&nbsp;</td></tr>
+  <tr>
+    <td>Total spend so far:</td>
+    <td><a href="/client_campaign/list.php?client_id={$item.client_id}&company_name={$item.company_name}">
+	<div class="graph">
+		<strong class="bar" style='width: {$item.total_count/200|string_format:"%.2f"};'>{$item.total_count|string_format:"%.2f"}$</strong>
+	</div></a></td>
+  </tr>
+  <tr>
+    <td>Total current articles:</td>
+    <td><a href="/client_campaign/list.php?client_id={$item.client_id}&company_name={$item.company_name}"><div class="graph">
+    <strong class="bar" style='width: {$item.total_completed_articles/50};background: #336699;'>{$item.total_completed_articles}</strong>
+	</div></a></td>
+  </tr>
+{/foreach}
+</table>
+</td></tr>-->
+
+<tr><td>
+  <table align="right" width="100%">
+    <tr><td align="left">If you want to know more information.please click <a href="/client_campaign/client_list.php">here</a></td></tr>
+  </table>
+</td></tr>
+
+<tr><td>
+  <table align="right" width="100%">
+    <tr><td align="left"><br><br>Content Kings Media Group</td></tr>
+    <tr><td align="left">1602 Alton Road, #571</td></tr>
+    <tr><td align="left">Miami Beach, FL 33139</td></tr>
+    <tr><td align="left"><br><br>Tel: 305.673.9903</td></tr>
+    <tr><td align="left">Fax: 305.604.1565</td></tr>
+  </table>
+</td></tr>
+
+<table>
+{include file="themes/$theme/footer.html"}

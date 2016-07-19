@@ -1,0 +1,265 @@
+{* include file="themes/$theme/header.html" *}
+<!DOCTYPE html PUBLIC "-//W3C//DTD html 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset={$sys_charset}">
+<title>{$page_title}</title>
+<style type="text/css">@import url("/themes/{$theme}/style.css"); </style>
+<link href="/themes/{$theme}/navigation.css" rel="stylesheet" type="text/css" />
+<link rel="stylesheet" type="text/css" media="all" href="/js/calendar/calendar.css" />
+<link type="text/css" rel="StyleSheet" href="/js/sortabletable/sortabletable.css" />
+
+<script language="javascript" src="/themes/{$theme}/menu.js"></script>
+<script language="javascript" src="/js/cookie.js"></script>
+<script type="text/javascript" src="/js/calendar/calendar.js"></script>
+<script type="text/javascript" src="/js/calendar/lang/calendar-en.js"></script>
+<script type="text/javascript" src="/js/calendar/calendar-setup.js"></script>
+<script type="text/javascript" src="/js/sortabletable/sortabletable.js"></script>
+<script type="text/javascript" src="/js/common.js"></script>
+<script type="text/javascript" src="/js/overlib/overlib_mini.js"></script>
+
+<script language="javascript" type="text/javascript" src="/js/tiny_mce/tiny_mce.js"></script>
+<script language="javascript" type="text/javascript">
+{literal}
+tinyMCE.init({
+		mode : "textareas",
+		theme : "advanced",
+		elements : "mailbody",
+        plugins : "table,save,advhr,advimage,advlink,emotions,iespell,insertdatetime,preview,zoom,flash,searchreplace,print,contextmenu,paste,directionality,fullscreen",
+		theme_advanced_buttons1_add_before : "save,newdocument,separator",
+		theme_advanced_buttons1_add : "fontselect,fontsizeselect",
+		theme_advanced_buttons2_add : "separator,insertdate,inserttime,preview,zoom,separator,forecolor,backcolor",
+		theme_advanced_buttons2_add_before: "cut,copy,paste,pastetext,pasteword,separator,search,replace,separator",
+		theme_advanced_buttons3_add_before : "tablecontrols,separator",
+		theme_advanced_buttons3_add : "emotions,iespell,flash,advhr,separator,print,separator,ltr,rtl,separator,fullscreen",
+		theme_advanced_toolbar_location : "top",
+		theme_advanced_toolbar_align : "left",
+		theme_advanced_statusbar_location : "bottom",
+		//content_css : "mailer_word.css",
+	    plugi2n_insertdate_dateFormat : "%Y-%m-%d",
+	    plugi2n_insertdate_timeFormat : "%H:%M:%S",
+
+		paste_use_dialog : false,
+		theme_advanced_resizing : true,
+		theme_advanced_resize_horizontal : false,
+		theme_advanced_link_targets : "_something=My somthing;_something2=My somthing2;_something3=My somthing3;",
+		paste_auto_cleanup_on_paste : true,
+		paste_convert_headers_to_strong : false,
+		paste_strip_class_attributes : "all",
+		paste_remove_spans : false,
+		paste_remove_styles : false		
+});
+{/literal}
+</script>
+
+<link id="luna-tab-style-sheet" type="text/css" rel="stylesheet" href="/js/tabpane/tabpane.css" />
+<script type="text/javascript" src="/js/tabpane/tabpane.js"></script>
+
+<script language="javascript" src="/js/OptionTransfer.js"></script>
+<script language="javascript">
+var opt = new OptionTransfer("list1","list2");
+opt.setAutoSort(true);
+opt.setDelimiter(";");
+
+//opt.setStaticOptionRegex("^(Bill|Bob|Matt)$");
+//opt.saveRemovedLeftOptions("removedLeft");
+//opt.saveRemovedRightOptions("removedRight");
+//opt.saveAddedLeftOptions("addedLeft");
+//opt.saveAddedRightOptions("addedRight");
+
+opt.saveNewLeftOptions("newLeft");
+opt.saveNewRightOptions("newRight");
+//opt.init(document.forms[0]);
+//opt.init(document.forms[0]);
+</script>
+
+</head>
+
+<body onLoad="opt.init(document.forms[0])" background="/image/bgall.jpg">
+<table cellspacing="0" cellpadding="0" border="0" width="100%">
+<tr height="20">
+  <td align="left" valign="bottom">&nbsp;</td>
+  <td class="welcome" width="460" align="right" valign="top">Welcome,{$loggedin_user_name}&nbsp;|&nbsp;<a href="#">Help</a>&nbsp;
+  {if $user_permission_int neq 2}
+  |&nbsp;<a href="/suggestions/suggestions.php">Suggestions</a>&nbsp;
+  {/if}
+  {if $user_permission_int ge 4}
+  |&nbsp;<a href="/user/candidates.php">New Candidates</a>&nbsp;
+  {/if}
+  |&nbsp;<a href="/user/passwd.php">My Account</a>&nbsp;
+  |&nbsp;<a href="/logout.php">Logout</a>&nbsp;</td>
+</tr>
+</table>
+<table width="100%"  border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td width="1%">&nbsp;</td>
+    <td><img src="/image/home_logo.jpg"></td>
+    <td width="19%" style="vertical-align:top;text-align:right;">{$smarty.now|date_format:"%A, %B %e, %Y, %I:%M %p"}&nbsp;</td>
+  </tr>
+  <tr>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+  </tr>
+</table>
+
+<table cellpadding="4" cellspacing="0" width="97%">
+<tr><td><div class="tab-page" id="content-pane">
+<script type="text/javascript">var tabPane1 = new WebFXTabPane( document.getElementById( "content-pane" ), 0 );</script>
+
+{foreach from=$main_menu item=module name="loop_module"}
+<div class="tab-page" id="tabPage{$smarty.foreach.loop_module.index}">
+  <h2 class="tab"><a href="#" onclick="window.location='{$module.url}'" target="_self">{$module.module_name}</a></h2>
+  <script type="text/javascript">tabPane1.addTabPage(document.getElementById("tabPage{$smarty.foreach.loop_module.index}"));</script>
+  <table border="0" cellspacing="1" cellpadding="3" width="100%">
+    <tr class="subMenuTr">
+      {foreach from=$module.sub_menu item=sub_menu name="loop_sub_menu"}
+      <td class="subMenuLabel"><a href="{$sub_menu.url}">{$sub_menu.image}{$sub_menu.label}</a></td>
+      {/foreach}
+	</tr>
+  </table></div>
+{/foreach}
+
+</div></td></tr>
+</table>
+
+<script type="text/javascript">
+//<![CDATA[
+// restore the class names
+{literal}
+function showTab(sIndex) {
+  if (typeof tabPane1 != "undefined" ) {
+    tabPane1.setSelectedIndex(sIndex);
+  }
+}
+{/literal}
+
+showTab('{$current_menu_index}');
+
+//]]>
+</script>
+
+<table cellspacing="0" cellpadding="0" border="0" width="100%">
+<tr><td>
+  <table cellspacing="0" cellpadding="0" border="0" width="100%">
+  <tr>
+  {if $is_include_left eq true}
+  <td class="leftRegion">{include file="themes/$theme/left.html"}</td>
+  {/if}<td class="mainContent">
+
+  <!-- quick pane start -->
+  <div class="tab-page">
+  <table border="0" class="quick_pane" cellspacing="1" cellpadding="3" width="100%">
+    <tr class="subMenuTr">
+	<td class="subMenuLabel">
+      {foreach from=$quick_pane item=quick_menu name="loop_quick_menu"}
+      <a href="{$quick_menu.url}">{$quick_menu.lable}</a>&nbsp;&gt;
+      {/foreach}
+	</td></tr>
+  </table>
+  </div>
+  <!-- quick pane start -->
+
+
+{if $feedback ne ''}
+<script language="JavaScript">
+<!--
+alert('{$feedback}');
+//-->
+</script>
+{/if}
+
+{literal}
+<script language="JavaScript">
+<!--
+var f_common = "document.f_ck_mailer.";
+function check_f_ck_mailer() {
+   var f = document.f_ck_mailer;
+
+  if (f.newRight.value.length == 0) {
+    alert('Who will you want to send?');
+	//f.list2.focus();
+    return false;
+  }
+  if (f.subject.value.length == 0) {
+    alert('Please provide mail subject');
+	f.subject.focus();
+    return false;
+  }
+  /*
+  if (f.mailbody.value.length == 0) {
+    alert('Please provide mail body');
+	f.mailbody.focus();
+    return false;
+  }
+  */
+
+  return true;
+}
+
+{/literal}
+//-->
+</script>
+
+
+<br><!-- <table border="0" cellspacing="1" cellpadding="4">
+  <tr>
+    <td colspan="6" class="moduleTitle">Ckmedia company mailer</td>
+  </tr>
+  <tr><td colspan="7" nowrap><table class="helpTable" width="100%" cellspacing="0" cellpadding="4">
+      <tr><td>this feature will enable admin, pm , editor to send email to specifc group of user easily</td></tr></table></td></tr>
+</table><br>
+ -->
+
+<table border="0" cellspacing="1" cellpadding="4" align="center">
+  <tr>
+    <td colspan="2" class="moduleTitle">Ckmedia company mailer</td>
+  </tr>
+  <tr><td colspan="3" nowrap><table class="helpTable" width="100%" cellspacing="0" cellpadding="4">
+      <tr><td>this feature will enable admin, pm , editor to send email to specifc group of user easily</td></tr></table></td></tr>
+
+<form name="f_ck_mailer" action="#" method="post" {if $js_check eq true} onsubmit="return check_f_ck_mailer()"{/if}>
+<tr><td colspan="3">
+<input name="ccm" type="radio" value="all_user" {if $smarty.get.ccm eq 'all_user'}checked{/if} onclick="window.location='ck_mailer.php?ccm=all_user'">
+ALL User 
+<input name="ccm" type="radio" value="all_cp" {if $smarty.get.ccm eq 'all_cp'}checked{/if} onclick="window.location='ck_mailer.php?ccm=all_cp'"> 
+ALL CP 
+<input name="ccm" type="radio" value="all_waa" {if $smarty.get.ccm eq 'all_waa'}checked{/if} onclick="window.location='ck_mailer.php?ccm=all_waa'"> 
+<a href="#">ALL CP with active assigment </a></td></tr>
+<tr>
+	<td>
+	<select  id='slt_list1' style="width=200px;" name="list1" multiple size=10 onDblClick="opt.transferRight()">
+    {html_options options=$all_list selected=$smarty.post.list1}
+	</select>
+	</td>
+	<td valign=middle align=center>
+		<input type="button" name="right" value="   &gt;&gt;  " onclick="opt.transferRight()"><br><br>
+		<input type="button" name="right" value="All &gt;&gt;" onclick="opt.transferAllRight()"><br><br>
+		<input type="button" name="left" value="   &lt;&lt;   " onclick="opt.transferLeft()"><br><br>
+		<input type="button" name="left" value="All &lt;&lt;" onclick="opt.transferAllLeft()">
+	</td>
+	<td>
+	<select id='slt_list2' name="list2" style="width=200px;" multiple size=10 ondblclick="opt.transferLeft()">
+	</select>
+    <input type="hidden" name="movepattern1" value="">
+    <input type="hidden" name="newRight" value="" size=70>
+    <input type="hidden" name="newLeft" value="" size=70>
+	</td>
+</tr>
+
+<tr><td colspan="3">CC:<select name="cc_email"><option value="">[choose]</option>{html_options options=$all_system selected=$smarty.post.cc_email}</select></td></tr>
+<tr><td colspan="3">From:<select name="from_email"><option value="">[choose]</option>{html_options options=$all_editor selected=$smarty.post.from_email}</select></td></tr>
+<tr><td colspan="3">Subject:<input name="subject" id="subject" type="text" size="30"></td></tr>
+<tr><td colspan="3"><textarea name="mailbody" id="mailbody" cols="120" rows="20"></textarea></td></tr>
+<tr><td colspan="3"><input type="submit" class="moduleButton" value="Send Mail" />&nbsp;&nbsp;<input type="reset" class="button" value="Reset" /></td></tr>
+</table>
+</form>
+<script language="javascript">
+//document.getElementById('right_').click();
+//var opt2 = new OptionTransfer("list1","list2");
+//opt2.setAutoSort(true);
+//opt2.setDelimiter(";");
+//opt2.transferRight();
+moveSelectedOptions(document.getElementById('slt_list1'), document.getElementById('slt_list2'));
+</script>
+{include file="themes/$theme/footer.html"}

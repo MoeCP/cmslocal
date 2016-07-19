@@ -1,0 +1,139 @@
+{include file="themes/$theme/header.html"}
+
+{if $feedback ne ''}
+<script language="JavaScript">
+<!--
+alert('{$feedback}');
+//-->
+</script>
+{/if}
+<div id="page-box1">
+  <h2>Extension Requests Page</h2>
+  <div id="campaign-search" >
+      <strong>You can enter the "copy write user name","copy write first name","copy write last name" into copy writer keyword input to search the relevant copy writer's information<br />You can enter the "Campaign name" into campaign keyword input to search the relevant campaign  information</strong>
+      <div id="campaign-search-box" >
+      <form name="f_extension_request_search" action="/user/extension_requests.php" method="get">
+  <input type="hidden" name="get_operation" value="search" />
+<table border="0" cellspacing="1" cellpadding="4">
+  <tr>
+    <td nowrap>Copy Writer Keyword</td>
+    <td><input type="text" name="cp_keyword" id="cp_search_keyword" value="{$smarty.get.cp_keyword}" ></td>
+    <td nowrap>Campaign Keyword</td>
+    <td><input type="text" name="c_keyword" id="c_search_keyword" value="{$smarty.get.c_keyword}" ></td>
+    {if $role == 'admin'}
+    <td nowrap>Editor:</td>
+    <td><select name="editor_id"><option value="" >[choose]</option>{html_options options=$all_editor selected=$smarty.get.editor_id}</select></td>
+    {/if}
+    <td nowrap>Show:</td>
+    <td nowrap><select name="perPage" onchange="this.form.submit();">{html_options options=$g_pager_perPage selected=$smarty.get.perPage}</select> row(s)</td>
+    <td><input type="image" src="/images/button-search.gif" value="submit" /></td>
+    <td nowrap>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+    <td width="20%">&nbsp;</td>
+  </tr>
+</table>
+</form>
+      </div>
+  </div>
+</div>
+<div class="tablepadding"> 
+<form action="/user/extension_requests.php" name="f_extension_requests" method="post" />
+  <input type="hidden" name="copy_writer_id" />
+  <input type="hidden" name="campaign_id" />
+  <input type="hidden" name="extension_id" />
+  <input type="hidden" name="editor_id" />
+  <input type="hidden" name="ck_editor_id" />
+  <input type="hidden" name="frequency" />
+  <input type="hidden" name="form_refresh" value="N" />
+  <input type="hidden" name="operation" value="grant" />
+<table id="table-1" cellspacing="0" align="center" cellpadding="0" class="sortableTable">
+  <thead>
+  <tr class="sortableTab">
+    <th class="table-left-corner">&nbsp;&nbsp;&nbsp;&nbsp;</th>
+    <td nowrap class="columnHeadInactiveBlack table-left-2">Number</td>
+    <td nowrap class="columnHeadInactiveBlack">Copywriter</td>
+    <td nowrap class="columnHeadInactiveBlack">Editor</td>
+    <td nowrap class="columnHeadInactiveBlack">Campaign Name</td>
+    <td nowrap class="columnHeadInactiveBlack">Campaign Start Date</td>
+    <td nowrap class="columnHeadInactiveBlack">Campaign Due Date</td>
+    <td nowrap class="columnHeadInactiveBlack">Number of Articles</td>
+    <td nowrap class="columnHeadInactiveBlack">Article Due Dates</td>
+    <td nowrap class="columnHeadInactiveBlack">Days Requested</td>
+    <td nowrap class="columnHeadInactiveBlack">Reason</td>
+    <td nowrap class="columnHeadInactiveBlack table-right-2">&nbsp;</td>
+    <th class="table-right-corner">&nbsp;&nbsp;&nbsp;&nbsp;</th>
+  </tr>
+  </thead>
+  {foreach from=$result item=item name="loop"}
+  <tr class="{if $smarty.foreach.loop.iteration % 2 eq 0}even{else}odd{/if}">
+    <td class="table-left" >&nbsp;</td>
+    <td class="table-left-2">{$smarty.foreach.loop.iteration}</td>
+    <td>{$item.user_name}</td>
+    <td>{if $item.editor!=''}{$item.editor}{else}{$item.ckeditor}{/if}</td>
+    <td>{$item.campaign_name}</td>
+    <td>{$item.date_start}</td>
+    <td>{$item.date_end}</td>
+    <td><a href="/user/articles.php?copy_writer_id={$item.copy_writer_id}&campaign_id={$item.campaign_id}&editor_id={$item.ck_editor_id}"  style="color:red" >{$item.total_writing}</a></td>
+    <td>{$item.due}</td>
+    <td>{$item.days_asked}</td>
+    <td>{$item.reason|nl2br}</td>
+    <td align="right" nowrap class="table-right-2">
+    {if $item.status == 0}
+      <input type="button" class="button" value="Grant Extension" onclick="extension_action('grant', '{$item.extension_id}', '{$item.copy_writer_id}', '{$item.campaign_id}', '{$item.editor_id}', '{$item.ck_editor_id}')" />
+      <input type="button" class="button" value="Reject Extension " onclick="extension_action('reject', '{$item.extension_id}', '{$item.copy_writer_id}', '{$item.campaign_id}', '{$item.editor_id}', '{$item.ck_editor_id}')" />
+      {elseif $item.status == 1}
+      Rejected
+      {elseif $item.status == 2}
+      Granted
+      {/if}
+    </td>
+    <td class="table-right" >&nbsp;</td>
+  </tr>
+  {/foreach}
+</table>
+</form>
+<div class="pagingpaddingleft" >
+  <table align="center" width="100%" border="0" cellspacing="0" cellpadding="0" >
+    <tr><td class="table-left table-paging-left" width="20" height="37" >&nbsp;</td><td class="table-bottom">{$pager} (Total Page:{$total})(Total Count:{$count})</td><td class="table-right table-paging-right" width="21">&nbsp;</td></tr>
+  </table>
+</div>
+</div>
+<script type="text/javascript">
+//<![CDATA[
+var st = new SortableTable(document.getElementById("table-1"),
+  ["None", "Number", "CaseInsensitiveString", {if $login_role eq 'admin'}"CaseInsensitiveString",{/if} "CaseInsensitiveString", "CaseInsensitiveString", "CaseInsensitiveString", "CaseInsensitiveString", "CaseInsensitiveString", "CaseInsensitiveString", "None"]);
+
+{literal}
+st.onsort = function () {
+  var rows = st.tBody.rows;
+  var l = rows.length;
+  for (var i = 0; i < l; i++) {
+    removeClassName(rows[i], i % 2 ? "odd" : "even");
+    addClassName(rows[i], i % 2 ? "even" : "odd");
+  }
+};
+
+st.asyncSort(0);
+
+function extension_action(action, eid, cpid, cid, editorid, ckeid)
+{
+     var f = document.f_extension_requests;
+     f.operation.value = action;
+     f.extension_id.value= eid;
+     f.copy_writer_id.value= cpid;
+     f.editor_id.value= editorid;
+     f.ck_editor_id.value= ckeid;
+     f.campaign_id.value= cid;
+     if (action== 'grant')
+     {
+        var w = (window.open("/user/grant_extension.php?eid="+eid +"&ckeid="+ckeid,"GrantExtension","width=600, height=430, resizable=yes, scrollbars=yes"));
+      }
+     else
+     {
+        f.submit();
+     }
+}
+{/literal}
+//]]>
+</script>
+
+{include file="themes/$theme/footer.html"}

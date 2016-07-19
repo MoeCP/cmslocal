@@ -1,0 +1,970 @@
+Campaign Name,Campaign Id,Article Type,Editor Cost,Client Id,Max Word,Company Name,User Name,Cp Cost,Pay By Article,Cp Article Cost,Editor Article Cost,Nofa,Estimate Money,Estimate Total,Assigned Words
+Ft. Lauderdale--FL--US--Best Of,8385,13,0.010,350,1000,Hipmunk,Hipmunk,0.060,0,0.000,0.000,2,$120,140,2000
+Ft. Lauderdale--FL--US--Near Neighborhood,8411,13,0.010,350,300,Hipmunk,Hipmunk,0.060,0,0.000,0.000,5,$90,105,1500
+Ft. Lauderdale--FL--US--Near Landmark,8418,13,0.010,350,300,Hipmunk,Hipmunk,0.060,0,0.000,0.000,5,$90,105,1500
+Hipmunk Airlines Test May '14,8431,13,0.010,350,750,Hipmunk,Hipmunk,0.060,0,0.000,0.000,1,$45,52.5,750
+Hipmunk Hotel Properties May '14 #1,8453,13,0.010,350,300,Hipmunk,Hipmunk,0.060,0,0.000,0.000,5,$90,105,1500
+Hipmunk Hotel Properties May '14 #2,8454,13,0.010,350,300,Hipmunk,Hipmunk,0.060,0,0.000,0.000,7,$126,147,2100
+Hipmunk Hotel Properties May '14 #3,8455,13,0.010,350,300,Hipmunk,Hipmunk,0.060,0,0.000,0.000,10,$180,210,3000
+Hotel Properties Ft. Lauderdale May '14,8466,9,0.010,350,300,Hipmunk,Hipmunk,0.030,0,0.000,0.000,17,$153,204,5100
+Hotel Properties Baltimore May '14,8467,9,0.010,350,300,Hipmunk,Hipmunk,0.030,0,0.000,0.000,5,$45,60,1500
+Ft. Lauderdale--FL--US--Hotel Properties,8486,9,0.010,350,400,Hipmunk,Hipmunk,0.030,0,0.000,0.000,50,$600,800,20000
+Tampa--FL--US--Hotel Properties,8497,9,0.010,350,300,Hipmunk,Hipmunk,0.030,0,0.000,0.000,50,$450,600,15000
+Phoenix--AZ--US--Hotel--Properties,8498,9,0.010,350,300,Hipmunk,Hipmunk,0.030,0,0.000,0.000,30,$270,360,9000
+Baltimore--MD--US--Hotel--Properties,8499,9,0.010,350,300,Hipmunk,Hipmunk,0.030,0,0.000,0.000,30,$270,360,9000
+Tampa--FL--US--Near Airport,8506,118,0.010,350,500,Hipmunk,Hipmunk,0.100,0,0.000,0.000,1,$50,55,500
+Tampa-FL--US--Near Neighborhood,8507,118,0.010,350,300,Hipmunk,Hipmunk,0.100,0,0.000,0.000,6,$180,198,1800
+Tampa--FL--US--Near Landmark,8508,118,0.010,350,400,Hipmunk,Hipmunk,0.100,0,0.000,0.000,6,$240,264,2400
+Tampa--FL--US--Flight Destination,8509,118,0.010,350,750,Hipmunk,Hipmunk,0.100,0,0.000,0.000,1,$75,82.5,750
+Tampa--FL--US--Hotel Destination,8510,118,0.010,350,1500,Hipmunk,Hipmunk,0.100,0,0.000,0.000,1,$150,165,1500
+Tampa--FL--US--Best Of,8511,118,0.010,350,750,Hipmunk,Hipmunk,0.100,0,0.000,0.000,3,$225,247.5,2250
+Baltimore--MD--US--Flight Destination,8513,118,0.010,350,600,Hipmunk,Hipmunk,0.100,0,0.000,0.000,1,$60,66,600
+Baltimore--MD--US--Hotel Destination,8514,118,0.010,350,1500,Hipmunk,Hipmunk,0.100,0,0.000,0.000,1,$150,165,1500
+Baltimore--MD--US--Near Neighborhood,8515,118,0.010,350,200,Hipmunk,Hipmunk,0.100,0,0.000,0.000,3,$60,66,600
+Baltimore--MD--US--Near Landmark,8516,118,0.010,350,200,Hipmunk,Hipmunk,0.100,0,0.000,0.000,3,$60,66,600
+Baltimore--MD--US--Near Airport,8517,118,0.010,350,300,Hipmunk,Hipmunk,0.100,0,0.000,0.000,1,$30,33,300
+Baltimore--MD--US--Best Of,8518,118,0.010,350,400,Hipmunk,Hipmunk,0.100,0,0.000,0.000,3,$120,132,1200
+Indianapolis--IN--US--Hotel Properties,8519,113,0.010,350,0,Hipmunk,Hipmunk,0.040,0,0.000,0.000,30,$0,0,0
+Pittsburgh--PA--US--Hotel Properties,8520,113,0.010,350,0,Hipmunk,Hipmunk,0.040,0,0.000,0.000,30,$0,0,0
+St. Louis--MO--US--Hotel Properties,8521,113,0.010,350,0,Hipmunk,Hipmunk,0.040,0,0.000,0.000,30,$0,0,0
+Hotels Near Neighborhood June '14,8528,122,0.010,350,200,Hipmunk,Hipmunk,0.060,0,0.000,0.000,6,$72,84,1200
+Carlsbad--CA--US--Hotel Properties,8533,123,0.010,350,0,Hipmunk,Hipmunk,0.040,0,0.000,0.000,5,$0,0,0
+Garden Grove--CA--US--Hotel Properties,8535,123,0.010,350,0,Hipmunk,Hipmunk,0.040,0,0.000,0.000,5,$0,0,0
+Beverly Hills--CA--US--Hotel Properties,8537,123,0.010,350,0,Hipmunk,Hipmunk,0.040,0,0.000,0.000,5,$0,0,0
+Anchorage--AK--US--Hotel Properties,8538,123,0.010,350,0,Hipmunk,Hipmunk,0.040,0,0.000,0.000,5,$0,0,0
+Clearwater Beach--FL--US--Hotel Properties,8539,123,0.010,350,0,Hipmunk,Hipmunk,0.040,0,0.000,0.000,5,$0,0,0
+Rochester--NY--US--Hotel Properties,8540,123,0.010,350,0,Hipmunk,Hipmunk,0.040,0,0.000,0.000,5,$0,0,0
+East Elmhurst--NY--US--Hotel Properties,8541,123,0.010,350,0,Hipmunk,Hipmunk,0.040,0,0.000,0.000,5,$0,0,0
+Madison--WI--US--Hotel Properties,8542,123,0.010,350,0,Hipmunk,Hipmunk,0.040,0,0.000,0.000,5,$0,0,0
+Carlsbad--CA--US--Flight Destination,8545,126,0.010,350,50,Hipmunk,Hipmunk,0.040,0,0.000,0.000,1,$2,2.5,50
+Carlsbad--CA--US--Hotel Destination,8546,126,0.010,350,200,Hipmunk,Hipmunk,0.040,0,0.000,0.000,1,$8,10,200
+Garden Grove--CA--US--Hotel Destination,8547,126,0.010,350,200,Hipmunk,Hipmunk,0.040,0,0.000,0.000,1,$8,10,200
+Garden Grove--CA--US--Flight Destination,8549,126,0.010,350,50,Hipmunk,Hipmunk,0.040,0,0.000,0.000,1,$2,2.5,50
+Beverly Hills--CA--US--Flight Destination,8550,126,0.010,350,50,Hipmunk,Hipmunk,0.040,0,0.000,0.000,1,$2,2.5,50
+Beverly Hills--CA--US--Hotel Destination,8551,126,0.010,350,200,Hipmunk,Hipmunk,0.040,0,0.000,0.000,1,$8,10,200
+Anchorage--AK--US--Hotel Destination,8552,126,0.010,350,200,Hipmunk,Hipmunk,0.040,0,0.000,0.000,1,$8,10,200
+Anchorage--AK--US--Flight Destination,8553,126,0.010,350,50,Hipmunk,Hipmunk,0.040,0,0.000,0.000,1,$2,2.5,50
+St. Pete Beach Flight Destination,8554,126,0.010,350,50,Hipmunk,Hipmunk,0.040,0,0.000,0.000,1,$2,2.5,50
+St. Pete Beach--FL--US--Hotel Destination,8555,126,0.010,350,200,Hipmunk,Hipmunk,0.040,0,0.000,0.000,1,$8,10,200
+Clearwater Beach--FL--US--Hotel Destination,8556,126,0.010,350,200,Hipmunk,Hipmunk,0.040,0,0.000,0.000,1,$8,10,200
+Clearwater Beach Flight Destination,8557,126,0.010,350,50,Hipmunk,Hipmunk,0.040,0,0.000,0.000,1,$2,2.5,50
+South Lake Tahoe Flight Destination,8558,126,0.010,350,50,Hipmunk,Hipmunk,0.040,0,0.000,0.000,1,$2,2.5,50
+South Lake Tahoe--CA--US--Hotel Destination,8559,126,0.010,350,200,Hipmunk,Hipmunk,0.040,0,0.000,0.000,1,$8,10,200
+Rochester--NY--US--Hotel Destination,8560,126,0.010,350,200,Hipmunk,Hipmunk,0.040,0,0.000,0.000,1,$8,10,200
+Rochester--NY--US--Flight Destination,8561,126,0.010,350,50,Hipmunk,Hipmunk,0.040,0,0.000,0.000,1,$2,2.5,50
+East Elmhurst--NY--US--Flight Destination,8562,126,0.010,350,50,Hipmunk,Hipmunk,0.040,0,0.000,0.000,1,$2,2.5,50
+East Elmhurst--NY--US--Hotel Destination,8563,126,0.010,350,200,Hipmunk,Hipmunk,0.040,0,0.000,0.000,1,$8,10,200
+Madison--WI--US--Hotel Destination,8565,126,0.010,350,200,Hipmunk,Hipmunk,0.040,0,0.000,0.000,1,$8,10,200
+Madison--WI--US--Flight Destination,8566,126,0.010,350,50,Hipmunk,Hipmunk,0.040,0,0.000,0.000,1,$2,2.5,50
+Richmond--VA--US--Hotel Properties,8567,123,0.010,350,0,Hipmunk,Hipmunk,0.040,0,0.000,0.000,30,$0,0,0
+Richmond--VA--US--Flight Destination,8568,122,0.010,350,600,Hipmunk,Hipmunk,0.060,0,0.000,0.000,1,$36,42,600
+Richmond--VA--US--Hotel Destination,8569,122,0.010,350,1500,Hipmunk,Hipmunk,0.060,0,0.000,0.000,1,$90,105,1500
+Richmond--VA--US--Near Neighborhood,8570,122,0.010,350,200,Hipmunk,Hipmunk,0.060,0,0.000,0.000,3,$36,42,600
+Richmond--VA--US--Near Landmark,8571,122,0.010,350,200,Hipmunk,Hipmunk,0.060,0,0.000,0.000,3,$36,42,600
+Richmond--VA--US--Near Airport,8572,122,0.010,350,300,Hipmunk,Hipmunk,0.060,0,0.000,0.000,1,$18,21,300
+Richmond--VA--US--Best Of,8573,122,0.010,350,400,Hipmunk,Hipmunk,0.060,0,0.000,0.000,3,$72,84,1200
+Charlotte--NC--US--Hotel Properties,8574,122,0.010,350,0,Hipmunk,Hipmunk,0.060,0,0.000,0.000,30,$0,0,0
+Charlotte--NC--US--Flight Destination,8576,122,0.010,350,400,Hipmunk,Hipmunk,0.060,0,0.000,0.000,1,$24,28,400
+Charlotte--NC--US--Hotel Destination,8577,122,0.010,350,600,Hipmunk,Hipmunk,0.060,0,0.000,0.000,1,$36,42,600
+Charlotte--NC--US--Near Neighborhood,8578,122,0.010,350,200,Hipmunk,Hipmunk,0.060,0,0.000,0.000,3,$36,42,600
+Charlotte--NC--US--Near Landmark,8580,122,0.010,350,200,Hipmunk,Hipmunk,0.060,0,0.000,0.000,3,$36,42,600
+Charlotte--NC--US--Near Airport,8581,122,0.010,350,300,Hipmunk,Hipmunk,0.060,0,0.000,0.000,1,$18,21,300
+Charlotte--NC--US--Best Of,8582,122,0.010,350,400,Hipmunk,Hipmunk,0.060,0,0.000,0.000,3,$72,84,1200
+Cambridge--MA--US--Hotel Properties,8583,122,0.010,350,0,Hipmunk,Hipmunk,0.060,0,0.000,0.000,15,$0,0,0
+Cambridge--MA--US--Flight Destination,8585,122,0.010,350,400,Hipmunk,Hipmunk,0.060,0,0.000,0.000,1,$24,28,400
+Cambridge--MA--US--Hotel Destination,8586,122,0.010,350,600,Hipmunk,Hipmunk,0.060,0,0.000,0.000,1,$36,42,600
+Cambridge--MA--US--Near Landmark,8587,122,0.010,350,200,Hipmunk,Hipmunk,0.060,0,0.000,0.000,3,$36,42,600
+Cambridge--MA--US--Near Neighborhood,8588,122,0.010,350,200,Hipmunk,Hipmunk,0.060,0,0.000,0.000,3,$36,42,600
+Cambridge--MA--US--Near Airport,8590,122,0.010,350,300,Hipmunk,Hipmunk,0.060,0,0.000,0.000,1,$18,21,300
+Cambridge--MA--US--Best Of,8591,122,0.010,350,400,Hipmunk,Hipmunk,0.060,0,0.000,0.000,3,$72,84,1200
+Virginia Beach--VA--US--Hotel Properties,8592,123,0.010,350,0,Hipmunk,Hipmunk,0.040,0,0.000,0.000,30,$0,0,0
+Virginia Beach--VA--US--Flight Destination,8593,122,0.010,350,400,Hipmunk,Hipmunk,0.060,0,0.000,0.000,1,$24,28,400
+Virginia Beach--VA--US--Hotel Destination,8594,122,0.010,350,600,Hipmunk,Hipmunk,0.060,0,0.000,0.000,1,$36,42,600
+Virginia Beach--VA--US--Near Landmark,8595,122,0.010,350,200,Hipmunk,Hipmunk,0.060,0,0.000,0.000,3,$36,42,600
+Virginia Beach--VA--US--Near Neighborhood,8597,122,0.010,350,200,Hipmunk,Hipmunk,0.060,0,0.000,0.000,3,$36,42,600
+Virginia Beach--VA--US--Near Airport,8598,122,0.010,350,300,Hipmunk,Hipmunk,0.060,0,0.000,0.000,1,$18,21,300
+Virginia Beach--VA--US--Best Of,8599,122,0.010,350,400,Hipmunk,Hipmunk,0.060,0,0.000,0.000,3,$72,84,1200
+Bloomington--MN--US--Hotel Properties,8600,123,0.010,350,0,Hipmunk,Hipmunk,0.040,0,0.000,0.000,30,$0,0,0
+Bloomington--MN--US--Flight Destination,8605,122,0.010,350,400,Hipmunk,Hipmunk,0.060,0,0.000,0.000,1,$24,28,400
+Bloomington--MN--US--Hotel Destination,8606,122,0.010,350,600,Hipmunk,Hipmunk,0.060,0,0.000,0.000,1,$36,42,600
+Bloomington--MN--US--Near Landmark,8607,122,0.010,350,200,Hipmunk,Hipmunk,0.060,0,0.000,0.000,3,$36,42,600
+Bloomington--MN--US--Near Neighborhood,8608,122,0.010,350,200,Hipmunk,Hipmunk,0.060,0,0.000,0.000,3,$36,42,600
+Bloomington--MN--US--Near Airport,8609,122,0.010,350,300,Hipmunk,Hipmunk,0.060,0,0.000,0.000,1,$18,21,300
+Bloomington--MN--US--Best Of,8611,122,0.010,350,400,Hipmunk,Hipmunk,0.060,0,0.000,0.000,3,$72,84,1200
+Columbus--OH--US--Hotel Properties,8612,123,0.010,350,0,Hipmunk,Hipmunk,0.040,0,0.000,0.000,30,$0,0,0
+Columbus--OH--US--Flight Destination,8613,122,0.010,350,400,Hipmunk,Hipmunk,0.060,0,0.000,0.000,1,$24,28,400
+Columbus--OH--US--Hotel Destination,8614,122,0.010,350,600,Hipmunk,Hipmunk,0.060,0,0.000,0.000,1,$36,42,600
+Columbus--OH--US--Near Landmark,8616,122,0.010,350,200,Hipmunk,Hipmunk,0.060,0,0.000,0.000,3,$36,42,600
+Columbus--OH--US--Near Neighborhood,8617,122,0.010,350,200,Hipmunk,Hipmunk,0.060,0,0.000,0.000,3,$36,42,600
+Columbus--OH--US--Near Airport,8621,122,0.010,350,300,Hipmunk,Hipmunk,0.060,0,0.000,0.000,1,$18,21,300
+Columbus--OH--US--Best Of,8624,122,0.010,350,400,Hipmunk,Hipmunk,0.060,0,0.000,0.000,3,$72,84,1200
+Monterey--CA--US--Hotel Properties,8626,123,0.010,350,0,Hipmunk,Hipmunk,0.040,0,0.000,0.000,30,$0,0,0
+Monterey--CA--US--Flight Destination,8627,122,0.010,350,400,Hipmunk,Hipmunk,0.060,0,0.000,0.000,1,$24,28,400
+Monterey--CA--US--Hotel Destination,8628,122,0.010,350,600,Hipmunk,Hipmunk,0.060,0,0.000,0.000,1,$36,42,600
+Monterey--CA--US--Near Landmark,8629,122,0.010,350,200,Hipmunk,Hipmunk,0.060,0,0.000,0.000,3,$36,42,600
+Monterey--CA--US--Near Neighborhood,8630,122,0.010,350,200,Hipmunk,Hipmunk,0.060,0,0.000,0.000,3,$36,42,600
+Monterey--CA--US--Near Airport,8631,122,0.010,350,300,Hipmunk,Hipmunk,0.060,0,0.000,0.000,1,$18,21,300
+Monterey--CA--US--Best Of,8632,122,0.010,350,400,Hipmunk,Hipmunk,0.060,0,0.000,0.000,3,$72,84,1200
+San Jose--CA--US--Hotel Properties,8633,122,0.010,350,0,Hipmunk,Hipmunk,0.060,0,0.000,0.000,30,$0,0,0
+San Jose--CA--US--Flight Destination,8634,122,0.010,350,400,Hipmunk,Hipmunk,0.060,0,0.000,0.000,1,$24,28,400
+San Jose--CA--US--Hotel Destination,8636,122,0.010,350,600,Hipmunk,Hipmunk,0.060,0,0.000,0.000,1,$36,42,600
+San Jose--CA--US--Near Landmark,8638,122,0.010,350,200,Hipmunk,Hipmunk,0.060,0,0.000,0.000,3,$36,42,600
+San Jose--CA--US--Near Neighborhood,8652,122,0.010,350,200,Hipmunk,Hipmunk,0.060,0,0.000,0.000,3,$36,42,600
+San Jose--CA--US--Near Airport,8654,122,0.010,350,300,Hipmunk,Hipmunk,0.060,0,0.000,0.000,1,$18,21,300
+San Jose--CA--US--Best Of,8655,122,0.010,350,400,Hipmunk,Hipmunk,0.060,0,0.000,0.000,3,$72,84,1200
+Charleston--SC--US--Flight Destination,8656,122,0.010,350,400,Hipmunk,Hipmunk,0.060,0,0.000,0.000,1,$24,28,400
+Charleston--SC--US--Hotel Destination,8657,122,0.010,350,600,Hipmunk,Hipmunk,0.060,0,0.000,0.000,1,$36,42,600
+Charleston--SC--US--Best Of,8658,122,0.010,350,400,Hipmunk,Hipmunk,0.060,0,0.000,0.000,3,$72,84,1200
+Charleston--SC--US--Near Airport,8660,122,0.010,350,300,Hipmunk,Hipmunk,0.060,0,0.000,0.000,1,$18,21,300
+Charleston--SC--US--Hotel Properties,8661,122,0.010,350,0,Hipmunk,Hipmunk,0.060,0,0.000,0.000,30,$0,0,0
+Charleston--SC--US--Near Landmark,8673,122,0.010,350,200,Hipmunk,Hipmunk,0.060,0,0.000,0.000,3,$36,42,600
+Charleston--SC--US--Near Neighborhood,8674,122,0.010,350,200,Hipmunk,Hipmunk,0.060,0,0.000,0.000,3,$36,42,600
+Minneapolis--MN--US--Hotel Properties,8675,123,0.010,350,0,Hipmunk,Hipmunk,0.040,0,0.000,0.000,23,$0,0,0
+Minneapolis--MN--US--Flight Destination,8677,122,0.010,350,400,Hipmunk,Hipmunk,0.060,0,0.000,0.000,1,$24,28,400
+Minneapolis--MN--US--Hotel Destination,8678,122,0.010,350,600,Hipmunk,Hipmunk,0.060,0,0.000,0.000,1,$36,42,600
+Minneapolis--MN--US--Near Landmark,8679,122,0.010,350,200,Hipmunk,Hipmunk,0.060,0,0.000,0.000,3,$36,42,600
+Minneapolis--MN--US--Near Neighborhood,8680,122,0.010,350,200,Hipmunk,Hipmunk,0.060,0,0.000,0.000,3,$36,42,600
+Minneapolis--MN--US--Near Airport,8681,122,0.010,350,300,Hipmunk,Hipmunk,0.060,0,0.000,0.000,1,$18,21,300
+Minneapolis--MN--US--Best Of,8682,122,0.010,350,400,Hipmunk,Hipmunk,0.060,0,0.000,0.000,3,$72,84,1200
+Wailea--HI--US--Hotel Properties,8684,123,0.010,350,0,Hipmunk,Hipmunk,0.040,0,0.000,0.000,7,$0,0,0
+Wailea--HI--US--Flight Destination,8686,122,0.010,350,400,Hipmunk,Hipmunk,0.060,0,0.000,0.000,1,$24,28,400
+Wailea--HI--US--Hotel Destination,8687,122,0.010,350,600,Hipmunk,Hipmunk,0.060,0,0.000,0.000,1,$36,42,600
+Wailea--HI--US--Near Landmark,8688,122,0.010,350,200,Hipmunk,Hipmunk,0.060,0,0.000,0.000,3,$36,42,600
+Wailea--HI--US--Near Neighborhood,8689,122,0.010,350,200,Hipmunk,Hipmunk,0.060,0,0.000,0.000,3,$36,42,600
+Wailea--HI--US--Best Of,8690,122,0.010,350,400,Hipmunk,Hipmunk,0.060,0,0.000,0.000,3,$72,84,1200
+Salt Lake City--UT--US--Hotel Properties,8691,123,0.010,350,0,Hipmunk,Hipmunk,0.040,0,0.000,0.000,30,$0,0,0
+Salt Lake City--UT--US--Flight Destination,8692,122,0.010,350,400,Hipmunk,Hipmunk,0.060,0,0.000,0.000,1,$24,28,400
+Salt Lake City--UT--US--Hotel Destination,8693,122,0.010,350,600,Hipmunk,Hipmunk,0.060,0,0.000,0.000,1,$36,42,600
+Salt Lake City--UT--US--Near Landmark,8694,122,0.010,350,200,Hipmunk,Hipmunk,0.060,0,0.000,0.000,3,$36,42,600
+Salt Lake City--UT--US--Near Neighborhood,8695,122,0.010,350,200,Hipmunk,Hipmunk,0.060,0,0.000,0.000,3,$36,42,600
+Salt Lake City--UT--US--Near Airport,8696,122,0.010,350,300,Hipmunk,Hipmunk,0.060,0,0.000,0.000,1,$18,21,300
+Salt Lake City--UT--US--Best Of,8704,122,0.010,350,400,Hipmunk,Hipmunk,0.060,0,0.000,0.000,3,$72,84,1200
+Alexandria--VA--US--Hotel Properties,8705,123,0.010,350,0,Hipmunk,Hipmunk,0.040,0,0.000,0.000,30,$0,0,0
+Alexandria--VA--US--Flight Destination,8706,122,0.010,350,400,Hipmunk,Hipmunk,0.060,0,0.000,0.000,1,$24,28,400
+Alexandria--VA--US--Hotel Destination,8707,122,0.010,350,600,Hipmunk,Hipmunk,0.060,0,0.000,0.000,1,$36,42,600
+Alexandria--VA--US--Near Landmark,8708,122,0.010,350,200,Hipmunk,Hipmunk,0.060,0,0.000,0.000,3,$36,42,600
+Alexandria--VA--US--Near Neighborhood,8709,122,0.010,350,200,Hipmunk,Hipmunk,0.060,0,0.000,0.000,3,$36,42,600
+Alexandria--VA--US--Best Of,8711,122,0.010,350,400,Hipmunk,Hipmunk,0.060,0,0.000,0.000,3,$72,84,1200
+Louisville--KY--US--Hotel Properties,8712,123,0.010,350,0,Hipmunk,Hipmunk,0.040,0,0.000,0.000,30,$0,0,0
+Louisville--KY--US--Flight Destination,8713,122,0.010,350,400,Hipmunk,Hipmunk,0.060,0,0.000,0.000,1,$24,28,400
+Louisville--KY--US--Hotel Destination,8714,122,0.010,350,600,Hipmunk,Hipmunk,0.060,0,0.000,0.000,1,$36,42,600
+Louisville--KY--US--Near Landmark,8715,122,0.010,350,200,Hipmunk,Hipmunk,0.060,0,0.000,0.000,3,$36,42,600
+Louisville--KY--US--Near Neighborhood,8716,122,0.010,350,200,Hipmunk,Hipmunk,0.060,0,0.000,0.000,3,$36,42,600
+Louisville--KY--US--Near Airport,8717,122,0.010,350,300,Hipmunk,Hipmunk,0.060,0,0.000,0.000,1,$18,21,300
+Louisville--KY--US--Best Of,8718,122,0.010,350,400,Hipmunk,Hipmunk,0.060,0,0.000,0.000,3,$72,84,1200
+Newark--NJ--US--Hotel Properties,8719,122,0.010,350,0,Hipmunk,Hipmunk,0.060,0,0.000,0.000,13,$0,0,0
+Newark--NJ--US--Flight Destination,8720,122,0.010,350,400,Hipmunk,Hipmunk,0.060,0,0.000,0.000,1,$24,28,400
+Newark--NJ--US--Hotel Destination,8721,122,0.010,350,600,Hipmunk,Hipmunk,0.060,0,0.000,0.000,1,$36,42,600
+Newark--NJ--US--Near Landmark,8722,122,0.010,350,200,Hipmunk,Hipmunk,0.060,0,0.000,0.000,3,$36,42,600
+Newark--NJ--US--Near Neighborhood,8723,122,0.010,350,200,Hipmunk,Hipmunk,0.060,0,0.000,0.000,3,$36,42,600
+Newark--NJ--US--Near Airport,8724,122,0.010,350,300,Hipmunk,Hipmunk,0.060,0,0.000,0.000,1,$18,21,300
+Newark--NJ--US--Best Of,8725,122,0.010,350,400,Hipmunk,Hipmunk,0.060,0,0.000,0.000,3,$72,84,1200
+Ocean City--MD--US--Hotel Properties,8726,122,0.010,350,0,Hipmunk,Hipmunk,0.060,0,0.000,0.000,30,$0,0,0
+Ocean City--MD--US--Flight Destination,8727,122,0.010,350,400,Hipmunk,Hipmunk,0.060,0,0.000,0.000,1,$24,28,400
+Ocean City--MD--US--Hotel Destination,8728,122,0.010,350,600,Hipmunk,Hipmunk,0.060,0,0.000,0.000,1,$36,42,600
+Ocean City--MD--US--Near Landmark,8729,122,0.010,350,200,Hipmunk,Hipmunk,0.060,0,0.000,0.000,3,$36,42,600
+Ocean City--MD--US--Near Neighborhood,8730,122,0.010,350,200,Hipmunk,Hipmunk,0.060,0,0.000,0.000,3,$36,42,600
+Ocean City--MD--US--Best Of,8731,122,0.010,350,400,Hipmunk,Hipmunk,0.060,0,0.000,0.000,3,$72,84,1200
+Panama City Beach--FL--US--Hotel Properties,8732,123,0.010,350,0,Hipmunk,Hipmunk,0.040,0,0.000,0.000,13,$0,0,0
+Panama City Beach--FL--US--Flight Destination,8733,122,0.010,350,400,Hipmunk,Hipmunk,0.060,0,0.000,0.000,1,$24,28,400
+Panama City Beach--FL--US--Hotel Destination,8734,122,0.010,350,600,Hipmunk,Hipmunk,0.060,0,0.000,0.000,1,$36,42,600
+Panama City Beach--FL--US--Near Landmark,8735,122,0.010,350,200,Hipmunk,Hipmunk,0.060,0,0.000,0.000,3,$36,42,600
+Panama City Beach--FL--US--Near Neighborhood,8736,122,0.010,350,200,Hipmunk,Hipmunk,0.060,0,0.000,0.000,1,$12,14,200
+Panama City Beach--FL--US--Best Of,8737,122,0.010,350,400,Hipmunk,Hipmunk,0.060,0,0.000,0.000,3,$72,84,1200
+Galveston--TX--US--Hotel Properties,8738,123,0.010,350,0,Hipmunk,Hipmunk,0.040,0,0.000,0.000,26,$0,0,0
+Galveston--TX--US--Flight Destination,8743,122,0.010,350,400,Hipmunk,Hipmunk,0.060,0,0.000,0.000,1,$24,28,400
+Galveston--TX--US--Hotel Destination,8745,122,0.010,350,600,Hipmunk,Hipmunk,0.060,0,0.000,0.000,1,$36,42,600
+Galveston--TX--US--Near Landmark,8746,122,0.010,350,200,Hipmunk,Hipmunk,0.060,0,0.000,0.000,3,$36,42,600
+Galveston--TX--US--Near Neighborhood,8747,122,0.010,350,200,Hipmunk,Hipmunk,0.060,0,0.000,0.000,3,$36,42,600
+Galveston--TX--US--Near Airport,8748,122,0.010,350,300,Hipmunk,Hipmunk,0.060,0,0.000,0.000,1,$18,21,300
+Galveston--TX--US--Best Of,8749,122,0.010,350,400,Hipmunk,Hipmunk,0.060,0,0.000,0.000,3,$72,84,1200
+Brooklyn--NY--US--Hotel Properties,8750,123,0.010,350,0,Hipmunk,Hipmunk,0.040,0,0.000,0.000,30,$0,0,0
+Brooklyn--NY--US--Flight Destination,8751,122,0.010,350,400,Hipmunk,Hipmunk,0.060,0,0.000,0.000,1,$24,28,400
+Brooklyn--NY--US--Hotel Destination,8752,122,0.010,350,600,Hipmunk,Hipmunk,0.060,0,0.000,0.000,1,$36,42,600
+Brooklyn--NY--US--Near Landmark,8753,122,0.010,350,200,Hipmunk,Hipmunk,0.060,0,0.000,0.000,3,$36,42,600
+Brooklyn--NY--US--Near Neighborhood,8754,122,0.010,350,200,Hipmunk,Hipmunk,0.060,0,0.000,0.000,3,$36,42,600
+Brooklyn--NY--US--Best Of,8755,122,0.010,350,400,Hipmunk,Hipmunk,0.060,0,0.000,0.000,3,$72,84,1200
+Palm Springs--CA--US--Hotel Properties,8756,122,0.010,350,0,Hipmunk,Hipmunk,0.060,0,0.000,0.000,30,$0,0,0
+Palm Springs--CA--US--Flight Destination,8757,122,0.010,350,400,Hipmunk,Hipmunk,0.060,0,0.000,0.000,1,$24,28,400
+Palm Springs--CA--US--Hotel Destination,8758,122,0.010,350,600,Hipmunk,Hipmunk,0.060,0,0.000,0.000,1,$36,42,600
+Palm Springs--CA--US--Near Landmark,8759,122,0.010,350,200,Hipmunk,Hipmunk,0.060,0,0.000,0.000,3,$36,42,600
+Palm Springs--CA--US--Near Neighborhood,8760,122,0.010,350,200,Hipmunk,Hipmunk,0.060,0,0.000,0.000,3,$36,42,600
+Palm Springs--CA--US--Near Airport,8761,122,0.010,350,300,Hipmunk,Hipmunk,0.060,0,0.000,0.000,1,$18,21,300
+Palm Springs--CA--US--Best Of,8762,122,0.010,350,400,Hipmunk,Hipmunk,0.060,0,0.000,0.000,3,$72,84,1200
+SeaTac--WA--US--Hotel Properties,8763,122,0.010,350,0,Hipmunk,Hipmunk,0.060,0,0.000,0.000,26,$0,0,0
+SeaTac--WA--US--Flight Destination,8764,122,0.010,350,400,Hipmunk,Hipmunk,0.060,0,0.000,0.000,1,$24,28,400
+SeaTac--WA--US--Hotel Destination,8765,122,0.010,350,600,Hipmunk,Hipmunk,0.060,0,0.000,0.000,1,$36,42,600
+SeaTac--WA--US--Near Landmark,8766,122,0.010,350,200,Hipmunk,Hipmunk,0.060,0,0.000,0.000,3,$36,42,600
+SeaTac--WA--US--Near Neighborhood,8767,122,0.010,350,200,Hipmunk,Hipmunk,0.060,0,0.000,0.000,3,$36,42,600
+SeaTac--WA--US--Near Airport,8768,122,0.010,350,300,Hipmunk,Hipmunk,0.060,0,0.000,0.000,1,$18,21,300
+SeaTac--WA--US--Best Of,8769,122,0.010,350,400,Hipmunk,Hipmunk,0.060,0,0.000,0.000,3,$72,84,1200
+Koloa--HI--US--Hotel Properties,8770,123,0.010,350,0,Hipmunk,Hipmunk,0.040,0,0.000,0.000,4,$0,0,0
+Koloa--HI--US--Flight Destination,8772,126,0.010,350,50,Hipmunk,Hipmunk,0.040,0,0.000,0.000,1,$2,2.5,50
+Koloa--HI--US--Hotel Destination,8773,126,0.010,350,200,Hipmunk,Hipmunk,0.040,0,0.000,0.000,1,$8,10,200
+Doral--FL--US--Hotel Properties,8774,123,0.010,350,0,Hipmunk,Hipmunk,0.040,0,0.000,0.000,5,$0,0,0
+Doral--FL--US--Flight Destination,8775,126,0.010,350,50,Hipmunk,Hipmunk,0.040,0,0.000,0.000,1,$2,2.5,50
+Doral--FL--US--Hotel Destination,8776,126,0.010,350,200,Hipmunk,Hipmunk,0.040,0,0.000,0.000,1,$8,10,200
+Newport Beach--CA--US--Hotel Properties,8777,126,0.010,350,0,Hipmunk,Hipmunk,0.040,0,0.000,0.000,5,$0,0,0
+Newport Beach--CA--US--Flight Destination,8778,126,0.010,350,50,Hipmunk,Hipmunk,0.040,0,0.000,0.000,1,$2,2.5,50
+Newport Beach--CA--US--Hotel Destination,8779,126,0.010,350,200,Hipmunk,Hipmunk,0.040,0,0.000,0.000,1,$8,10,200
+Flagstaff--AZ--US--Hotel Properties,8780,123,0.010,350,0,Hipmunk,Hipmunk,0.040,0,0.000,0.000,5,$0,0,0
+Flagstaff--AZ--US--Flight Destination,8781,126,0.010,350,50,Hipmunk,Hipmunk,0.040,0,0.000,0.000,1,$2,2.5,50
+Flagstaff--AZ--US--Hotel Destination,8782,126,0.010,350,200,Hipmunk,Hipmunk,0.040,0,0.000,0.000,1,$8,10,200
+College Park--GA--US--Hotel Properties,8783,123,0.010,350,0,Hipmunk,Hipmunk,0.040,0,0.000,0.000,5,$0,0,0
+College Park--GA--US--Flight Destination,8784,126,0.010,350,50,Hipmunk,Hipmunk,0.040,0,0.000,0.000,1,$2,2.5,50
+College Park--GA--US--Hotel Destination,8785,126,0.010,350,200,Hipmunk,Hipmunk,0.040,0,0.000,0.000,1,$8,10,200
+Corpus Christi--TX--US--Hotel Properties,8786,123,0.010,350,0,Hipmunk,Hipmunk,0.040,0,0.000,0.000,5,$0,0,0
+Corpus Christi--TX--US--Flight Destination,8787,126,0.010,350,50,Hipmunk,Hipmunk,0.040,0,0.000,0.000,1,$2,2.5,50
+Corpus Christi--TX--US--Hotel Destination,8788,126,0.010,350,200,Hipmunk,Hipmunk,0.040,0,0.000,0.000,1,$8,10,200
+Pasadena--CA--US--Hotel Properties,8789,123,0.010,350,0,Hipmunk,Hipmunk,0.040,0,0.000,0.000,5,$0,0,0
+Pasadena--CA--US--Flight Destination,8790,126,0.010,350,50,Hipmunk,Hipmunk,0.040,0,0.000,0.000,1,$2,2.5,50
+Pasadena--CA--US--Hotel Destination,8791,126,0.010,350,200,Hipmunk,Hipmunk,0.040,0,0.000,0.000,1,$8,10,200
+Colorado Springs--CO--US--Hotel Properties,8792,123,0.010,350,0,Hipmunk,Hipmunk,0.040,0,0.000,0.000,5,$0,0,0
+Colorado Springs--CO--US--Flight Destination,8793,126,0.010,350,50,Hipmunk,Hipmunk,0.040,0,0.000,0.000,1,$2,2.5,50
+Colorado Springs--CO--US--Hotel Destination,8794,122,0.010,350,200,Hipmunk,Hipmunk,0.060,0,0.000,0.000,1,$12,14,200
+Sarasota--FL--US--Hotel Properties,8795,123,0.010,350,0,Hipmunk,Hipmunk,0.040,0,0.000,0.000,5,$0,0,0
+Sarasota--FL--US--Flight Destination,8796,126,0.010,350,50,Hipmunk,Hipmunk,0.040,0,0.000,0.000,1,$2,2.5,50
+Sarasota--FL--US--Hotel Destination,8797,126,0.010,350,200,Hipmunk,Hipmunk,0.040,0,0.000,0.000,1,$8,10,200
+Detroit--MI--US--Hotel Properties,8798,123,0.010,350,0,Hipmunk,Hipmunk,0.040,0,0.000,0.000,5,$0,0,0
+Detroit--MI--US-Hotel Destination,8799,126,0.010,350,200,Hipmunk,Hipmunk,0.040,0,0.000,0.000,1,$8,10,200
+Detroit--MI--US--Flight Destination,8800,126,0.010,350,50,Hipmunk,Hipmunk,0.040,0,0.000,0.000,1,$2,2.5,50
+South Padre Island--TX--US--Hotel Properties,8801,123,0.010,350,0,Hipmunk,Hipmunk,0.040,0,0.000,0.000,5,$0,0,0
+South Padre Island--TX--US--Flight Destination,8802,126,0.010,350,50,Hipmunk,Hipmunk,0.040,0,0.000,0.000,1,$2,2.5,50
+South Padre Island--TX--US--Hotel Destination,8803,126,0.010,350,200,Hipmunk,Hipmunk,0.040,0,0.000,0.000,1,$8,10,200
+Oakland--CA--US--Hotel Properties,8804,123,0.010,350,0,Hipmunk,Hipmunk,0.040,0,0.000,0.000,5,$0,0,0
+Oakland--CA--US--Flight Destination,8805,126,0.010,350,50,Hipmunk,Hipmunk,0.040,0,0.000,0.000,1,$2,2.5,50
+Oakland--CA--US--Hotel Destination,8806,122,0.010,350,200,Hipmunk,Hipmunk,0.060,0,0.000,0.000,1,$12,14,200
+Lexington--KY--US--Hotel Properties,8809,123,0.010,350,0,Hipmunk,Hipmunk,0.040,0,0.000,0.000,5,$0,0,0
+Lexington--KY--US--Flight Destination,8810,126,0.010,350,50,Hipmunk,Hipmunk,0.040,0,0.000,0.000,1,$2,2.5,50
+Lexington--KY--US--Hotel Destination,8811,126,0.010,350,200,Hipmunk,Hipmunk,0.040,0,0.000,0.000,1,$8,10,200
+Hilton Head Island--SC--US--Hotel Properties,8812,123,0.010,350,0,Hipmunk,Hipmunk,0.040,0,0.000,0.000,5,$0,0,0
+Hilton Head Island--SC--US--Flight Destination,8813,126,0.010,350,50,Hipmunk,Hipmunk,0.040,0,0.000,0.000,1,$2,2.5,50
+Hilton Head Island--SC--US--Hotel Destination,8814,126,0.010,350,200,Hipmunk,Hipmunk,0.040,0,0.000,0.000,1,$8,10,200
+Vail--CO--US--Hotel Properties,8815,123,0.010,350,0,Hipmunk,Hipmunk,0.040,0,0.000,0.000,5,$0,0,0
+Vail--CO--US--Flight Destination,8816,126,0.010,350,50,Hipmunk,Hipmunk,0.040,0,0.000,0.000,1,$2,2.5,50
+Vail--CO--US--Hotel Destination,8817,126,0.010,350,200,Hipmunk,Hipmunk,0.040,0,0.000,0.000,1,$8,10,200
+Omaha--NE--US--Hotel Properties,8818,123,0.010,350,0,Hipmunk,Hipmunk,0.040,0,0.000,0.000,5,$0,0,0
+Omaha--NE--US--Flight Destination,8819,126,0.010,350,50,Hipmunk,Hipmunk,0.040,0,0.000,0.000,1,$2,2.5,50
+Omaha--NE--US--Hotel Destination,8821,126,0.010,350,200,Hipmunk,Hipmunk,0.040,0,0.000,0.000,1,$8,10,200
+Kamuela--HI--US--Hotel Properties,8822,123,0.010,350,0,Hipmunk,Hipmunk,0.040,0,0.000,0.000,4,$0,0,0
+Kamuela--HI--US--Flight Destination,8823,126,0.010,350,50,Hipmunk,Hipmunk,0.040,0,0.000,0.000,1,$2,2.5,50
+Kamuela--HI--US--Hotel Destination,8824,126,0.010,350,200,Hipmunk,Hipmunk,0.040,0,0.000,0.000,1,$8,10,200
+Spokane--WA--US--Hotel Properties,8826,123,0.010,350,0,Hipmunk,Hipmunk,0.040,0,0.000,0.000,5,$0,0,0
+Spokane--WA--US--Flight Destination,8827,126,0.010,350,50,Hipmunk,Hipmunk,0.040,0,0.000,0.000,1,$2,2.5,50
+Spokane--WA--US--Hotel Destination,8828,126,0.010,350,200,Hipmunk,Hipmunk,0.040,0,0.000,0.000,1,$8,10,200
+Park City--UT--US--Hotel Properties,8829,123,0.010,350,0,Hipmunk,Hipmunk,0.040,0,0.000,0.000,5,$0,0,0
+Park City--UT--US--Flight Destination,8830,126,0.010,350,50,Hipmunk,Hipmunk,0.040,0,0.000,0.000,1,$2,2.5,50
+Park City--UT--US--Hotel Destination,8831,126,0.010,350,200,Hipmunk,Hipmunk,0.040,0,0.000,0.000,1,$8,10,200
+Branson--MO--US--Hotel Properties,8832,123,0.010,350,0,Hipmunk,Hipmunk,0.040,0,0.000,0.000,5,$0,0,0
+Branson--MO--US--Flight Destination,8833,126,0.010,350,50,Hipmunk,Hipmunk,0.040,0,0.000,0.000,1,$2,2.5,50
+Branson--MO--US--Hotel Destination,8834,126,0.010,350,200,Hipmunk,Hipmunk,0.040,0,0.000,0.000,1,$8,10,200
+St. Augustine--FL--US--Hotel Properties,8835,123,0.010,350,0,Hipmunk,Hipmunk,0.040,0,0.000,0.000,5,$0,0,0
+St. Augustine--FL--US--Flight Destination,8836,126,0.010,350,50,Hipmunk,Hipmunk,0.040,0,0.000,0.000,1,$2,2.5,50
+St. Augustine--FL--US--Hotel Destination,8837,126,0.010,350,200,Hipmunk,Hipmunk,0.040,0,0.000,0.000,1,$8,10,200
+Palo Alto--CA--US--Hotel Properties,8840,123,0.010,350,0,Hipmunk,Hipmunk,0.040,0,0.000,0.000,5,$0,0,0
+Palo Alto--CA--US--Flight Destination,8841,126,0.010,350,50,Hipmunk,Hipmunk,0.040,0,0.000,0.000,1,$2,2.5,50
+Palo Alto--CA--US--Hotel Destination,8842,126,0.010,350,200,Hipmunk,Hipmunk,0.040,0,0.000,0.000,1,$8,10,200
+Glendale--CA--US--Hotel Properties,8843,123,0.010,350,0,Hipmunk,Hipmunk,0.040,0,0.000,0.000,5,$0,0,0
+Glendale--CA--US--Flight Destination,8844,126,0.010,350,50,Hipmunk,Hipmunk,0.040,0,0.000,0.000,1,$2,2.5,50
+Glendale--CA--US--Hotel Destination,8845,126,0.010,350,200,Hipmunk,Hipmunk,0.040,0,0.000,0.000,1,$8,10,200
+Irving--TX--US--Hotel Properties,8846,123,0.010,350,0,Hipmunk,Hipmunk,0.040,0,0.000,0.000,4,$0,0,0
+Irving--TX--US--Flight Destination,8847,126,0.010,350,50,Hipmunk,Hipmunk,0.040,0,0.000,0.000,1,$2,2.5,50
+Irving--TX--US--Hotel Destination,8848,126,0.010,350,200,Hipmunk,Hipmunk,0.040,0,0.000,0.000,1,$8,10,200
+Baton Rouge--LA--US--Hotel Properties,8849,123,0.010,350,0,Hipmunk,Hipmunk,0.040,0,0.000,0.000,5,$0,0,0
+Baton Rouge--LA--US--Flight Destination,8850,122,0.010,350,50,Hipmunk,Hipmunk,0.060,0,0.000,0.000,1,$3,3.5,50
+Baton Rouge--LA--US--Hotel Destination,8851,126,0.010,350,200,Hipmunk,Hipmunk,0.040,0,0.000,0.000,1,$8,10,200
+Tucson--AZ--US--Hotel Properties,8852,123,0.010,350,0,Hipmunk,Hipmunk,0.040,0,0.000,0.000,30,$0,0,0
+Tucson--AZ--US--Flight Destination,8853,122,0.010,350,400,Hipmunk,Hipmunk,0.060,0,0.000,0.000,1,$24,28,400
+Tucson--AZ--US--Hotel Destination,8854,122,0.010,350,600,Hipmunk,Hipmunk,0.060,0,0.000,0.000,1,$36,42,600
+Tucson--AZ--US--Near Landmark,8855,122,0.010,350,200,Hipmunk,Hipmunk,0.060,0,0.000,0.000,3,$36,42,600
+Tucson--AZ--US--Near Neighborhood,8856,122,0.010,350,200,Hipmunk,Hipmunk,0.060,0,0.000,0.000,3,$36,42,600
+Tucson--AZ--US--Near Airport,8857,122,0.010,350,300,Hipmunk,Hipmunk,0.060,0,0.000,0.000,1,$18,21,300
+Tucson--AZ--US--Best Of,8858,122,0.010,350,400,Hipmunk,Hipmunk,0.060,0,0.000,0.000,3,$72,84,1200
+Kansas City--MO--US--Hotel Properties,8859,123,0.010,350,0,Hipmunk,Hipmunk,0.040,0,0.000,0.000,30,$0,0,0
+Kansas City--MO--US--Flight Destination,8861,122,0.010,350,400,Hipmunk,Hipmunk,0.060,0,0.000,0.000,1,$24,28,400
+Kansas City--MO--US--Hotel Destination,8862,122,0.010,350,600,Hipmunk,Hipmunk,0.060,0,0.000,0.000,1,$36,42,600
+Kansas City--MO--US--Near Landmark,8863,122,0.010,350,200,Hipmunk,Hipmunk,0.060,0,0.000,0.000,3,$36,42,600
+Kansas City--MO--US--Near Neighborhood,8864,122,0.010,350,200,Hipmunk,Hipmunk,0.060,0,0.000,0.000,3,$36,42,600
+Kansas City--MO--US--Near Airport,8865,122,0.010,350,300,Hipmunk,Hipmunk,0.060,0,0.000,0.000,1,$18,21,300
+Kansas City--MO--US--Best Of,8866,122,0.010,350,400,Hipmunk,Hipmunk,0.060,0,0.000,0.000,3,$72,84,1200
+Burlingame--CA--US--Hotel Properties,8867,123,0.010,350,0,Hipmunk,Hipmunk,0.040,0,0.000,0.000,12,$0,0,0
+Burlingame--CA--US--Flight Destination,8869,122,0.010,350,400,Hipmunk,Hipmunk,0.060,0,0.000,0.000,1,$24,28,400
+Burlingame--CA--US--Hotel Destination,8870,122,0.010,350,600,Hipmunk,Hipmunk,0.060,0,0.000,0.000,1,$36,42,600
+Burlingame--CA--US--Near Landmark,8871,122,0.010,350,200,Hipmunk,Hipmunk,0.060,0,0.000,0.000,1,$12,14,200
+Burlingame--CA--US--Best Of,8872,122,0.010,350,400,Hipmunk,Hipmunk,0.060,0,0.000,0.000,3,$72,84,1200
+Irving--TX--US--Hotel Properties,8873,123,0.010,350,0,Hipmunk,Hipmunk,0.040,0,0.000,0.000,30,$0,0,0
+Irving--TX--US--Flight Destination,8874,122,0.010,350,400,Hipmunk,Hipmunk,0.060,0,0.000,0.000,1,$24,28,400
+Irving--TX--US--Hotel Destination,8875,122,0.010,350,600,Hipmunk,Hipmunk,0.060,0,0.000,0.000,1,$36,42,600
+Irving--TX--US--Near Landmark,8876,122,0.010,350,200,Hipmunk,Hipmunk,0.060,0,0.000,0.000,3,$36,42,600
+Irving--TX--US--Best Of,8877,122,0.010,350,400,Hipmunk,Hipmunk,0.060,0,0.000,0.000,3,$72,84,1200
+Bellevue--WA--US--Hotel Properties,8878,122,0.010,350,0,Hipmunk,Hipmunk,0.060,0,0.000,0.000,11,$0,0,0
+Bellevue--WA--US--Flight Destination,8879,122,0.010,350,400,Hipmunk,Hipmunk,0.060,0,0.000,0.000,1,$24,28,400
+Bellevue--WA--US--Hotel Destination,8880,122,0.010,350,600,Hipmunk,Hipmunk,0.060,0,0.000,0.000,1,$36,42,600
+Bellevue--WA--US--Near Landmark,8881,122,0.010,350,200,Hipmunk,Hipmunk,0.060,0,0.000,0.000,3,$36,42,600
+Bellevue--WA--US--Near Neighborhood,8882,122,0.010,350,200,Hipmunk,Hipmunk,0.060,0,0.000,0.000,3,$36,42,600
+Bellevue--WA--US--Best Of,8883,122,0.010,350,400,Hipmunk,Hipmunk,0.060,0,0.000,0.000,3,$72,84,1200
+Cincinnati--OH--US--Hotel Properties,8884,123,0.010,350,0,Hipmunk,Hipmunk,0.040,0,0.000,0.000,30,$0,0,0
+Cincinnati--OH--US--Flight Destination,8885,122,0.010,350,400,Hipmunk,Hipmunk,0.060,0,0.000,0.000,1,$24,28,400
+Cincinnati--OH--US--Hotel Destination,8886,122,0.010,350,600,Hipmunk,Hipmunk,0.060,0,0.000,0.000,1,$36,42,600
+Cincinnati--OH--US--Near Landmark,8887,122,0.010,350,200,Hipmunk,Hipmunk,0.060,0,0.000,0.000,3,$36,42,600
+Cincinnati--OH--US--Near Neighborhood,8888,122,0.010,350,200,Hipmunk,Hipmunk,0.060,0,0.000,0.000,3,$36,42,600
+Cincinnati--OH--US--Near Airport,8889,122,0.010,350,300,Hipmunk,Hipmunk,0.060,0,0.000,0.000,1,$18,21,300
+Cincinnati--OH--US--Best Of,8890,122,0.010,350,400,Hipmunk,Hipmunk,0.060,0,0.000,0.000,3,$72,84,1200
+Oklahoma City--OK--US--Top Hotel Properties,8891,123,0.010,350,0,Hipmunk,Hipmunk,0.040,0,0.000,0.000,10,$0,0,0
+Oklahoma City--OK--US--Hotel Properties,8892,123,0.010,350,0,Hipmunk,Hipmunk,0.040,0,0.000,0.000,20,$0,0,0
+Oklahoma City--OK--US--Flight Destination,8893,122,0.010,350,400,Hipmunk,Hipmunk,0.060,0,0.000,0.000,1,$24,28,400
+Oklahoma City--OK--US--Hotel Destination,8894,122,0.010,350,600,Hipmunk,Hipmunk,0.060,0,0.000,0.000,1,$36,42,600
+Oklahoma City--OK--US--Near Landmark,8895,122,0.010,350,200,Hipmunk,Hipmunk,0.060,0,0.000,0.000,3,$36,42,600
+Oklahoma City--OK--US--Near Neighborhood,8896,122,0.010,350,200,Hipmunk,Hipmunk,0.060,0,0.000,0.000,3,$36,42,600
+Oklahoma City--OK--US--Near Airport,8897,122,0.010,350,300,Hipmunk,Hipmunk,0.060,0,0.000,0.000,1,$18,21,300
+Oklahoma City--OK--US--Best Of,8898,125,0.010,350,400,Hipmunk,Hipmunk,0.120,0,0.000,0.000,3,$144,156,1200
+Albuquerque--NM--US--Top Hotel Properties,8901,123,0.010,350,0,Hipmunk,Hipmunk,0.040,0,0.000,0.000,10,$0,0,0
+Albuquerque--NM--US--Hotel Properties,8902,123,0.010,350,0,Hipmunk,Hipmunk,0.040,0,0.000,0.000,20,$0,0,0
+Albuquerque--NM--US--Flight Destination,8903,122,0.010,350,400,Hipmunk,Hipmunk,0.060,0,0.000,0.000,1,$24,28,400
+Albuquerque--NM--US--Hotel Destination,8904,122,0.010,350,600,Hipmunk,Hipmunk,0.060,0,0.000,0.000,1,$36,42,600
+Albuquerque--NM--US--Near Landmark,8905,122,0.010,350,200,Hipmunk,Hipmunk,0.060,0,0.000,0.000,3,$36,42,600
+Albuquerque--NM--US--Near Neighborhood,8906,122,0.010,350,200,Hipmunk,Hipmunk,0.060,0,0.000,0.000,3,$36,42,600
+Albuquerque--NM--US--Near Airport,8907,122,0.010,350,300,Hipmunk,Hipmunk,0.060,0,0.000,0.000,1,$18,21,300
+Albuquerque--NM--US--Best Of,8908,122,0.010,350,40,Hipmunk,Hipmunk,0.060,0,0.000,0.000,3,$7.2,8.4,120
+Kailua-Kona--HI--US--Hotel Properties,8909,123,0.010,350,0,Hipmunk,Hipmunk,0.040,0,0.000,0.000,7,$0,0,0
+Kailua-Kona--HI--US--Flight Destination,8910,122,0.010,350,400,Hipmunk,Hipmunk,0.060,0,0.000,0.000,1,$24,28,400
+Kailua-Kona--HI--US--Hotel Destination,8911,122,0.010,350,600,Hipmunk,Hipmunk,0.060,0,0.000,0.000,1,$36,42,600
+Kailua-Kona--HI--US--Near Airport,8912,122,0.010,350,300,Hipmunk,Hipmunk,0.060,0,0.000,0.000,1,$18,21,300
+Kailua-Kona--HI--US--Best Of,8913,122,0.010,350,400,Hipmunk,Hipmunk,0.060,0,0.000,0.000,3,$72,84,1200
+Irvine--CA--US--Hotel Properties,8914,123,0.010,350,0,Hipmunk,Hipmunk,0.040,0,0.000,0.000,5,$0,0,0
+Irvine--CA--US--Flight Destination,8915,126,0.010,350,0,Hipmunk,Hipmunk,0.040,0,0.000,0.000,1,$0,0,0
+Irvine--CA--US--Hotel Destination,8916,126,0.010,350,200,Hipmunk,Hipmunk,0.040,0,0.000,0.000,1,$8,10,200
+La Jolla--CA--US--Top Hotel Properties,8917,123,0.010,350,0,Hipmunk,Hipmunk,0.040,0,0.000,0.000,10,$0,0,0
+La Jolla--CA--US--Hotel Properties,8918,123,0.010,350,0,Hipmunk,Hipmunk,0.040,0,0.000,0.000,6,$0,0,0
+La Jolla--CA--US--Flight Destination,8919,122,0.010,350,400,Hipmunk,Hipmunk,0.060,0,0.000,0.000,1,$24,28,400
+La Jolla--CA--US--Hotel Destination,8920,122,0.010,350,600,Hipmunk,Hipmunk,0.060,0,0.000,0.000,1,$36,42,600
+La Jolla--CA--US--Best Of,8921,122,0.010,350,400,Hipmunk,Hipmunk,0.060,0,0.000,0.000,3,$72,84,1200
+Santa Fe--NM--US--Top Hotel Properties,8922,123,0.010,350,0,Hipmunk,Hipmunk,0.040,0,0.000,0.000,10,$0,0,0
+Santa Fe--NM--US--Hotel Properties,8923,123,0.010,350,0,Hipmunk,Hipmunk,0.040,0,0.000,0.000,20,$0,0,0
+Santa Fe--NM--US--Flight Destination,8924,122,0.010,350,400,Hipmunk,Hipmunk,0.060,0,0.000,0.000,1,$24,28,400
+Santa Fe--NM--US--Hotel Destination,8925,122,0.010,350,600,Hipmunk,Hipmunk,0.060,0,0.000,0.000,1,$36,42,600
+Santa Fe--NM--US--Near Landmark,8926,122,0.010,350,200,Hipmunk,Hipmunk,0.060,0,0.000,0.000,3,$36,42,600
+Santa Fe--NM--US--Near Neighborhood,8927,122,0.010,350,200,Hipmunk,Hipmunk,0.060,0,0.000,0.000,3,$36,42,600
+Santa Fe--NM--US--Near Airport,8928,122,0.010,350,300,Hipmunk,Hipmunk,0.060,0,0.000,0.000,1,$18,21,300
+Santa Fe--NM--US--Best Of,8929,122,0.010,350,400,Hipmunk,Hipmunk,0.060,0,0.000,0.000,3,$72,84,1200
+Jamaica--NY--US--Hotel Properties,8931,123,0.010,350,0,Hipmunk,Hipmunk,0.040,0,0.000,0.000,11,$0,0,0
+Jamaica--NY--US--Flight Destination,8932,122,0.010,350,400,Hipmunk,Hipmunk,0.060,0,0.000,0.000,1,$24,28,400
+Jamaica--NY--US--Hotel Destination,8933,122,0.010,350,600,Hipmunk,Hipmunk,0.060,0,0.000,0.000,1,$36,42,600
+Jamaica--NY--US--Near Landmark,8934,122,0.010,350,200,Hipmunk,Hipmunk,0.060,0,0.000,0.000,3,$36,42,600
+Jamaica--NY--US--Best Of,8935,122,0.010,350,400,Hipmunk,Hipmunk,0.060,0,0.000,0.000,3,$72,84,1200
+Napa--CA--US--Top Hotel Properties,8936,123,0.010,350,0,Hipmunk,Hipmunk,0.040,0,0.000,0.000,10,$0,0,0
+Napa--CA--US--Hotel Properties,8937,123,0.010,350,0,Hipmunk,Hipmunk,0.040,0,0.000,0.000,6,$0,0,0
+Napa--CA--US--Flight Destination,8938,122,0.010,350,400,Hipmunk,Hipmunk,0.060,0,0.000,0.000,1,$24,28,400
+Napa--CA--US--Hotel Destination,8939,122,0.010,350,600,Hipmunk,Hipmunk,0.060,0,0.000,0.000,1,$36,42,600
+Napa--CA--US--Near Landmark,8940,122,0.010,350,200,Hipmunk,Hipmunk,0.060,0,0.000,0.000,3,$36,42,600
+Napa--CA--US--Near Neighborhood,8941,122,0.010,350,200,Hipmunk,Hipmunk,0.060,0,0.000,0.000,3,$36,42,600
+Napa--CA--US--Near Airport,8942,122,0.010,350,300,Hipmunk,Hipmunk,0.060,0,0.000,0.000,1,$18,21,300
+Napa--CA--US--Best Of,8943,122,0.010,350,400,Hipmunk,Hipmunk,0.060,0,0.000,0.000,3,$72,84,1200
+Sunny Isles Beach--FL--US--Hotel Properties,8944,123,0.010,350,0,Hipmunk,Hipmunk,0.040,0,0.000,0.000,9,$0,0,0
+Sunny Isles Beach--FL--US--Flight Destination,8945,122,0.010,350,400,Hipmunk,Hipmunk,0.060,0,0.000,0.000,1,$24,28,400
+Sunny Isles Beach--FL--US--Hotel Destination,8946,122,0.010,350,600,Hipmunk,Hipmunk,0.060,0,0.000,0.000,1,$36,42,600
+Sunny Isles Beach--FL--US--Near Landmark,8947,122,0.010,350,200,Hipmunk,Hipmunk,0.060,0,0.000,0.000,1,$12,14,200
+Sunny Isles Beach--FL--US--Best Of,8948,122,0.010,350,400,Hipmunk,Hipmunk,0.060,0,0.000,0.000,3,$72,84,1200
+Asheville--NC--US--Top Hotel Properties,8949,123,0.010,350,0,Hipmunk,Hipmunk,0.040,0,0.000,0.000,10,$0,0,0
+Asheville--NC--US--Hotel Properties,8950,123,0.010,350,0,Hipmunk,Hipmunk,0.040,0,0.000,0.000,20,$0,0,0
+Asheville--NC--US--Flight Destination,8951,122,0.010,350,400,Hipmunk,Hipmunk,0.060,0,0.000,0.000,1,$24,28,400
+Asheville--NC--US--Hotel Destination,8952,122,0.010,350,600,Hipmunk,Hipmunk,0.060,0,0.000,0.000,1,$36,42,600
+Asheville--NC--US--Near Landmark,8953,122,0.010,350,200,Hipmunk,Hipmunk,0.060,0,0.000,0.000,3,$36,42,600
+Asheville--NC--US--Near Neighborhood,8954,122,0.010,350,200,Hipmunk,Hipmunk,0.060,0,0.000,0.000,3,$36,42,600
+Asheville--NC--US--Near Airport,8955,122,0.010,350,300,Hipmunk,Hipmunk,0.060,0,0.000,0.000,1,$18,21,300
+Asheville--NC--US--Best Of,8956,122,0.010,350,400,Hipmunk,Hipmunk,0.060,0,0.000,0.000,3,$72,84,1200
+Springfield--MO--US--Top Hotel Properties,8957,123,0.010,350,0,Hipmunk,Hipmunk,0.040,0,0.000,0.000,8,$0,0,0
+Springfield--MO--US--Hotel Properties,8958,123,0.010,350,0,Hipmunk,Hipmunk,0.040,0,0.000,0.000,9,$0,0,0
+Springfield--MO--US--Flight Destination,8959,122,0.010,350,400,Hipmunk,Hipmunk,0.060,0,0.000,0.000,1,$24,28,400
+Springfield--MO--US--Hotel Destination,8960,122,0.010,350,600,Hipmunk,Hipmunk,0.060,0,0.000,0.000,1,$36,42,600
+Springfield--MO--US--Near Landmark,8961,122,0.010,350,200,Hipmunk,Hipmunk,0.060,0,0.000,0.000,3,$36,42,600
+Springfield--MO--US--Near Neighborhood,8962,122,0.010,350,200,Hipmunk,Hipmunk,0.060,0,0.000,0.000,3,$36,42,600
+Springfield--MO--US--Near Airport,8963,122,0.010,350,300,Hipmunk,Hipmunk,0.060,0,0.000,0.000,1,$18,21,300
+Springfield--MO--US--Best Of,8964,122,0.010,350,400,Hipmunk,Hipmunk,0.060,0,0.000,0.000,3,$72,84,1200
+Rosemont--IL--US--Top Hotel Properties,8965,123,0.010,350,0,Hipmunk,Hipmunk,0.040,0,0.000,0.000,10,$0,0,0
+Rosemont--IL--US--Hotel Properties,8966,123,0.010,350,0,Hipmunk,Hipmunk,0.040,0,0.000,0.000,5,$0,0,0
+Rosemont--IL--US--Flight Destination,8967,122,0.010,350,400,Hipmunk,Hipmunk,0.060,0,0.000,0.000,1,$24,28,400
+Rosemont--IL--US--Hotel Destination,8968,122,0.010,350,600,Hipmunk,Hipmunk,0.060,0,0.000,0.000,1,$36,42,600
+Rosemont--IL--US--Best Of,8969,122,0.010,350,400,Hipmunk,Hipmunk,0.060,0,0.000,0.000,3,$72,84,1200
+Jackson--WY--US--Top Hotel Properties,8970,123,0.010,350,0,Hipmunk,Hipmunk,0.040,0,0.000,0.000,10,$0,0,0
+Jackson--WY--US--Hotel Properties,8971,123,0.010,350,0,Hipmunk,Hipmunk,0.040,0,0.000,0.000,11,$0,0,0
+Jackson--WY--US--Flight Destination,8972,122,0.010,350,400,Hipmunk,Hipmunk,0.060,0,0.000,0.000,1,$24,28,400
+Jackson--WY--US--Hotel Destination,8973,122,0.010,350,600,Hipmunk,Hipmunk,0.060,0,0.000,0.000,1,$36,42,600
+Jackson--WY--US--Near Neighborhood,8975,122,0.010,350,200,Hipmunk,Hipmunk,0.060,0,0.000,0.000,3,$36,42,600
+Jackson--WY--US--Near Airport,8976,122,0.010,350,300,Hipmunk,Hipmunk,0.060,0,0.000,0.000,1,$18,21,300
+Jackson--WY--US--Best Of,8977,122,0.010,350,400,Hipmunk,Hipmunk,0.060,0,0.000,0.000,3,$72,84,1200
+Sedona--AZ--US--Top Hotel Properties,8978,126,0.010,350,0,Hipmunk,Hipmunk,0.040,0,0.000,0.000,10,$0,0,0
+Sedona--AZ--US--Hotel Properties,8986,123,0.010,350,0,Hipmunk,Hipmunk,0.040,0,0.000,0.000,16,$0,0,0
+Sedona--AZ--US--Flight Destination,8987,122,0.010,350,400,Hipmunk,Hipmunk,0.060,0,0.000,0.000,1,$24,28,400
+Sedona--AZ--US--Hotel Destination,8988,122,0.010,350,600,Hipmunk,Hipmunk,0.060,0,0.000,0.000,1,$36,42,600
+Sedona--AZ--US--Near Landmark,8989,122,0.010,350,200,Hipmunk,Hipmunk,0.060,0,0.000,0.000,3,$36,42,600
+Sedona--AZ--US--Near Neighborhood,8990,122,0.010,350,200,Hipmunk,Hipmunk,0.060,0,0.000,0.000,3,$36,42,600
+Sedona--AZ--US--Best Of,8991,122,0.010,350,400,Hipmunk,Hipmunk,0.060,0,0.000,0.000,3,$72,84,1200
+Kihei--HI--US--Hotel Properties,8992,123,0.010,350,0,Hipmunk,Hipmunk,0.040,0,0.000,0.000,4,$0,0,0
+Kihei--HI--US--Flight Destination,8993,122,0.010,350,400,Hipmunk,Hipmunk,0.060,0,0.000,0.000,1,$24,28,400
+Kihei--HI--US--Hotel Destination,8994,122,0.010,350,600,Hipmunk,Hipmunk,0.060,0,0.000,0.000,1,$36,42,600
+Kihei--HI--US--Best Of,8995,122,0.010,350,400,Hipmunk,Hipmunk,0.060,0,0.000,0.000,3,$72,84,1200
+Columbia--SC--US--Top Hotel Properties,8996,123,0.010,350,0,Hipmunk,Hipmunk,0.040,0,0.000,0.000,10,$0,0,0
+Columbia--SC--US--Hotel Properties,8997,123,0.010,350,0,Hipmunk,Hipmunk,0.040,0,0.000,0.000,20,$0,0,0
+Columbia--SC--US--Flight Destination,8998,122,0.010,350,400,Hipmunk,Hipmunk,0.060,0,0.000,0.000,1,$24,28,400
+Columbia--SC--US--Hotel Destination,8999,122,0.010,350,600,Hipmunk,Hipmunk,0.060,0,0.000,0.000,1,$36,42,600
+Columbia--SC--US--Near Landmark,9000,122,0.010,350,200,Hipmunk,Hipmunk,0.060,0,0.000,0.000,3,$36,42,600
+Columbia--SC--US--Near Neighborhood,9001,122,0.010,350,0,Hipmunk,Hipmunk,0.060,0,0.000,0.000,3,$0,0,0
+Columbia--SC--US--Near Airport,9002,122,0.010,350,300,Hipmunk,Hipmunk,0.060,0,0.000,0.000,1,$18,21,300
+Columbia--SC--US--Best Of,9003,122,0.010,350,400,Hipmunk,Hipmunk,0.060,0,0.000,0.000,3,$72,84,1200
+Cleveland--OH--US--Top Hotel Properties,9004,123,0.010,350,0,Hipmunk,Hipmunk,0.040,0,0.000,0.000,10,$0,0,0
+Cleveland--OH--US--Hotel Properties,9006,123,0.010,350,0,Hipmunk,Hipmunk,0.040,0,0.000,0.000,9,$0,0,0
+Cleveland--OH--US--Flight Destination,9007,122,0.010,350,400,Hipmunk,Hipmunk,0.060,0,0.000,0.000,1,$24,28,400
+Cleveland--OH--US--Hotel Destination,9008,125,0.010,350,600,Hipmunk,Hipmunk,0.120,0,0.000,0.000,1,$72,78,600
+Cleveland--OH--US--Near Landmark,9009,122,0.010,350,200,Hipmunk,Hipmunk,0.060,0,0.000,0.000,3,$36,42,600
+Cleveland--OH--US--Near Neighborhood,9010,122,0.010,350,200,Hipmunk,Hipmunk,0.060,0,0.000,0.000,3,$36,42,600
+Cleveland--OH--US--Near Airport,9011,122,0.010,350,300,Hipmunk,Hipmunk,0.060,0,0.000,0.000,1,$18,21,300
+Cleveland--OH--US--Best Of,9012,122,0.010,350,400,Hipmunk,Hipmunk,0.060,0,0.000,0.000,3,$72,84,1200
+Panama City--FL--US--Top Hotel Properties,9013,123,0.010,350,0,Hipmunk,Hipmunk,0.040,0,0.000,0.000,10,$0,0,0
+Panama City--FL--US--Hotel Properties,9014,123,0.010,350,0,Hipmunk,Hipmunk,0.040,0,0.000,0.000,6,$0,0,0
+Panama City--FL--US--Flight Destination,9015,122,0.010,350,400,Hipmunk,Hipmunk,0.060,0,0.000,0.000,1,$24,28,400
+Panama City--FL--US--Hotel Destination,9016,122,0.010,350,600,Hipmunk,Hipmunk,0.060,0,0.000,0.000,1,$36,42,600
+Panama City--FL--US--Near Landmark,9017,122,0.010,350,200,Hipmunk,Hipmunk,0.060,0,0.000,0.000,3,$36,42,600
+Panama City--FL--US--Near Neighborhood,9018,122,0.010,350,200,Hipmunk,Hipmunk,0.060,0,0.000,0.000,2,$24,28,400
+Panama City--FL--US--Near Airport,9019,122,0.010,350,300,Hipmunk,Hipmunk,0.060,0,0.000,0.000,1,$18,21,300
+Panama City--FL--US--Best Of,9020,122,0.010,350,400,Hipmunk,Hipmunk,0.060,0,0.000,0.000,3,$72,84,1200
+Jersey City--NJ--US--Hotel Properties,9021,123,0.010,350,0,Hipmunk,Hipmunk,0.040,0,0.000,0.000,5,$0,0,0
+Jersey City--NJ--US--Flight Destination,9022,122,0.010,350,50,Hipmunk,Hipmunk,0.060,0,0.000,0.000,1,$3,3.5,50
+Jersey City--NJ--US--Hotel Destination,9023,126,0.010,350,200,Hipmunk,Hipmunk,0.040,0,0.000,0.000,1,$8,10,200
+Santa Clara--CA--US--Hotel Properties,9024,123,0.010,350,0,Hipmunk,Hipmunk,0.040,0,0.000,0.000,5,$0,0,0
+Santa Clara--CA--US--Flight Destination,9025,126,0.010,350,50,Hipmunk,Hipmunk,0.040,0,0.000,0.000,1,$2,2.5,50
+Santa Clara--CA--US--Hotel Destination,9026,126,0.010,350,200,Hipmunk,Hipmunk,0.040,0,0.000,0.000,1,$8,10,200
+Costa Mesa--CA--US--Hotel Properties,9027,123,0.010,350,0,Hipmunk,Hipmunk,0.040,0,0.000,0.000,5,$0,0,0
+Costa Mesa--CA--US--Flight Destination,9028,126,0.010,350,50,Hipmunk,Hipmunk,0.040,0,0.000,0.000,1,$2,2.5,50
+Costa Mesa--CA--US--Hotel Destination,9029,126,0.010,350,200,Hipmunk,Hipmunk,0.040,0,0.000,0.000,1,$8,10,200
+Waikoloa--HI--US--Hotel Properties,9030,123,0.010,350,0,Hipmunk,Hipmunk,0.040,0,0.000,0.000,3,$0,0,0
+Waikoloa--HI--US--Flight Destination,9031,126,0.010,350,50,Hipmunk,Hipmunk,0.040,0,0.000,0.000,1,$2,2.5,50
+Waikoloa--HI--US--Hotel Destination,9032,126,0.010,350,200,Hipmunk,Hipmunk,0.040,0,0.000,0.000,1,$8,10,200
+Tempe--AZ--US--Hotel Properties,9033,123,0.010,350,0,Hipmunk,Hipmunk,0.040,0,0.000,0.000,5,$0,0,0
+Tempe--AZ--US--Flight Destination,9034,126,0.010,350,50,Hipmunk,Hipmunk,0.040,0,0.000,0.000,1,$2,2.5,50
+Tempe--AZ--US--Hotel Destination,9036,126,0.010,350,200,Hipmunk,Hipmunk,0.040,0,0.000,0.000,1,$8,10,200
+Raleigh--NC--US--Hotel Properties,9037,123,0.010,350,0,Hipmunk,Hipmunk,0.040,0,0.000,0.000,5,$0,0,0
+Raleigh--NC--US--Flight Destination,9038,126,0.010,350,50,Hipmunk,Hipmunk,0.040,0,0.000,0.000,1,$2,2.5,50
+Raleigh--NC--US--Hotel Destination,9039,126,0.010,350,200,Hipmunk,Hipmunk,0.040,0,0.000,0.000,1,$8,10,200
+Gatlinburg--TN--US--Hotel Properties,9040,123,0.010,350,0,Hipmunk,Hipmunk,0.040,0,0.000,0.000,5,$0,0,0
+Gatlinburg--TN--US--Flight Destination,9041,126,0.010,350,50,Hipmunk,Hipmunk,0.040,0,0.000,0.000,1,$2,2.5,50
+Gatlinburg--TN--US--Hotel Destination,9042,126,0.010,350,200,Hipmunk,Hipmunk,0.040,0,0.000,0.000,1,$8,10,200
+Pigeon Forge--TN--US--Hotel Properties,9043,123,0.010,350,0,Hipmunk,Hipmunk,0.040,0,0.000,0.000,5,$0,0,0
+Pigeon Forge--TN--US--Flight Destination,9044,126,0.010,350,50,Hipmunk,Hipmunk,0.040,0,0.000,0.000,1,$2,2.5,50
+Pigeon Forge--TN--US--Hotel Destination,9045,126,0.010,350,200,Hipmunk,Hipmunk,0.040,0,0.000,0.000,1,$8,10,200
+Fort Myers Beach--FL--US--Hotel Properties,9046,123,0.010,350,0,Hipmunk,Hipmunk,0.040,0,0.000,0.000,5,$0,0,0
+Fort Myers Beach--FL--US--Flight Destination,9047,126,0.010,350,50,Hipmunk,Hipmunk,0.040,0,0.000,0.000,1,$2,2.5,50
+Fort Myers Beach--FL--US--Hotel Destination,9048,126,0.010,350,200,Hipmunk,Hipmunk,0.040,0,0.000,0.000,1,$8,10,200
+Sunnyvale--CA--US--Hotel Properties,9049,123,0.010,350,0,Hipmunk,Hipmunk,0.040,0,0.000,0.000,5,$0,0,0
+Sunnyvale--CA--US--Flight Destination,9050,126,0.010,350,50,Hipmunk,Hipmunk,0.040,0,0.000,0.000,1,$2,2.5,50
+Sunnyvale--CA--US--Hotel Destination,9051,126,0.010,350,200,Hipmunk,Hipmunk,0.040,0,0.000,0.000,1,$8,10,200
+Boca Raton--FL--US--Hotel Properties,9052,123,0.010,350,0,Hipmunk,Hipmunk,0.040,0,0.000,0.000,5,$0,0,0
+Boca Raton--FL--US--Flight Destination,9053,126,0.010,350,50,Hipmunk,Hipmunk,0.040,0,0.000,0.000,1,$2,2.5,50
+Boca Raton--FL--US--Hotel Destination,9054,126,0.010,350,200,Hipmunk,Hipmunk,0.040,0,0.000,0.000,1,$8,10,200
+Marina Del Rey--CA--US--Hotel Properties,9055,123,0.010,350,0,Hipmunk,Hipmunk,0.040,0,0.000,0.000,5,$0,0,0
+Marina Del Rey--CA--US--Flight Destination,9056,126,0.010,350,50,Hipmunk,Hipmunk,0.040,0,0.000,0.000,1,$2,2.5,50
+Marina Del Rey--CA--US--Hotel Destination,9057,126,0.010,350,200,Hipmunk,Hipmunk,0.040,0,0.000,0.000,1,$8,10,200
+Tulsa--OK--US--Hotel Properties,9058,123,0.010,350,0,Hipmunk,Hipmunk,0.040,0,0.000,0.000,5,$0,0,0
+Tulsa--OK--US--Flight Destination,9059,126,0.010,350,50,Hipmunk,Hipmunk,0.040,0,0.000,0.000,1,$2,2.5,50
+Tulsa--OK--US--Hotel Destination,9060,126,0.010,350,200,Hipmunk,Hipmunk,0.040,0,0.000,0.000,1,$8,10,200
+Durham--NC--US--Hotel Properties,9061,123,0.010,350,0,Hipmunk,Hipmunk,0.040,0,0.000,0.000,5,$0,0,0
+Durham--NC--US--Flight Destination,9062,126,0.010,350,50,Hipmunk,Hipmunk,0.040,0,0.000,0.000,1,$2,2.5,50
+Durham--NC--US--Hotel Destination,9063,126,0.010,350,200,Hipmunk,Hipmunk,0.040,0,0.000,0.000,1,$8,10,200
+Santa Cruz--CA--US--Hotel Properties,9064,123,0.010,350,0,Hipmunk,Hipmunk,0.040,0,0.000,0.000,5,$0,0,0
+Santa Cruz--CA--US--Flight Destination,9065,126,0.010,350,50,Hipmunk,Hipmunk,0.040,0,0.000,0.000,1,$2,2.5,50
+Santa Cruz--CA--US--Hotel Destination,9066,126,0.010,350,200,Hipmunk,Hipmunk,0.040,0,0.000,0.000,1,$8,10,200
+Newport--RI--US--Hotel Properties,9067,123,0.010,350,0,Hipmunk,Hipmunk,0.040,0,0.000,0.000,5,$0,0,0
+Newport--RI--US--Flight Destination,9068,126,0.010,350,50,Hipmunk,Hipmunk,0.040,0,0.000,0.000,1,$2,2.5,50
+Newport--RI--US--Hotel Destination,9069,126,0.010,350,200,Hipmunk,Hipmunk,0.040,0,0.000,0.000,1,$8,10,200
+Burbank--CA--US--Hotel Properties,9070,123,0.010,350,0,Hipmunk,Hipmunk,0.040,0,0.000,0.000,5,$0,0,0
+Burbank--CA--US--Flight Destination,9071,126,0.010,350,50,Hipmunk,Hipmunk,0.040,0,0.000,0.000,1,$2,2.5,50
+Burbank--CA--US--Hotel Destination,9072,126,0.010,350,200,Hipmunk,Hipmunk,0.040,0,0.000,0.000,1,$8,10,200
+Albany--NY--US--Hotel Properties,9073,123,0.010,350,0,Hipmunk,Hipmunk,0.040,0,0.000,0.000,5,$0,0,0
+Albany--NY--US--Flight Destination,9074,126,0.010,350,50,Hipmunk,Hipmunk,0.040,0,0.000,0.000,1,$2,2.5,50
+Albany--NY--US--Hotel Destination,9075,126,0.010,350,200,Hipmunk,Hipmunk,0.040,0,0.000,0.000,1,$8,10,200
+Chattanooga--TN--US--Hotel Properties,9076,123,0.010,350,0,Hipmunk,Hipmunk,0.040,0,0.000,0.000,5,$0,0,0
+Chattanooga--TN--US--Flight Destination,9077,126,0.010,350,50,Hipmunk,Hipmunk,0.040,0,0.000,0.000,1,$2,2.5,50
+Chattanooga--TN--US--Hotel Destination,9078,126,0.010,350,200,Hipmunk,Hipmunk,0.040,0,0.000,0.000,1,$8,10,200
+Berkeley--CA--US--Hotel Properties,9079,123,0.010,350,0,Hipmunk,Hipmunk,0.040,0,0.000,0.000,5,$0,0,0
+Berkeley--CA--US--Flight Destination,9081,126,0.010,350,50,Hipmunk,Hipmunk,0.040,0,0.000,0.000,1,$2,2.5,50
+Berkeley--CA--US--Hotel Destination,9082,126,0.010,350,200,Hipmunk,Hipmunk,0.040,0,0.000,0.000,1,$8,10,200
+El Paso--TX--US--Hotel Properties,9083,123,0.010,350,0,Hipmunk,Hipmunk,0.040,0,0.000,0.000,5,$0,0,0
+El Paso--TX--US--Flight Destination,9084,126,0.010,350,50,Hipmunk,Hipmunk,0.040,0,0.000,0.000,1,$2,2.5,50
+El Paso--TX--US--Hotel Destination,9085,126,0.010,350,200,Hipmunk,Hipmunk,0.040,0,0.000,0.000,1,$8,10,200
+Biloxi--MS--US--Hotel Properties,9086,123,0.010,350,0,Hipmunk,Hipmunk,0.040,0,0.000,0.000,5,$0,0,0
+Biloxi--MS--US--Flight Destination,9087,126,0.010,350,50,Hipmunk,Hipmunk,0.040,0,0.000,0.000,1,$2,2.5,50
+Biloxi--MS--US--Hotel Destination,9088,126,0.010,350,200,Hipmunk,Hipmunk,0.040,0,0.000,0.000,1,$8,10,200
+Laughlin--NV--US--Hotel Properties,9089,123,0.010,350,0,Hipmunk,Hipmunk,0.040,0,0.000,0.000,5,$0,0,0
+Laughlin--NV--US--Flight Destination,9090,126,0.010,350,50,Hipmunk,Hipmunk,0.040,0,0.000,0.000,1,$2,2.5,50
+Laughlin--NV--US--Hotel Destination,9091,126,0.010,350,200,Hipmunk,Hipmunk,0.040,0,0.000,0.000,1,$8,10,200
+Harrisburg--PA--US--Hotel Properties,9092,123,0.010,350,0,Hipmunk,Hipmunk,0.040,0,0.000,0.000,5,$0,0,0
+Harrisburg--PA--US--Flight Destination,9093,126,0.010,350,50,Hipmunk,Hipmunk,0.040,0,0.000,0.000,1,$2,2.5,50
+Harrisburg--PA--US--Hotel Destination,9094,126,0.010,350,200,Hipmunk,Hipmunk,0.040,0,0.000,0.000,1,$8,10,200
+Breckenridge--CO--US--Hotel Properties,9095,123,0.010,350,0,Hipmunk,Hipmunk,0.040,0,0.000,0.000,5,$0,0,0
+Breckenridge--CO--US--Flight Destination,9096,126,0.010,350,50,Hipmunk,Hipmunk,0.040,0,0.000,0.000,1,$2,2.5,50
+Breckenridge--CO--US--Hotel Destination,9097,126,0.010,350,200,Hipmunk,Hipmunk,0.040,0,0.000,0.000,1,$8,10,200
+Wilmington--NC--US--Hotel Properties,9098,123,0.010,350,0,Hipmunk,Hipmunk,0.040,0,0.000,0.000,5,$0,0,0
+Wilmington--NC--US--Flight Destination,9099,126,0.010,350,50,Hipmunk,Hipmunk,0.040,0,0.000,0.000,1,$2,2.5,50
+Wilmington--NC--US--Hotel Destination,9100,126,0.010,350,200,Hipmunk,Hipmunk,0.040,0,0.000,0.000,1,$8,10,200
+Carmel--CA--US--Hotel Properties,9101,123,0.010,350,0,Hipmunk,Hipmunk,0.040,0,0.000,0.000,5,$0,0,0
+Carmel--CA--US--Flight Destination,9102,126,0.010,350,50,Hipmunk,Hipmunk,0.040,0,0.000,0.000,1,$2,2.5,50
+Carmel--CA--US--Hotel Destination,9103,126,0.010,350,200,Hipmunk,Hipmunk,0.040,0,0.000,0.000,1,$8,10,200
+Ontario--CA--US--Hotel Properties,9104,123,0.010,350,0,Hipmunk,Hipmunk,0.040,0,0.000,0.000,5,$0,0,0
+Ontario--CA--US--Flight Destination,9105,126,0.010,350,50,Hipmunk,Hipmunk,0.040,0,0.000,0.000,1,$2,2.5,50
+Ontario--CA--US--Hotel Destination,9106,126,0.010,350,200,Hipmunk,Hipmunk,0.040,0,0.000,0.000,1,$8,10,200
+Stateline--NV--US--Hotel Properties,9107,123,0.010,350,0,Hipmunk,Hipmunk,0.040,0,0.000,0.000,4,$0,0,0
+Stateline--NV--US--Flight Destination,9108,126,0.010,350,50,Hipmunk,Hipmunk,0.040,0,0.000,0.000,1,$2,2.5,50
+Stateline--NV--US--Hotel Destination,9109,126,0.010,350,200,Hipmunk,Hipmunk,0.040,0,0.000,0.000,1,$8,10,200
+Providence--RI--US--Hotel Properties,9110,123,0.010,350,0,Hipmunk,Hipmunk,0.040,0,0.000,0.000,5,$0,0,0
+Providence--RI--US--Flight Destination,9111,126,0.010,350,50,Hipmunk,Hipmunk,0.040,0,0.000,0.000,1,$2,2.5,50
+Providence--RI--US--Hotel Destination,9112,126,0.010,350,200,Hipmunk,Hipmunk,0.040,0,0.000,0.000,1,$8,10,200
+Dania Beach--FL--US--Hotel Properties,9113,123,0.010,350,0,Hipmunk,Hipmunk,0.040,0,0.000,0.000,5,$0,0,0
+Dania Beach--FL--US--Flight Destination,9114,126,0.010,350,50,Hipmunk,Hipmunk,0.040,0,0.000,0.000,1,$2,2.5,50
+Dania Beach--FL--US--Hotel Destination,9115,126,0.010,350,200,Hipmunk,Hipmunk,0.040,0,0.000,0.000,1,$8,10,200
+El Segundo--CA--US--Hotel Properties,9116,123,0.010,350,0,Hipmunk,Hipmunk,0.040,0,0.000,0.000,5,$0,0,0
+El Segundo--CA--US--Flight Destination,9117,126,0.010,350,50,Hipmunk,Hipmunk,0.040,0,0.000,0.000,1,$2,2.5,50
+El Segundo--CA--US--Hotel Destination,9118,126,0.010,350,200,Hipmunk,Hipmunk,0.040,0,0.000,0.000,1,$8,10,200
+North Charleston--SC--US--Hotel Properties,9119,123,0.010,350,0,Hipmunk,Hipmunk,0.040,0,0.000,0.000,5,$0,0,0
+North Charleston--SC--US--Flight Destination,9120,126,0.010,350,50,Hipmunk,Hipmunk,0.040,0,0.000,0.000,1,$2,2.5,50
+North Charleston--SC--US--Hotel Destination,9121,126,0.010,350,200,Hipmunk,Hipmunk,0.040,0,0.000,0.000,1,$8,10,200
+Burlington--VT--US--Hotel Properties,9122,123,0.010,350,0,Hipmunk,Hipmunk,0.040,0,0.000,0.000,1,$0,0,0
+Burlington--VT--US--Flight Destination,9123,126,0.010,350,50,Hipmunk,Hipmunk,0.040,0,0.000,0.000,1,$2,2.5,50
+Burlington--VT--US--Hotel Destination,9124,126,0.010,350,200,Hipmunk,Hipmunk,0.040,0,0.000,0.000,1,$8,10,200
+Greensboro--NC--US--Hotel Properties,9125,123,0.010,350,0,Hipmunk,Hipmunk,0.040,0,0.000,0.000,5,$0,0,0
+Greensboro--NC--US--Flight Destination,9126,126,0.010,350,50,Hipmunk,Hipmunk,0.040,0,0.000,0.000,1,$2,2.5,50
+Greensboro--NC--US--Hotel Destination,9127,126,0.010,350,200,Hipmunk,Hipmunk,0.040,0,0.000,0.000,1,$8,10,200
+Linthicum Heights--MD--US--Hotel Properties,9128,123,0.010,350,0,Hipmunk,Hipmunk,0.040,0,0.000,0.000,5,$0,0,0
+Linthicum Heights--MD--US--Flight Destination,9129,126,0.010,350,50,Hipmunk,Hipmunk,0.040,0,0.000,0.000,1,$2,2.5,50
+Linthicum Heights--MD--US--Hotel Destination,9130,126,0.010,350,200,Hipmunk,Hipmunk,0.040,0,0.000,0.000,1,$8,10,200
+Santa Ana--CA--US--Hotel Properties,9143,123,0.010,350,0,Hipmunk,Hipmunk,0.040,0,0.000,0.000,5,$0,0,0
+Santa Ana--CA--US--Flight Destination,9144,126,0.010,350,50,Hipmunk,Hipmunk,0.040,0,0.000,0.000,1,$2,2.5,50
+Santa Ana--CA--US--Hotel Destination,9145,126,0.010,350,200,Hipmunk,Hipmunk,0.040,0,0.000,0.000,1,$8,10,200
+Gainesville--FL--US--Hotel Properties,9146,123,0.010,350,0,Hipmunk,Hipmunk,0.040,0,0.000,0.000,5,$0,0,0
+Gainesville--FL--US--Flight Destination,9147,126,0.010,350,50,Hipmunk,Hipmunk,0.040,0,0.000,0.000,1,$2,2.5,50
+Gainesville--FL--US--Hotel Destination,9148,126,0.010,350,200,Hipmunk,Hipmunk,0.040,0,0.000,0.000,1,$8,10,200
+Greenville--SC--US--Hotel Properties,9149,123,0.010,350,0,Hipmunk,Hipmunk,0.040,0,0.000,0.000,5,$0,0,0
+Greenville--SC--US--Flight Destination,9150,126,0.010,350,50,Hipmunk,Hipmunk,0.040,0,0.000,0.000,1,$2,2.5,50
+Greenville--SC--US--Hotel Destination,9151,126,0.010,350,200,Hipmunk,Hipmunk,0.040,0,0.000,0.000,1,$8,10,200
+Schaumburg--IL--US--Hotel Properties,9152,123,0.010,350,0,Hipmunk,Hipmunk,0.040,0,0.000,0.000,5,$0,0,0
+Schaumburg--IL--US--Flight Destination,9153,126,0.010,350,50,Hipmunk,Hipmunk,0.040,0,0.000,0.000,1,$2,2.5,50
+Schaumburg--IL--US--Hotel Destination,9154,126,0.010,350,200,Hipmunk,Hipmunk,0.040,0,0.000,0.000,1,$8,10,200
+Kapolei--HI--US--Hotel Properties,9155,126,0.010,350,0,Hipmunk,Hipmunk,0.040,0,0.000,0.000,2,$0,0,0
+Kapolei--HI--US--Flight Destination,9156,126,0.010,350,50,Hipmunk,Hipmunk,0.040,0,0.000,0.000,1,$2,2.5,50
+Kapolei--HI--US--Hotel Destination,9157,126,0.010,350,200,Hipmunk,Hipmunk,0.040,0,0.000,0.000,1,$8,10,200
+Grand Canyon--AZ--US--Hotel Properties,9158,123,0.010,350,0,Hipmunk,Hipmunk,0.040,0,0.000,0.000,4,$0,0,0
+Grand Canyon--AZ--US--Flight Destination,9159,126,0.010,350,50,Hipmunk,Hipmunk,0.040,0,0.000,0.000,1,$2,2.5,50
+Grand Canyon--AZ--US--Hotel Destination,9160,126,0.010,350,200,Hipmunk,Hipmunk,0.040,0,0.000,0.000,1,$8,10,200
+Fresno--CA--US--Hotel Properties,9161,123,0.010,350,0,Hipmunk,Hipmunk,0.040,0,0.000,0.000,5,$0,0,0
+Fresno--CA--US--Flight Destination,9162,126,0.010,350,50,Hipmunk,Hipmunk,0.040,0,0.000,0.000,1,$2,2.5,50
+Fresno--CA--US--Hotel Destination,9163,126,0.010,350,200,Hipmunk,Hipmunk,0.040,0,0.000,0.000,1,$8,10,200
+Sanibel--FL--US--Hotel Properties,9164,123,0.010,350,0,Hipmunk,Hipmunk,0.040,0,0.000,0.000,5,$0,0,0
+Sanibel--FL--US--Flight Destination,9165,126,0.010,350,50,Hipmunk,Hipmunk,0.040,0,0.000,0.000,1,$2,2.5,50
+Sanibel--FL--US--Hotel Destination,9166,126,0.010,350,200,Hipmunk,Hipmunk,0.040,0,0.000,0.000,1,$8,10,200
+Sandy Springs--GA--US--Hotel Properties,9167,123,0.010,350,0,Hipmunk,Hipmunk,0.040,0,0.000,0.000,5,$0,0,0
+Sandy Springs--GA--US--Flight Destination,9168,126,0.010,350,50,Hipmunk,Hipmunk,0.040,0,0.000,0.000,1,$2,2.5,50
+Sandy Springs--GA--US--Hotel Destination,9169,126,0.010,350,200,Hipmunk,Hipmunk,0.040,0,0.000,0.000,1,$8,10,200
+Boise--ID--US--Hotel Properties,9170,123,0.010,350,0,Hipmunk,Hipmunk,0.040,0,0.000,0.000,5,$0,0,0
+Boise--ID--US--Flight Destination,9171,126,0.010,350,50,Hipmunk,Hipmunk,0.040,0,0.000,0.000,1,$2,2.5,50
+Boise--ID--US--Hotel Destination,9172,126,0.010,350,200,Hipmunk,Hipmunk,0.040,0,0.000,0.000,1,$8,10,200
+Coronado--CA--US--Hotel Properties,9173,123,0.010,350,0,Hipmunk,Hipmunk,0.040,0,0.000,0.000,5,$0,0,0
+Coronado--CA--US--Flight Destination,9174,126,0.010,350,50,Hipmunk,Hipmunk,0.040,0,0.000,0.000,1,$2,2.5,50
+Coronado--CA--US--Hotel Destination,9175,126,0.010,350,200,Hipmunk,Hipmunk,0.040,0,0.000,0.000,1,$8,10,200
+Orange--CA--US--Hotel Properties,9176,123,0.010,350,0,Hipmunk,Hipmunk,0.040,0,0.000,0.000,5,$0,0,0
+Orange--CA--US--Flight Destination,9177,126,0.010,350,50,Hipmunk,Hipmunk,0.040,0,0.000,0.000,1,$2,2.5,50
+Orange--CA--US--Hotel Destination,9178,126,0.010,350,200,Hipmunk,Hipmunk,0.040,0,0.000,0.000,1,$8,10,200
+Huntington Beach--CA--US--Hotel Properties,9179,123,0.010,350,0,Hipmunk,Hipmunk,0.040,0,0.000,0.000,5,$0,0,0
+Huntington Beach--CA--US--Flight Destination,9180,126,0.010,350,50,Hipmunk,Hipmunk,0.040,0,0.000,0.000,1,$2,2.5,50
+Huntington Beach--CA--US--Hotel Destination,9181,126,0.010,350,200,Hipmunk,Hipmunk,0.040,0,0.000,0.000,1,$8,10,200
+Fort Myers--FL--US--Hotel Properties,9182,123,0.010,350,0,Hipmunk,Hipmunk,0.040,0,0.000,0.000,5,$0,0,0
+Fort Myers--FL--US--Flight Destination,9183,126,0.010,350,50,Hipmunk,Hipmunk,0.040,0,0.000,0.000,1,$2,2.5,50
+Fort Myers--FL--US--Hotel Destination,9184,126,0.010,350,200,Hipmunk,Hipmunk,0.040,0,0.000,0.000,1,$8,10,200
+San Antonio--TX--US--Top Hotel Properties,9185,123,0.010,350,0,Hipmunk,Hipmunk,0.040,0,0.000,0.000,10,$0,0,0
+San Antonio--TX--US--Hotel Properties,9186,123,0.010,350,0,Hipmunk,Hipmunk,0.040,0,0.000,0.000,30,$0,0,0
+San Antonio--TX--US--Near Neighborhood,9187,125,0.010,350,300,Hipmunk,Hipmunk,0.120,0,0.000,0.000,6,$216,234,1800
+San Antonio--TX--US--Near Landmark,9188,125,0.010,350,400,Hipmunk,Hipmunk,0.120,0,0.000,0.000,6,$288,312,2400
+San Antonio--TX--US--Hotel Destination,9189,125,0.010,350,1250,Hipmunk,Hipmunk,0.120,0,0.000,0.000,1,$150,162.5,1250
+San Antonio--TX--US--Flight Destination,9190,125,0.010,350,750,Hipmunk,Hipmunk,0.120,0,0.000,0.000,1,$90,97.5,750
+San Antonio--TX--US--Near Airport,9191,125,0.010,350,500,Hipmunk,Hipmunk,0.120,0,0.000,0.000,1,$60,65,500
+San Antonio--TX--US--Best Of,9192,125,0.010,350,750,Hipmunk,Hipmunk,0.120,0,0.000,0.000,3,$270,292.5,2250
+Anaheim--CA--US--Top Hotel Properties,9193,123,0.010,350,0,Hipmunk,Hipmunk,0.040,0,0.000,0.000,10,$0,0,0
+Anaheim--CA--US--Hotel Properties,9194,123,0.010,350,0,Hipmunk,Hipmunk,0.040,0,0.000,0.000,30,$0,0,0
+Anaheim--CA--US--Near Neighborhood,9195,125,0.010,350,300,Hipmunk,Hipmunk,0.120,0,0.000,0.000,2,$72,78,600
+Anaheim--CA--US--Near Landmark,9196,125,0.010,350,400,Hipmunk,Hipmunk,0.120,0,0.000,0.000,6,$288,312,2400
+Anaheim--CA--US--Hotel Destination,9197,125,0.010,350,1250,Hipmunk,Hipmunk,0.120,0,0.000,0.000,1,$150,162.5,1250
+Anaheim--CA--US--Flight Destination,9198,125,0.010,350,750,Hipmunk,Hipmunk,0.120,0,0.000,0.000,1,$90,97.5,750
+Anaheim--CA--US--Best Of,9200,125,0.010,350,750,Hipmunk,Hipmunk,0.120,0,0.000,0.000,3,$270,292.5,2250
+Phoenix--AZ--US--Flight Destination,9202,122,0.010,350,600,Hipmunk,Hipmunk,0.060,0,0.000,0.000,1,$36,42,600
+Phoenix--AZ--US--Hotel Destination,9203,122,0.010,350,1500,Hipmunk,Hipmunk,0.060,0,0.000,0.000,1,$90,105,1500
+Phoenix--AZ--US--Near Neighborhood,9204,122,0.010,350,200,Hipmunk,Hipmunk,0.060,0,0.000,0.000,3,$36,42,600
+Phoenix--AZ--US--Near Landmark,9205,122,0.010,350,200,Hipmunk,Hipmunk,0.060,0,0.000,0.000,3,$36,42,600
+Phoenix--AZ--US--Near Airport,9206,122,0.010,350,300,Hipmunk,Hipmunk,0.060,0,0.000,0.000,1,$18,21,300
+Phoenix--AZ--US--Best Of,9207,122,0.010,350,400,Hipmunk,Hipmunk,0.060,0,0.000,0.000,3,$72,84,1200
+Indianapolis--IN--US--Flight Destination,9208,122,0.010,350,600,Hipmunk,Hipmunk,0.060,0,0.000,0.000,1,$36,42,600
+Indianapolis--IN--US--Hotel Destination,9209,122,0.010,350,1500,Hipmunk,Hipmunk,0.060,0,0.000,0.000,1,$90,105,1500
+Indianapolis--IN--US--Near Neighborhood,9210,122,0.010,350,200,Hipmunk,Hipmunk,0.060,0,0.000,0.000,3,$36,42,600
+Indianapolis--IN--US--Near Landmark,9211,122,0.010,350,200,Hipmunk,Hipmunk,0.060,0,0.000,0.000,3,$36,42,600
+Indianapolis--IN--US--Near Airport,9212,122,0.010,350,300,Hipmunk,Hipmunk,0.060,0,0.000,0.000,1,$18,21,300
+Indianapolis--IN--US--Best Of,9213,122,0.010,350,400,Hipmunk,Hipmunk,0.060,0,0.000,0.000,3,$72,84,1200
+Pittsburgh--PA--US--Flight Destination,9214,122,0.010,350,600,Hipmunk,Hipmunk,0.060,0,0.000,0.000,1,$36,42,600
+Pittsburgh--PA--US--Hotel Destination,9215,122,0.010,350,1500,Hipmunk,Hipmunk,0.060,0,0.000,0.000,1,$90,105,1500
+Pittsburgh--PA--US--Near Neighborhood,9216,122,0.010,350,200,Hipmunk,Hipmunk,0.060,0,0.000,0.000,3,$36,42,600
+Pittsburgh--PA--US--Near Landmark,9217,122,0.010,350,200,Hipmunk,Hipmunk,0.060,0,0.000,0.000,3,$36,42,600
+Pittsburgh--PA--US--Near Airport,9218,122,0.010,350,300,Hipmunk,Hipmunk,0.060,0,0.000,0.000,1,$18,21,300
+Pittsburgh--PA--US--Best Of,9219,122,0.010,350,400,Hipmunk,Hipmunk,0.060,0,0.000,0.000,3,$72,84,1200
+St. Louis--MO--US--Flight Destination,9220,122,0.010,350,600,Hipmunk,Hipmunk,0.060,0,0.000,0.000,1,$36,42,600
+St. Louis--MO--US--Hotel Destination,9221,122,0.010,350,1500,Hipmunk,Hipmunk,0.060,0,0.000,0.000,1,$90,105,1500
+St. Louis--MO--US--Near Neighborhood,9222,122,0.010,350,200,Hipmunk,Hipmunk,0.060,0,0.000,0.000,3,$36,42,600
+St. Louis--MO--US--Near Landmark,9223,122,0.010,350,200,Hipmunk,Hipmunk,0.060,0,0.000,0.000,3,$36,42,600
+St. Louis--MO--US--Near Airport,9224,122,0.010,350,300,Hipmunk,Hipmunk,0.060,0,0.000,0.000,1,$18,21,300
+St. Louis--MO--US--Best Of,9225,122,0.010,350,400,Hipmunk,Hipmunk,0.060,0,0.000,0.000,3,$72,84,1200
+Houston--TX--US--Top Hotel Properties,9248,123,0.010,350,0,Hipmunk,Hipmunk,0.040,0,0.000,0.000,10,$0,0,0
+Houston--TX--US--Hotel Properties,9249,123,0.010,350,0,Hipmunk,Hipmunk,0.040,0,0.000,0.000,30,$0,0,0
+Miami--FL--US--Top Hotel Properties,9256,123,0.010,350,0,Hipmunk,Hipmunk,0.040,0,0.000,0.000,10,$0,0,0
+Miami--FL--US--Hotel Properties,9257,123,0.010,350,0,Hipmunk,Hipmunk,0.040,0,0.000,0.000,30,$0,0,0
+Miami--FL--US--Near Neighborhood,9258,125,0.010,350,300,Hipmunk,Hipmunk,0.120,0,0.000,0.000,6,$216,234,1800
+Miami--FL--US--Near Landmark,9259,125,0.010,350,400,Hipmunk,Hipmunk,0.120,0,0.000,0.000,6,$288,312,2400
+Miami--FL--US--Hotel Destination,9260,125,0.010,350,1250,Hipmunk,Hipmunk,0.120,0,0.000,0.000,1,$150,162.5,1250
+Miami--FL--US--Flight Destination,9261,125,0.010,350,750,Hipmunk,Hipmunk,0.120,0,0.000,0.000,1,$90,97.5,750
+Miami--FL--US--Near Airport,9262,125,0.010,350,500,Hipmunk,Hipmunk,0.120,0,0.000,0.000,1,$60,65,500
+Miami--FL--US--Best Of,9263,125,0.010,350,750,Hipmunk,Hipmunk,0.120,0,0.000,0.000,3,$270,292.5,2250
+West Palm Beach--FL--US--Hotel Properties,9264,123,0.010,350,0,Hipmunk,Hipmunk,0.040,0,0.000,0.000,5,$0,0,0
+West Palm Beach--FL--US--Flight Destination,9265,126,0.010,350,50,Hipmunk,Hipmunk,0.040,0,0.000,0.000,1,$2,2.5,50
+West Palm Beach--FL--US--Hotel Destination,9266,126,0.010,350,200,Hipmunk,Hipmunk,0.040,0,0.000,0.000,1,$8,10,200
+Tallahassee--FL--US--Hotel Properties,9267,123,0.010,350,0,Hipmunk,Hipmunk,0.040,0,0.000,0.000,5,$0,0,0
+Tallahassee--FL--US--Flight Destination,9268,126,0.010,350,50,Hipmunk,Hipmunk,0.040,0,0.000,0.000,1,$2,2.5,50
+Tallahassee--FL--US--Hotel Destination,9269,126,0.010,350,200,Hipmunk,Hipmunk,0.040,0,0.000,0.000,1,$8,10,200
+Secaucus--NJ--US--Hotel Properties,9270,123,0.010,350,0,Hipmunk,Hipmunk,0.040,0,0.000,0.000,5,$0,0,0
+Secaucus--NJ--US--Flight Destination,9271,126,0.010,350,50,Hipmunk,Hipmunk,0.040,0,0.000,0.000,1,$2,2.5,50
+Secaucus--NJ--US--Hotel Destination,9272,126,0.010,350,200,Hipmunk,Hipmunk,0.040,0,0.000,0.000,1,$8,10,200
+Atlanta--GA--US--Top Hotel Properties,9273,123,0.010,350,0,Hipmunk,Hipmunk,0.040,0,0.000,0.000,10,$0,0,0
+Atlanta--GA--US--Hotel Properties,9274,126,0.010,350,0,Hipmunk,Hipmunk,0.040,0,0.000,0.000,30,$0,0,0
+Overland Park--KS--US--Hotel Properties,9305,123,0.010,350,0,Hipmunk,Hipmunk,0.040,0,0.000,0.000,5,$0,0,0
+Overland Park--KS--US--Flight Destination,9306,126,0.010,350,50,Hipmunk,Hipmunk,0.040,0,0.000,0.000,1,$2,2.5,50
+Overland Park--KS--US--Hotel Destination,9308,126,0.010,350,200,Hipmunk,Hipmunk,0.040,0,0.000,0.000,1,$8,10,200
+Herndon--VA--US--Hotel Properties,9309,123,0.010,350,0,Hipmunk,Hipmunk,0.040,0,0.000,0.000,5,$0,0,0
+Herndon--VA--US--Flight Destination,9310,126,0.010,350,50,Hipmunk,Hipmunk,0.040,0,0.000,0.000,1,$2,2.5,50
+Herndon--VA--US--Hotel Destination,9311,126,0.010,350,200,Hipmunk,Hipmunk,0.040,0,0.000,0.000,1,$8,10,200
+Atlanta--GA--US--Near Neighborhood,9330,121,0.010,350,300,Hipmunk,Hipmunk,0.250,0,0.000,0.000,6,$450,468,1800
+Atlanta--GA--US--Near Landmark,9331,13,0.010,350,400,Hipmunk,Hipmunk,0.060,0,0.000,0.000,6,$144,168,2400
+Atlanta--GA--US--Hotel Destination,9332,121,0.010,350,1250,Hipmunk,Hipmunk,0.250,0,0.000,0.000,1,$312.5,325,1250
+Atlanta--GA--US--Flight Destination,9333,121,0.010,350,750,Hipmunk,Hipmunk,0.250,0,0.000,0.000,1,$187.5,195,750
+Atlanta--GA--US--Near Airport,9334,121,0.010,350,500,Hipmunk,Hipmunk,0.250,0,0.000,0.000,1,$125,130,500
+Atlanta--GA--US--Best Of,9335,121,0.010,350,750,Hipmunk,Hipmunk,0.250,0,0.000,0.000,3,$562.5,585,2250
+Austin--TX--US--Top Hotel Properties,9336,123,0.010,350,0,Hipmunk,Hipmunk,0.040,0,0.000,0.000,10,$0,0,0
+Austin--TX--US--Hotel Properties,9337,123,0.010,350,0,Hipmunk,Hipmunk,0.040,0,0.000,0.000,30,$0,0,0
+Austin--TX--US--Near Neighborhood,9338,13,0.010,350,300,Hipmunk,Hipmunk,0.060,0,0.000,0.000,6,$108,126,1800
+Austin--TX--US--Near Landmark,9339,13,0.010,350,400,Hipmunk,Hipmunk,0.060,0,0.000,0.000,6,$144,168,2400
+Austin--TX--US--Hotel Destination,9340,121,0.010,350,1250,Hipmunk,Hipmunk,0.250,0,0.000,0.000,1,$312.5,325,1250
+Austin--TX--US--Flight Destination,9341,13,0.010,350,750,Hipmunk,Hipmunk,0.060,0,0.000,0.000,1,$45,52.5,750
+Austin--TX--US--Near Airport,9342,13,0.010,350,500,Hipmunk,Hipmunk,0.060,0,0.000,0.000,1,$30,35,500
+Austin--TX--US--Best Of,9343,13,0.010,350,750,Hipmunk,Hipmunk,0.060,0,0.000,0.000,3,$135,157.5,2250
+Philadelphia--PA--US--Top Hotel Properties,9344,123,0.010,350,0,Hipmunk,Hipmunk,0.040,0,0.000,0.000,10,$0,0,0
+Philadelphia--PA--US--Hotel Properties,9345,123,0.010,350,0,Hipmunk,Hipmunk,0.040,0,0.000,0.000,30,$0,0,0
+Philadelphia--PA--US--Near Neighborhood,9346,120,0.010,350,300,Hipmunk,Hipmunk,0.200,0,0.000,0.000,6,$360,378,1800
+Philadelphia--PA--US--Near Landmark,9347,120,0.010,350,400,Hipmunk,Hipmunk,0.200,0,0.000,0.000,6,$480,504,2400
+Philadelphia--PA--US--Hotel Destination,9348,120,0.010,350,1250,Hipmunk,Hipmunk,0.200,0,0.000,0.000,1,$250,262.5,1250
+Philadelphia--PA--US--Flight Destination,9349,120,0.010,350,750,Hipmunk,Hipmunk,0.200,0,0.000,0.000,1,$150,157.5,750
+Philadelphia--PA--US--Near Airport,9350,120,0.010,350,500,Hipmunk,Hipmunk,0.200,0,0.000,0.000,1,$100,105,500
+Philadelphia--PA--US--Best Of,9351,121,0.010,350,750,Hipmunk,Hipmunk,0.250,0,0.000,0.000,3,$562.5,585,2250
+Savannah--GA--US--Top Hotel Properties,9352,123,0.010,350,0,Hipmunk,Hipmunk,0.040,0,0.000,0.000,10,$0,0,0
+Savannah--GA--US--Hotel Properties,9353,123,0.010,350,0,Hipmunk,Hipmunk,0.040,0,0.000,0.000,30,$0,0,0
+Savannah--GA--US--Near Neighborhood,9358,129,0.010,350,300,Hipmunk,Hipmunk,0.500,0,0.000,0.000,5,$750,765,1500
+Savannah--GA--US--Near Landmark,9359,129,0.010,350,400,Hipmunk,Hipmunk,0.500,0,0.000,0.000,6,$1200,1224,2400
+Savannah--GA--US--Hotel Destination,9360,129,0.010,350,1250,Hipmunk,Hipmunk,0.500,0,0.000,0.000,1,$625,637.5,1250
+Savannah--GA--US--Flight Destination,9361,129,0.010,350,750,Hipmunk,Hipmunk,0.500,0,0.000,0.000,1,$375,382.5,750
+Savannah--GA--US--Near Airport,9362,129,0.010,350,500,Hipmunk,Hipmunk,0.500,0,0.000,0.000,1,$250,255,500
+Savannah--GA--US--Best Of,9363,129,0.010,350,750,Hipmunk,Hipmunk,0.500,0,0.000,0.000,3,$1125,1147.5,2250
+Key West--FL--US--Top Hotel Properties,9369,123,0.010,350,0,Hipmunk,Hipmunk,0.040,0,0.000,0.000,10,$0,0,0
+Key West--FL--US--Hotel Properties,9370,123,0.010,350,0,Hipmunk,Hipmunk,0.040,0,0.000,0.000,20,$0,0,0
+St. Pete Beach--FL--US--Hotel Properties,9378,123,0.010,350,0,Hipmunk,Hipmunk,0.040,0,0.000,0.000,5,$0,0,0
+South Lake Tahoe--CA--US--Hotel Properties,9379,123,0.010,350,0,Hipmunk,Hipmunk,0.040,0,0.000,0.000,5,$0,0,0
+Laguna Beach--CA--US--Hotel Properties,9386,123,0.010,350,0,Hipmunk,Hipmunk,0.040,0,0.000,0.000,5,$0,0,0
+Laguna Beach--CA--US--Flight Destination,9387,126,0.010,350,50,Hipmunk,Hipmunk,0.040,0,0.000,0.000,1,$2,2.5,50
+Laguna Beach--CA--US--Hotel Destination,9388,126,0.010,350,0,Hipmunk,Hipmunk,0.040,0,0.000,0.000,1,$0,0,0
+Palm Desert--CA--US--Hotel Properties,9389,123,0.010,350,0,Hipmunk,Hipmunk,0.040,0,0.000,0.000,5,$0,0,0
+Palm Desert--CA--US--Flight Destination,9390,126,0.010,350,50,Hipmunk,Hipmunk,0.040,0,0.000,0.000,1,$2,2.5,50
+Palm Desert--CA--US--Hotel Destination,9391,126,0.010,350,200,Hipmunk,Hipmunk,0.040,0,0.000,0.000,1,$8,10,200
+Rapid City--SD--US--Hotel Properties,9392,123,0.010,350,0,Hipmunk,Hipmunk,0.040,0,0.000,0.000,5,$0,0,0
+Rapid City--SD--US--Flight Destination,9393,126,0.010,350,50,Hipmunk,Hipmunk,0.040,0,0.000,0.000,1,$2,2.5,50
+Rapid City--SD--US--Hotel Destination,9394,126,0.010,350,200,Hipmunk,Hipmunk,0.040,0,0.000,0.000,1,$8,10,200
+Islamorada--FL--US--Hotel Properties,9395,123,0.010,350,0,Hipmunk,Hipmunk,0.040,0,0.000,0.000,5,$0,0,0
+Islamorada--FL--US--Flight Destination,9397,126,0.010,350,50,Hipmunk,Hipmunk,0.040,0,0.000,0.000,1,$2,2.5,50
+Islamorada--FL--US--Hotel Destination,9398,126,0.010,350,200,Hipmunk,Hipmunk,0.040,0,0.000,0.000,1,$8,10,200
+Lancaster--PA--US--Hotel Properties,9399,126,0.010,350,0,Hipmunk,Hipmunk,0.040,0,0.000,0.000,5,$0,0,0
+Lancaster--PA--US--Flight Destination,9400,126,0.010,350,50,Hipmunk,Hipmunk,0.040,0,0.000,0.000,1,$2,2.5,50
+Lancaster--PA--US--Hotel Destination,9401,126,0.010,350,200,Hipmunk,Hipmunk,0.040,0,0.000,0.000,1,$8,10,200
+Universal City--CA--US--Hotel Properties,9402,123,0.010,350,0,Hipmunk,Hipmunk,0.040,0,0.000,0.000,2,$0,0,0
+Universal City--CA--US--Flight Destination,9403,126,0.010,350,50,Hipmunk,Hipmunk,0.040,0,0.000,0.000,1,$2,2.5,50
+Universal City--CA--US--Hotel Destination,9404,126,0.010,350,200,Hipmunk,Hipmunk,0.040,0,0.000,0.000,1,$8,10,200
+Daytona Beach Shores--FL--US--Hotel Properties,9406,123,0.010,350,0,Hipmunk,Hipmunk,0.040,0,0.000,0.000,5,$0,0,0
+Daytona Beach Shores--FL--US--Flight Destination,9407,126,0.010,350,50,Hipmunk,Hipmunk,0.040,0,0.000,0.000,1,$2,2.5,50
+Daytona Beach Shores--FL--US--Hotel Destination,9408,126,0.010,350,200,Hipmunk,Hipmunk,0.040,0,0.000,0.000,1,$8,10,200
+Cheektowaga--NY--US--Hotel Properties,9409,123,0.010,350,0,Hipmunk,Hipmunk,0.040,0,0.000,0.000,5,$0,0,0
+Cheektowaga--NY--US--Flight Destination,9410,126,0.010,350,50,Hipmunk,Hipmunk,0.040,0,0.000,0.000,1,$2,2.5,50
+Cheektowaga--NY--US--Hotel Destination,9411,126,0.010,350,200,Hipmunk,Hipmunk,0.040,0,0.000,0.000,1,$8,10,200
+Knoxville--TN--US--Hotel Properties,9412,123,0.010,350,0,Hipmunk,Hipmunk,0.040,0,0.000,0.000,5,$0,0,0
+Knoxville--TN--US--Flight Destination,9413,126,0.010,350,50,Hipmunk,Hipmunk,0.040,0,0.000,0.000,1,$2,2.5,50
+Knoxville--TN--US--Hotel Destination,9414,126,0.010,350,200,Hipmunk,Hipmunk,0.040,0,0.000,0.000,1,$8,10,200
+Concord--CA--US--Hotel Properties,9415,126,0.010,350,0,Hipmunk,Hipmunk,0.040,0,0.000,0.000,4,$0,0,0
+Concord--CA--US--Flight Destination,9416,126,0.010,350,50,Hipmunk,Hipmunk,0.040,0,0.000,0.000,1,$2,2.5,50
+Concord--CA--US--Hotel Destination,9417,126,0.010,350,200,Hipmunk,Hipmunk,0.040,0,0.000,0.000,1,$8,10,200
+Miami Springs--FL--US--Hotel Properties,9418,123,0.010,350,0,Hipmunk,Hipmunk,0.040,0,0.000,0.000,5,$0,0,0
+Miami Springs--FL--US--Flight Destination,9419,126,0.010,350,50,Hipmunk,Hipmunk,0.040,0,0.000,0.000,1,$2,2.5,50
+Miami Springs--FL--US--Hotel Destination,9420,126,0.010,350,200,Hipmunk,Hipmunk,0.040,0,0.000,0.000,1,$8,10,200
+Lubbock--TX--US--Hotel Properties,9421,123,0.010,350,0,Hipmunk,Hipmunk,0.040,0,0.000,0.000,5,$0,0,0
+Lubbock--TX--US--Flight Destination,9423,126,0.010,350,50,Hipmunk,Hipmunk,0.040,0,0.000,0.000,1,$2,2.5,50
+Lubbock--TX--US--Hotel Destination,9425,126,0.010,350,200,Hipmunk,Hipmunk,0.040,0,0.000,0.000,1,$8,10,200
+North Myrtle Beach--SC--US--Hotel Properties,9426,123,0.010,350,0,Hipmunk,Hipmunk,0.040,0,0.000,0.000,5,$0,0,0
+North Myrtle Beach--SC--US--Flight Destination,9428,126,0.010,350,50,Hipmunk,Hipmunk,0.040,0,0.000,0.000,1,$2,2.5,50
+North Myrtle Beach--SC--US--Hotel Destination,9429,126,0.010,350,200,Hipmunk,Hipmunk,0.040,0,0.000,0.000,1,$8,10,200
+Treasure Island--FL--US--Hotel Properties,9430,126,0.010,350,0,Hipmunk,Hipmunk,0.040,0,0.000,0.000,5,$0,0,0
+Treasure Island--FL--US--Flight Destination,9431,126,0.010,350,50,Hipmunk,Hipmunk,0.040,0,0.000,0.000,1,$2,2.5,50
+Treasure Island--FL--US--Hotel Destination,9432,126,0.010,350,200,Hipmunk,Hipmunk,0.040,0,0.000,0.000,1,$8,10,200
+Aurora--CO--US--Hotel Properties,9433,123,0.010,350,0,Hipmunk,Hipmunk,0.040,0,0.000,0.000,5,$0,0,0
+Aurora--CO--US--Flight Destination,9434,126,0.010,350,50,Hipmunk,Hipmunk,0.040,0,0.000,0.000,1,$2,2.5,50
+Aurora--CO--US--Hotel Destination,9435,126,0.010,350,200,Hipmunk,Hipmunk,0.040,0,0.000,0.000,1,$8,10,200
+Mount Pleasant--SC--US--Hotel Properties,9437,123,0.010,350,0,Hipmunk,Hipmunk,0.040,0,0.000,0.000,5,$0,0,0
+Mount Pleasant--SC--US--Flight Destination,9438,126,0.010,350,50,Hipmunk,Hipmunk,0.040,0,0.000,0.000,1,$2,2.5,50
+Mount Pleasant--SC--US--Hotel Destination,9439,126,0.010,350,200,Hipmunk,Hipmunk,0.040,0,0.000,0.000,1,$8,10,200
+Duluth--MN--US--Hotel Properties,9440,123,0.010,350,0,Hipmunk,Hipmunk,0.040,0,0.000,0.000,5,$0,0,0
+Duluth--MN--US--Flight Destination,9441,126,0.010,350,50,Hipmunk,Hipmunk,0.040,0,0.000,0.000,1,$2,2.5,50
+Duluth--MN--US--Hotel Destination,9442,126,0.010,350,200,Hipmunk,Hipmunk,0.040,0,0.000,0.000,1,$8,10,200
+Aspen--CO--US--Hotel Properties,9443,123,0.010,350,0,Hipmunk,Hipmunk,0.040,0,0.000,0.000,5,$0,0,0
+Aspen--CO--US--Flight Destination,9444,126,0.010,350,50,Hipmunk,Hipmunk,0.040,0,0.000,0.000,1,$2,2.5,50
+Aspen--CO--US--Hotel Destination,9445,126,0.010,350,200,Hipmunk,Hipmunk,0.040,0,0.000,0.000,1,$8,10,200
+Torrance--CA--US--Hotel Properties,9446,123,0.010,350,0,Hipmunk,Hipmunk,0.040,0,0.000,0.000,5,$0,0,0
+Torrance--CA--US--Flight Destination,9447,126,0.010,350,50,Hipmunk,Hipmunk,0.040,0,0.000,0.000,1,$2,2.5,50
+Torrance--CA--US--Hotel Destination,9448,122,0.010,350,200,Hipmunk,Hipmunk,0.060,0,0.000,0.000,1,$12,14,200
+Henderson--NV--US--Hotel Properties,9449,123,0.010,350,0,Hipmunk,Hipmunk,0.040,0,0.000,0.000,5,$0,0,0
+Henderson--NV--US--Flight Destination,9450,126,0.010,350,50,Hipmunk,Hipmunk,0.040,0,0.000,0.000,1,$2,2.5,50
+Henderson--NV--US--Hotel Destination,9451,122,0.010,350,200,Hipmunk,Hipmunk,0.060,0,0.000,0.000,1,$12,14,200
+Mountain View--CA--US--Hotel Properties,9452,123,0.010,350,0,Hipmunk,Hipmunk,0.040,0,0.000,0.000,5,$0,0,0
+Mountain View--CA--US--Flight Destination,9453,126,0.010,350,50,Hipmunk,Hipmunk,0.040,0,0.000,0.000,1,$2,2.5,50
+Mountain View--CA--US--Hotel Destination,9454,126,0.010,350,200,Hipmunk,Hipmunk,0.040,0,0.000,0.000,1,$8,10,200
+Inglewood--CA--US--Hotel Properties,9455,123,0.010,350,0,Hipmunk,Hipmunk,0.040,0,0.000,0.000,5,$0,0,0
+Inglewood--CA--US--Flight Destination,9456,126,0.010,350,50,Hipmunk,Hipmunk,0.040,0,0.000,0.000,1,$2,2.5,50
+Inglewood--CA--US--Hotel Destination,9457,126,0.010,350,200,Hipmunk,Hipmunk,0.040,0,0.000,0.000,1,$8,10,200
+Redondo Beach--CA--US--Hotel Properties,9458,123,0.010,350,0,Hipmunk,Hipmunk,0.040,0,0.000,0.000,5,$0,0,0
+Redondo Beach--CA--US--Flight Destination,9459,126,0.010,350,50,Hipmunk,Hipmunk,0.040,0,0.000,0.000,1,$2,2.5,50
+Redondo Beach--CA--US--Hotel Destination,9460,126,0.010,350,200,Hipmunk,Hipmunk,0.040,0,0.000,0.000,1,$8,10,200
+Metairie--LA--US--Hotel Properties,9461,123,0.010,350,0,Hipmunk,Hipmunk,0.040,0,0.000,0.000,5,$0,0,0
+Metairie--LA--US--Flight Destination,9462,126,0.010,350,50,Hipmunk,Hipmunk,0.040,0,0.000,0.000,1,$2,2.5,50
+Metairie--LA--US--Hotel Destination,9463,126,0.010,350,200,Hipmunk,Hipmunk,0.040,0,0.000,0.000,1,$8,10,200
+Miramar Beach--FL--US--Hotel Properties,9464,123,0.010,350,0,Hipmunk,Hipmunk,0.040,0,0.000,0.000,5,$0,0,0
+Miramar Beach--FL--US--Flight Destination,9465,122,0.010,350,50,Hipmunk,Hipmunk,0.060,0,0.000,0.000,1,$3,3.5,50
+Miramar Beach--FL--US--Hotel Destination,9466,126,0.010,350,200,Hipmunk,Hipmunk,0.040,0,0.000,0.000,1,$8,10,200
+Kissimmee--FL--US--Top Hotel Properties,9472,123,0.010,350,0,Hipmunk,Hipmunk,0.040,0,0.000,0.000,10,$0,0,0
+Kissimmee--FL--US--Hotel Properties,9473,123,0.010,350,0,Hipmunk,Hipmunk,0.040,0,0.000,0.000,30,$0,0,0
+Houston--TX--US--Near Neighborhood,9474,119,0.010,350,300,Hipmunk,Hipmunk,0.150,0,0.000,0.000,6,$270,288,1800
+Houston--TX--US--Near Landmark,9475,119,0.010,350,400,Hipmunk,Hipmunk,0.150,0,0.000,0.000,6,$360,384,2400
+Houston--TX--US--Hotel Destination,9476,119,0.010,350,1250,Hipmunk,Hipmunk,0.150,0,0.000,0.000,1,$187.5,200,1250
+Houston--TX--US--Flight Destination,9477,119,0.010,350,750,Hipmunk,Hipmunk,0.150,0,0.000,0.000,1,$112.5,120,750
+Houston--TX--US--Near Airport,9478,119,0.010,350,500,Hipmunk,Hipmunk,0.150,0,0.000,0.000,1,$75,80,500
+Houston--TX--US--Best Of,9479,119,0.010,350,750,Hipmunk,Hipmunk,0.150,0,0.000,0.000,3,$337.5,360,2250
+Arlington--VA--US--Top Hotel Properties,9480,123,0.010,350,0,Hipmunk,Hipmunk,0.040,0,0.000,0.000,10,$0,0,0
+Arlington--VA--US--Hotel Properties,9481,123,0.010,350,0,Hipmunk,Hipmunk,0.040,0,0.000,0.000,22,$0,0,0
+Myrtle Beach--SC--US--Top Hotel Properties,9482,123,0.010,350,0,Hipmunk,Hipmunk,0.040,0,0.000,0.000,10,$0,0,0
+Myrtle Beach--SC--US--Hotel Properties,9483,123,0.010,350,0,Hipmunk,Hipmunk,0.040,0,0.000,0.000,30,$0,0,0
+Atlantic City--NJ--US--Top Hotel Properties,9484,123,0.010,350,0,Hipmunk,Hipmunk,0.040,0,0.000,0.000,10,$0,0,0
+Atlantic City--NJ--US--Hotel Properties,9485,123,0.010,350,0,Hipmunk,Hipmunk,0.040,0,0.000,0.000,20,$0,0,0
+Scottsdale--AZ--US--Top Hotel Properties,9486,123,0.010,350,0,Hipmunk,Hipmunk,0.040,0,0.000,0.000,10,$0,0,0
+Scottsdale--AZ--US--Hotel Properties,9487,123,0.010,350,0,Hipmunk,Hipmunk,0.040,0,0.000,0.000,30,$0,0,0
+Memphis--TN--US--Top Hotel Properties,9488,123,0.010,350,0,Hipmunk,Hipmunk,0.040,0,0.000,0.000,10,$0,0,0
+Memphis--TN--US--Hotel Properties,9489,123,0.010,350,0,Hipmunk,Hipmunk,0.040,0,0.000,0.000,30,$0,0,0
+Jacksonville--FL--US--Top Hotel Properties,9490,123,0.010,350,0,Hipmunk,Hipmunk,0.040,0,0.000,0.000,10,$0,0,0
+Jacksonville--FL--US--Hotel Properties,9491,123,0.010,350,0,Hipmunk,Hipmunk,0.040,0,0.000,0.000,30,$0,0,0
+Ottawa--ON--CA--Top Hotel Properties,9499,123,0.010,350,0,Hipmunk,Hipmunk,0.040,0,0.000,0.000,10,$0,0,0
+Ottawa--ON--CA--Hotel Properties,9500,123,0.010,350,0,Hipmunk,Hipmunk,0.040,0,0.000,0.000,20,$0,0,0
+Ottawa--ON--CA--Flight Destination,9501,122,0.010,350,400,Hipmunk,Hipmunk,0.060,0,0.000,0.000,1,$24,28,400
+Ottawa--ON--CA--Hotel Destination,9502,122,0.010,350,600,Hipmunk,Hipmunk,0.060,0,0.000,0.000,1,$36,42,600
+Ottawa--ON--CA--Near Landmark,9503,122,0.010,350,200,Hipmunk,Hipmunk,0.060,0,0.000,0.000,3,$36,42,600
+Ottawa--ON--CA--Near Neighborhood,9504,122,0.010,350,200,Hipmunk,Hipmunk,0.060,0,0.000,0.000,3,$36,42,600
+Ottawa--ON--CA--Near Airport,9505,122,0.010,350,300,Hipmunk,Hipmunk,0.060,0,0.000,0.000,1,$18,21,300
+Ottawa--ON--CA--Best Of,9506,122,0.010,350,400,Hipmunk,Hipmunk,0.060,0,0.000,0.000,3,$72,84,1200
+Budapest--None--HU--Top Hotel Properties,9507,123,0.010,350,0,Hipmunk,Hipmunk,0.040,0,0.000,0.000,10,$0,0,0
+Budapest--None--HU--Hotel Properties,9508,123,0.010,350,0,Hipmunk,Hipmunk,0.040,0,0.000,0.000,20,$0,0,0
+Budapest--None--HU--Flight Destination,9509,122,0.010,350,400,Hipmunk,Hipmunk,0.060,0,0.000,0.000,1,$24,28,400
+Budapest--None--HU--Hotel Destination,9510,122,0.010,350,600,Hipmunk,Hipmunk,0.060,0,0.000,0.000,1,$36,42,600
+Budapest--None--HU--Near Landmark,9511,122,0.010,350,200,Hipmunk,Hipmunk,0.060,0,0.000,0.000,3,$36,42,600
+Budapest--None--HU--Near Neighborhood,9512,122,0.010,350,200,Hipmunk,Hipmunk,0.060,0,0.000,0.000,3,$36,42,600
+Budapest--None--HU--Near Airport,9513,122,0.010,350,300,Hipmunk,Hipmunk,0.060,0,0.000,0.000,1,$18,21,300
+Budapest--None--HU--Best Of,9514,122,0.010,350,400,Hipmunk,Hipmunk,0.060,0,0.000,0.000,3,$72,84,1200
+Frankfurt--HE--DE--Top Hotel Properties,9515,123,0.010,350,0,Hipmunk,Hipmunk,0.040,0,0.000,0.000,10,$0,0,0
+Frankfurt--HE--DE--Hotel Properties,9516,123,0.010,350,0,Hipmunk,Hipmunk,0.040,0,0.000,0.000,20,$0,0,0
+Frankfurt--HE--DE--Flight Destination,9517,122,0.010,350,0,Hipmunk,Hipmunk,0.060,0,0.000,0.000,1,$0,0,0
+Frankfurt--HE--DE--Hotel Destination,9518,122,0.010,350,600,Hipmunk,Hipmunk,0.060,0,0.000,0.000,1,$36,42,600
+Frankfurt--HE--DE--Near Landmark,9519,122,0.010,350,200,Hipmunk,Hipmunk,0.060,0,0.000,0.000,3,$36,42,600
+Frankfurt--HE--DE--Near Neighborhood,9520,122,0.010,350,200,Hipmunk,Hipmunk,0.060,0,0.000,0.000,3,$36,42,600
+Frankfurt--HE--DE--Near Airport,9521,122,0.010,350,300,Hipmunk,Hipmunk,0.060,0,0.000,0.000,1,$18,21,300
+Frankfurt--HE--DE--Best Of,9522,122,0.010,350,400,Hipmunk,Hipmunk,0.060,0,0.000,0.000,3,$72,84,1200
+Key West--FL--US--Hotel Destination,9523,128,0.010,350,1250,Hipmunk,Hipmunk,0.350,0,0.000,0.000,1,$437.5,450,1250
+Kissimmee--FL--US--Hotel Destination,9532,127,0.010,350,1250,Hipmunk,Hipmunk,0.300,0,0.000,0.000,1,$375,387.5,1250
+Myrtle Beach--SC--US--Hotel Destination,9551,121,0.010,350,1250,Hipmunk,Hipmunk,0.250,0,0.000,0.000,1,$312.5,325,1250
+Long Beach--CA--US--Top Hotel Properties,9563,123,0.010,350,0,Hipmunk,Hipmunk,0.040,0,0.000,0.000,10,$0,0,0
+Long Beach--CA--US--Hotel Properties,9564,123,0.010,350,0,Hipmunk,Hipmunk,0.040,0,0.000,0.000,17,$0,0,0
+Long Beach--CA--US--Flight Destination,9565,122,0.010,350,400,Hipmunk,Hipmunk,0.060,0,0.000,0.000,1,$24,28,400
+Long Beach--CA--US--Hotel Destination,9566,122,0.010,350,600,Hipmunk,Hipmunk,0.060,0,0.000,0.000,1,$36,42,600
+Long Beach--CA--US--Near Landmark,9567,122,0.010,350,200,Hipmunk,Hipmunk,0.060,0,0.000,0.000,3,$36,42,600
+Long Beach--CA--US--Near Neighborhood,9568,122,0.010,350,200,Hipmunk,Hipmunk,0.060,0,0.000,0.000,3,$36,42,600
+Long Beach--CA--US--Near Airport,9569,122,0.010,350,300,Hipmunk,Hipmunk,0.060,0,0.000,0.000,1,$18,21,300
+Long Beach--CA--US--Best Of,9570,122,0.010,350,400,Hipmunk,Hipmunk,0.060,0,0.000,0.000,3,$72,84,1200
+Long Island City--NY--US--Top Hotel Properties,9571,123,0.010,350,0,Hipmunk,Hipmunk,0.040,0,0.000,0.000,10,$0,0,0
+Long Island City--NY--US--Hotel Properties,9572,123,0.010,350,0,Hipmunk,Hipmunk,0.040,0,0.000,0.000,6,$0,0,0
+Long Island City--NY--US--Flight Destination,9573,122,0.010,350,400,Hipmunk,Hipmunk,0.060,0,0.000,0.000,1,$24,28,400
+Long Island City--NY--US--Hotel Destination,9574,122,0.010,350,600,Hipmunk,Hipmunk,0.060,0,0.000,0.000,1,$36,42,600
+Long Island City--NY--US--Near Landmark,9575,122,0.010,350,200,Hipmunk,Hipmunk,0.060,0,0.000,0.000,3,$36,42,600
+Long Island City--NY--US--Best Of,9576,122,0.010,350,400,Hipmunk,Hipmunk,0.060,0,0.000,0.000,3,$72,84,1200
+South San Francisco--CA--US--Top Hotel Properties,9578,123,0.010,350,0,Hipmunk,Hipmunk,0.040,0,0.000,0.000,10,$0,0,0
+South San Francisco--CA--US--Hotel Properties,9579,123,0.010,350,0,Hipmunk,Hipmunk,0.040,0,0.000,0.000,12,$0,0,0
+South San Francisco--CA--US--Flight Destination,9580,122,0.010,350,400,Hipmunk,Hipmunk,0.060,0,0.000,0.000,1,$24,28,400
+South San Francisco--CA--US--Hotel Destination,9581,122,0.010,350,600,Hipmunk,Hipmunk,0.060,0,0.000,0.000,1,$36,42,600
+South San Francisco--CA--US--Best Of,9583,122,0.010,350,400,Hipmunk,Hipmunk,0.060,0,0.000,0.000,3,$72,84,1200
+South San Francisco--CA--US--Near Landmark,9584,122,0.010,350,200,Hipmunk,Hipmunk,0.060,0,0.000,0.000,1,$12,14,200
+Birmingham--AL--US--Top Hotel Properties,9585,123,0.010,350,0,Hipmunk,Hipmunk,0.040,0,0.000,0.000,10,$0,0,0
+Birmingham--AL--US--Hotel Properties,9586,123,0.010,350,0,Hipmunk,Hipmunk,0.040,0,0.000,0.000,18,$0,0,0
+Birmingham--AL--US--Flight Destination,9587,122,0.010,350,400,Hipmunk,Hipmunk,0.060,0,0.000,0.000,1,$24,28,400
+Birmingham--AL--US--Hotel Destination,9588,122,0.010,350,600,Hipmunk,Hipmunk,0.060,0,0.000,0.000,1,$36,42,600
+Birmingham--AL--US--Near Landmark,9589,122,0.010,350,200,Hipmunk,Hipmunk,0.060,0,0.000,0.000,3,$36,42,600
+Birmingham--AL--US--Near Neighborhood,9590,122,0.010,350,200,Hipmunk,Hipmunk,0.060,0,0.000,0.000,3,$36,42,600
+Birmingham--AL--US--Near Airport,9591,122,0.010,350,300,Hipmunk,Hipmunk,0.060,0,0.000,0.000,1,$18,21,300
+Birmingham--AL--US--Best Of,9592,122,0.010,350,400,Hipmunk,Hipmunk,0.060,0,0.000,0.000,3,$72,84,1200
+Daytona Beach--FL--US--Top Hotel Properties,9593,123,0.010,350,0,Hipmunk,Hipmunk,0.040,0,0.000,0.000,10,$0,0,0
+Daytona Beach--FL--US--Hotel Properties,9594,123,0.010,350,0,Hipmunk,Hipmunk,0.040,0,0.000,0.000,16,$0,0,0
+Daytona Beach--FL--US--Flight Destination,9596,122,0.010,350,400,Hipmunk,Hipmunk,0.060,0,0.000,0.000,1,$24,28,400
+Daytona Beach--FL--US--Hotel Destination,9597,122,0.010,350,600,Hipmunk,Hipmunk,0.060,0,0.000,0.000,1,$36,42,600
+Daytona Beach--FL--US--Near Landmark,9598,122,0.010,350,200,Hipmunk,Hipmunk,0.060,0,0.000,0.000,3,$36,42,600
+Daytona Beach--FL--US--Near Neighborhood,9599,122,0.010,350,200,Hipmunk,Hipmunk,0.060,0,0.000,0.000,3,$36,42,600
+Daytona Beach--FL--US--Near Airport,9600,122,0.010,350,300,Hipmunk,Hipmunk,0.060,0,0.000,0.000,1,$18,21,300
+Daytona Beach--FL--US--Best Of,9601,125,0.010,350,400,Hipmunk,Hipmunk,0.120,0,0.000,0.000,3,$144,156,1200
+Lake Buena Vista--FL--US--Top Hotel Properties,9602,123,0.010,350,0,Hipmunk,Hipmunk,0.040,0,0.000,0.000,10,$0,0,0
+Lake Buena Vista--FL--US--Hotel Properties,9603,123,0.010,350,0,Hipmunk,Hipmunk,0.040,0,0.000,0.000,18,$0,0,0
+Lake Buena Vista--FL--US--Flight Destination,9604,122,0.010,350,400,Hipmunk,Hipmunk,0.060,0,0.000,0.000,1,$24,28,400
+Lake Buena Vista--FL--US--Hotel Destination,9605,122,0.010,350,600,Hipmunk,Hipmunk,0.060,0,0.000,0.000,1,$36,42,600
+Lake Buena Vista--FL--US--Near Landmark,9606,122,0.010,350,200,Hipmunk,Hipmunk,0.060,0,0.000,0.000,2,$24,28,400
+Lake Buena Vista--FL--US--Best Of,9608,122,0.010,350,400,Hipmunk,Hipmunk,0.060,0,0.000,0.000,3,$72,84,1200
+Key West--FL--US--Near Neighborhood,9609,13,0.010,350,300,Hipmunk,Hipmunk,0.060,0,0.000,0.000,4,$72,84,1200
+Key West--FL--US--Near Landmark,9610,13,0.010,350,400,Hipmunk,Hipmunk,0.060,0,0.000,0.000,6,$144,168,2400
+Key West--FL--US--Flight Destination,9611,13,0.010,350,750,Hipmunk,Hipmunk,0.060,0,0.000,0.000,1,$45,52.5,750
+Key West--FL--US--Near Airport,9613,13,0.010,350,500,Hipmunk,Hipmunk,0.060,0,0.000,0.000,1,$30,35,500
+Key West--FL--US--Best Of,9614,13,0.010,350,750,Hipmunk,Hipmunk,0.060,0,0.000,0.000,3,$135,157.5,2250
+Kissimmee--FL--US--Near Landmark,9615,13,0.010,350,400,Hipmunk,Hipmunk,0.060,0,0.000,0.000,6,$144,168,2400
+Kissimmee--FL--US--Flight Destination,9616,13,0.010,350,750,Hipmunk,Hipmunk,0.060,0,0.000,0.000,1,$45,52.5,750
+Kissimmee--FL--US--Near Airport,9617,13,0.010,350,500,Hipmunk,Hipmunk,0.060,0,0.000,0.000,1,$30,35,500
+Kissimmee--FL--US--Best Of,9618,13,0.010,350,750,Hipmunk,Hipmunk,0.060,0,0.000,0.000,3,$135,157.5,2250
+New York--NY--US--Hotel Destination,9619,13,0.010,350,2500,Hipmunk,Hipmunk,0.060,0,0.000,0.000,1,$150,175,2500
+Las Vegas--NV--US--Hotel Destination,9620,13,0.010,350,2500,Hipmunk,Hipmunk,0.060,0,0.000,0.000,1,$150,175,2500
+London--None--GB--Hotel Destination,9621,13,0.010,350,2500,Hipmunk,Hipmunk,0.060,0,0.000,0.000,1,$150,175,2500
+Paris--None--FR--Hotel Destination,9622,13,0.010,350,2500,Hipmunk,Hipmunk,0.060,0,0.000,0.000,1,$150,175,2500
+San Francisco--CA--US--Hotel Destination,9623,13,0.010,350,2500,Hipmunk,Hipmunk,0.060,0,0.000,0.000,1,$150,175,2500
+Chicago--IL--US--Hotel Destination,9624,13,0.010,350,2500,Hipmunk,Hipmunk,0.060,0,0.000,0.000,1,$150,175,2500
+Honolulu--HI--US--Hotel Destination,9625,13,0.010,350,2500,Hipmunk,Hipmunk,0.060,0,0.000,0.000,1,$150,175,2500
+Rome--None--IT--Hotel Destination,9626,13,0.010,350,2500,Hipmunk,Hipmunk,0.060,0,0.000,0.000,1,$150,175,2500
+Orlando--FL--US--Hotel Destination,9627,13,0.010,350,2500,Hipmunk,Hipmunk,0.060,0,0.000,0.000,1,$150,175,2500
+Miami Beach--FL--US--Hotel Destination,9628,13,0.010,350,2500,Hipmunk,Hipmunk,0.060,0,0.000,0.000,1,$150,175,2500
+San Diego--CA--US--Hotel Destination,9629,13,0.010,350,2500,Hipmunk,Hipmunk,0.060,0,0.000,0.000,1,$150,175,2500
+Barcelona--None--ES--Hotel Destination,9630,13,0.010,350,2500,Hipmunk,Hipmunk,0.060,0,0.000,0.000,1,$150,175,2500
+Boston--MA--US--Hotel Destination,9631,13,0.010,350,2500,Hipmunk,Hipmunk,0.060,0,0.000,0.000,1,$150,175,2500
+Cancun--None--MX--Hotel Destination,9632,13,0.010,350,2500,Hipmunk,Hipmunk,0.060,0,0.000,0.000,1,$150,175,2500
+Singapore--None--SG--Hotel Destination,9633,13,0.010,350,2500,Hipmunk,Hipmunk,0.060,0,0.000,0.000,1,$150,175,2500
+Dubai--None--AE--Hotel Destination,9634,13,0.010,350,2500,Hipmunk,Hipmunk,0.060,0,0.000,0.000,1,$150,175,2500
+Los Angeles--CA--US--Hotel Destination,9635,120,0.010,350,2500,Hipmunk,Hipmunk,0.200,0,0.000,0.000,1,$500,525,2500
+Amsterdam--None--NL--Hotel Destination,9636,121,0.010,350,2500,Hipmunk,Hipmunk,0.250,0,0.000,0.000,1,$625,650,2500
+Daytona Beach Shores--FL--US--Hotel Destination,9637,126,0.010,350,200,Hipmunk,Hipmunk,0.040,0,0.000,0.000,1,$8,10,200
+New Orleans--LA--US--Top Hotel Properties,9686,123,0.010,350,0,Hipmunk,Hipmunk,0.040,0,0.000,0.000,10,$0,0,0
+New Orleans--LA--US--Hotel Properties,9687,123,0.010,350,0,Hipmunk,Hipmunk,0.040,0,0.000,0.000,30,$0,0,0
+New Orleans--LA--US--Flight Destination,9688,13,0.010,350,750,Hipmunk,Hipmunk,0.060,0,0.000,0.000,1,$45,52.5,750
+New Orleans--LA--US--Hotel Destination,9689,119,0.010,350,1250,Hipmunk,Hipmunk,0.150,0,0.000,0.000,1,$187.5,200,1250
+New Orleans--LA--US--Near Landmark,9690,13,0.010,350,400,Hipmunk,Hipmunk,0.060,0,0.000,0.000,6,$144,168,2400
+New Orleans--LA--US--Near Neighborhood,9691,13,0.010,350,300,Hipmunk,Hipmunk,0.060,0,0.000,0.000,6,$108,126,1800
+New Orleans--LA--US--Near Airport,9692,13,0.010,350,500,Hipmunk,Hipmunk,0.060,0,0.000,0.000,1,$30,35,500
+New Orleans--LA--US--Best Of,9693,13,0.010,350,750,Hipmunk,Hipmunk,0.060,0,0.000,0.000,3,$135,157.5,2250
+Memphis--TN--US--Near Neighborhood,9694,13,0.010,350,300,Hipmunk,Hipmunk,0.060,0,0.000,0.000,6,$108,126,1800
+Memphis--TN--US--Near Landmark,9695,13,0.010,350,400,Hipmunk,Hipmunk,0.060,0,0.000,0.000,6,$144,168,2400
+Memphis--TN--US--Hotel Destination,9696,129,0.010,350,1250,Hipmunk,Hipmunk,0.500,0,0.000,0.000,1,$625,637.5,1250
+Memphis--TN--US--Flight Destination,9697,13,0.010,350,750,Hipmunk,Hipmunk,0.060,0,0.000,0.000,1,$45,52.5,750
+Memphis--TN--US--Near Airport,9698,13,0.010,350,500,Hipmunk,Hipmunk,0.060,0,0.000,0.000,1,$30,35,500
+Memphis--TN--US--Best Of,9699,13,0.010,350,750,Hipmunk,Hipmunk,0.060,0,0.000,0.000,3,$135,157.5,2250
+Arlington--VA--US--Near Neighborhood,9700,13,0.010,350,300,Hipmunk,Hipmunk,0.060,0,0.000,0.000,5,$90,105,1500
+Arlington--VA--US--Near Landmark,9701,13,0.010,350,400,Hipmunk,Hipmunk,0.060,0,0.000,0.000,6,$144,168,2400
+Arlington--VA--US--Hotel Destination,9702,121,0.010,350,1250,Hipmunk,Hipmunk,0.250,0,0.000,0.000,1,$312.5,325,1250
+Arlington--VA--US--Flight Destination,9703,13,0.010,350,750,Hipmunk,Hipmunk,0.060,0,0.000,0.000,1,$45,52.5,750
+Arlington--VA--US--Best Of,9706,13,0.010,350,750,Hipmunk,Hipmunk,0.060,0,0.000,0.000,3,$135,157.5,2250
+Myrtle Beach--SC--US--Near Neighborhood,9707,13,0.010,350,300,Hipmunk,Hipmunk,0.060,0,0.000,0.000,5,$90,105,1500
+Myrtle Beach--SC--US--Near Landmark,9708,13,0.010,350,400,Hipmunk,Hipmunk,0.060,0,0.000,0.000,6,$144,168,2400
+Myrtle Beach--SC--US--Flight Destination,9709,13,0.010,350,750,Hipmunk,Hipmunk,0.060,0,0.000,0.000,1,$45,52.5,750
+Myrtle Beach--SC--US--Near Airport,9710,13,0.010,350,500,Hipmunk,Hipmunk,0.060,0,0.000,0.000,1,$30,35,500
+Atlantic City--NJ--US--Near Neighborhood,9712,13,0.010,350,300,Hipmunk,Hipmunk,0.060,0,0.000,0.000,5,$90,105,1500
+Atlantic City--NJ--US--Hotel Destination,9714,121,0.010,350,1250,Hipmunk,Hipmunk,0.250,0,0.000,0.000,1,$312.5,325,1250
+Atlantic City--NJ--US--Flight Destination,9715,13,0.010,350,750,Hipmunk,Hipmunk,0.060,0,0.000,0.000,1,$45,52.5,750
+Atlantic City--NJ--US--Near Airport,9716,13,0.010,350,500,Hipmunk,Hipmunk,0.060,0,0.000,0.000,1,$30,35,500
+Lahaina--HI--US--Best Of,9718,13,0.010,350,750,Hipmunk,Hipmunk,0.060,0,0.000,0.000,3,$135,157.5,2250
+Scottsdale--AZ--US--Near Neighborhood,9719,13,0.010,350,300,Hipmunk,Hipmunk,0.060,0,0.000,0.000,4,$72,84,1200
+Lahaina--HI--US--Near Airport,9720,13,0.010,350,500,Hipmunk,Hipmunk,0.060,0,0.000,0.000,1,$30,35,500
+Scottsdale--AZ--US--Near Landmark,9721,13,0.010,350,400,Hipmunk,Hipmunk,0.060,0,0.000,0.000,6,$144,168,2400
+Scottsdale--AZ--US--Flight Destination,9724,13,0.010,350,750,Hipmunk,Hipmunk,0.060,0,0.000,0.000,1,$45,52.5,750
+Lahaina--HI--US--Near Landmark,9725,13,0.010,350,400,Hipmunk,Hipmunk,0.060,0,0.000,0.000,6,$144,168,2400
+Scottsdale--AZ--US--Near Airport,9727,13,0.010,350,500,Hipmunk,Hipmunk,0.060,0,0.000,0.000,1,$30,35,500
+Lahaina--HI--US--Hotel Properties,9728,123,0.010,350,0,Hipmunk,Hipmunk,0.040,0,0.000,0.000,10,$0,0,0
+Scottsdale--AZ--US--Best Of,9729,13,0.010,350,750,Hipmunk,Hipmunk,0.060,0,0.000,0.000,3,$135,157.5,2250
+Lahaina--HI--US--Hotel Destination,9733,119,0.010,350,1250,Hipmunk,Hipmunk,0.150,0,0.000,0.000,1,$187.5,200,1250
+Dallas--TX--US--Best Of,9736,13,0.010,350,750,Hipmunk,Hipmunk,0.060,0,0.000,0.000,3,$135,157.5,2250
+Dallas--TX--US--Near Airport,9737,13,0.010,350,500,Hipmunk,Hipmunk,0.060,0,0.000,0.000,1,$30,35,500
+Dallas--TX--US--Flight Destination,9738,13,0.010,350,750,Hipmunk,Hipmunk,0.060,0,0.000,0.000,1,$45,52.5,750
+Dallas--TX--US--Near Landmark,9739,13,0.010,350,400,Hipmunk,Hipmunk,0.060,0,0.000,0.000,6,$144,168,2400
+Jacksonville--FL--US--Near Landmark,9740,13,0.010,350,400,Hipmunk,Hipmunk,0.060,0,0.000,0.000,6,$144,168,2400
+Dallas--TX--US--Near Neighborhood,9741,13,0.010,350,300,Hipmunk,Hipmunk,0.060,0,0.000,0.000,6,$108,126,1800
+Dallas--TX--US--Top Hotel Properties,9743,123,0.010,350,0,Hipmunk,Hipmunk,0.040,0,0.000,0.000,10,$0,0,0
+Jacksonville--FL--US--Hotel Destination,9744,127,0.010,350,1250,Hipmunk,Hipmunk,0.300,0,0.000,0.000,1,$375,387.5,1250
+Dallas--TX--US--Hotel Destination,9745,120,0.010,350,1250,Hipmunk,Hipmunk,0.200,0,0.000,0.000,1,$250,262.5,1250
+Jacksonville--FL--US--Flight Destination,9746,127,0.010,350,750,Hipmunk,Hipmunk,0.300,0,0.000,0.000,1,$225,232.5,750
+Jacksonville--FL--US--Near Airport,9747,13,0.010,350,500,Hipmunk,Hipmunk,0.060,0,0.000,0.000,1,$30,35,500
+Denver--CO--US--Best Of,9749,13,0.010,350,750,Hipmunk,Hipmunk,0.060,0,0.000,0.000,3,$135,157.5,2250
+Jacksonville--FL--US--Best Of,9750,121,0.010,350,750,Hipmunk,Hipmunk,0.250,0,0.000,0.000,3,$562.5,585,2250
+Denver--CO--US--Near Airport,9751,13,0.010,350,500,Hipmunk,Hipmunk,0.060,0,0.000,0.000,1,$30,35,500
+Denver--CO--US--Flight Destination,9752,13,0.010,350,750,Hipmunk,Hipmunk,0.060,0,0.000,0.000,1,$45,52.5,750
+Denver--CO--US--Near Landmark,9753,13,0.010,350,400,Hipmunk,Hipmunk,0.060,0,0.000,0.000,6,$144,168,2400
+Denver--CO--US--Near Neighborhood,9754,13,0.010,350,300,Hipmunk,Hipmunk,0.060,0,0.000,0.000,6,$108,126,1800
+Denver--CO--US--Hotel Properties,9755,123,0.010,350,0,Hipmunk,Hipmunk,0.040,0,0.000,0.000,30,$0,0,0
+Denver--CO--US--Hotel Destination,9757,120,0.010,350,1250,Hipmunk,Hipmunk,0.200,0,0.000,0.000,1,$250,262.5,1250
+Hollywood--CA--US--Best Of,9758,13,0.010,350,750,Hipmunk,Hipmunk,0.060,0,0.000,0.000,3,$135,157.5,2250
+Hollywood--CA--US--Near Airport,9759,13,0.010,350,500,Hipmunk,Hipmunk,0.060,0,0.000,0.000,1,$30,35,500
+Hollywood--CA--US--Flight Destination,9760,13,0.010,350,750,Hipmunk,Hipmunk,0.060,0,0.000,0.000,1,$45,52.5,750
+Hollywood--CA--US--Hotel Properties,9763,123,0.010,350,0,Hipmunk,Hipmunk,0.040,0,0.000,0.000,9,$0,0,0
+Hollywood--CA--US--Top Hotel Properties,9764,123,0.010,350,0,Hipmunk,Hipmunk,0.040,0,0.000,0.000,10,$0,0,0
+Hollywood--CA--US--Hotel Destination,9766,121,0.010,350,1250,Hipmunk,Hipmunk,0.250,0,0.000,0.000,1,$312.5,325,1250
+Santa Monica--CA--US--Near Airport,9769,13,0.010,350,500,Hipmunk,Hipmunk,0.060,0,0.000,0.000,1,$30,35,500
+Santa Monica--CA--US--Flight Destination,9770,13,0.010,350,750,Hipmunk,Hipmunk,0.060,0,0.000,0.000,1,$45,52.5,750
+Santa Monica--CA--US--Near Landmark,9771,13,0.010,350,400,Hipmunk,Hipmunk,0.060,0,0.000,0.000,6,$144,168,2400
+Santa Monica--CA--US--Hotel Properties,9773,123,0.010,350,0,Hipmunk,Hipmunk,0.040,0,0.000,0.000,11,$0,0,0
+Santa Monica--CA--US--Hotel Destination,9775,127,0.010,350,1250,Hipmunk,Hipmunk,0.300,0,0.000,0.000,1,$375,387.5,1250
+Seattle--WA--US--Best Of,9784,13,0.010,350,750,Hipmunk,Hipmunk,0.060,0,0.000,0.000,3,$135,157.5,2250
+Seattle--WA--US--Near Airport,9785,13,0.010,350,500,Hipmunk,Hipmunk,0.060,0,0.000,0.000,1,$30,35,500
+Seattle--WA--US--Flight Destination,9786,13,0.010,350,750,Hipmunk,Hipmunk,0.060,0,0.000,0.000,1,$45,52.5,750
+Seattle--WA--US--Near Neighborhood,9788,13,0.010,350,300,Hipmunk,Hipmunk,0.060,0,0.000,0.000,6,$108,126,1800
+Seattle--WA--US--Hotel Properties,9789,123,0.010,350,0,Hipmunk,Hipmunk,0.040,0,0.000,0.000,30,$0,0,0
+Seattle--WA--US--Top Hotel Properties,9790,123,0.010,350,0,Hipmunk,Hipmunk,0.040,0,0.000,0.000,10,$0,0,0
+Seattle--WA--US--Hotel Destination,9791,127,0.010,350,1250,Hipmunk,Hipmunk,0.300,0,0.000,0.000,1,$375,387.5,1250
+Berlin--Berlin--DE--Best Of,9803,13,0.010,350,750,Hipmunk,Hipmunk,0.060,0,0.000,0.000,3,$135,157.5,2250
+Berlin--Berlin--DE--Near Airport,9804,13,0.010,350,500,Hipmunk,Hipmunk,0.060,0,0.000,0.000,1,$30,35,500
+Berlin--Berlin--DE--Flight Destination,9805,13,0.010,350,750,Hipmunk,Hipmunk,0.060,0,0.000,0.000,1,$45,52.5,750
+Berlin--Berlin--DE--Near Landmark,9806,13,0.010,350,400,Hipmunk,Hipmunk,0.060,0,0.000,0.000,6,$144,168,2400
+Berlin--Berlin--DE--Near Neighborhood,9807,13,0.010,350,300,Hipmunk,Hipmunk,0.060,0,0.000,0.000,6,$108,126,1800
+Berlin--Berlin--DE--Top Hotel Properties,9809,123,0.010,350,0,Hipmunk,Hipmunk,0.040,0,0.000,0.000,10,$0,0,0
+Berlin--Berlin--DE--Hotel Destination,9810,127,0.010,350,1250,Hipmunk,Hipmunk,0.300,0,0.000,0.000,1,$375,387.5,1250
+Venice--Veneto--IT--Best Of,9811,13,0.010,350,750,Hipmunk,Hipmunk,0.060,0,0.000,0.000,3,$135,157.5,2250
+Venice--Veneto--IT--Flight Destination,9813,13,0.010,350,750,Hipmunk,Hipmunk,0.060,0,0.000,0.000,1,$45,52.5,750
+Venice--Veneto--IT--Near Landmark,9814,13,0.010,350,400,Hipmunk,Hipmunk,0.060,0,0.000,0.000,6,$144,168,2400
+Venice--Veneto--IT--Near Neighborhood,9815,13,0.010,350,300,Hipmunk,Hipmunk,0.060,0,0.000,0.000,6,$108,126,1800
+Venice--Veneto--IT--Top Hotel Properties,9817,123,0.010,350,0,Hipmunk,Hipmunk,0.040,0,0.000,0.000,10,$0,0,0
+Tokyo--None--JP--Near Airport,9820,13,0.010,350,500,Hipmunk,Hipmunk,0.060,0,0.000,0.000,1,$30,35,500
+Tokyo--None--JP--Flight Destination,9821,13,0.010,350,750,Hipmunk,Hipmunk,0.060,0,0.000,0.000,1,$45,52.5,750
+Tokyo--None--JP--Near Landmark,9822,13,0.010,350,400,Hipmunk,Hipmunk,0.060,0,0.000,0.000,6,$144,168,2400
+Tokyo--None--JP--Near Neighborhood,9823,13,0.010,350,300,Hipmunk,Hipmunk,0.060,0,0.000,0.000,6,$108,126,1800
+Tokyo--None--JP--Hotel Properties,9824,123,0.010,350,0,Hipmunk,Hipmunk,0.040,0,0.000,0.000,30,$0,0,0
+Tokyo--None--JP--Top Hotel Properties,9825,123,0.010,350,0,Hipmunk,Hipmunk,0.040,0,0.000,0.000,10,$0,0,0
+Tokyo--None--JP--Hotel Destination,9826,121,0.010,350,1250,Hipmunk,Hipmunk,0.250,0,0.000,0.000,1,$312.5,325,1250
+Kowloon--None--HK--Top Hotel Properties,9827,123,0.010,350,0,Hipmunk,Hipmunk,0.040,0,0.000,0.000,10,$0,0,0
+Kowloon--None--HK--Hotel Properties,9828,123,0.010,350,0,Hipmunk,Hipmunk,0.040,0,0.000,0.000,30,$0,0,0
+Kapaa--HI--US--Hotel Destination,9835,126,0.010,350,200,Hipmunk,Hipmunk,0.040,0,0.000,0.000,1,$8,10,200
+Kapaa--HI--US--Flight Destination,9836,126,0.010,350,50,Hipmunk,Hipmunk,0.040,0,0.000,0.000,1,$2,2.5,50
+Kapaa--HI--US--Hotel Properties,9837,123,0.010,350,0,Hipmunk,Hipmunk,0.040,0,0.000,0.000,3,$0,0,0

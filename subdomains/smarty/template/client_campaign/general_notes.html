@@ -1,0 +1,66 @@
+{include file="themes/$theme/header.html"}
+
+{if $feedback ne ''}
+<script language="JavaScript">
+<!--
+alert('{$feedback}');
+//-->
+</script>
+{/if}
+<div id="page-box1">
+  <h2>General Editing Notes&nbsp;&nbsp;&nbsp;&nbsp;{if $user_permission_int ge 5}<input type="button" class="button" value="Add General Editing Note" onclick="javasript:window.location='/client_campaign/add_general_notes.php';" />{/if}</h2>
+  <div id="campaign-search" >
+    <strong>Please reference the general editing notes provided below. These notes will help you in accurately writing and editing your work.</strong>
+  </div>
+</div>
+<div class="tablepadding"> 
+<table id="table-1" cellspacing="0" cellpadding="0" align="center" class="sortableTable">
+  <form action="/client_campaign/general_notes.php" name="general_note_list" method="post" />
+  <input type="hidden" name="general_note_id" />
+  <input type="hidden" name="form_refresh" value="N" />
+  <thead>
+  <tr class="sortableTab">
+    <th class="table-left-corner">&nbsp;&nbsp;&nbsp;&nbsp;</th>
+    <td nowrap class="columnHeadInactiveBlack table-left-2">Subject</td>
+    <td nowrap class="columnHeadInactiveBlack">Content</td>
+    <td nowrap class="columnHeadInactiveBlack table-right-2">&nbsp;</td>
+    <th class="table-right-corner">&nbsp;&nbsp;&nbsp;</th>
+  </tr>
+  </thead>
+  {foreach from=$notes item=item name="loop"}
+  <tr class="{if $smarty.foreach.loop.iteration % 2 eq 0}even{else}odd{/if}">
+    <td class="table-left" >&nbsp;</td>
+    <td class="table-left-2">{$item.subject}</td>
+    <td >{$item.body|nl2br}</td>
+    <td align="right" nowrap class="table-right-2">
+    {if $user_permission_int >= 5}
+	    <input type="button" class="button" value="Update" onclick="javasript:window.location='/client_campaign/add_general_notes.php?general_note_id={$item.general_note_id}';" />
+      <input type="submit" class="button" value="Delete" onclick="return deleteSubmit('general_note_list', 'general_note_id', '{$item.general_note_id}', 'D', 'This General Editing Note')" />
+    {/if}
+    </td>
+    <td class="table-right" >&nbsp;</td>
+  </tr>
+  {/foreach}
+  </form>
+</table>
+</div>
+<script type="text/javascript">
+//<![CDATA[
+{literal}
+var st = new SortableTable(document.getElementById("table-1"),
+  ["None", "CaseInsensitiveString", "CaseInsensitiveString", "None"]);
+
+st.onsort = function () {
+  var rows = st.tBody.rows;
+  var l = rows.length;
+  for (var i = 0; i < l; i++) {
+    removeClassName(rows[i], i % 2 ? "odd" : "even");
+    addClassName(rows[i], i % 2 ? "even" : "odd");
+  }
+};
+
+st.asyncSort(0);
+{/literal}
+//]]>
+</script>
+{include file="themes/$theme/footer.html"}

@@ -1,0 +1,373 @@
+{include file="themes/$theme/header.html"}
+<script type="text/javascript" src="/js/ckeditor/ckeditor.js"></script>
+{if $feedback ne ''}
+<script language="JavaScript">
+<!--
+alert("{$feedback}");
+//-->
+</script>
+{/if}
+
+{literal}
+<script language="JavaScript">
+<!--
+function check_f_client_campaign()
+{
+  var f = document.f_client_campaign;
+//  tinyMCE.triggerSave(false,false);
+  if (f.client_id.value.length == 0) {
+    alert('Please choose a client');
+    f.client_id.focus();
+    return false;
+  }
+
+  if (f.campaign_name.value.length == 0) {
+    alert('Please enter campaign\'s name');
+    f.campaign_name.focus();
+    return false;
+  }
+//  if (f.total_budget.value.length == 0) {
+//    alert('Please enter campaign total budget');
+//    f.total_budget.focus();
+//    return false;
+//  }
+  if (f.category_id.value == 0) {
+    alert('Please specify category');
+    f.category_id.focus();
+    return false;
+  }
+
+/*  if (f.total_budget.value.length !=0 && !isNumeric(f.total_budget.value)) {
+    alert('Total budget must be a integer');
+    f.total_budget.focus();
+    return false;
+  }*/
+  /*if (f.cost_per_article.value.length != 0 && !isNumeric(f.cost_per_article.value)) {
+    alert('Copywriter cost per word must be a integer');
+    f.total_budget.focus();
+    return false;
+  }
+  if (f.editor_cost.value.length != 0 && !isNumeric(f.editor_cost.value)) {
+    alert('Editor cost per word must be a integer');
+    f.total_budget.focus();
+    return false;
+  }*/
+  if (f.date_start.value.length == 0) {
+    alert('Please enter start date of the campaign');
+    return false;
+  }
+  if (f.date_end.value.length == 0) {
+    alert('Please enter Due Date of the campaign');
+    return false;
+  }
+  
+
+  if (f.ordered_by.value.length == 0) {
+    alert('Please specify Ordered By');
+    f.ordered_by.focus();
+    return false;
+  }
+
+  if (f.max_word.value.length == 0) {
+    alert('Please specify No. of Words');
+    f.max_word.focus();
+    return false;
+//  } else if (!isNumeric(f.max_word.value) || (f.max_word.value < 30 || f.max_word.value > 2000) && f.max_word.value != 0) {
+  } else if (!isNumeric(f.max_word.value) || (f.max_word.value < 0) && f.max_word.value != 0) {
+      alert('Please input number more than 0. If it\'s no limit, please input 0');
+      f.max_word.focus();
+      return false;
+  }
+  return true;
+}
+{/literal}
+var source = {if $client_campaign_info.source>0}{$client_campaign_info.source}{else}0{/if};
+{literal}
+//changeclient(client_id);
+function changeclient(client_id)
+{
+    ajaxAction('/client_campaign/getdomains.php?cid='+client_id+'&s='+source, 'domaindiv');
+}
+function changeCampaignType(ctype)
+{
+     ajaxAction('/client_campaign/gettypes.php?tid='+ctype, 'campaigntypediv');
+}
+function addDomain(client_id)
+{
+  window.open("/client/key_quick_add.php?client_id="+client_id,"add_domain","width=600,height=450,resizable=1,scrollbars=1");
+}
+{/literal}
+{if $user_role neq 'client'}
+//tinyMCEInit('campaign_requirement,sample_content,keyword_instructions,special_instructions,acceptance_desc');
+{/if}
+{literal}
+//-->
+</script>
+{/literal}
+
+<div id="page-box1">
+  <h2>Client's Campaign Information Setting</h2>
+  <div id="campaign-search" >
+    <strong>Please enter the client's campaign required information.</strong>
+  </div>
+  <div class="form-item" >
+<br><table border="0" cellspacing="1" cellpadding="4" align="center" width="100%">
+  <form action="" method="post"  name="f_client_campaign" {if $js_check eq true} onsubmit="return check_f_client_campaign()"{/if}>
+  <input type="hidden" name="campaign_id" value="{$client_campaign_info.campaign_id}">
+  <input type="hidden" name="order_campaign_id" value="{$client_campaign_info.order_campaign_id}">
+  
+  {if $client_campaign_info.order_campaign_id > 0}
+  <input type="hidden" name="parent_id" value="{$client_campaign_info.parent_campaign_id}">
+  <input type="hidden" name="operation" value="{if $client_campaign_info.parent_id > 0}copy{/if}">
+  {/if}
+  <tr>
+    <td class="bodyBold">Basic Information</td>
+    <td align="right" class="requiredHint">Required Information</td>
+  </tr>
+  <tr>
+    <td class="blackLine" colspan=2><img src="/image/misc/s.gif"></td>
+  </tr>
+  {if $client_campaign_info.campaign_id eq '' && $user_role neq 'client'}
+  <tr>
+    <td class="requiredInput">Client</td>
+    <td><select name="client_id" onchange="changeclient(this.value)">{html_options options=$all_client selected=$client_campaign_info.client_id}</select>&nbsp;<img src="/image/select.gif" alt="Select" title="Select" LANGUAGE=javascript onclick='return window.open("/client/client_quick_add.php","add_client","width=600,height=450,resizable=1,scrollbars=1");' align="absmiddle" style='cursor:hand;cursor:pointer'><input name="campaign_type" type="hidden" id="campaign_type" value="{$client_campaign_info.article_type|default:1}" /></td>
+  </tr>
+  {*<tr>
+    <td class="requiredInput">Campaign Type</td>
+    <td>{if $client_campaign_info.campaign_id eq ''}<select name="campaign_type" onchange="changeCampaignType(this.value)">{html_options options=$campaign_type selected=$client_campaign_info.campaign_type}</select>{else}{$campaign_type[$client_campaign_info.campaign_type]}<input name="campaign_type" type="hidden" id="campaign_type" value="{$client_campaign_info.campaign_type}" />{/if}</td>
+  </tr>*}
+  {else}
+  <tr>
+    <td class="requiredInput">Client</td>
+    <td>
+      {$client_name}
+      <input name="client_id" type="hidden" id="client_id" value="{$client_campaign_info.client_id}" />
+      <input name="campaign_type" type="hidden" id="campaign_type" value="{$client_campaign_info.campaign_type}" />
+      <input name="article_type" type="hidden" id="article_type" value="{$client_campaign_info.article_type}" />
+      {if $user_role eq 'client'}
+      <input name="ordered_by" type="hidden" id="ordered_by" value="{$client_campaign_info.ordered_by}" />      
+      <input type="hidden" name="title_param" id="title_param_custom" value="1" />
+      <input type="hidden" name="meta_param" id="meta_param_default" value="0" />
+      {/if}
+    </td>
+  </tr>
+  {/if}
+  <tr>
+    <td class="requiredInput">Campaign Name</td>
+    <td><input name="campaign_name" type="text" id="campaign_name" value="{$client_campaign_info.campaign_name}" onchange="javascript:this.value=Trim(this.value)"></td>
+  </tr>
+  <tr style="display: none;">
+    <td class="requiredInput">Category</td>
+    <td>{*html_options options=$category name="category_id" selected=$client_campaign_info.category_id*}
+    <select name="category_id">
+	<option value="4">Business</option>
+    <!--{foreach from=$category item=i key=k }
+    <option value="{$k}" {if $client_campaign_info.category_id == $k}selected{/if}>{$i.name}</option>
+    {foreach from=$i.chidren item=name key=subk }
+    <option value="{$subk}" {if $client_campaign_info.category_id == $subk}selected{/if}>{$name}</option>
+    {/foreach}
+    {/foreach}-->
+    </select>
+    </td>
+  </tr>
+  {if $user_role neq 'client'}
+  <tr>
+    <td class="requiredInput"><span id="spanArticleType" >Default Article Type</span></td>
+    <td>
+    <select name="article_type" id="article_type" >
+      <option value="-1" >[default]</option>
+      {html_options options=$article_type selected=$client_campaign_info.article_type}
+    </select>
+    <div id="campaigntypediv" ></div>
+    </td>
+  </tr>
+{if $client_campaign_info.campaign_id  == '' ||  $client_campaign_info.template neq ''}
+  <tr>
+    <td class="dataLabel">Template</td>
+    <td>
+    <select name="template" id="template" >
+      {html_options options=$templates selected=$client_campaign_info.template}
+    </select>
+    </td>
+  </tr>
+{/if}
+  {/if}
+  {*<tr>
+    <td class="dataLabel">Total Budget</td>
+    <td><input name="total_budget" type="text" id="total_budget" value="{$client_campaign_info.total_budget}" onchange="javascript:this.value=Trim(this.value)"></td>
+  </tr>
+  <tr>
+    <td class="dataLabel">Content Level</td>
+    <td>
+    <select name="content_level">
+      <option value="0" >[choose]</option>
+    {html_options options=$all_levels selected=$client_campaign_info.content_level}
+    </select><a href="#" >Description of Content Levels</a></td>
+  </tr>
+  <tr>
+    <td class="dataLabel">Writer Expertise</td>
+    <td>
+      <select name="writer_expertise" id="writer_expertise" >
+        <option value="" >[choose]</option>
+        {html_options values=$expertises output=$expertises  selected=$client_campaign_info.writer_expertise}
+      </select>
+    </td>
+  </tr>
+  <tr>
+    <td class="dataLabel">Article Tone</td>
+    <td>{html_options name="article_tone" options=$tones selected=$order_campaign_info.article_tone}</td>
+  </tr>*}
+{*  <tr>
+    <td class="dataLabel">Copywriter cost per word</td>
+    <td><input name="cost_per_article" type="text" id="cost_per_article" value="{$client_campaign_info.cost_per_article}" onchange="javascript:this.value=Trim(this.value)"></td>
+  </tr>
+  <tr>
+    <td class="dataLabel">Editor cost per word</td>
+    <td><input name="editor_cost" type="text" id="editor_cost" value="{$client_campaign_info.editor_cost}" onchange="javascript:this.value=Trim(this.value)"></td>
+  </tr>*}
+  {if $client_campaign_info.source > 0}
+  <tr>
+    <td class="dataLabel">Domain</td>
+    <td>{$domains[$client_campaign_info.source]|default:'n/a'}<input type="hidden" name="source" id="source" value="{$client_campaign_info.source}" /></td>
+  </tr>
+  {else}
+  <tr>
+    <td class="dataLabel">Domain</td>
+    <td>{html_options options=$domains name='source' id='source' selected=$client_campaign_info.source}&nbsp;<img src="/image/select.gif" alt="Select" title="Select" LANGUAGE=javascript onclick='return window.open("/client/key_quick_add.php?client_id="+ $("client_id").value ,"add_domain","width=600,height=450,resizable=1,scrollbars=1");' align="absmiddle" style='cursor:hand;cursor:pointer'><div id="domaindiv" ></div></td>
+  </tr>
+  {/if}
+{*  <tr>
+    <td class="dataLabel">Campaign Site Url</td>
+    <td><input name="campaign_site_url" type="text" id="campaign_site_url" value="{$client_campaign_info.campaign_site_url}" onchange="javascript:this.value=Trim(this.value)" size="60"></td>
+  </tr>*}
+  <tr>
+    <td class="requiredInput"> Start Date</td>
+    <td><input type="text" name="date_start" id="date_start" size="10" maxlength="10" value="{$client_campaign_info.date_start}" readonly/>
+        <input type="button" class="button" id="btn_cal_date_start" value="...">
+        <script type="text/javascript">
+        Calendar.setup({ldelim}
+            inputField  : "date_start",
+            ifFormat    : "%Y-%m-%d",
+            showsTime   : false,
+            button      : "btn_cal_date_start",
+            singleClick : true,
+            step        : 1,
+            range       : [1990, 2030]
+        {rdelim});
+        </script></td>
+  </tr>
+  <tr>
+    <td class="requiredInput">Due Date</td>
+    <td><input type="text" name="date_end" id="date_end" size="10" maxlength="10" value="{$client_campaign_info.date_end}" readonly/>
+        <input type="button" class="button" id="btn_cal_date_end" value="...">
+        <script type="text/javascript">
+        Calendar.setup({ldelim}
+            inputField  : "date_end",
+            ifFormat    : "%Y-%m-%d",
+            showsTime   : false,
+            button      : "btn_cal_date_end",
+            singleClick : true,
+            step        : 1,
+            range       : [1990, 2030]
+        {rdelim});
+        </script></td>
+  </tr>
+  <tr>
+    <td class="requiredInput">No. of Words</td>
+    <td>{if ($user_role == 'admin' || $user_role == 'project manager' || $user_role == 'client') && $client_campaign_info.campaign_id == ''} 
+      {*<select name="max_word" id="max_word" >
+      <option value="" >[choose]</option>
+      {html_options values=$word_options output=$word_options  selected=$client_campaign_info.max_word}
+      <option value="0" {if $client_campaign_info.max_word == '0'}selected{/if}>No Limit</option>
+    </select>*}
+    <input id="max_word" name="max_word"  value="{$client_campaign_info.max_word|default:0}" />{else}{if $client_campaign_info.max_word}{$client_campaign_info.max_word}{else}No Limit{/if}<input name="max_word" type="hidden" id="max_word" value="{$client_campaign_info.max_word}"   />{/if}</td>
+  </tr>
+  {if $user_role eq 'client'}
+  <tr>
+    <td class="requiredInput">Total # of Articles</td>
+    <td>{if ($user_role == 'admin' || $user_role == 'project manager' || $user_role == 'client') && $client_campaign_info.campaign_id == ''} 
+    <input id="total_keyword" name="total_keyword"  value="{$client_campaign_info.total_keyword|default:0}" />{else}{if $client_campaign_info.total_keyword}{$client_campaign_info.total_keyword}{else}No Limit{/if}<input name="total_keyword" type="hidden" id="total_keyword" value="{$client_campaign_info.total_keyword}"   />{/if}</td>
+  </tr>
+  {else}
+  <tr>
+    <td class="dataLabel">Style Guide URL</td>
+    <td><input name="style_guide_url" type="text" id="style_guide_url" value="{$client_campaign_info.style_guide_url}" onchange="javascript:this.value=Trim(this.value)" size="60"></td>
+  </tr>
+  <tr>
+    <td class="dataLabel"><a href="javascript:void(0)" onclick="openWindow('/manual_content/tip.php?ukey=ADDITIONAL_STYLE_GUIDE','height=370,width=450,status=no,toolbar=no,menubar=no,location=no,resizable=no,scrollbars=no')" class="classtips">Assignment Details</a></td>
+    <td><textarea name="campaign_requirement" class="ckeditor" cols="50" rows="15" id="campaign_requirement">{$client_campaign_info.campaign_requirement}</textarea></td>
+  </tr>
+  <!--<tr>
+    <td class="dataLabel"><a href="javascript:void(0)" onclick="openWindow('/manual_content/tip.php?ukey=EDITOR_GRADING_RUBRIC','height=370,width=450,status=no,toolbar=no,menubar=no,location=no,resizable=no,scrollbars=no')" class="classtips">Editor Grading Rubric</a></td>
+    <td><textarea name="editor_grading_rubric" class="ckeditor" cols="50" rows="15" id="editor_grading_rubric">{$client_campaign_info.editor_grading_rubric}</textarea></td>
+  </tr>
+  <tr>
+    <td class="dataLabel"><a href="javascript:void(0)" onclick="openWindow('/manual_content/tip.php?ukey=SAMPLE_CONTENT','height=370,width=450,status=no,toolbar=no,menubar=no,location=no,resizable=yes,scrollbars=yes')" class="classtips">Sample Content</a></td>
+    <td><textarea name="sample_content" class="ckeditor" cols="50" rows="15" id="sample_content">{$client_campaign_info.sample_content}</textarea></td>
+  </tr>
+  <tr>
+    <td class="dataLabel"><a href="javascript:void(0)" onclick="openWindow('/manual_content/tip.php?ukey=CONTENT_INSTRUCTIONS','height=370,width=450,status=no,toolbar=no,menubar=no,location=no,resizable=yes,scrollbars=yes')" class="classtips">Content Instructions</a></td>
+    <td><textarea name="keyword_instructions" class="ckeditor" cols="50" rows="15" id="keyword_instructions">{$client_campaign_info.keyword_instructions}</textarea></td>
+  </tr>
+  <tr>
+    <td class="dataLabel"><a href="javascript:void(0)" onclick="openWindow('/manual_content/tip.php?ukey=SPECIAL_INSTRUCTIONS','height=370,width=450,status=no,toolbar=no,menubar=no,location=no,resizable=yes,scrollbars=yes')" class="classtips" >Special Instructions</a></td>
+    <td><textarea name="special_instructions" class="ckeditor" cols="50" rows="15" id="special_instructions">{$client_campaign_info.special_instructions}</textarea></td>
+  </tr>
+  <tr>
+    <td class="dataLabel">Assignment Details</td>
+    <td><textarea name="acceptance_desc" class="ckeditor" cols="50" rows="15" id="acceptance_desc">{$client_campaign_info.acceptance_desc}</textarea></td>
+  </tr>-->
+  <tr>
+    <td class="requiredInput">Ordered By</td>
+    <td><input name="ordered_by" type="text" id="ordered_by" value="{$client_campaign_info.ordered_by}" onchange="javascript:this.value=Trim(this.value)" size="60"></td>
+  </tr>
+  
+  {if  $order_campaign_id > 0 && ($client_campaign_info.campaign_id <= 0 || $client_campaign_info.campaign_id == '')  && $client_campaign_info.monthly_recurrent eq 1}
+  <input type="hidden" name="monthly_recurrent" id="monthly_recurrent" value="{$client_campaign_info.monthly_recurrent}" />
+  <input type="hidden" name="recurrent_time" id="recurrent_time" value="{$client_campaign_info.recurrent_time}" />
+  {else}
+    {if $client_campaign_info.monthly_recurrent neq 2}
+    <tr>
+      <td class="dataLabel">Monthly Recurrent</td>
+      <td><input type="checkbox" name="monthly_recurrent" id="monthly_recurrent" value="1" {if $client_campaign_info.monthly_recurrent eq 1} checked {/if} /></td>
+    </tr>
+    {/if}
+  {/if}
+  <tr>
+    <td class="requiredInput">Meta Info Setting</td>
+    <td>
+      <input type="radio" name="meta_param" id="meta_param_default" value="0" {if $client_campaign_info.meta_param == 0}checked{/if}/><label for="meta_param_default" >Default Meta Information</label>
+      <input type="radio" name="meta_param" id="meta_param_custom" value="1" {if $client_campaign_info.meta_param == 1}checked{/if}/><label for="meta_param_custom" >Custom Meta Information</label>
+    </td>
+  </tr>
+  <tr>
+    <td class="requiredInput">Article & HTML Title Setting</td>
+    <td>
+      <input type="radio" name="title_param" id="title_param_default" value="0" {if $client_campaign_info.title_param == 0}checked{/if}/><label for="title_param_default" >Default Article & HTML Title</label>
+      <input type="radio" name="title_param" id="title_param_custom" value="1" {if $client_campaign_info.title_param == 1}checked{/if}/><label for="title_param_custom" >Custom Article & HTML Title</label>
+      
+    </td>
+  </tr>
+  {if ($client_campaign_info.campaign_id <= 0 || $client_campaign_info.campaign_id == '')}
+  <tr>
+    <td class="requiredInput">Display author bio on Article page</td>
+    <td>
+      <input type="radio" name="show_cp_bio" id="title_show_cp_bio" value="0" {if $client_campaign_info.show_cp_bio == 0}checked{/if}/><label for="title_show_cp_bio" >No</label>
+      <input type="radio" name="show_cp_bio" id="title_hide_cp_bio" value="1" {if $client_campaign_info.show_cp_bio == 1}checked{/if}/><label for="title_hide_cp_bio" >Yes</label>
+      
+    </td>
+  </tr>
+  {/if}
+  {/if}
+  <tr>
+    <td class="blackLine" colspan="2"><img src="/image/misc/s.gif"></td>
+  </tr>
+  <tr>
+    <td>&nbsp;</td>
+    <td><input type="submit" value="Submit" class="button">&nbsp;<input type="reset" value="reset" class="button"></td>
+  </tr>
+  </form>
+</table>
+  </div>
+</div>
+{include file="themes/$theme/footer.html"}

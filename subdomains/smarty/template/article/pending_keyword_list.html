@@ -1,0 +1,149 @@
+{include file="themes/$theme/header.html"}
+
+{if $feedback ne ''}
+<script language="JavaScript">
+<!--
+alert('{$feedback}');
+//-->
+</script>
+{/if}
+
+{literal}
+<script language="JavaScript">
+<!--
+var f_common = "document.f_pending_keyword.";
+var f = document.f_pending_keyword;
+function check_f_pending_keyword(result_count) {
+  var is_checked;
+  var f = document.f_pending_keyword_return;
+
+  for (i = 1; i <= result_count; i++) {
+    var is_update_id = 'isUpdate_' + i;
+    var keyword = $("keyword_"+i).value;
+    if ($(is_update_id).checked)
+    {
+      is_checked = true;
+    }
+  }
+
+  if (!is_checked)
+  {
+    alert("Please choose one keyword.");  
+    return false;
+  }
+  return true;
+}
+{/literal}
+//-->
+</script>
+<div id="page-box1">
+  <h2>Pending Keywords</h2>
+  <div id="campaign-search" >
+    <strong>You can enter the "campaign name","keyword" etc. into the keyword input to search the relevant keyword's information</strong>
+     <div id="campaign-search-box" >
+<form name="f_pending_keyword_return" action="" method="get">
+  <input name="campaign_id" type="hidden" id="campaign_id" value="{$campaign_id}" />
+<table border="0" cellspacing="1" cellpadding="4">
+  <tr>
+    <td nowrap>Keyword</td>
+    <td><input type="text" name="keyword" id="search_keyword" value="{$smarty.get.keyword}"></td>
+{*    <td><select name="show_keyword_type" onchange="this.form.submit();">{html_options options=$show_keyword_type selected=$smarty.get.show_keyword_type}</select></td>*}
+    {if $login_role == 'client'}
+    <td nowrap>Campaigns:</td>
+    <td nowrap><select name="campaign_id" onchange="this.form.submit();">{html_options options=$campaigns selected=$smarty.get.campaign_id}</select></td>
+    {/if}
+    <td nowrap>Article Type</td>
+    <td><select name="article_type"><option value="">[choose]</option>{html_options options=$article_type selected=$smarty.get.article_type}</select></td>
+    <td nowrap>Show:</td>
+    <td nowrap><select name="perPage" onchange="this.form.submit();" nowrap>{html_options options=$g_pager_perPage selected=$smarty.get.perPage}</select> row(s)</td>
+    <td><input type="image" src="/images/button-search.gif" value="submit" /></td>
+    <td nowrap>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+    <td width="20%">&nbsp;</td>
+  </tr>
+</table>
+</form>
+    </div>
+  </div>
+</div>
+<div class="tablepadding"> 
+<form action="" name="f_pending_keyword" method="post" {if $js_check eq true}onSubmit="return check_f_pending_keyword('{$result_count}')"{/if}>
+<table id="table-1" cellspacing="0" cellpadding="4" align="center" class="sortableTable" width="100%">
+  <thead>
+    <tr class="sortableTab">
+      <th class="table-left-corner">&nbsp;&nbsp;&nbsp;&nbsp;</th>
+      <td class="table-left-2" >{if $result_count > 0}<input type="checkbox" name="Select_All" title="Select All" onClick="javascript:checkAll('isUpdate[]')" />{/if}</td>
+      <td nowrap class="columnHeadInactiveBlack table-left-2 table-right-2 ">Number</td>
+      <td nowrap class="columnHeadInactiveBlack">Keyword</td>
+      <td nowrap class="columnHeadInactiveBlack">Campaign Name</td>
+      <td nowrap class="columnHeadInactiveBlack">Client Name</td>
+      <td nowrap class="columnHeadInactiveBlack">Company Name</td>
+      {if $login_role neq 'client'}
+      <td nowrap class="columnHeadInactiveBlack">Editor</td>
+      {/if}
+      <td nowrap class="columnHeadInactiveBlack table-right-2">Article Type</td>
+      <td nowrap class="columnHeadInactiveBlack table-right-2">Article Number</td>
+      <th class="table-right-corner">&nbsp;</th>
+    </tr>
+  </thead>
+  <tbody>
+    {foreach from=$result item=item name="loop_all"}
+    <tr class="{if $smarty.foreach.loop_all.iteration % 2 eq 0}even{else}odd{/if}">
+      <td class="table-left" >&nbsp;</td>
+      <input type="hidden" name="keyword_id[]" id="keyword_id_{$smarty.foreach.loop_all.iteration}" value="{$item.keyword_id}" />
+      <!--下面的keyword隐藏域是用于js的 //-->
+      <input type="hidden" name="keyword[]" id="keyword_{$smarty.foreach.loop_all.iteration}" value="{$item.keyword}" />
+      <td class="table-left-2"><input type="checkbox" name="isUpdate[]" id="isUpdate_{$smarty.foreach.loop_all.iteration}" value="{$smarty.foreach.loop_all.iteration}" onclick="javascript:checkItem('Select_All', f_common)" /></td>
+      {eval var= $startNo+$smarty.foreach.loop.iteration assign='rowNumber'}
+      <td>{$rowNumber}</td>
+      <td><a href="#" target="_self" onMouseOver="return overlib('<table width=500><tr><td nowrap>Keyword Instructions</td><td>{$item.keyword_description|nl2br|strip|escape:html}</td></tr></table>');" onMouseOut="return nd();">{$item.keyword}</a></td>
+      <td>{$item.campaign_name|truncate:20:"..."}</td>
+      <td>{$item.user_name}</td>
+      <td>{$item.company_name|truncate:20:"..."}</td>
+      {if $login_role neq 'client'}
+      <td>{$item.ue_name}</td>
+      {/if}
+      <td class="table-right-2">{$article_type[$item.article_type]}</td>
+      <td class="table-right-2">{$item.article_number}</td>
+      <td class="table-right" >&nbsp;</td>
+    </tr>
+    {/foreach}
+  </tbody>
+</table>
+<div class="pagingpaddingleft" >
+  <table align="center" width="100%" border="0" cellspacing="0" cellpadding="0" >
+    <tr><td class="table-left table-paging-left" width="20" height="37" >&nbsp;</td><td class="table-bottom">{$pager} (Total Page:{$total})(Total Count:{$count})</td><td class="table-right table-paging-right" width="21">&nbsp;</td></tr>
+  </table>
+</div>
+{if $result_count > 0}
+<script language="JavaScript">
+<!--
+var post_checkbox_array = '{$post_checkbox_array}';
+checkPostItem('Select_All', post_checkbox_array, 'isUpdate[]', f_common);
+//-->
+</script>
+<table align="center">
+  <tr><td align="center"><input type="submit" class="button" value="Approval Keyword" /></td></tr>
+</table>
+{/if}
+</form>
+</div>
+<script type="text/javascript">
+//<![CDATA[
+var st = new SortableTable(document.getElementById("table-1"),
+  ["None", "None", "Number",  "None", "CaseInsensitiveString", "CaseInsensitiveString", "CaseInsensitiveString", "CaseInsensitiveString", "None", "None", "None"]);
+
+// restore the class names
+st.onsort = function () {ldelim}
+  var rows = st.tBody.rows;
+  var l = rows.length;
+  for (var i = 0; i < l; i++) {ldelim}
+    removeClassName(rows[i], i % 2 ? "odd" : "even");
+    addClassName(rows[i], i % 2 ? "even" : "odd");
+  {rdelim}
+{rdelim};
+
+st.asyncSort(1);
+//]]>
+</script>
+
+{include file="themes/$theme/footer.html"}

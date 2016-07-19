@@ -1,0 +1,69 @@
+{include file="themes/$theme/header.html"}
+{literal}
+<script>
+function onCheckCategoryForm()
+{
+  var f = document.categoryform;
+    if (f.category.value == '')
+    {
+       alert("Please specify Specialty");
+       f.category.focus();
+       return false;
+    }
+    return true;
+}
+</script>
+{/literal}
+{if $feedback ne ''}
+<center><div style="color:red;">{$feedback}</div></center>
+{/if}
+<div id="page-box1">
+  <h2>Add Specialty</h2>
+  <div id="campaign-search" >
+    <strong></strong>
+  </div>
+  <div class="form-item" >
+<form action="/category/add.php" id="categoryform" name="categoryform"  method="post" onsubmit="return onCheckCategoryForm()">
+<input type="hidden" value="{$category_info.category_id}" name="category_id" id="category_id" />
+<table align="center" >
+  <tr>
+    <td><select name="parent_id">{html_options options=$parents selected=$category_info.parent_id}</select></td>
+  </tr>
+  <tr>
+     <td align="center"><input type="text" name="category" id="category" value="{$category_info.category}" size="50 " /></td>
+ </tr>
+  <tr>
+    <td align="left"><input type="submit" class="button" value="Submit"></td>
+  </tr>
+</table>
+</form>
+  </div>
+  <div class="tablepadding" >
+    <table id="table-1" cellspacing="0" cellpadding="0" align="center" class="sortableTable">
+      <tr>
+        <th class="table-left-corner">&nbsp;&nbsp;&nbsp;&nbsp;</th>
+        <th class="table-left-2" >#</th>
+        <th >Specialties</th>
+        <th >Parent</th>
+        <th class="table-right-2" >&nbsp;</th>
+        <th class="table-right-corner">&nbsp;&nbsp;&nbsp;</th>
+      </tr>
+      {foreach from=$categories item=item name="loop"}
+      <tr>
+        <td class="table-left" >&nbsp;</td>
+        <td class="table-left-2" >{$smarty.foreach.loop.iteration}</td>
+        <td >{$item.category}</td>
+        <td >{$item.pcategory}</td>
+        <td class="table-right-2"><a href="/category/add.php?category_id={$item.category_id}" >[Edit]</a></td>
+        <td class="table-right" >&nbsp;</td>
+      </tr>
+      {/foreach}
+    </table>
+  <div class="pagingpaddingleft" >
+    <table align="center" width="100%" border="0" cellspacing="0" cellpadding="0" >
+      <tr><td class="table-left table-paging-left" width="20" height="37" >&nbsp;</td><td class="table-bottom">{$pager} (Total Page:{$total})(Total Count:{$count})</td><td class="table-right table-paging-right" width="21">&nbsp;</td></tr>
+    </table>
+  </div>
+  </div>
+</div>
+{include file="themes/$theme/footer.html"}

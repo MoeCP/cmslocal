@@ -1,0 +1,5 @@
+user_id,user_name,first_name,last_name,email,address,status,Digital Media,Type 1,Type 2,Type 3,total,pay_words_total,pay_count_article,pay_amount,payment_preference,payment_status
+274,keckel,Kathy,Eckel,kathy@thisweekinparkcity.com,PO Box 980564,Active,0,30400,0,0,30400,0,76,$380,Paypal,Not Paid
+36,jillenaobrien,Jillena,O'Brien,jillenabean@gmail.com,902 N. Arbutus Ave.,Active,0,70050,0,0,97650,70050,69,$1045.5,Direct Deposit,Not Paid
+47,cstromness,Cara,Stromness,cara.stromness@gmail.com,4086 W 5010 S,Active,0,26400,0,0,26400,0,66,$330,Direct Deposit,Not Paid
+883,ericthuesen,Eric,Thuesen,bigtallturtle@yahoo.com,14726-D Perthshire,Active,0,5200,0,0,5200,5200,0,$0,Direct Deposit,Not Paid

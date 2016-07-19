@@ -1,0 +1,9 @@
+<table cellspacing="0" cellpadding="4" align="center" class="even" width="99%">
+    <tr>
+    {foreach from=$report.types item=item name="loop"}
+    <td class="requiredInput">{$item.type_name} Article Amount:</td><td>${$item.cost}</td>
+    {/foreach}
+    <td class="requiredInput">Total Amount:</td>
+    <td >${$report.all.cost}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+    </tr>
+</table>

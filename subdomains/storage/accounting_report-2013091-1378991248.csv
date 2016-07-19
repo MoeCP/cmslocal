@@ -1,0 +1,14 @@
+user_name,status,email,contact_name,client_id,total_word,total_word_for_editor,total_article_for_editor,total_word_for_writer,total_article_for_writer,pay_total_words_for_editor,pay_total_words_for_writer,pay_total_articles_for_editor,pay_total_articles_for_writer,cost
+CopyPress,A,rperilli@copypress.com,,45,1000,500,1,500,1,500,500,0,0,$30
+macys,A,swinkler@copypress.com,Lauren Goldstein,164,32000,16000,40,16000,40,0,0,40,40,$800
+orsyp,A,Ken.Savage@orsyp.com,Ken Savage,205,4000,2000,2,2000,2,2000,2000,0,0,$120
+ethanhathaway,A,vincent.po@ethanhathaway.com,Vincent Po,210,5400,2700,9,2700,9,2700,2700,0,0,$135
+connection,A,rwhitney@copypress.com,Ryan Whitney,225,75000,37500,50,37500,50,37500,37500,0,0,$2250
+astonish,A,mliriano@steelcast.com,Natalie Tomasso,229,9600,4800,16,4800,16,4800,4800,0,0,$240
+Psychics,A,cberghoefer@steelcast.com,,240,30000,15000,30,15000,30,15000,15000,0,0,$900
+CopyPressDigital,A,kquigley@steelcast.com,,258,3708,1854,3,1854,3,0,0,3,3,$210
+UrgentCare,A,cberghoefer@copypress.com,,265,13000,6500,13,6500,13,6500,6500,0,0,$390
+streamcompanies,A,cberghoefer@steelcast.com,,268,2180,1090,5,1090,5,1090,1090,0,0,$46.5
+ONR,A,cberghoefer@steelcast.com,,278,10354,5177,1,5177,1,0,0,1,1,$500
+AmericanImage,A,cberghoefer@copypress.com,,280,8000,4000,4,4000,4,4000,4000,0,0,$240
+CareerBuilder,A,cberghoefer@steelcast.com,,282,2000,1000,1,1000,1,1000,1000,0,0,$60

@@ -1,0 +1,154 @@
+<div class="page-box1-class">
+<h2>Candidate info&nbsp;&nbsp;&nbsp;&nbsp;{if $candidate.resume_file != ''}<input type="button" class="button" value="Resume Download" onclick="javascript:openWindow('/user/resume_download.php?cid={$candidate.candidate_id}&f={$candidate.resume_file|escape:"url"}', 'height=370,width=450,status=no,toolbar=no,menubar=no,location=no,resizable=yes,scrollbars=yes');" />{/if}{if $login_permission == 5}<input type="button" class="button" value="Add/Edit" onclick="javascript:openWindow('/user/candidate_edit.php?candidate_id={$candidate.candidate_id}&user_id={$user_info.user_id}', 'height=500,width=800,status=no,toolbar=no,menubar=no,location=no,resizable=yes,scrollbars=yes');" />{/if}</h2>  
+
+</div>
+{if $candidate.candidate_id > 0}
+<fieldset>
+<legend class="requiredInput" >&nbsp;&nbsp;&nbsp;&nbsp;Category</legend>
+<div>
+  {if $candidate.categories neq ''}
+	<table id="table-2" class="sortableTable" cellspacing="0" cellpadding="0" align="center">
+	  <tr>
+		<th class="table-left-corner">&nbsp;&nbsp;&nbsp;&nbsp;</th>
+		<td class="columnHeadInactiveBlack table-left-2" >Category</td>
+		<td class="columnHeadInactiveBlack" >	Level</td>
+		<td class="columnHeadInactiveBlack table-right-2" >Description</td>
+		<th class="table-right-corner">&nbsp;&nbsp;&nbsp;&nbsp;</th>
+	  </tr>
+	  {foreach from=$candidate.categories item=row key=key}
+	  <tr class="{if $smarty.foreach.loop.iteration % 2 eq 0}even{else}odd{/if}" name="loop" >
+		<td class="table-left" >&nbsp;</td>
+		<td class="table-left-2">{$row.category|default:'n/a'}</td>
+		<td class="table-right-2">{$user_levels[$row.level]|default:'n/a'}</td>
+		<td class="table-right-2">{$row.description}</td>
+		<td class="table-right" >&nbsp;</td>            
+	  </tr>
+	  {/foreach}
+	</table>
+  {else}n/a{/if}
+</div>
+</fieldset>
+{*<fieldset>
+	<legend class="requiredInput">&nbsp;&nbsp;&nbsp;&nbsp;Writing Sample</legend>
+	<div>
+      {if $candidate.samples}
+        <table id="table-2" class="sortableTable" cellspacing="0" cellpadding="0" align="center">
+          <tr>
+            <th class="table-left-corner">&nbsp;&nbsp;&nbsp;&nbsp;</th>
+            <td class="columnHeadInactiveBlack table-left-2" >URL</td>
+            <td class="columnHeadInactiveBlack" >Document</td>
+            <td class="columnHeadInactiveBlack" >Portfolio</td>
+            <td class="columnHeadInactiveBlack" >Blog</td>
+            <td class="columnHeadInactiveBlack table-right-2" >&nbsp;</td>
+            <th class="table-right-corner">&nbsp;&nbsp;&nbsp;&nbsp;</th>
+          </tr>
+          {foreach from=$candidate.samples item=item key=key}
+          <tr class="{if $smarty.foreach.loop.iteration % 2 eq 0}even{else}odd{/if}" name="loop" >
+            <td class="table-left" >&nbsp;</td>
+            <td class="table-left-2">{$item.link|default:'n/a'}</td>
+            <td>{$item.fileField.name|default:'n/a'}</td>
+            <td>{$item.fileField.portfolio|default:'n/a'}</td>
+            <td >{$item.blog|default:'n/a'}</td>
+            <td class="table-right-2">{if $item.fileField.filename}<input type="button" value="Donwload Document" class="button" onclick="javascript:openWindow('/user/sample_download.php?cid={$candidate.candidate_id}&t={$item.fileField.type|escape:"url"}&f={$item.fileField.filename|escape:"url"}', 'height=370,width=450,status=no,toolbar=no,menubar=no,location=no,resizable=yes,scrollbars=yes');"/>{/if}</td>          
+			<td class="table-right" ></td>
+          </tr>
+          {/foreach}
+        </table>
+      {else}n/a{/if}
+	 {if $candidate.is_samples_doc }
+     <input type="button" class="button" value="Download Samples" onclick="javascript:openWindow('/user/sample_download.php?cid={$candidate.candidate_id}', 'height=370,width=450,status=no,toolbar=no,menubar=no,location=no,resizable=yes,scrollbars=yes');" /><br />
+     {/if}
+	</div>
+</fieldset>*}
+{*<table id="table-1" cellspacing="0" align="center" cellpadding="0" class="sortableTable">
+  <tr>
+    <td class="table-left" >&nbsp;</td>
+    <td nowrap colspan="2" class="requiredInput table-left-2">Category</td>
+    <td colspan="7" class="table-right-2">
+      {if $candidate.categories neq ''}
+        <table id="table-2" class="sortableTable" cellspacing="0" cellpadding="0" align="center">
+          <tr>
+            <th class="table-left-corner">&nbsp;&nbsp;&nbsp;&nbsp;</th>
+            <td class="columnHeadInactiveBlack table-left-2" >Category</td>
+            <td class="columnHeadInactiveBlack table-right-2" >	Level</td>
+            <th class="table-right-corner">&nbsp;&nbsp;&nbsp;&nbsp;</th>
+          </tr>
+          {foreach from=$candidate.categories item=row key=key}
+          <tr class="{if $smarty.foreach.loop.iteration % 2 eq 0}even{else}odd{/if}" name="loop" >
+            <td class="table-left" >&nbsp;</td>
+            <td class="table-left-2">{$row.category|default:'n/a'}</td>
+            <td class="table-right-2">{$user_levels[$row.level]|default:'n/a'}</td>
+            <td class="table-right" >&nbsp;</td>            
+          </tr>
+          {/foreach}
+        </table>
+      {else}n/a{/if}
+     </td>
+    <td class="table-right" >&nbsp;</td>
+  </tr>
+  <tr>
+    <td class="table-left" >&nbsp;</td>
+    <td nowrap colspan="2" class="requiredInput table-left-2">Writing Sample</td>
+    <td colspan="7" class="table-right-2">
+	 {if $candidate.is_samples_doc }
+     <input type="button" class="button" value="Download" onclick="javascript:openWindow('/user/sample_download.php?cid={$candidate.candidate_id}', 'height=370,width=450,status=no,toolbar=no,menubar=no,location=no,resizable=yes,scrollbars=yes');" /><br />
+     {/if}
+      {if $candidate.samples}
+        <table id="table-2" class="sortableTable" cellspacing="0" cellpadding="0" align="center">
+          <tr>
+            <th class="table-left-corner">&nbsp;&nbsp;&nbsp;&nbsp;</th>
+            <td class="columnHeadInactiveBlack table-left-2" >URL</td>
+            <td class="columnHeadInactiveBlack" >Document</td>
+            <td class="columnHeadInactiveBlack" >Portfolio</td>
+            <td class="columnHeadInactiveBlack" >Blog</td>
+            <td class="columnHeadInactiveBlack table-right-2" >&nbsp;</td>
+            <th class="table-right-corner">&nbsp;&nbsp;&nbsp;&nbsp;</th>
+          </tr>
+          {foreach from=$candidate.samples item=item key=key}
+          <tr class="{if $smarty.foreach.loop.iteration % 2 eq 0}even{else}odd{/if}" name="loop" >
+            <td class="table-left" >&nbsp;</td>
+            <td class="table-left-2">{$item.link|default:'n/a'}</td>
+            <td>{$item.fileField.name|default:'n/a'}</td>
+            <td>{$item.fileField.portfolio|default:'n/a'}</td>
+            <td >{$item.blog|default:'n/a'}</td>
+            <td class="table-right-2">{if $item.fileField.filename}<input type="button" value="Donwload Document" class="button" onclick="javascript:openWindow('/user/sample_download.php?cid={$candidate.candidate_id}&t={$item.fileField.type|escape:"url"}&f={$item.fileField.filename|escape:"url"}', 'height=370,width=450,status=no,toolbar=no,menubar=no,location=no,resizable=yes,scrollbars=yes');"/>{/if}</td>          
+			<td class="table-right" ></td>
+          </tr>
+          {/foreach}
+        </table>
+      {else}n/a{/if}
+	</td>
+    <td class="table-right" ></td>
+  </tr>
+  <tr>
+    <td class="table-left" >&nbsp;</td>
+    <td nowrap colspan="2" class="requiredInput table-left-2">How did you hear about us?&nbsp;</td>
+    <td colspan="7" class="table-right-2">{$candidate.hear_from|nl2br|default:'n/a'}</td>
+    <td class="table-right" >&nbsp;</td>
+  </tr>
+  <tr>
+    <td class="table-left" >&nbsp;</td>
+    <td nowrap colspan="2" class="requiredInput table-left-2"></td>
+    <td colspan="7" class="table-right-2">{if $candidate.work_in_us == 1}You are authorized to work in the United States{else}You are not authorized to work in the United States{/if}</td>
+    <td class="table-right" >&nbsp;</td>
+  </tr>
+  <tr>
+    <td class="table-left" >&nbsp;</td>
+    <td nowrap colspan="2" class="requiredInput table-left-2">Position</td>
+    <td colspan="7" class="table-right-2">{$cpermissions[$candidate.cpermission]}</td>
+    <td class="table-right" >&nbsp;</td>
+  </tr>
+  <tr>
+    <td class="table-left" >&nbsp;</td>
+    <td nowrap colspan="2" class="requiredInput table-left-2">Revised Article</td>
+    <td colspan="7" class="table-right-2">{if $candidate.revised_article neq ''}<div>{$candidate.revised_article|nl2br}</div>{else}n/a{/if}</td>
+    <td class="table-right" >&nbsp;</td>
+  </tr>
+  <tr>
+    <td class="table-left" >&nbsp;</td>
+    <td nowrap colspan="2" class="requiredInput table-left-2">Provide Feedback(Editor Only)</td>
+    <td colspan="7" class="table-right-2">{if $candidate.feedback neq ''}<div>{$candidate.feedback|nl2br}</div>{else}n/a{/if}</td>
+    <td class="table-right" >&nbsp;</td>
+  </tr>
+</table>*}
+{/if}

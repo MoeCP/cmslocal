@@ -1,0 +1,145 @@
+{include file="themes/$theme/header.html"}
+
+{if $feedback ne ''}
+<script language="JavaScript">
+<!--
+alert('{$feedback}');
+//-->
+</script>
+{/if}
+
+<br />
+<div id="page-box1">
+  <div id="campaign-actions" >
+    <div id="campaign-actions-label">Rollback finished articles </div>
+  </div>
+  <div id="campaign-search" >
+    <strong>You can enter the "keyword","campaign name","company name" etc. into the keyword input to search the relevant campaign's keyword information</strong>
+    <div id="campaign-search-box" >
+    <form name="f_assign_keyword_return" id="f_assign_keyword_return" action="/client_campaign/undo_list.php" method="get">
+    <table border="0" cellspacing="1" cellpadding="4">
+      <tr>
+       <td nowrap>Keyword</td>
+       <td   ><input type="text" name="keyword" id="search_keyword"></td>
+      <td nowrap>Copywriter</td>
+      <td><select name="cp_id"><option value="">[choose]</option>{html_options options=$all_copy_writer selected=$smarty.get.cp_id}</select></td>
+      <td >Editor</td>
+      <td><select name="editor_id"><option value="">[choose]</option>{html_options options=$all_editor selected=$smarty.get.editor_id}</select></td>
+      <td nowrap>Article Type</td>
+      <td colspan="1"><select name="article_type"><option value="">[choose]</option>{html_options options=$article_type selected=$smarty.get.article_type}</select>
+      </td>
+      <td rowspan="2" >
+        <input type="image" src="/images/button-search.gif" value="submit">
+      </td>
+    </tr>
+    <tr>
+       <td>Client</td>
+       <td><select name="client_id"><option value="">[choose]</option>{html_options options=$all_clients selected=$smarty.get.client_id}</select></td>
+       <td nowrap>Campaign</td>
+       <td nowrap><select name="campaign_id"><option value="">[choose]</option>{html_options options=$all_campaigns selected=$smarty.get.campaign_id}</select></td>
+       <td nowrap>Show:</td>
+       <td nowrap>
+        <select name="perPage" onchange="this.form.submit();">{html_options options=$g_pager_perPage selected=$smarty.get.perPage}</select> row(s)&nbsp;&nbsp;&nbsp;
+        </td>
+        <td nowrap>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+        <td>&nbsp;</td>
+      </tr>
+    </table>
+    </form>
+    </div>
+  </div>
+</div>
+<br>
+<div class="tablepadding"> 
+<form action="{$smarty.server.REQUEST_URI}" name="campaign_keyword_list" method="post" />
+<input type="hidden" name="keyword_id" />
+<input type="hidden" name="article_id" />
+<input type="hidden" name="form_refresh" value="N" />
+<table id="table-1" cellspacing="0" cellpadding="0" align="center" class="sortableTable">
+  <thead>
+  <tr class="sortableTab">
+    <th class="table-left-corner" rowspan="2" >&nbsp;&nbsp;&nbsp;&nbsp;</th>
+    <td nowrap class="columnHeadInactiveBlack table-left-2">&nbsp;</td>
+    <td nowrap class="columnHeadInactiveBlack table-left-2 table-right-2">Number</td>
+    <td nowrap class="columnHeadInactiveBlack">Keyword</td>
+    <td nowrap class="columnHeadInactiveBlack">Article Number</td>
+    <td nowrap class="columnHeadInactiveBlack">Status</td>
+    <td nowrap class="columnHeadInactiveBlack">Company Name</td>
+    <td nowrap class="columnHeadInactiveBlack">Campaign Name</td>
+    <td nowrap class="columnHeadInactiveBlack">Copywriter</td>
+    <td nowrap class="columnHeadInactiveBlack">Editor</td>
+    <td nowrap class="columnHeadInactiveBlack">Start Date</td>
+    <td nowrap class="columnHeadInactiveBlack">Due Date</td>
+    <td nowrap class="columnHeadInactiveBlack">Article Type</td>
+    <td nowrap class="columnHeadInactiveBlack table-right-2">&nbsp;</td>
+    <th class="table-right-corner">&nbsp;&nbsp;&nbsp;</th>
+  </tr>
+  </thead>
+  <tbody>
+  {foreach from=$result item=item name="loop"}
+  <tr class="{if $smarty.foreach.loop.iteration % 2 eq 0}even{else}odd{/if}">
+  <td class="table-left" >&nbsp;</td>
+  <td class="table-left-2" ></td>
+    {eval var= $startNo+$smarty.foreach.loop.iteration assign='rowNumber'}
+    <td class="table-left-2 table-right-2" >{$rowNumber}</td>
+    <td>{$item.keyword}</td>
+    <td>{$item.article_number}</td>
+    <td>
+    {$article_status[$item.article_status]}
+    </td>
+    <td>{$item.company_name|truncate:20:"..."}</td>
+    <td>{if $login_permission == 5}<a href="/client_campaign/client_campaign_set.php?campaign_id={$item.campaign_id}" target="_blank" >{$item.campaign_name|truncate:20:"..."}</a>{else}{$item.campaign_name|truncate:20:"..."}{/if}</td>
+    <td>{if $login_role eq 'agency' || $login_permission == 4}{$item.uc_name}{else}<a href="javascript:void(0)" onclick="openWindow('/user/user_detail_info.php?user_id={$item.copy_writer_id}', 'height=300,width=400,status=no,toolbar=no,menubar=no,location=no,resizable=yes,scrollbars=yes');">{$item.uc_name}</a> {/if}</td>
+    <td>{if $login_role eq 'agency' || $login_permission == 4}{$item.ue_name}{else}<a href="javascript:void(0)" onclick="openWindow('/user/user_detail_info.php?user_id={$item.editor_id}', 'height=300,width=400,status=no,toolbar=no,menubar=no,location=no,resizable=yes,scrollbars=yes');">{$item.ue_name}</a>{/if}</td>
+    <td>{$item.date_start|date_format:"%m-%d-%Y"}</td>
+    <td>{$item.date_end|date_format:"%m-%d-%Y"}</td>
+    <td>{$article_type[$item.article_type]}</td>
+    <td align="left" nowrap class="table-right-2"><input type="button" class="button" value="Comment" onclick="openLink('/article/article_comment_list.php?article_id={$item.article_id}');" />&nbsp;<input type="button" class="button" value="Rollback" onclick="javascript:rollBackKeyword('{$item.keyword_id}', '{$item.article_id}')" /></td>
+    <td class="table-right" >&nbsp;</td>
+  </tr>
+  {/foreach}
+  </tbody>
+</table>
+<div class="pagingpaddingleft" >
+  <table align="center" width="100%" border="0" cellspacing="0" cellpadding="0" >
+    <tr><td class="table-left table-paging-left" width="20" height="37" >&nbsp;</td><td class="table-bottom">{$pager} (Total Page:{$total})(Total Count:{$count})</td><td class="table-right table-paging-right" width="21">&nbsp;</td></tr>
+  </table>
+</div>
+  </form>
+</div>
+<script type="text/javascript">
+//<![CDATA[
+
+var st = new SortableTable(document.getElementById("table-1"),
+  [{if $is_pay_adjust != 1}'None',{/if}'None',"Number", "CaseInsensitiveString", "CaseInsensitiveString", "CaseInsensitiveString", "CaseInsensitiveString", "CaseInsensitiveString", "CaseInsensitiveString", "Date", "Date", "None"]);
+{literal}
+st.onsort = function () {
+  var rows = st.tBody.rows;
+  var l = rows.length;
+  for (var i = 0; i < l; i++) {
+    removeClassName(rows[i], i % 2 ? "odd" : "even");
+    addClassName(rows[i], i % 2 ? "even" : "odd");
+  }
+};
+st.asyncSort(0);
+function rollBackKeyword(keyword_id, article_id) 
+{
+    var f = document.campaign_keyword_list;
+    if (confirm('Are you sure change the article status from client approval to editor approval?')) {
+        if (keyword_id > 0 && article_id > 0) {
+          f.article_id.value = article_id;
+          f.keyword_id.value = keyword_id;
+          f.submit();
+        } else {
+          alert('Please specify the keyword');
+          return false;
+        }
+    }
+    return false;
+
+}
+{/literal}
+//]]>
+</script>
+
+{include file="themes/$theme/footer.html"}

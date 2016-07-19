@@ -1,0 +1,93 @@
+<div id="specialties"  class="tab_content" style="display: block;" >
+<h2>Specialties<br /> </h2>
+  <div>If you have writing or work experience in any of the following, please select the <strong>FIVE</strong> categories in which you are the most experienced.</div>
+<br />
+<form action="" method="post"  name="f_candidate_s" id="f_candidate_s"  enctype="multipart/form-data" >
+<input type="hidden" name="candidate_id" value="{$cid}"/>
+<input type="hidden" name="opt_index" value="1" />
+<br />
+<table border="0" cellspacing="1" cellpadding="4" align="center" width="100%">  
+  <tr>
+    <td><input type="button"  class="button" value="+" onclick="addRow('specialtyrow', 5, 'tr')" /></td>
+    <td align="left" >Category</td>
+    <td align="left" >Sub-Category</td>
+    <td align="left" >Level</td>
+  </tr>
+  {if $info.categories}
+  {foreach from=$info.categories item=item key=key}
+  <tr {if $key == 0}id="specialtyrow"{/if}>
+    <td>{if $key == 0}<span></span>{else}<input type="button"  class="button" value="-" onclick="jQuery(this).parent().parent().remove();" />{/if}</td>
+    <td><select name="categories[parent_id][]">{html_options options=$scategories selected=$item.parent_id}</select></td>
+    <td><select name="categories[category_id][]">{html_options options=$subcategeries[$item.parent_id] selected=$item.category_id}</select></td>
+    <td><select name="categories[level][]">{html_options options=$user_levels selected=$item.level}</select><input type="hidden" name="categories[category][]" value="{$item.category}" /></td>
+  </tr>
+  {/foreach}
+  {else}
+  <tr id="specialtyrow">
+    <td><span></span></td>
+    <td><select name="categories[parent_id][]">{html_options options=$scategories}</select></td>
+    <td><select name="categories[category_id][]"><option value="0" >Select</option></select></td>
+    <td><select name="categories[level][]">{html_options options=$user_levels}</select><input type="hidden" name="categories[category][]" value="" /></td>
+  </tr>
+  {/if}
+</table>
+<br />
+<br />
+<br />
+<br />
+<div>Please provide <strong>THREE</strong> writing samples (blog posts, print articles, SEO copywriting, etc.) that best display your writing style and/or expertise in a certain field. Samples may be provided as a URL Link, PDF or Word Document. </div>
+<div><span class="spanlabel" >*</span>Writing Samples </div>
+<table border="0" cellspacing="1" cellpadding="4" align="center" width="100%" >
+  <tr>
+    <td><input type="button"  class="button" value="+" onclick="addRow('samplerow', 3, 'tr', 'Writing Samples')" /></td>
+    <td>Add URLs</td>
+    <td></td>
+    <td>Upload a PDF or a Word Document</td>
+    <td>Link to your online Portfolio</td>
+    <td>Link to your online Blog</td>
+  </tr>
+  {if $info.samples}
+  {foreach from=$info.samples item=item key=key}
+  <tr {if $key == 0}id="samplerow"{/if}>
+    <td>{if $key == 0}<span></span>{else}<input type="button"  class="button" value="-" onclick="jQuery(this).parent().parent().remove();" />{/if}</td>
+    <td><input type="text" name="samples[link][]" value="{$item.link}" /></td>
+    <td>Or</td>
+    <td nowrap><input type="file" name="samples[fileField][]" /></td>
+    <td><input type="text" name="samples[portfolio][]" value="{$item.portfolio}" /></td>
+    <td><input type="text" name="samples[blog][]" value="{$item.blog}" /></td>
+  </tr>
+  {/foreach}
+  {else}
+  <tr id="samplerow">
+    <td><span></span></td>
+    <td><input type="text" name="samples[link][]" /></td>
+    <td>Or</td>
+    <td><input type="file" name="samples[fileField][]" /></td>
+    <td><input type="text" name="samples[portfolio][]" /></td>
+    <td><input type="text" name="samples[blog][]" /></td>
+  </tr>
+  {/if}
+</table>
+{if $info.samples && $info.samples[0].fileField}
+<table border="0" cellspacing="1" cellpadding="4" align="center" width="100%" class="sortableTable">
+  <tr>
+    <th class="table-left-corner">&nbsp;&nbsp;&nbsp;&nbsp;</th>
+    <td class="columnHeadInactiveBlack table-left-2">Writing Samples</td>
+    <td class="columnHeadInactiveBlack table-right-2"></td>
+    <th class="table-right-corner">&nbsp;&nbsp;&nbsp;</th>
+  </tr>
+{foreach from=$info.samples item=item key=key}
+{if $item.fileField}
+<tr>
+  <td class="table-left" >&nbsp;</td>
+  <td class="table-left-2">{$item.fileField.name}</td>
+  <td class="table-right-2"><input type="button" value="Donwload" class="button" onclick="javascript:openWindow('/user/sample_download.php?cid={$info.candidate_id}&t={$item.fileField.type|escape:"url"}&f={$item.fileField.filename|escape:"url"}', 'height=370,width=450,status=no,toolbar=no,menubar=no,location=no,resizable=yes,scrollbars=yes');"/> &nbsp;<input type="button" value="Delete" class="button" onclick="delWritingSample(jQuery(this), '{$info.candidate_id}', '{$item.fileField.filename}' )" /></td>
+  <td class="table-right" >&nbsp;</td>
+</tr>
+{/if}
+{/foreach}
+</table>
+{/if}
+<div>&nbsp;&nbsp;Having trouble submitting the form? Send email to hr@copypress.com &nbsp;&nbsp;<input type="button" value="Submit" class="button" onclick="check_f_candidate_s()" /></div>
+</form>
+</div>

@@ -1,0 +1,301 @@
+{include file="themes/$theme/header_jump.html"}
+{if $feedback ne ''}
+<script language="JavaScript">
+<!--
+alert("{$feedback}");
+//-->
+</script>
+{/if}
+<div id="page-box1">
+  <h2>Candidate Information</h2>
+  <div class="view-item" >
+<br><table border="0" cellspacing="1" cellpadding="4" align="center" width="100%">
+  <tr>
+    <td class="moduleTitle" colspan="2"></td>
+  </tr>
+
+  <tr>
+    <td class="bodyBold">Basic Information</td>
+  </tr>
+  <tr>
+    <td class="blackLine" colspan=2><img src="/image/misc/s.gif"></td>
+  </tr>
+  <tr>
+    <td class="requiredInput" width="15%">First Name&nbsp;</td>
+    <td>{if $candidate_res.first_name neq ''}{$candidate_res.first_name}{else}n/a{/if}
+    </td>
+  </tr>
+  <tr>
+    <td class="requiredInput">Last Name&nbsp;</td>
+    <td>{if $candidate_res.last_name neq ''}{$candidate_res.last_name}{else}n/a{/if}</td>
+  </tr>
+{*  <tr>
+    <td class="requiredInput">Birthday&nbsp;</td>
+    <td>{if $candidate_res.dob neq ''}{$candidate_res.dob|date_format:"%m-%d-%Y"}{else}n/a{/if}</td>
+  </tr>*}
+  <tr>
+    <td class="requiredInput">Sex&nbsp;</td>
+    <td>{if $candidate_res.sex neq ''}{$candidate_res.sex}{else}n/a{/if}</td>
+  </tr>
+  <tr>
+    <td class="requiredInput">Email&nbsp;</td>
+    <td>{if $candidate_res.email neq ''}{$candidate_res.email}{else}n/a{/if}</td>
+  </tr>
+  <tr>
+    <td class="requiredInput">Weekly Hours&nbsp;</td>
+    <td>{$candidate_res.weekly_hours|default:'n/a'}</td>
+  </tr>
+ {* <tr>
+    <td class="requiredInput">Weekly Productivity&nbsp;</td>
+    <td>{$candidate_res.productivity|default:'n/a'}</td>
+  </tr>*}
+  <tr>
+    <td class="requiredInput"></td>
+    <td>{if $candidate_res.work_in_us == 1}CopyPress is currently only hiring writers located in the United States, United Kingdom, Canada, and Australia. You are a citizen of one of these countries{else}CopyPress is currently only hiring writers located in the United States, United Kingdom, Canada, and Australia. You are not a citizen of one of these countries{/if}</td>
+  </tr>
+  {*<tr>
+    <td class="requiredInput">Your nationality</td>
+    <td>{$candidate_res.clocation}</td>
+  </tr>*}
+<tr>
+    <td class="requiredInput">Your First Language&nbsp;</td>
+    <td>{$candidate_res.first_language|default:'n/a'}</td>
+  </tr>
+{*  <tr>
+    <td class="dataLabel">Phone&nbsp;</td>
+    <td>{if $candidate_res.phone neq ''}{$candidate_res.phone}{else}n/a{/if}</td>
+  </tr>*}
+  <tr>
+    <td class="requiredInput">Country</td>
+    <td>{if $candidate_res.country neq ''}{$candidate_res.country}{else}n/a{/if}</td>
+  </tr>
+  <tr>
+    <td class="requiredInput">City&nbsp;</td>
+    <td>{if $candidate_res.city neq ''}{$candidate_res.city}{else}n/a{/if}</td>
+  </tr>
+  <tr>
+    <td class="requiredInput">State&nbsp;</td>
+    <td>{if $candidate_res.state neq ''}{$candidate_res.state}{else}n/a{/if}</td>
+  </tr>
+  <tr>
+    <td class="requiredInput">Zip&nbsp;</td>
+    <td>{if $candidate_res.zip neq ''}{$candidate_res.zip}{else}n/a{/if}</td>
+  </tr>
+  <tr>
+    <td class="requiredInput">Address&nbsp;</td>
+    <td>{if $candidate_res.address neq ''}{$candidate_res.address}{else}n/a{/if}</td>
+  </tr>
+{*  <tr>
+    <td class="requiredInput">Education</td>
+    <td>
+      {if $candidate_res.education neq ''}
+        <table id="table-2" class="sortableTable" cellspacing="0" cellpadding="0" align="center">
+          <tr>
+            <th class="table-left-corner">&nbsp;&nbsp;&nbsp;&nbsp;</th>
+            <td class="columnHeadInactiveBlack table-left-2" >Degree</td>
+            <td class="columnHeadInactiveBlack" >School</td>
+            <td class="columnHeadInactiveBlack table-right-2" >Marjor/Minor/Certificate</td>
+            <th class="table-right-corner">&nbsp;&nbsp;&nbsp;&nbsp;</th>
+          </tr>
+          {foreach from=$candidate_res.education item=row key=key}
+          <tr class="{if $smarty.foreach.loop.iteration % 2 eq 0}even{else}odd{/if}" name="loop" >
+            <td class="table-left" >&nbsp;</td>
+            <td class="table-left-2">{$row.degree|default:'n/a'}</td>
+            <td>{$row.school|default:'n/a'}</td>
+            <td class="table-right-2">{$row.major|default:'n/a'}</td>
+            <td class="table-right" >&nbsp;</td>            
+          </tr>
+          {/foreach}
+        </table>
+      {else}n/a{/if}
+    </td>
+  </tr>
+  <tr>
+    <td class="requiredInput">Work Experience&nbsp;</td>
+    <td>
+    {if $candidate_res.experience neq ''}
+    <table id="table-2" class="sortableTable" cellspacing="1" cellpadding="1" align="center">
+      <tr>
+        <th class="table-left-corner">&nbsp;&nbsp;&nbsp;&nbsp;</th>
+        <td class="columnHeadInactiveBlack table-left-2" >Job</td>
+        <td class="columnHeadInactiveBlack" >Company</td>
+        <td class="columnHeadInactiveBlack" >Title</td>
+        <td class="columnHeadInactiveBlack table-right-2" >Experience</td>
+        <th class="table-right-corner">&nbsp;&nbsp;&nbsp;&nbsp;</th>
+      </tr>
+        {foreach from=$candidate_res.experience item=row key=key}
+        <tr class="{if $smarty.foreach.loop.iteration % 2 eq 0}even{else}odd{/if}" name="loop" >
+          <td class="table-left" >&nbsp;</td>
+          <td class="table-left-2">{$p_cate[$row.job]|default:'n/a'}</td>
+          <td>{$row.company|default:'n/a'}</td>
+          <td>{$row.title|default:'n/a'}</td>
+          <td class="table-right-2">{$row.year|default:'n/a'}</td>
+          <td class="table-right" >&nbsp;</td>            
+        </tr>
+        {/foreach}
+    </table>
+    {else}n/a{/if}</td>
+  </tr>
+  <tr>
+    <td class="requiredInput">Writing Background&nbsp;</td>
+    <td>
+    {if $candidate_res.writing_background neq ''}
+    <table id="table-2" class="sortableTable" cellspacing="0" cellpadding="0" align="center">
+      <tr>
+        <th class="table-left-corner">&nbsp;&nbsp;&nbsp;&nbsp;</th>
+        <td class="columnHeadInactiveBlack table-left-2" >Writing Type</td>
+        <td class="columnHeadInactiveBlack table-right-2" >Source</td>
+        <th class="table-right-corner">&nbsp;&nbsp;&nbsp;&nbsp;</th>
+      </tr>
+        {foreach from=$candidate_res.writing_background item=row key=key}
+        <tr class="{if $smarty.foreach.loop.iteration % 2 eq 0}even{else}odd{/if}" name="loop" >
+          <td class="table-left" >&nbsp;</td>
+          <td class="table-left-2">{$row.type|default:'n/a'}</td>
+          <td class="table-right-2">{$row.source|default:'n/a'}</td>
+          <td class="table-right" >&nbsp;</td>            
+        </tr>
+        {/foreach}
+    </table>
+    {else}n/a{/if}</td>
+  </tr>
+  <tr>
+    <td class="requiredInput">Type of writer</td>
+    <td>
+    {foreach from=$candidate_res.writer_level item=item key=key}
+    {$item} <br />
+    {/foreach}
+    </td>
+  </tr>*}
+  <tr>
+    <td class="requiredInput">Your links</td>
+    <td>
+    {if $candidate_res.plinks}
+      <table id="table-2" class="sortableTable" cellspacing="0" cellpadding="0" align="center">
+        <tr>
+          <th class="table-left-corner">&nbsp;&nbsp;&nbsp;&nbsp;</th>
+          <td class="columnHeadInactiveBlack table-left-2" >Type</td>
+          <td class="columnHeadInactiveBlack table-right-2" >	Link</td>
+          <th class="table-right-corner">&nbsp;&nbsp;&nbsp;&nbsp;</th>
+        </tr>
+        {foreach from=$candidate_res.plinks item=row key=key}
+        {if $row.value}
+        <tr>
+          <td class="table-left" ></td>
+          <td class="table-left-2">{$candidate_plinks[$row.type]}</td>
+          <td class="table-right-2">{$row.value}</td>
+          <td class="table-right"></td>
+        </tr>
+        {/if}
+        {/foreach}
+      </table>
+    {/if}
+    </td>
+  </tr>
+  <tr>
+    <td class="requiredInput">Specailties&nbsp;</td>
+    <td>
+      {if $candidate_res.categories neq ''}
+        <table id="table-2" class="sortableTable" cellspacing="0" cellpadding="0" align="center">
+          <tr>
+            <th class="table-left-corner">&nbsp;&nbsp;&nbsp;&nbsp;</th>
+            <td class="columnHeadInactiveBlack table-left-2" >Category</td>
+            <td class="columnHeadInactiveBlack table-left-2" >URL</td>
+            <td class="columnHeadInactiveBlack table-left-2" >Document</td>
+            <td class="columnHeadInactiveBlack table-left-2" >	Relevant Experience</td>
+            <td class="columnHeadInactiveBlack table-right-2" >Description</td>
+            <th class="table-right-corner">&nbsp;&nbsp;&nbsp;&nbsp;</th>
+          </tr>
+          {foreach from=$candidate_res.categories item=row key=key}
+          <tr class="{if $smarty.foreach.loop.iteration % 2 eq 0}even{else}odd{/if}" name="loop" >
+            <td class="table-left" >&nbsp;</td>
+            <td class="table-left-2">{$row.category|default:'n/a'}</td>
+            <td >{$row.link|default:'n/a'}</td>
+            <td>{if $row.fileField.filename != ''}<a href="javascript:void(0)" onclick="javascript:openWindow('/user/sample_download.php?cid={$candidate_res.candidate_id}&fd=candidate_categories&t={$row.fileField.type|escape:"url"}&f={$row.fileField.filename|escape:"url"}', 'height=370,width=450,status=no,toolbar=no,menubar=no,location=no,resizable=yes,scrollbars=yes');">{$row.fileField.name}</a>{else}n/a{/if}</td>
+            <td class="table-left-2">{$user_levels[$row.level]|default:'n/a'}</td>
+            <td class="table-right-2">{$row.description|default:'n/a'|nl2br}</td>
+            <td class="table-right" >&nbsp;</td>            
+          </tr>
+          {/foreach}
+        </table>
+        {if $candidate_res.is_categories_doc}<input type="button" class="button" value="Download Documents" onclick="javascript:openWindow('/user/sample_download.php?cid={$candidate_res.candidate_id}&fd=candidate_categories', 'height=370,width=450,status=no,toolbar=no,menubar=no,location=no,resizable=yes,scrollbars=yes');" />{/if}  
+      {else}n/a{/if}
+    </td>
+  </tr>
+
+  <tr>
+    <td class="requiredInput">Writing Samples&nbsp;</td>
+    <td>
+      {if $candidate_res.samples neq ''}
+        <table id="table-2" class="sortableTable" cellspacing="0" cellpadding="0" align="center">
+          <tr>
+            <th class="table-left-corner">&nbsp;&nbsp;&nbsp;&nbsp;</th>
+            <td class="columnHeadInactiveBlack table-left-2" >Sample Type</td>
+            <td class="columnHeadInactiveBlack" >URL</td>
+            <td class="columnHeadInactiveBlack table-right-2" >Document</td>
+            <th class="table-right-corner">&nbsp;&nbsp;&nbsp;&nbsp;</th>
+          </tr>
+          {foreach from=$candidate_res.samples item=row key=key}
+          {if $row.link || $row.fileField.filename}
+          <tr class="{if $smarty.foreach.loop.iteration % 2 eq 0}even{else}odd{/if}" name="loop" >
+            <td class="table-left" >&nbsp;</td>
+            <td class="table-left-2">{$sample_types[$row.type]}</td>
+            <td>{$row.link|default:'n/a'}</td>
+            <td class="table-right-2">{if $row.fileField.filename != ''}<a href="javascript:void(0)" onclick="javascript:openWindow('/user/sample_download.php?cid={$candidate_res.candidate_id}&t={$row.fileField.type|escape:"url"}&f={$row.fileField.filename|escape:"url"}', 'height=370,width=450,status=no,toolbar=no,menubar=no,location=no,resizable=yes,scrollbars=yes');">{$row.fileField.name}</a>{else}n/a{/if}</td>
+            <td class="table-right" >&nbsp;</td>            
+          </tr>
+          {/if}
+          {/foreach}
+        </table>
+         {if $candidate_res.is_samples_doc}<input type="button" class="button" value="Download Samples" onclick="javascript:openWindow('/user/sample_download.php?cid={$candidate_res.candidate_id}', 'height=370,width=450,status=no,toolbar=no,menubar=no,location=no,resizable=yes,scrollbars=yes');" />{/if}        
+      {else}n/a{/if}
+    </td>
+  </tr>
+  <tr>
+    <td class="dataLabel" nowrap>Additional Comments&nbsp;</td>
+    <td>{$candidate_res.comments|nl2br}</td>
+  </tr>
+{*  <tr>
+    <td class="requiredInput">Writing Sample&nbsp;</td>
+    <td>{if $candidate_res.writing_sample neq ''}<div>{$candidate_res.writing_sample|strip_tags|nl2br}</div>{else}n/a{/if}</td>
+  </tr>
+  <tr>
+    <td class="requiredInput">How did you hear about us?&nbsp;</td>
+    <td>{$info.hear_from|nl2br|default:'n/a'}</td>
+  </tr>*}
+  <tr>
+    <td>Position</td>
+    <td>{$cpermissions[$candidate_res.cpermission]}</td>
+  </tr>
+{*  <tr>
+    <td>Revised Article</td>
+    <td>{if $candidate_res.revised_article neq ''}<div>{$candidate_res.revised_article|nl2br}</div>{else}n/a{/if}</td>
+  </tr>
+  <tr>
+    <td>Provide Feedback(Editor Only)</td>
+    <td>{if $candidate_res.feedback neq ''}<div>{$candidate_res.feedback|nl2br}</div>{else}n/a{/if}</td>
+  </tr>
+  {if $candidate_res.resume_file != ''}
+  <tr>
+    <td class="requiredInput">Download Resume File</td>
+    <td><a href="javascript:void(0)" onclick="javascript:openWindow('/user/resume_download.php?cid={$candidate_res.candidate_id}&f={$candidate_res.resume_file|escape:"url"}', 'height=370,width=450,status=no,toolbar=no,menubar=no,location=no,resizable=yes,scrollbars=yes');">{$candidate_res.resume_file}</a></td>
+  </tr>
+  {/if}*}
+  <tr>
+    <td class="blackLine" colspan="2"><img src="/image/misc/s.gif"></td>
+  </tr>
+  {if $candidate_res.is_samples_doc || $candidate_res.is_categories_doc}
+  <tr>
+    <td></td>
+    <td><input type="button" class="button" value="Download All" onclick="javascript:openWindow('/user/sample_download.php?cid={$candidate_res.candidate_id}&fd=all', 'height=370,width=450,status=no,toolbar=no,menubar=no,location=no,resizable=yes,scrollbars=yes');" /></td>
+  </tr>
+  {/if}
+  <tr>
+    <td>&nbsp;</td>
+    <td align="" nowrap>
+      <!--<input type="button" value="Close Window" class="button" onclick="window.close();">-->
+    </td>
+  </tr>
+</table>
+  </div>
+</div>
+{include file="themes/$theme/footer_jump.html"}

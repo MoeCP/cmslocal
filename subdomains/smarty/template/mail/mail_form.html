@@ -1,0 +1,86 @@
+{include file="themes/$theme/header.html"}
+
+{if $feedback ne ''}
+<script language="JavaScript">
+<!--
+alert("{$feedback}");
+//-->
+</script>
+{/if}
+
+{literal}
+<script language="JavaScript">
+<!--
+function check_f_email_template()
+{
+  var f = document.f_email_template;
+
+  if (f.event_id.value.length == 0) {
+    alert('Please choose a template name');
+    f.event_id.focus();
+    return false;
+  }
+
+  if (f.subject.value.length == 0) {
+    alert('Please enter email\'s subject');
+    f.subject.focus();
+    return false;
+  }
+  if (f.body.value.length == 0) {
+    alert('Please enter email\'s subject');
+    f.body.focus();
+    return false;
+  }
+
+  return true;
+}
+//-->
+</script>
+{/literal}
+
+<div id="page-box1">
+  <h2>Email template setting</h2>
+  <div id="campaign-search" >
+    <strong>Please enter the email template required information.</strong>
+  </div>
+  <div class="form-item" >
+<br><table border="0" cellspacing="1" cellpadding="4" align="center" width="100%">
+  <form action="" method="post"  name="f_email_template" {if $js_check eq true} onsubmit="return check_f_email_template()"{/if}>
+  <input type="hidden" name="template_id" value="{$template_info.template_id}">
+  <tr>
+    <td class="bodyBold">Basic Information</td>
+    <td align="right" class="requiredHint">Required Information</td>
+  </tr>
+  <tr>
+    <td class="blackLine" colspan=2><img src="/image/misc/s.gif"></td>
+  </tr>
+  <tr>
+    <td class="requiredInput">Tempate Name</td>
+    <td><select name="event_id">{html_options options=$email_event selected=$template_info.event_id}</select></td>
+  </tr>
+  <tr>
+    <td class="requiredInput">Subject</td>
+    <td><input name="subject" type="text" id="subject" size="80" value="{$template_info.subject}" onchange="javascript:this.value=Trim(this.value)"></td>
+  </tr>
+  <tr>
+    <td class="requiredInput">Body</td>
+    <td><textarea name="body" cols="80" rows="7" id="body">{$template_info.body}</textarea></td>
+  </tr>
+  <tr>
+    <td class="dataLabel">Description</td>
+    <td><textarea name="description" cols="50" rows="4" id="description">{$template_info.description}</textarea></td>
+  </tr>
+  <tr>
+    <td class="blackLine" colspan=2><img src="/image/misc/s.gif"></td>
+  </tr>
+
+  <tr>
+    <td>&nbsp;</td>
+    <td><input type="submit" value="Submit" class="button">&nbsp;<input type="reset" value="reset" class="button"></td>
+  </tr>
+  </form>
+</table>
+<br>
+  </div>
+</div>
+{include file="themes/$theme/footer.html"}

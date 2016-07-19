@@ -1,0 +1,55 @@
+<div class="page-box1-class">
+<h2>Payment History</h2>
+</div>
+<table id="table-1" cellspacing="0" align="center" cellpadding="0" class="sortableTable">
+  <thead>
+  <tr class="sortableTab">
+    <th class="table-left-corner" rowspan="2">&nbsp;&nbsp;&nbsp;&nbsp;</th>
+    <td nowrap class="columnHeadInactiveBlack table-left-2" rowspan="2">#</td>
+    <td nowrap class="columnHeadInactiveBlack" rowspan="2">Month/Year</td>
+    <td nowrap class="columnHeadInactiveBlack" colspan="{$total_type}" align="center">Total Client Approved Words</td>
+    <td nowrap class="columnHeadInactiveBlack" rowspan="2">Pay Words Total</td>
+    <td nowrap class="columnHeadInactiveBlack" rowspan="2">Pay Amount</td>
+    <td nowrap class="columnHeadInactiveBlack table-right-2" rowspan="2"></td>
+    <th class="table-right-corner" rowspan="2">&nbsp;&nbsp;&nbsp;&nbsp;</th>
+  </tr>
+  <tr class="sortableTab">
+    {foreach from=$g_article_types item=item key=key name="loop2"}
+    <td class="columnHeadInactiveBlack">{$item}</td>
+    {/foreach}
+  </tr>
+  </thead>
+  {foreach from=$histories item=item name="loop"}
+  <tr class="{if $smarty.foreach.loop.iteration % 2 eq 0}even{else}odd{/if}">
+        <td class="table-left" >&nbsp;</td>
+    <td class="table-left-2">{$smarty.foreach.loop.iteration}</td>
+    <td>{$item.month_format}</td>
+    {foreach from=$g_article_types item=item2 key=key name="loop2"}
+    <td>{if $item.types.$key.total}{$item.types.$key.total}{else}0{/if}</td>
+    {/foreach}
+    {if $login_role == 'editor' || $login_role == 'copy writer'}
+    <td>{if $item.total > 0}<a href="/client_campaign/payment_log.php?month={$item.month}" style="color:red;" >{$item.total}</a>{else}{$item.total}{/if}</td>
+    {else}
+    <td>{if $item.total > 0}<a href="/client_campaign/payment_log.php?month={$item.month}&user_id={$user_info.user_id}&role={$user_info.role}" style="color:red;" >{$item.total}</a>{else}{$item.total}{/if}</td>
+    {/if}
+    <td>${$item.payment}</td>
+    {if $login_role == 'editor' || $login_role == 'copy writer'}
+    <td class="table-right-2"><input type="button" class="button" value="view invoice" onclick="window.open('/client_campaign/view_invoice.php?user_id={$user_info.user_id}&month={$item.month}&role={$user_info.role}', 'view_invoice',  'status=yes, width=900, height=400,  left=50,  top=50, scrollbars=yes, resizable=yes');"></td>
+    {else}
+    <td class="table-right-2"><input type="button" class="button" value="view invoice" onclick="window.open('/client_campaign/cp_invoice.php?user_id={$user_info.user_id}&month={$item.month}&role={$user_info.role}', 'view_invoice',  'status=yes, width=900, height=400,  left=50,  top=50, scrollbars=yes, resizable=yes');"></td>
+    {/if}
+    <td class="table-right" >&nbsp;</td>
+  </tr>
+  {/foreach}
+  <tr>
+    <td class="table-left" >&nbsp;</td>
+    <td colspan="2" class="table-left-2">Total</td>
+    {foreach from=$g_article_types item=item2 key=key name="loop2"}
+    <td  style="color:red;" >{if $stats.types.$key.total}{$stats.types.$key.total}{else}0{/if}</td>
+    {/foreach}
+    <td  style="color:red;" >{$stats.total}</td>
+    <td>${$stats.payment}</td>
+    <td class="table-right-2" >&nbsp;</td>
+    <td class="table-right" >&nbsp;</td>
+  </tr>
+</table>

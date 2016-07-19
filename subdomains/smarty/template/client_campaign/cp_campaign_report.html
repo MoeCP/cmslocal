@@ -1,0 +1,234 @@
+{include file="themes/$theme/header.html"}
+
+{if $feedback ne ''}
+<script language="JavaScript">
+<!--
+alert('{$feedback}');
+//-->
+</script>
+{/if}
+
+{literal}
+<script language="JavaScript">
+<!--
+function  doAcctFlow(user_id, flow_status, article_ids, month) {
+	f = document.f_acct_flow;
+	f.user_id.value = user_id;
+	f.payment_flow_status.value = flow_status;
+	f.article_ids.value = article_ids;
+	f.month.value = month;
+	f.submit();
+}
+{/literal}{* modified by snug xu 2007-05-21 16:33 - STARTED *}{literal}
+var user_info = new Array();
+var user_report = {};
+user_report.ajaxUpdate = function(ajaxResponse)
+{
+	var form = document.f_acct_flow;
+  var type_info = new Array();
+  var lth     = ajaxResponse.childNodes.length;
+  var key    = null;
+  var value = null;
+  for (var i=0; i< lth ;i++ )
+  {
+     key    = ajaxResponse.childNodes[i].getAttribute("key_name");
+     value  = ajaxResponse.childNodes[i].getAttribute("value");
+     switch (key)
+     {
+        case 'payment_flow_status':
+          var payment_flow_status = value;
+          break;
+        case 'set_flow_status_time':
+          var set_flow_status_time = value;
+          break;
+        case 'date_pay':
+          var date_pay = value;
+          break;
+        case 'payment':
+          var payment = value;
+          break;
+        case 'memo':
+          var memo = value;
+          break;
+        case 'gct_count':
+          var gct_count = value;
+          break;
+        case 'pay_gct_count':
+          var pay_gct_count = value;
+          break;
+        case 'article_ids':
+          var article_ids = value;
+          break;
+        case 'user_id':
+          var user_id = value;
+          break;  
+        case 'month':
+          var month = value;
+          break;
+        default:
+          var j = type_info.length;
+          type_info[j] = new Array;
+          type_info[j][0] = key;
+          type_info[j][1] = value;
+          break;
+     }
+  }
+	if(gct_count > 0)
+	{
+		gct_count = '<a href="/client_campaign/keyword_list.php?copy_writer_id=' + user_id + '&month=' + month + '&payment_flow_status=' + payment_flow_status + '&is_pay_adjust=1" target="_blank"><font color="red">' + gct_count + '</font></a>';
+	}
+	switch( payment_flow_status )
+	{
+		case "ap" :
+			payment_flow_status = '<font color="red">[Infinitenine Approved]</font>';
+			payment_flow_status += '<input type="button" class="button" value="approve again" onclick="if (confirm(\'send approve email again?\')) doAcctFlow(\'' + user_id + '\', \'ap\', \'' + article_ids + '\', \'' + month + '\');"/>';
+			break;
+		case "cpc":
+			payment_flow_status = '<input type="button" class="button" value="mark as paid" onclick="if (confirm(\'paid?\')) doAcctFlow(\''+user_id +'\', \'paid\', \''+article_ids+'\', \'' + month + '\');">';
+			payment_flow_status += '&nbsp;<input type="button" class="button" value="view invoice" onclick="window.open(\'/client_campaign/cp_invoice.php?user_id=' + user_id + '&month=' + month + '\', \'view_invoice\',  \'status=yes, width=900, height=400,  left=50,  top=50, scrollbars=yes, resizable=yes\');">';
+			break;
+		case "dwe":
+			payment_flow_status = '<a href="#" target="_self" onMouseOver="return overlib(\'<table width=300><tr><td nowrap>memo </td></tr><tr><td>' + memo + '</td></tr></table>\');" onMouseOut="return nd();">disapprove with explanation</a><input type="button" class="button" value="re-approve" onclick="if (confirm(\'re-approve?\')) doAcctFlow(\'' + user_id + '\', \'ap\', \'' + article_ids + '\', \'' + month + '\');">';		
+			break;
+		case "paid":
+			payment_flow_status = '<input type="button" class="button" value="view invoice" onclick="window.open(\'/client_campaign/cp_invoice.php?user_id=' + user_id + '&month=' + month + '\', \'view_invoice\',  \'status=yes, width=900, height=400,  left=50,  top=50, scrollbars=yes, resizable=yes\');">';
+			break;
+		default:
+			payment_flow_status = '<input type="button" class="button" value="approve" onclick="if (confirm(\'approve?\')) doAcctFlow(\'' + user_id + '\', \'ap\', \'' + article_ids + '\', \'' + month + '\');">';
+			payment_flow_status += '&nbsp;<input type="button" class="button" value="confirm" onclick="if (confirm(\'Approve without copywriter confirmation?\')) doAcctFlow(\'' + user_id + '\', \'cpc\', \'' + article_ids + '\', \'' + month + '\');">';
+			break;
+	}
+  for (var j=0; j < type_info.length; j++)
+  {
+	     $('t' + type_info[j][0] + '_count_' + user_id).innerHTML  = type_info[j][1];
+  }
+	$('gct_count_' + user_id).innerHTML = gct_count;
+	$('pay_gct_count_'+user_id).innerHTML = pay_gct_count;
+	if (pay_gct_count > 0)
+	{
+		$('payment_status_'+user_id).innerHTML = payment_flow_status;
+	}
+	else
+	{
+		$('payment_status_'+user_id).innerHTML = '';
+	}
+}
+
+{/literal}{* modified by snug xu 2007-05-21 16:33 - FINISHED *}{literal}
+
+
+function onMonthChange(o, user_id, count)
+{
+	var f = document.f_acct_flow;
+	var month=o.options[o.selectedIndex].value;
+	if( count==0 )
+	{
+		ajaxEngine.registerRequest( 'get_copywriter_report', 'get_copywriter_report.php' );
+		ajaxEngine.registerAjaxObject('user_report', user_report);
+		ajaxEngine.sendRequest( 'get_copywriter_report', 'user_id='+user_id, 'month='+month );
+	}
+	else if  ( user_info[0]=='' || user_info[0]==null)
+	{
+		count++;
+		setTimeout('onMonthChange( ' +o+ ', '+user_id+', ' +count +')', 250);
+	}
+}
+//-->
+</script>
+{/literal}
+<div id="page-box1">
+  <h2>Copywriter Campaign List</h2>
+  <div id="campaign-search" >
+    <div id="campaign-search-box" >
+<form name="f_assign_keyword_return" action="" method="get">
+<table border="0" cellspacing="1" cellpadding="4">
+  <tr>
+    <td nowrap>Campaign</td>
+    <td><select name="campaign_id"><option value="">[choose]</option>{html_options options=$campaign_list  selected=$smarty.get.campaign_id}</select></td>
+    <td nowrap>Show:</td>
+    <td nowrap><select name="perPage" onchange="this.form.submit();">{html_options options=$g_pager_perPage selected=$smarty.get.perPage}</select> row(s)</td>
+    <td nowrap>Month:</td>
+    <td><select name="month" onchange="this.form.submit();">{html_options options=$monthes selected=$month}</select></td>
+    <td nowrap>User Status:</td>
+    <td nowrap><select name="status">{html_options options=$total_status selected=$smarty.get.status}</select></td>
+    <td colspan="4"><input type="image" src="/images/button-search.gif" value="submit" /></td>
+  </tr>
+</table>
+</form><br>
+    </div>
+  </div>
+</div>
+
+<div class="tablepadding"> 
+<table id="table-1" cellspacing="0" align="center" cellpadding="0" class="sortableTable">
+  <thead>
+  <tr class="sortableTab">
+    <th class="table-left-corner" rowspan="2">&nbsp;&nbsp;&nbsp;&nbsp;</th>
+    <td nowrap class="columnHeadInactiveBlack table-left-2" rowspan="2">#</td>
+    <td nowrap class="columnHeadInactiveBlack" rowspan="2">User Name</td>
+    <td nowrap class="columnHeadInactiveBlack" rowspan="2">First Name</td>
+    <td nowrap class="columnHeadInactiveBlack" rowspan="2">Last Name</td>
+    <td nowrap class="columnHeadInactiveBlack" rowspan="2">Email</td>
+    <td nowrap class="columnHeadInactiveBlack" rowspan="2">Status</td>
+    <td nowrap class="columnHeadInactiveBlack" rowspan="2">Campaign Name</td>
+    <td nowrap class="columnHeadInactiveBlack" colspan="{$total_type}" align="center">Client Approved&nbsp;/&nbsp;{$now|date_format:"%B, %Y"}</td>
+    <td nowrap class="columnHeadInactiveBlack table-right-2" rowspan="2">Total</td>
+    <th class="table-right-corner" rowspan="2">&nbsp;&nbsp;&nbsp;&nbsp;</th>
+  </tr>
+  <tr class="sortableTab">
+    {foreach from=$g_article_types item=item key=key name="loop2"}
+    <td class="columnHeadInactiveBlack">{$item}</td>
+    {/foreach}
+  </tr>
+  </thead>
+  <form action="" method="post"  name="f_acct_flow">
+  <input type="hidden" name="user_id" value="">
+  <input type="hidden" name="payment_flow_status" value="">
+  <input type="hidden" name="article_ids" value="">
+  <input type="hidden" name="month" value="">
+  {foreach from=$result item=item name="loop"}
+  <tr class="{if $smarty.foreach.loop.iteration % 2 eq 0}even{else}odd{/if}">
+    <td class="table-left" >&nbsp;</td>
+    <td class="table-left-2">{$smarty.foreach.loop.iteration+$count_start}</td>
+    <td>{$item.user_name}</td>
+    <td>{$item.first_name}</td>
+    <td>{$item.last_name}</td>
+    <td>{$item.email}</td>
+    <td>{if $item.status eq A}<label style="color:red">{$total_status.A}<label>{else}{$total_status.D}{/if}</td>
+    <td>{$item.campaign_name}</td>
+    {foreach from=$g_article_types item=type key=key name="loop1" }
+    <td id='t{$key}_count_{$item.user_id}' >{$item[$key]}</td>
+    {/foreach}
+    <td id='gct_count_{$item.user_id}'  class="table-right-2"><a href="/client_campaign/keyword_list.php?copy_writer_id={$item.user_id}&month={$month}&campaign_id={$item.campaign_id}" target="_blank"><font color="red"><font color="red">{$item.total}</font></a></td>
+    <td class="table-right" >&nbsp;</td>
+  </tr>
+  {/foreach}
+  </form>
+</table>
+<div class="pagingpaddingleft" >
+  <table align="center" width="100%" border="0" cellspacing="0" cellpadding="0" >
+    <tr><td class="table-left table-paging-left" width="20" height="37" >&nbsp;</td><td class="table-bottom">{$pager} (Total Page:{$total})(Total Count:{$count})</td><td class="table-right table-paging-right" width="21">&nbsp;</td></tr>
+  </table>
+</div>
+</div>
+
+<script type="text/javascript">
+//<![CDATA[
+{literal}
+var st = new SortableTable(document.getElementById("table-1"),
+  ["Number", "CaseInsensitiveString", "CaseInsensitiveString",  "CaseInsensitiveString", "CaseInsensitiveString"]);
+
+st.onsort = function () {
+  var rows = st.tBody.rows;
+  var l = rows.length;
+  for (var i = 0; i < l; i++) {
+    removeClassName(rows[i], i % 2 ? "odd" : "even");
+    addClassName(rows[i], i % 2 ? "even" : "odd");
+  }
+};
+
+st.asyncSort(0);
+{/literal}
+//]]>
+</script>
+{include file="themes/$theme/footer.html"}

@@ -1,0 +1,28 @@
+<div class="title-top-box" id="navWorkExperience" >Writing Sample</div>
+<div class="form-item">
+  <div class="title-desc-box"><strong>Instructions: Showcase your writing ability by submitting a 150 word article on the topic you are most knowledgeable in. Please write in your preferred style and tone of writing and be as creative as you want to be.</strong></div>
+<form action="" method="post"  name="f_candidate_ws" {if $js_check eq true} onsubmit="return check_f_candidate_ws()"{/if}  >
+<input type="hidden" name="candidate_id" value="{$cid}"/>
+<input type="hidden" name="opt_index" value="5" />
+<br>
+<table border="0" cellspacing="1" cellpadding="4" align="center" width="100%">  
+  <tr>
+    <td class="bodyBold">Basic Information</td>
+    <td align="right" class="requiredHint" nowrap>Required Information</td>
+  </tr>
+  <tr>
+    <td class="blackLine" colspan="5"><img src="/image/misc/s.gif"></td>
+  </tr>
+  <tr><td colspan="5"  align="left" >Writing Sample<td></tr>
+  <tr>
+    <td colspan="5" ><div id="contentdiv" ><textarea name="writing_sample" cols="75" rows="15" >{$info.writing_sample|strip_tags}</textarea></div></td>
+  </tr>
+  <tr>
+    <td class="blackLine" colspan="5"><img src="/image/misc/s.gif"></td>
+  </tr>
+  <tr>
+    <td colspan="4" >&nbsp;Having trouble submitting the form? Send email to hr@copypress.com&nbsp;&nbsp;<input type="submit" value="Next" class="button"></td>
+  </tr>
+</table>
+</form>
+</div>

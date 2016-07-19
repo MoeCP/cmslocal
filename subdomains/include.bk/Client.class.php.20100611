@@ -1,0 +1,1119 @@
+<?php
+/**
+* Client Class（用户操作类）
+*
+* 本类是实现用户(admin,project manager, copywriter, editor)的添加，修改，删除和查找功能。
+* This class file contain add,update,delete and search user's function 
+*
+* @global  string $conn
+* @global  string $feadback
+* @author  Leo.Liu  <leo.liuxl@gmail.com>
+* @copyright Copyright &copy; 2006
+* @access  public
+*/
+class Client {
+
+    /**
+     * Login routine
+     *
+     * @param string $user_name
+     * @param string $user_pw
+     *
+     * @return boolean or an array containing session user info
+     */
+    function getLogin($user_name, $user_pw) {
+        global $conn, $feedback;
+
+        $user_name = trim($user_name);
+        $user_pw   = strtolower(trim($user_pw));
+
+        if ($user_name == '' || $user_pw == '') {
+            $feedback = 'Please Enter Client User Name AND Password';//Please type user name and password
+            return false;//请输入用户名和密码
+        }
+
+        //We should decode the password by md5();
+        $q = "SELECT * FROM `client` ".
+             "WHERE user_name = '".$user_name."' ".
+             "AND user_pw = '".addslashes($user_pw)."' AND status != 'D'";
+        $rs = &$conn->Execute($q);
+        if (!$rs) {
+            $feedback = 'Login Incorrect! Please Try Again...';//Invalid user name or password, Please Try again
+            return false;
+        } else {
+            $client_id  = $rs->fields['client_id'];
+            $status     = $rs->fields['status'];//We should add a status field, better than delete one user directly
+            $user_name  = $rs->fields['user_name'];
+            $rs->Close();
+        }
+
+        if ($client_id != 0) { // don't use record count to improve performance
+
+            if ($status == 'A') {
+
+                //$user_perm = User_Perm::getPerm($user_id); // If we extends our permission, add a class user_perm is a good idea,and this class i had finished
+
+                return array('client_id'    => $client_id,
+                             'user_name'  => $user_name,
+                             'status'     => $status);
+            } else {
+                $feedback = 'Login incorrect! Please try again';//This account didn't login
+                return false;
+            }
+
+        } else {
+            $feedback = 'Invalid user name or password, Please type again';//Invalid user name or password, Please type again(用户名或密码不正确，请重新填写)
+            return false;
+        }
+    }// end getLogin()
+
+    /**
+     * Set login vars in storage
+     *
+     * @param array $login return from this::getLogin()
+     */
+    function setLogin($login)
+    {
+        $_SESSION['client_id']   = $login['client_id'];
+        $_SESSION['user_name'] = $login['user_name'];
+        $_SESSION['status']    = $login['status'];
+
+        $_SESSION['user_ip'] = $_SERVER['REMOTE_ADDR'];
+
+        Logger::logClientSession($login['client_id'], session_id());
+    }//end setLogin()
+
+    /**
+     * Add an client and client's information
+     *
+     * @param array $p the value was submited by form
+     *
+     * @return boolean or an int
+     */
+    function add($p = array())
+    {
+        global $conn, $feedback;
+        //global $g_tag;
+
+        if (User::getRole() != 'admin' && User::getRole() != 'agency') {
+            $feedback = "Have not the permission add one client user";
+            return false;
+        }
+
+        // added by snug xu 2006-11-24  - START
+        // get creation user info of this client
+        $creation_user = addslashes(htmlspecialchars(trim($p['creation_user'])));
+        $creation_role = addslashes(htmlspecialchars(trim($p['creation_role'])));
+        // added by snug xu 2006-11-24  - END
+
+        $user_name = addslashes(htmlspecialchars(trim($p['user_name'])));
+        if ($user_name == '') {
+            $feedback = "Please enter client's user name";
+            return false;
+        }
+        if (!valid_user_name($user_name)) {
+            return false;
+        }
+        $pass = addslashes(htmlspecialchars(trim($p['user_pw'])));
+        if ($pass != addslashes(htmlspecialchars(trim($p['user_pwnew'])))) {
+            $feedback = 'Password mismatch, Please enter the password again';//两次填写的新密码不一致，请重新填写
+            return false;
+        }
+
+        if (!valid_pw($pass)) {//this function in the utils.php,
+            return false;
+        }
+
+        $company_name = addslashes(htmlspecialchars(trim($p['company_name'])));
+        if ($company_name == '') {
+            $feedback = "Please provide client's company name";//请填写first name.
+            return false;
+        }
+        $city = addslashes(htmlspecialchars(trim($p['city'])));
+        if ($city == '') {
+            $feedback = "Please provide city";
+            return false;
+        }
+
+        $email = addslashes(htmlspecialchars(trim($p['email'])));
+        if (!valid_email($email)) {
+            return false;
+        }
+
+        $state = addslashes(htmlspecialchars(trim($p['state'])));
+        if ($state == '') {
+            $feedback = "Please enter state";
+            return false;
+        }
+
+        $zip = addslashes(htmlspecialchars(trim($p['zip'])));
+        if ($zip == '') {
+            $feedback = "Please provide ZIP";
+            return false;
+        }
+
+        $project_manager_id = addslashes(htmlspecialchars(trim($p['project_manager_id'])));
+        if ($project_manager_id == '') {
+            $feedback = "Please provide a project manager";
+            return false;
+        }
+
+        $q = "SELECT COUNT(*) AS count FROM `client` WHERE user_name = '".$user_name."'";
+        $rs = &$conn->Execute($q);
+        $count = 0;
+        if ($rs) {
+            $count = $rs->fields['count'];
+            $rs->Close();
+        }
+        if ($count > 0) {
+            $feedback = "The client's user name already registered, please type another name.";//用户名重复
+            return false;
+        }
+
+        $conn->StartTrans();
+        $client_id = $conn->GenID('seq_client_client_id');
+
+        $q = "INSERT INTO `client` (`client_id`, `user_name`, `user_pw`, `company_name`, `company_address`, ".
+                                 "`country`, `city`, `state`, `zip`, `email`, `company_url`, `company_phone`, `company_fax`, ".
+                                 "`bill_email`, `bill_office_phone`, `bill_cell_phone`, `bill_fax`, ".
+                                 "`technical_email`, `technical_office_phone`, `technical_cell_phone`, `payment_history`, `date_created`, `creation_user`, `creation_role`, `project_manager_id`) ".
+             "VALUES ('".$client_id."', ".
+                     "'".$user_name."', ".
+                     "'".$pass."', ".
+                     "'".$company_name."', ".
+                     "'".addslashes(htmlspecialchars(trim($p['company_address'])))."', ".
+                     "'".addslashes(htmlspecialchars(trim($p['country'])))."', ".
+                     "'".$city."', ".
+                     "'".$state."', ".
+                     "'".$zip."', ".
+                     "'".$email."', ".
+                     "'".addslashes(htmlspecialchars(trim($p['company_url'])))."', ".
+                     "'".addslashes(htmlspecialchars(trim($p['company_phone'])))."', ".
+                     "'".addslashes(htmlspecialchars(trim($p['company_fax'])))."', ".
+                     "'".addslashes(htmlspecialchars(trim($p['bill_email'])))."', ".
+                     "'".addslashes(htmlspecialchars(trim($p['bill_office_phone'])))."', ".
+                     "'".addslashes(htmlspecialchars(trim($p['bill_cell_phone'])))."', ".
+                     "'".addslashes(htmlspecialchars(trim($p['bill_fax'])))."', ".
+                     "'".addslashes(htmlspecialchars(trim($p['technical_email'])))."', ".
+                     "'".addslashes(htmlspecialchars(trim($p['technical_office_phone'])))."', ".
+                     "'".addslashes(htmlspecialchars(trim($p['technical_cell_phone'])))."', ".
+                     "'".addslashes(htmlspecialchars(trim($p['payment_history'])))."', ".
+                     "'".date('Y-m-d H:i:s', time())."', ".
+                     // added by snug xu 2006-11-24 12:25 - start
+                     // insert the creation user info of this client to database
+                     "'".$creation_user."', ".
+                     "'".$creation_role."', ".
+                     // added by snug xu 2006-11-24 12:25 - start
+                     "'".$project_manager_id."')";
+
+        $conn->Execute($q);
+
+        $ok = $conn->CompleteTrans();
+
+        if ($ok) {
+            $feedback = 'Success';
+            return $client_id;
+        } else {
+            $feedback = 'Failure, Please try again';
+            return false;
+        }
+
+    }//end add()
+
+    /**
+     * Change client's password by user self or admin
+     *
+     * @param int     $user_id
+     * @param string  $new_pw1
+     * @param string  $new_pw2
+     * @param string  $old_pw
+     * @param boolean $require_old_pw  Must set to true when $old_pw != null
+     *
+     * @return boolean
+     */
+    function setPasswd($client_id, $new_pw1, $new_pw2, $require_old_pw = true, $old_pw = 'xxx')
+    {
+        global $conn, $feedback;
+
+        $old_pw  = strtolower(trim($old_pw));
+        $new_pw1 = strtolower(trim($new_pw1));
+        $new_pw2 = strtolower(trim($new_pw2));
+        $client_id = addslashes(htmlspecialchars(trim($client_id)));//Forbid hacker attack database by inject sql;
+
+        if ($new_pw1 == '' || $new_pw2 == '' || ($require_old_pw && $old_pw == '')) {
+            $feedback = 'Please enter password';//pls. type password.
+            return false;
+        }
+
+        if ($new_pw1 != $new_pw2) {
+            $feedback = 'Password Mismatch, Please Check Your Input And Enter The Password Again';//两次填写的新密码不一致，请重新填写
+            return false;
+        }
+
+        if (!valid_pw($new_pw1)) {//utils.php
+            return false;
+        }
+
+        if ($require_old_pw) {
+            $client_info = self::getInfo($client_id);
+            if ($old_pw != stripslashes($client_info['user_pw'])) {
+                $feedback = 'Incorrect Old Password, Please Try Again';//the old password did not correct(旧密码不正确，请重新填写)
+                return false;
+            }
+        }
+
+        // the password need md5()?
+        // all checks passed
+        $q = "UPDATE `client` SET user_pw = '".addslashes(htmlspecialchars($new_pw1))."' ".
+             "WHERE client_id = '".$client_id."'";
+
+        if ($conn->Execute($q) === false) {
+            $feedback = 'Failure, Please try again.';//密码更改失败，请重新操作
+            return false;
+        } else {
+            if ($conn->Affected_Rows() == 1) {
+                $feedback = 'Success';//密码更改成功
+                return true;
+            } else {
+                $feedback = 'Failure, Please try again.';//密码更改失败，请重新操作
+                return false;
+            }
+        }
+    }// end setPasswd()
+
+    /**
+     * Get client's info by $client_id
+     *
+     * @param int $client_id
+     *
+     * @return boolean or an array containing all fields in tbl.client
+     */
+    function getInfo($client_id)
+    {
+        global $conn;
+
+        $rs = &$conn->Execute("SELECT * FROM `client` WHERE client_id = '".$client_id."'");
+
+        if ($rs) {
+            $ret = false;
+            if ($rs->fields['client_id'] != 0) {
+                $ret = $rs->fields; // return an array
+            }
+
+            $rs->Close();
+            return $ret;
+        }
+
+        return false; // return false if client does not exist
+    }//end getInfo()
+
+     /**
+     * Set client's info
+     *
+     *
+     * @param array $p
+     *
+     * @return boolean  if success return ture, else return false;
+     */
+    function setInfo($p = array())
+    {
+        global $conn, $feedback;
+        //global $g_tag;
+
+        // added by snug xu 2006-11-24 14:24
+        // let user who role is agency modify his/her own client
+        if (User::getRole() != 'admin' && User::getRole() != 'agency') {
+            $feedback = "Have not the permission add one client user";
+            return false;
+        }
+        $client_id = addslashes(htmlspecialchars(trim($p['client_id'])));
+        if ($client_id == '') {
+            $feedback = "Please choose an client";
+            return false;
+        }
+        $user_name = addslashes(htmlspecialchars(trim($p['user_name'])));
+        if ($user_name == '') {
+            $feedback = "Please input client's user name";
+            return false;
+        }
+        if (!valid_user_name($user_name)) {
+            return false;
+        }
+
+        $pass = addslashes(htmlspecialchars(trim($p['user_pw'])));
+        $qu = "";
+        if ($pass != '') {
+            //$pass = addslashes(htmlspecialchars(trim($p['user_pw'])));
+            if ($pass != addslashes(htmlspecialchars(trim($p['user_pwnew'])))) {
+                $feedback = 'Password mismatch, Please check your input and enter the password again';//两次填写的新密码不一致，请重新填写
+                return false;
+            }
+
+            if (!valid_pw($pass)) {//this function in the utils.php,
+                return false;
+            }
+            $qu .="user_pw = '".$pass."', ";
+        }
+
+        if (!valid_pw($pass)) {//this function in the utils.php,
+            return false;
+        }
+        
+        $company_name = addslashes(htmlspecialchars(trim($p['company_name'])));
+        if ($company_name == '') {
+            $feedback = "Please provide client's company name";//请填写first name.
+            return false;
+        }
+        $city = addslashes(htmlspecialchars(trim($p['city'])));
+        if ($city == '') {
+            $feedback = "Please provide city";
+            return false;
+        }
+
+        $email = addslashes(htmlspecialchars(trim($p['email'])));
+        if (!valid_email($email)) {
+            return false;
+        }
+
+        $state = addslashes(htmlspecialchars(trim($p['state'])));
+        if ($state == '') {
+            $feedback = "Please enter state";
+            return false;
+        }
+
+        $zip = addslashes(htmlspecialchars(trim($p['zip'])));
+        if ($zip == '') {
+            $feedback = "Please provide ZIP";
+            return false;
+        }
+
+        $project_manager_id = addslashes(htmlspecialchars(trim($p['project_manager_id'])));
+        if ($project_manager_id == '') {
+            $feedback = "Please provide a project manager";
+            return false;
+        }
+
+        $q = "SELECT COUNT(*) AS count FROM `client` ".
+             "WHERE user_name = '".$user_name."' AND client_id != '".$client_id."'";
+        $rs = &$conn->Execute($q);
+        $count = 0;
+        if ($rs) {
+            $count = $rs->fields['count'];
+            $rs->Close();
+        }
+        if ($count > 0) {
+            $feedback = "The client's user name already registered, please enter another name.";//用户名重复
+            return false;
+        }
+
+        $conn->Execute("UPDATE `client` ".
+                       "SET user_name = '".$user_name."', ".$qu.
+                           //"user_pw = '".$pass."', ".
+                           "company_name = '".$company_name."', ".
+                           "company_address = '".addslashes(htmlspecialchars(trim($p['company_address'])))."', ".
+                           "country = '".addslashes(htmlspecialchars(trim($p['country'])))."', ".
+                           "city = '".$city."', ".
+                           "state = '".$state."', ".
+                           "zip = '".$zip."', ".
+                           "email = '".$email."', ".
+                           "company_url = '".addslashes(htmlspecialchars(trim($p['company_url'])))."', ".
+                           "company_phone = '".addslashes(htmlspecialchars(trim($p['company_phone'])))."', ".
+                           "company_fax = '".addslashes(htmlspecialchars(trim($p['company_fax'])))."', ".
+                           "bill_email = '".addslashes(htmlspecialchars(trim($p['bill_email'])))."', ".
+                           "bill_office_phone = '".addslashes(htmlspecialchars(trim($p['bill_office_phone'])))."', ".
+                           "bill_cell_phone = '".addslashes(htmlspecialchars(trim($p['bill_cell_phone'])))."', ".
+                           "bill_fax = '".addslashes(htmlspecialchars(trim($p['technical_email'])))."', ".
+                           "technical_email = '".addslashes(htmlspecialchars(trim($p['bill_cell_phone'])))."', ".
+                           "technical_office_phone = '".addslashes(htmlspecialchars(trim($p['technical_office_phone'])))."', ".
+                           "technical_cell_phone = '".addslashes(htmlspecialchars(trim($p['technical_cell_phone'])))."', ".
+                           "payment_history = '".addslashes(htmlspecialchars(trim($p['payment_history'])))."', ".
+                           "project_manager_id = '".$project_manager_id."', ".
+                           "date_created = '".date('Y-m-d H:i:s', time())."' ".
+                       "WHERE client_id = '".$client_id."' ");
+        if ($conn->Affected_Rows() == 1) {
+            $feedback = 'Success';//用户信息修改成功
+            return true;
+        } else {
+            $feedback = 'Failure, Please try again';//用户信息修改失败
+            return false;
+        }
+        
+    }//end setInfo()
+
+    /**
+     * Check if user's session IP addr is in the same class B subnet with user's current IP addr
+     *
+     * @param string $curr_ip  Current IP address
+     *
+     * @return boolean
+     */
+    function chkSessionIP($curr_ip)
+    {
+        global $feedback;
+
+        $sess_ip = $_SESSION['user_ip'];
+
+        $e_sess_ip = explode(".", $sess_ip);
+        $e_curr_ip = explode(".", $curr_ip);
+
+        // require same class B subnet
+        if ($e_sess_ip[0] == $e_curr_ip[0] && $e_sess_ip[1] == $e_curr_ip[1]) {
+            return true;
+        } else {
+            $feedback = 'Current IP address and inital IP address mismatch,Please try again';//当前IP地址与初始IP地址不一致，请重新登陆
+            return false;
+        }
+    }//chkSessionIP()
+
+    /**
+     * get all user and user's information
+     *
+     * @param array $mode
+     *
+     * @return array
+     */
+    function getAllClients($mode = 'all_infos')
+    {
+        global $conn;
+
+        // added by snug xu 2006-11-24 15:15 - START
+        // if the role of login user is agency
+        // only select the clients that current user created
+        if (User::getRole() == 'agency')
+        {
+            $qw = " AND creation_user='" . User::getID() . "'";
+        }
+        else
+        {
+            $qw = '';
+        }
+        // added by snug xu 2006-11-24 15:15 - END
+
+        if ($mode == 'all_infos') {
+            $q = "SELECT * FROM `client` WHERE status != 'D' {$qw} ORDER BY client_id";
+            $rs = &$conn->Execute($q);
+            if ($rs) {
+                $client = array();
+                while (!$rs->EOF) {
+                    $client[] = $rs->fields;
+                    $rs->MoveNext();
+                }
+                $rs->Close();
+                return $client;
+            }
+            return null;
+        } else {
+            $rs = &$conn->Execute("SELECT client_id, company_name FROM `client` WHERE status != 'D' {$qw} ORDER BY company_name ASC");
+            if ($rs) {
+                $client = array();
+                while (!$rs->EOF) {
+                    $client[$rs->fields['client_id']] = $rs->fields['company_name'];
+                    $rs->MoveNext();
+                }
+                $rs->Close();
+                return $client;
+            }
+            return null;
+        }
+    }// end getAllClients()
+
+    /**
+     * Search Client info.,
+     *
+     * @param array $p  the form submited value.
+     * 
+     * @return array
+     * @access public
+     */
+    function search($p = array())
+    {
+        global $conn, $feedback;
+
+        global $g_pager_params, $g_archived_month_time;
+
+        $q = "WHERE 1 ";
+
+        // added by snug xu 2006-11-24 14:03 - START
+        // if role is agency in session
+        // only show his/her own clients list
+        if (User::getRole() == 'agency')
+        {
+            $q .= " AND cl.creation_user ='" . User::getID() . "' ";
+        }
+        // added by snug xu 2006-11-24 14:03 - END
+
+        $client_id = addslashes(htmlspecialchars(trim($p['client_id'])));
+        if ($client_id != '') {
+            $q .= "AND cl.user_id = '".$user_id."' ";
+        }
+
+        $user_name = addslashes(htmlspecialchars(trim($p['user_name'])));
+        if ($user_name != '') {
+            $q .= "AND cl.user_name LIKE '%".$user_name."%' ";
+        }
+        $company_name = addslashes(htmlspecialchars(trim($p['company_name'])));
+        if ($company_name != '') {
+            $q .= "AND cl.company_name LIKE '%".$company_name."%' ";
+        }
+        $company_address = addslashes(htmlspecialchars(trim($p['company_address'])));
+        if ($company_address != '') {
+            $q .= "AND cl.company_address LIKE '%".$company_address."%' ";
+        }
+
+        $city = addslashes(htmlspecialchars(trim($p['city'])));
+        if ($city != '') {
+            $q .= "AND cl.city = '".$city."' ";
+        }
+        $state = addslashes(htmlspecialchars(trim($p['state'])));
+        if ($state != '') {
+            $q .= "AND cl.state LIKE '%".$state."%' ";
+        }
+        $zip = addslashes(htmlspecialchars(trim($p['zip'])));
+        if ($zip != '') {
+            $q .= "AND cl.zip LIKE '%".$zip."%' ";
+        }
+        $email = addslashes(htmlspecialchars(trim($p['email'])));
+        if ($email != '') {
+            $q .= "AND cl.email LIKE '%".$email."%' ";
+        }
+        $company_url = addslashes(htmlspecialchars(trim($p['company_url'])));
+        if ($company_url != '') {
+            $q .= "AND cl.company_url LIKE '%".$company_url."%' ";
+        }
+
+        $company_phone = addslashes(htmlspecialchars(trim($p['company_phone'])));
+        if ($company_phone != '') {
+            $q .= "AND cl.company_phone LIKE '%".$company_phone."%' ";
+        }
+        $company_fax = addslashes(htmlspecialchars(trim($p['company_fax'])));
+        if ($company_fax != '') {
+            $q .= "AND cl.company_fax LIKE '%".$company_fax."%' ";
+        }
+        $bill_email = addslashes(htmlspecialchars(trim($p['bill_email'])));
+        if ($bill_email != '') {
+            $q .= "AND cl.bill_email LIKE '%".$bill_email."%' ";
+        }
+        $bill_office_phone = addslashes(htmlspecialchars(trim($p['bill_office_phone'])));
+        if ($bill_office_phone != '') {
+            $q .= "AND cl.bill_office_phone LIKE '%".$bill_office_phone."%' ";
+        }
+        $bill_cell_phone = addslashes(htmlspecialchars(trim($p['bill_cell_phone'])));
+        if ($bill_cell_phone != '') {
+            $q .= "AND cl.bill_cell_phone LIKE '%".$bill_cell_phone."%' ";
+        }
+
+        //$q .= "AND (cl.permission < '".self::getPermission()."' OR cl.user_id = '".self::getID()."') ";
+        if (trim($p['keyword']) != '') {
+            require_once CMS_INC_ROOT.'/Search.class.php';
+            $search = new Search($p['keyword'], "AND"); // use AND operator
+            if ($search->getError() != '') {
+                //do nothing
+                $feedback = $search->getError();
+            } else {
+                $q .= "AND ".$search->getLikeCondition("CONCAT(cl.user_name, cc.campaign_name, cl.company_name, cl.company_address, cl.city, cl.email, cl.company_url, cl.company_phone, cl.company_fax, cl.bill_email, cl.bill_office_phone, cl.bill_office_phone, cl.bill_cell_phone, cl.bill_fax, cl.technical_email, cl.technical_office_phone, cl.technical_cell_phone)")." ";
+            }
+        }
+        // added by nancy xu 2010-06-04 15:10
+        $archived = isset($p['archived'])? $p['archived'] : 0;
+        $archived_date = date("Y-m-d", $g_archived_month_time);
+        if ($archived == 1) {
+            //$q .= ' AND cc.date_end < \'' . $archived_date . '\' ' ;
+            $q .= ' AND cc.archived= 1 ';
+        } else {
+            $q .= ' AND cc.archived= 0 ';
+            //$q .= ' AND  cc.date_end >= \'' . $archived_date . '\' ' ;
+        }
+        // end      
+        $rs = &$conn->Execute("SELECT COUNT(cl.client_id) AS count FROM `client` AS cl LEFT JOIN client_campaigns  AS cc ON cc.client_id=cl.client_id " . $q);
+        if ($rs) {
+            $count = $rs->fields['count'];
+            $rs->Close();
+        }
+
+        if ($count == 0 || !isset($count)) {
+            //$feedback = "Couldn't find any information,Please try again";//找不到相关的信息，请重新设置搜索条件
+            return false;
+        }
+
+        $perpage = 50;
+        if (trim($_GET['perPage']) > 0) {
+            $perpage = $_GET['perPage'];
+        }
+
+        require_once 'Pager/Pager.php';
+        $params = array(
+            'perPage'    => $perpage,
+            'totalItems' => $count
+        );
+        $pager = &Pager::factory(array_merge($g_pager_params, $params));
+
+        // added by snug
+        
+        $sql = "SELECT cl.*, count(distinct cc.campaign_id) as total_camp, SUM(cpas.completed_in_month) AS total_completed_articles, SUM(cc.total_budget) AS total_count \n" .
+             "FROM `client` AS cl \n" .
+             "LEFT JOIN client_campaigns AS cc ON (cc.client_id = cl.client_id)  \n" .
+             "LEFT JOIN cp_campaign_article_summary AS cpas ON (cpas.campaign_id = cc.campaign_id) \n" .
+             $q . "\n" .
+             " GROUP BY cl.client_id \n";
+        list($from, $to) = $pager->getOffsetByPageId();
+        $rs = &$conn->SelectLimit($sql, $params['perPage'], ($from - 1));
+        $client_ids = array();
+        if ($rs) {
+            $result = array();
+            $i = 0;
+            while (!$rs->EOF) {
+                $result[$i] = $rs->fields;
+                $client_ids[$i] = $rs->fields['client_id'];
+                $rs->MoveNext();
+                $i ++;
+            }
+            $rs->Close();
+        }
+
+        // added by snug xu 2007-05-28 11:45 - STARTED
+        // get total google clean article for each client
+        if (!empty($client_ids)) {
+            $conditions = array("cl.client_id IN ('" . implode("', '", $client_ids) . "')");
+            Client::getCountGroupByClients($result, 'total', $client_ids, $conditions, $q);
+            // Client::getCountGroupByClients($result, 'total_gc_articles', $client_ids, array_merge($conditions, array("ar.article_status = '1gc'")));
+            Client::getCountGroupByClients($result, 'total_submit', $client_ids, array_merge($conditions, array( 'copy_writer_id > 0', "ar.article_status REGEXP  '1|1gc|3|4|5|6'")), $q);
+            Client::getCountGroupByClients($result, 'total_assign', $client_ids, array_merge($conditions, array( 'copy_writer_id > 0')), $q);
+            Client::getCountGroupByClients($result, 'total_editor_approval', $client_ids, array_merge($conditions,array("ar.article_status REGEXP  '4|5|6'")), $q);
+            Client::getCountGroupByClients($result, 'total_client_approval', $client_ids, array_merge($conditions,array("ar.article_status REGEXP  '5|6'")), $q);
+        }
+        // added by snug xu 2007-05-28 11:45 - FINISHED
+
+        return array('pager'  => $pager->links,
+                     'total'  => $pager->numPages(),
+                     'result' => $result);
+
+    }//end search()
+
+    function getAllCampaignReport($p)
+    {
+        global $conn, $feedback, $g_archived_month_time, $g_pager_params;
+
+        $q = "WHERE 1 ";
+
+        if (trim($p['keyword']) != '') {
+            require_once CMS_INC_ROOT.'/Search.class.php';
+            $search = new Search($p['keyword'], "AND"); // use AND operator
+            if ($search->getError() != '') {
+                //do nothing
+                $feedback = $search->getError();
+            } else {
+                $q .= "AND ".$search->getLikeCondition("CONCAT(cl.company_name, cc.campaign_name )")." ";
+            }
+        }
+        if (isset($p['client_id']) && !empty($p['client_id'])) {
+            $client_id = $p['client_id'];
+            $q .= ' AND cl.client_id=' . $client_id . ' ';
+        }
+
+        $rs = &$conn->Execute("SELECT COUNT(cc.campaign_id) AS count FROM `client` AS cl LEFT JOIN client_campaigns  AS cc ON cc.client_id=cl.client_id " . $q);
+        if ($rs) {
+            $count = $rs->fields['count'];
+            $rs->Close();
+        }
+
+        if ($count == 0 || !isset($count)) {
+            //$feedback = "Couldn't find any information,Please try again";//找不到相关的信息，请重新设置搜索条件
+            return false;
+        }
+
+        $perpage = 50;
+        if (trim($_GET['perPage']) > 0) {
+            $perpage = $_GET['perPage'];
+        }
+
+        require_once 'Pager/Pager.php';
+        $params = array(
+            'perPage'    => $perpage,
+            'totalItems' => $count
+        );
+        $pager = &Pager::factory(array_merge($g_pager_params, $params));
+
+        // added by snug
+        $sql = "SELECT cc.campaign_name, cc.archived, cc.completed_date, cl.company_name, cc.campaign_id, cc.date_end, SUM(cpas.completed_in_month) AS total_completed_articles, SUM(cc.total_budget) AS total_count \n" .
+             "FROM `client_campaigns` AS cc \n" .
+             "LEFT JOIN `client` AS cl ON (cc.client_id = cl.client_id) \n" .
+             "LEFT JOIN cp_campaign_article_summary AS cpas ON (cpas.campaign_id = cc.campaign_id) \n" .
+             $q . "\n" .
+             " GROUP BY cc.campaign_id \n";
+        list($from, $to) = $pager->getOffsetByPageId();
+        $rs = &$conn->SelectLimit($sql, $params['perPage'], ($from - 1));
+        $campaign_ids = $result = array();
+        $today_time = strtotime(date("Y-m-d"));
+        if ($rs) {
+            $i = 0;
+            while (!$rs->EOF) {
+                $fields = $rs->fields;
+                $fields['total'] = 0;
+                $due_time = strtotime($fields['date_end']);
+                $fields['past_days'] =ceil(( $today_time - $due_time )/86400);
+                $fields['total_submit'] = 0;
+                $fields['pct_total_submit'] = '0%';
+                $fields['total_assign'] = 0;
+                $fields['pct_total_assign'] = '0%';
+                $fields['total_editor_approval'] = 0;
+                $fields['pct_total_editor_approval'] = '0%';
+                $fields['total_client_approval'] = 0;
+                $fields['pct_total_client_approval'] = '0%';
+                $result[$i] = $fields;
+                $campaign_ids[$i] = $fields['campaign_id'];
+                $rs->MoveNext();
+                $i++;
+            }
+            $rs->Close();
+        }
+
+        // added by snug xu 2007-05-28 11:45 - STARTED
+        // get total google clean article for each client
+        if (!empty($campaign_ids)) {
+            $conditions = array("cc.campaign_id IN ('" . implode("', '", $campaign_ids) . "')");
+            Client::getCountGroupByClients($result, 'total', $campaign_ids, $conditions, $q, 'campaign_id');
+            // Client::getCountGroupByClients($result, 'total_gc_articles', $client_ids, array_merge($conditions, array("ar.article_status = '1gc'")));
+            Client::getCountGroupByClients($result, 'total_submit', $campaign_ids, array_merge($conditions, array( 'copy_writer_id > 0', "ar.article_status REGEXP  '1|1gc|3|4|5|6'")), $q, 'campaign_id');
+            Client::getCountGroupByClients($result, 'total_assign', $campaign_ids, array_merge($conditions, array( 'copy_writer_id > 0')), $q, 'campaign_id');
+            Client::getCountGroupByClients($result, 'total_editor_approval', $campaign_ids, array_merge($conditions,array("ar.article_status REGEXP  '4|5|6'")), $q, 'campaign_id');
+            Client::getCountGroupByClients($result, 'total_client_approval', $campaign_ids, array_merge($conditions,array("ar.article_status REGEXP  '5|6'")), $q, 'campaign_id');
+        }
+        // added by snug xu 2007-05-28 11:45 - FINISHED
+        return array('pager'  => $pager->links,
+                     'total'  => $pager->numPages(),
+                     'result' => $result);
+    }
+
+    function getCampaignReportByClient($client_id, $p)
+    {
+        global $conn, $feedback, $g_archived_month_time;
+
+        $q = "WHERE 1 ";
+
+        // added by nancy xu 2010-06-04 15:10
+        $archived = isset($p['archived'])? $p['archived'] : 0;
+        $archived_date = date("Y-m-d", $g_archived_month_time);
+        if ($archived == 1) {
+            // $q .= ' AND cc.date_end < \'' . $archived_date . '\' ' ;
+            $q .= ' AND cc.archived = 1 ';
+        } else {
+            // $q .= ' AND  cc.date_end >= \'' . $archived_date . '\' ' ;
+            $q .= ' AND cc.archived = 0 ';
+        }
+
+        // added by snug xu 2006-11-24 14:03 - START
+        // if role is agency in session
+        // only show his/her own clients list
+        if (User::getRole() == 'agency')
+        {
+            $q .= " AND cl.creation_user ='" . User::getID() . "' ";
+        }
+        // added by snug xu 2006-11-24 14:03 - END
+
+        $user_name = addslashes(htmlspecialchars(trim($p['user_name'])));
+        if ($user_name != '') {
+            $q .= "AND cl.user_name LIKE '%".$user_name."%' ";
+        }
+        $company_name = addslashes(htmlspecialchars(trim($p['company_name'])));
+        if ($company_name != '') {
+            $q .= "AND cl.company_name LIKE '%".$company_name."%' ";
+        }
+        $company_address = addslashes(htmlspecialchars(trim($p['company_address'])));
+        if ($company_address != '') {
+            $q .= "AND cl.company_address LIKE '%".$company_address."%' ";
+        }
+
+        $city = addslashes(htmlspecialchars(trim($p['city'])));
+        if ($city != '') {
+            $q .= "AND cl.city = '".$city."' ";
+        }
+        $state = addslashes(htmlspecialchars(trim($p['state'])));
+        if ($state != '') {
+            $q .= "AND cl.state LIKE '%".$state."%' ";
+        }
+        $zip = addslashes(htmlspecialchars(trim($p['zip'])));
+        if ($zip != '') {
+            $q .= "AND cl.zip LIKE '%".$zip."%' ";
+        }
+        $email = addslashes(htmlspecialchars(trim($p['email'])));
+        if ($email != '') {
+            $q .= "AND cl.email LIKE '%".$email."%' ";
+        }
+        $company_url = addslashes(htmlspecialchars(trim($p['company_url'])));
+        if ($company_url != '') {
+            $q .= "AND cl.company_url LIKE '%".$company_url."%' ";
+        }
+
+        $company_phone = addslashes(htmlspecialchars(trim($p['company_phone'])));
+        if ($company_phone != '') {
+            $q .= "AND cl.company_phone LIKE '%".$company_phone."%' ";
+        }
+        $company_fax = addslashes(htmlspecialchars(trim($p['company_fax'])));
+        if ($company_fax != '') {
+            $q .= "AND cl.company_fax LIKE '%".$company_fax."%' ";
+        }
+        $bill_email = addslashes(htmlspecialchars(trim($p['bill_email'])));
+        if ($bill_email != '') {
+            $q .= "AND cl.bill_email LIKE '%".$bill_email."%' ";
+        }
+        $bill_office_phone = addslashes(htmlspecialchars(trim($p['bill_office_phone'])));
+        if ($bill_office_phone != '') {
+            $q .= "AND cl.bill_office_phone LIKE '%".$bill_office_phone."%' ";
+        }
+        $bill_cell_phone = addslashes(htmlspecialchars(trim($p['bill_cell_phone'])));
+        if ($bill_cell_phone != '') {
+            $q .= "AND cl.bill_cell_phone LIKE '%".$bill_cell_phone."%' ";
+        }
+
+        //$q .= "AND (cl.permission < '".self::getPermission()."' OR cl.user_id = '".self::getID()."') ";
+        if (trim($p['keyword']) != '') {
+            require_once CMS_INC_ROOT.'/Search.class.php';
+            $search = new Search($p['keyword'], "AND"); // use AND operator
+            if ($search->getError() != '') {
+                //do nothing
+                $feedback = $search->getError();
+            } else {
+                $q .= "AND ".$search->getLikeCondition("CONCAT(cl.user_name, cl.company_name, cl.company_address, cl.city, cl.email, cl.company_url, cl.company_phone, cl.company_fax, cl.bill_email, cl.bill_office_phone, cl.bill_office_phone, cl.bill_cell_phone, cl.bill_fax, cl.technical_email, cl.technical_office_phone, cl.technical_cell_phone)")." ";
+            }
+        }
+        $q .= ' AND cl.client_id=' . $client_id . ' ';
+
+        $sql = "SELECT cc.campaign_name, cc.campaign_id, cc.date_end, cc.completed_date, cc.archived, SUM(cpas.completed_in_month) AS total_completed_articles, SUM(cc.total_budget) AS total_count \n" .
+             "FROM `client` AS cl \n" .
+             "LEFT JOIN client_campaigns AS cc ON (cc.client_id = cl.client_id) \n" .
+             "LEFT JOIN cp_campaign_article_summary AS cpas ON (cpas.campaign_id = cc.campaign_id) \n" .
+             $q . "\n" .
+             " GROUP BY cl.client_id, cc.campaign_id \n";
+        $campaign_ids = $result = array();
+        $rs = $conn->Execute($sql);
+        $today_time = strtotime(date("Y-m-d"));
+        if ($rs) {
+            $i = 0;
+            while (!$rs->EOF) {
+                $fields = $rs->fields;
+                $fields['total'] = 0;
+                $due_time = strtotime($fields['date_end']);
+                $fields['past_days'] =ceil(( $today_time - $due_time )/86400);
+                $fields['total_submit'] = 0;
+                $fields['pct_total_submit'] = '0%';
+                $fields['total_assign'] = 0;
+                $fields['pct_total_assign'] = '0%';
+                $fields['total_editor_approval'] = 0;
+                $fields['pct_total_editor_approval'] = '0%';
+                $fields['total_client_approval'] = 0;
+                $fields['pct_total_client_approval'] = '0%';
+                $result[$i] = $fields;
+                $campaign_ids[$i] = $fields['campaign_id'];
+                $rs->MoveNext();
+                $i++;
+            }
+            $rs->Close();
+        }
+
+        // added by snug xu 2007-05-28 11:45 - STARTED
+        // get total google clean article for each client
+        if (!empty($campaign_ids)) {
+            $conditions = array("cc.campaign_id IN ('" . implode("', '", $campaign_ids) . "')");
+            Client::getCountGroupByClients($result, 'total', $campaign_ids, $conditions, $q, 'campaign_id');
+            // Client::getCountGroupByClients($result, 'total_gc_articles', $client_ids, array_merge($conditions, array("ar.article_status = '1gc'")));
+            Client::getCountGroupByClients($result, 'total_submit', $campaign_ids, array_merge($conditions, array( 'copy_writer_id > 0', "ar.article_status REGEXP  '1|1gc|3|4|5|6'")), $q, 'campaign_id');
+            Client::getCountGroupByClients($result, 'total_assign', $campaign_ids, array_merge($conditions, array( 'copy_writer_id > 0')), $q, 'campaign_id');
+            Client::getCountGroupByClients($result, 'total_editor_approval', $campaign_ids, array_merge($conditions,array("ar.article_status REGEXP  '4|5|6'")), $q, 'campaign_id');
+            Client::getCountGroupByClients($result, 'total_client_approval', $campaign_ids, array_merge($conditions,array("ar.article_status REGEXP  '5|6'")), $q, 'campaign_id');
+        }
+        // added by snug xu 2007-05-28 11:45 - FINISHED
+
+        return $result;
+    }
+
+    function getCountGroupByClients(&$result, $field = 'total_submit', $client_ids = array(), $conditions = array(), $q, $group_field='client_id')
+    {
+        global $conn;
+        $query  = "SELECT COUNT( article_id )  as " .$field . ",  " . ($group_field == 'client_id' ?  'cl.client_id ' : 'cc.campaign_id' ). " \n";
+        $query .= "FROM articles AS ar \n";
+        $query .= "LEFT JOIN campaign_keyword AS ck ON (ck.keyword_id = ar.keyword_id) \n";
+        $query .= "LEFT JOIN client_campaigns AS cc ON ( cc.campaign_id = ck.campaign_id ) \n";
+        $query .= "LEFT JOIN `client` AS cl ON (cc.client_id = cl.client_id)  \n";
+        $query .= $q . "\n";
+        $conditions[] = " ck.status!='D' ";
+        if (!empty($conditions)) {
+            $query .= "AND " . implode(' AND ', $conditions) . " \n";
+        }
+        if ($group_field == 'client_id') {
+            $query .= "GROUP BY cl.client_id ";
+        } else {
+            $query .= "GROUP BY cc.campaign_id ";
+        }
+
+        $rs = &$conn->Execute($query);
+        if ($rs) {
+            while (!$rs->EOF) {
+                $client_id = $rs->fields[$group_field];
+                $k = array_search($client_id, $client_ids);
+                $result[$k][$field] =  $rs->fields[$field];
+                if ($field != 'total') {
+                    $total = $result[$k]['total'];
+                    $result[$k]['pct_' . $field] = calculate_percentage($total, $rs->fields[$field]);
+                }
+                $rs->MoveNext();
+            }
+            $rs->Close();
+        }
+    }
+
+    /**
+     * Get Client's ID from session
+     *
+     * @return int
+     */
+    function getID()
+    {
+        return isset($_SESSION['client_id']) ? $_SESSION['client_id'] : 0;
+    }
+
+
+    /**
+     * Get Client's name from session
+     *
+     * @return string
+     */
+    function getName()
+    {
+        return isset($_SESSION['user_name']) ? $_SESSION['user_name'] : '';
+    }
+
+    /**
+     * Get Client's status from session
+     *
+     * @return array
+     */
+    function getStatus()
+    {
+        return isset($_SESSION['status']) ? $_SESSION['status'] : '';
+    }
+
+    /**
+     * Set user's status
+     *
+     * @param int    $user_id
+     * @param string $status
+     *
+     * @return boolean
+     */
+    function setStatus($client_id, $status)
+    {
+        global $conn, $feedback;
+
+        // added by snug xu 2006-11-24 20:02
+        // let agency have priviledage to change her/his own client status
+        if (User::getRole() != 'admin' && User::getRole() != 'agency') {
+            $feedback = "Have not the permission add one client user";
+            return false;
+        }
+        $client_id = addslashes(htmlspecialchars(trim($client_id)));
+        if ($client_id == '') {
+            $feedback = "Please choose one client";
+            return false;
+        }
+
+        $q = "SELECT ck.keyword_id FROM campaign_keyword AS ck ".
+             "LEFT JOIN client_campaigns AS cc ON (cc.campaign_id = ck.campaign_id) ".
+             "LEFT JOIN `client` AS cl ON (cl.client_id = cc.client_id) ".
+             "WHERE cl.client_id = '".$client_id."' AND  ck.status!='D'  ";
+        $rs = $conn->Execute($q);
+        $keywords = array();
+        if ($rs) {
+            $keywords = $rs->fields;
+            $rs->Close();
+        }
+
+        $q = "SELECT cc.campaign_id FROM client_campaigns AS cc ".
+             "LEFT JOIN `client` AS cl ON (cl.client_id = cc.client_id) ".
+             "WHERE cl.client_id = '".$client_id."'";
+        $rs = $conn->Execute($q);
+        $campaigns = array();
+        if ($rs) {
+            $campaigns = $rs->fields;
+            $rs->Close();
+        }
+        /*
+        articles
+        articles_version_history
+        campaign_keyword
+        client_campaigns
+        client
+        comments_on_articles
+        cp_campaign_article_summary
+        user_payment_history
+        */
+
+        $conn->StartTrans();
+        if (empty($keywords)) {
+            //do nothing;
+        } else {
+            $keyword_ids_str = implode(',', array_values($keywords));
+            $q = "SELECT COUNT(article_id) AS count FROM articles ".
+                 "WHERE keyword_id IN (".$keyword_ids_str.")";
+            $rs = $conn->Execute($q);
+            if ($rs) {
+                $article_count = $rs->fields['count'];
+                $rs->Close();
+            }
+            if ($article_count > 0) {
+                $q = "DELETE FROM comments_on_articles ".
+                     "WHERE article_id IN (SELECT article_id FROM articles ".
+                                          "WHERE keyword_id IN (".$keyword_ids_str."))";
+                $conn->Execute($q);
+            }
+            $q = "DELETE FROM articles_version_history ".
+                 "WHERE keyword_id IN (".$keyword_ids_str.") ";
+            $conn->Execute($q);
+
+            $q = "DELETE FROM articles ".
+                 "WHERE keyword_id IN (".$keyword_ids_str.") ";
+            $conn->Execute($q);
+
+            $q = "DELETE FROM user_payment_history ".
+                 "WHERE keyword_id IN (".$keyword_ids_str.") ";
+            $conn->Execute($q);
+        }
+        if (!empty($campaigns)) {
+            $campaign_ids_str = implode(',', array_values($campaigns));
+            $q = "DELETE FROM campaign_keyword WHERE campaign_id IN (".$campaign_ids_str.") ";
+            $conn->Execute($q);
+            $q = "DELETE FROM cp_campaign_article_summary WHERE campaign_id IN (".$campaign_ids_str.") ";
+            $conn->Execute($q);
+        }
+        $q = "DELETE FROM client_campaigns WHERE client_id = '".$client_id."' ";
+        $conn->Execute($q);
+        $q = "DELETE FROM `client` WHERE client_id = '".$client_id."' ";
+        $conn->Execute($q);
+        $ok = $conn->CompleteTrans();
+        /*
+        $q = "UPDATE client ".
+             "SET status = '".$status."' ".
+             "WHERE client_id = '".$client_id."' ";
+        */
+        if ($ok) {
+            $feedback = 'Success';
+            return $user_id;
+        } else {
+            $feedback = 'Failure, Please try again';
+            return false;
+        }
+    }//end setStatus()
+
+}//end class Client
+
+/**
+ * Session wrap function
+ *
+ * @return boolean
+ */
+function client_is_loggedin()
+{
+    global $feedback;
+
+    return ((Client::getID() != 0) && Client::chkSessionIP($_SERVER['REMOTE_ADDR']));
+}
+?>

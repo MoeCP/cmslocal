@@ -1,0 +1,32 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD html 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset={$sys_charset}">
+<title>{$page_title}</title>
+<style type="text/css">@import url("/themes/{$theme}/style.css"); </style>
+{*<link href="/themes/{$theme}/navigation.css" rel="stylesheet" type="text/css" />*}
+<link rel="stylesheet" type="text/css" media="all" href="/js/calendar/calendar.css" />
+<link type="text/css" rel="StyleSheet" href="/js/sortabletable/sortabletable.css" />
+<link rel="shortcut icon" href="/images/favicon.ico" />
+{*<script language="javascript" src="/themes/{$theme}/menu.js"></script>*}
+{*<script language="javascript" src="/js/cookie.js"></script>*}
+<script type="text/javascript" src="/js/calendar/calendar.js"></script>
+<script type="text/javascript" src="/js/calendar/lang/calendar-en.js"></script>
+<script type="text/javascript" src="/js/calendar/calendar-setup.js"></script>
+<script type="text/javascript" src="/js/sortabletable/sortabletable.js"></script>
+<script type="text/javascript" src="/js/common.js"></script>
+<link href="/js/prototype-window/themes/default.css" rel="stylesheet" type="text/css"/> 
+<!-- Add this to have a specific theme--> 
+<link href="/js/prototype-window/themes/mac_os_x.css" rel="stylesheet" type="text/css"/>
+
+<link id="luna-tab-style-sheet" type="text/css" rel="stylesheet" href="/js/tabpane/tabpane.css" />
+<script type="text/javascript" src="/js/tabpane/tabpane.js"></script>
+
+<body {$onload} background="/image/bgall.jpg">
+<table cellspacing="0" cellpadding="0" border="0" width="100%">
+<tr><td>
+  <table cellspacing="0" cellpadding="0" border="0" width="100%">
+  <tr>
+  {if $is_include_left eq true}
+  <td class="leftRegion">{include file="themes/$theme/left.html"}</td>
+  {/if}<td class="mainContent">

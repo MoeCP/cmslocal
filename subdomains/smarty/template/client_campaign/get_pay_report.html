@@ -1,0 +1,41 @@
+  <td class="table-left" >&nbsp;</td>
+  {if $item.payment_flow_status eq 'cpc' && false}<td class="table-left-2"><input type="checkbox" name="isUpdate[]" id="isUpdate_{$smarty.foreach.loop_all.iteration}" value="{$item.user_id}" onclick="javascript:checkItem('Select_All', f_acct_flow)" /></td>{/if}
+  <td class="table-left-2" >{$index_iteration}</td>
+  <td>{$item.user_name}</td>
+  <td>{$item.first_name}</td>
+  <td>{$item.last_name}</td>
+  <td>{$item.email}</td>
+  <td>{if $item.status == 'A'}<label style="color:red" >{$user_statuses.A}<label>{else}{$user_statuses.D}{/if}</td>
+  {foreach from=$g_article_types item=type key=key name="loop1" }
+  <td id='t{$key}_count_{$item.user_id}' >{$item[$key]}</td>
+  {/foreach}
+  <td id='gct_count_{$item.user_id}' ><a href="/client_campaign/keyword_adjust.php?user_id={$item.user_id}&month={$month}&role={$role}" target="_blank"><font color="red">{$item.gct_count}</font></a></td>
+  <td id='pay_gct_count_{$item.user_id}' >{$item.pay_gct_count}</td>
+  <td id='pay_article_count_{$item.user_id}' >{$item.pay_count_article|default:0}</td>
+  <td>${if $item.payment > 0 && $item.invoice_status || $item.payment_flow_status eq 'paid'}{$item.payment}{elseif $item.pay_amount > 0}{$item.pay_amount}{else}0{/if}</td>
+  <td >{if $item.pay_pref == ''}n/a{else}{$payment_preferences[$item.pay_pref]}{/if}</td>
+  <td id="status_{$item.user_id}" >{if $item.payment_flow_status eq 'paid'}{$item.payment_flow_status}{else}Not paid{/if}</td>
+  <td><select name="month_{$item.user_id}"  onchange="onMonthChange(this, '{$item.user_id}', '0', '{$index_iteration}')" ><option value="">[choose]</option>{html_options options=$monthes selected=$month}</select></td>
+   <td nowrap id="payment_status_{$item.user_id}" class="table-right-2">
+     {if $item.pay_gct_count != 0}
+	    {if $item.payment_flow_status eq ''}
+	    <input type="button" class="button" value="Confirm First" onclick="doAcctFlow('Confirm with copywriter first?', '{$item.user_id}', 'ap', '{$month}', '{if $pay_plugin=='NetSuite'}{$item.vendor_id}{else}{$item.qb_vendor_id}{/if}');">
+	    <input type="button" class="button" value="Approve Now" onclick="doAcctFlow('Approve without copywriter confirmation?', '{$item.user_id}', 'cpc', '{$month}', '{if $pay_plugin=='NetSuite'}{$item.vendor_id}{else}{$item.qb_vendor_id}{/if}');">
+	    {elseif $item.payment_flow_status eq 'ap'}
+	    <font color="red">[Awaiting {if $role == 'editor'}editor{else}copywriter{/if} confirmation]</font>
+	    <input type="button" class="button" value="Confirm again" onclick="doAcctFlow('Send confirmation email to copywriter again?', '{$item.user_id}', 'ap',  '{$month}', '{if $pay_plugin=='NetSuite'}{$item.vendor_id}{else}{$item.qb_vendor_id}{/if}');">
+	    <input type="button" class="button" value="Force Approve" onclick="doAcctFlow('Approve without copywriter confirmation?', '{$item.user_id}', 'cpc', '{$month}', '{if $pay_plugin=='NetSuite'}{$item.vendor_id}{else}{$item.qb_vendor_id}{/if}');">
+      {elseif $item.payment_flow_status eq 'cpc' &&  ($item.vendor_id  > 0 && $pay_plugin=='NetSuite' || $item.qb_vendor_id > 0 && $pay_plugin=='QuickBook')}
+      <input type="button" class="button" value="create bill" onclick="doAcctFlow('create bill {$pay_plugin}', '{$item.user_id}', 'cbill', '{$month}', '{if $pay_plugin=='NetSuite'}{$item.vendor_id}{else}{$item.qb_vendor_id}{/if}');">
+	    {elseif $item.payment_flow_status eq 'cpc' || $item.payment_flow_status eq 'cbill'}
+      <input type="button" class="button" value="mark as paid" onclick="doAcctFlow('paid?', '{$item.user_id}', 'paid', '{$month}', '{if $pay_plugin=='NetSuite'}{$item.vendor_id}{else}{$item.qb_vendor_id}{/if}');">
+	    {elseif $item.payment_flow_status neq 'paid'}
+	    <a href="#" target="_self" onMouseOver="return overlib('<table width=300><tr><td nowrap>memo </td></tr><tr><td>{$item.memo|nl2br|strip|escape:html}</td></tr></table>');" onMouseOut="return nd();">disapprove with explanation</a>
+	    <input type="button" class="button" value="re-approve" onclick="doAcctFlow('re-approve?', '{$item.user_id}', 'ap','{$month}', '{if $pay_plugin=='NetSuite'}{$item.vendor_id}{else}{$item.qb_vendor_id}{/if}');">
+	    {/if}
+	    {if $item.payment_flow_status eq 'paid'||$item.payment_flow_status eq 'cpc' || $item.payment_flow_status eq 'cbill'}
+	    <input type="button" class="button" value="view invoice" onclick="window.open('/client_campaign/cp_invoice.php?user_id={$item.user_id}&month={$month}&role={$role}', 'view_invoice',  'status=yes, width=900, height=400,  left=50,  top=50, scrollbars=yes, resizable=yes');">
+	    {/if}
+    {/if}
+  </td>
+  <td class="table-right" >&nbsp;</td>

@@ -1,0 +1,340 @@
+<?php
+
+$g_menu = array();
+
+$i = 0;
+$g_menu[$i]['path'] = 'home';
+$g_menu[$i]['module_name'] = 'Home Page';//Ê×Ò³
+$g_menu[$i]['url'] = '/index.php';
+$g_menu[$i]['sub_menu'] = array();
+$j = 0;
+$g_menu[$i]['sub_menu'][$j]['label'] = 'Home Page';
+$g_menu[$i]['sub_menu'][$j]['url'] = '/index.php';
+$g_menu[$i]['sub_menu'][$j]['image'] = '<img src="/image/icons/hp.gif" border="0">';
+
+//CP and admin can see this menu
+if (User::getPermission() >= 5 || User::getPermission() == 1 ) {
+    $j++;
+    $g_menu[$i]['sub_menu'][$j]['label'] = 'Handbooks';
+    $g_menu[$i]['sub_menu'][$j]['url'] = '/manual_content/manual_content_list.php';
+    $g_menu[$i]['sub_menu'][$j]['image'] = '<img src="/image/icons/hp.gif" border="0">';
+}
+if (User::getPermission() >= 5) {
+    $j++;
+    $g_menu[$i]['sub_menu'][$j]['label'] = 'Add Handbook';
+    $g_menu[$i]['sub_menu'][$j]['url'] = '/manual_content/add_manual_content.php';
+    $g_menu[$i]['sub_menu'][$j]['image'] = '<img src="/image/icons/ca.gif" border="0">';
+}
+if (User::getPermission() >= 5 ) {
+    $j++;
+    $g_menu[$i]['sub_menu'][$j]['label'] = 'Add Handbook Category';
+    $g_menu[$i]['sub_menu'][$j]['url'] = '/manual_content/add_content_category.php';
+    $g_menu[$i]['sub_menu'][$j]['image'] = '<img src="/image/icons/ca.gif" border="0">';
+
+}
+
+if (User::getPermission() >= 4) { // 3=>4
+    $i++;
+    $g_menu[$i]['path'] = 'user';
+    $g_menu[$i]['module_name'] = 'User Management';
+    $g_menu[$i]['url'] = '/user/list.php';
+
+    $g_menu[$i]['sub_menu'] = array();
+    $j = 0;
+    $g_menu[$i]['sub_menu'][$j]['label'] = 'User List';
+    $g_menu[$i]['sub_menu'][$j]['url'] = '/user/list.php';
+    $g_menu[$i]['sub_menu'][$j]['image'] = '<img src="/image/icons/us.gif" border="0">';
+    $j ++;
+    $g_menu[$i]['sub_menu'][$j]['label'] = 'Add New User';
+    $g_menu[$i]['sub_menu'][$j]['url'] = '/user/user_add.php';
+    $g_menu[$i]['sub_menu'][$j]['image'] = '<img src="/image/icons/ua.gif" border="0">';
+    $j ++;
+    $g_menu[$i]['sub_menu'][$j]['label'] = 'Copywriter Payment Information';
+    $g_menu[$i]['sub_menu'][$j]['url'] = '/user/payment.php';
+    $g_menu[$i]['sub_menu'][$j]['image'] = '<img src="/image/icons/cp.gif" border="0">';
+    $j ++;
+    $g_menu[$i]['sub_menu'][$j]['label'] = 'User Last Login Time';
+    $g_menu[$i]['sub_menu'][$j]['url'] = '/user/user_last_login_list.php';
+    $g_menu[$i]['sub_menu'][$j]['image'] = '<img src="/image/icons/ca.gif" border="0">';
+	$j ++;
+	$g_menu[$i]['sub_menu'][$j]['label'] = 'Copywriter Report';
+    $g_menu[$i]['sub_menu'][$j]['url'] = '/user/available_users_report.php';
+    $g_menu[$i]['sub_menu'][$j]['image'] = '<img src="/image/icons/ks.gif" border="0">';
+	$j ++;
+	$g_menu[$i]['sub_menu'][$j]['label'] = 'Copywriter Specialties';
+    $g_menu[$i]['sub_menu'][$j]['url'] = '/user/cp_specialty.php';
+    $g_menu[$i]['sub_menu'][$j]['image'] = '<img src="/image/icons/ks.gif" border="0">';
+	$j ++;
+	$g_menu[$i]['sub_menu'][$j]['label'] = 'Infinitenine Candidates';
+    $g_menu[$i]['sub_menu'][$j]['url'] = '/user/candidates.php';
+    $g_menu[$i]['sub_menu'][$j]['image'] = '<img src="/image/icons/ks.gif" border="0">';
+}
+// added by snug xu 2006-11-24 13:43
+// let user who role is agency access to client module 
+// admin and project manager can see manager clients
+if (User::getPermission() >= 4 || User::getPermission() == 2) { 
+    $i ++;
+    $g_menu[$i]['path'] = 'client';
+    $g_menu[$i]['module_name'] = 'Client Management';
+    $g_menu[$i]['url'] = '/client/list.php';
+
+    $g_menu[$i]['sub_menu'] = array();
+    $j = 0;
+    $g_menu[$i]['sub_menu'][$j]['label'] = 'Client List';
+    $g_menu[$i]['sub_menu'][$j]['url'] = '/client/list.php';
+    $g_menu[$i]['sub_menu'][$j]['image'] = '<img src="/image/icons/cs.gif" border="0">';
+    $j ++;
+	$g_menu[$i]['sub_menu'][$j]['label'] = 'Add Client';
+    $g_menu[$i]['sub_menu'][$j]['url'] = '/client/client_add.php';
+    $g_menu[$i]['sub_menu'][$j]['image'] = '<img src="/image/icons/ca.gif" border="0">';
+}
+
+// added by snug xu 2006-11-24 14:53
+// let agency user see client campaign management
+if (User::getPermission() >= 4 || User::getPermission() == 2) { // 3=>4
+    $i ++;
+    $g_menu[$i]['path'] = 'client_campaign';
+    $g_menu[$i]['module_name'] = 'Client Campaign Management';
+    $g_menu[$i]['url'] = '/client_campaign/client_list.php';
+
+    $g_menu[$i]['sub_menu'] = array();
+    /*
+    $j = 0;
+    $g_menu[$i]['sub_menu'][$j]['label'] = 'campaign List';
+    $g_menu[$i]['sub_menu'][$j]['url'] = '/client_campaign/list.php';
+    $g_menu[$i]['sub_menu'][$j]['image'] = '<img src="/image/icons/ps.gif" border="0">';
+    */
+    $j = 0;
+    $g_menu[$i]['sub_menu'][$j]['label'] = 'client campaign';
+    $g_menu[$i]['sub_menu'][$j]['url'] = '/client_campaign/client_list.php';
+    $g_menu[$i]['sub_menu'][$j]['image'] = '<img src="/image/icons/ps.gif" border="0">';
+    $j ++;
+    $g_menu[$i]['sub_menu'][$j]['label'] = 'Add New Campaign';
+    $g_menu[$i]['sub_menu'][$j]['url'] = '/client_campaign/client_campaign_add.php';
+    $g_menu[$i]['sub_menu'][$j]['image'] = '<img src="/image/icons/cd.gif" border="0">';
+    if (User::getPermission() >= 4)
+    {
+        $j++;
+        $g_menu[$i]['sub_menu'][$j]['label'] = 'Assignment Report';
+        $g_menu[$i]['sub_menu'][$j]['url'] = '/client_campaign/cp_assignment_report.php';
+        $g_menu[$i]['sub_menu'][$j]['image'] = '<img src="/image/icons/ks.gif" border="0">';
+        $j++;
+        $g_menu[$i]['sub_menu'][$j]['label'] = 'Copywriter Accounting';
+        $g_menu[$i]['sub_menu'][$j]['url'] = '/client_campaign/cp_acct_report.php';
+        $g_menu[$i]['sub_menu'][$j]['image'] = '<img src="/image/icons/as.gif" border="0">';
+        $j++;
+        /*$g_menu[$i]['sub_menu'][$j]['label'] = 'Copywriter Rating Report';
+        $g_menu[$i]['sub_menu'][$j]['url'] = '/client_campaign/cp_rating_report.php';
+        $g_menu[$i]['sub_menu'][$j]['image'] = '<img src="/image/icons/as.gif" border="0">';
+        $j++;*/
+        $g_menu[$i]['sub_menu'][$j]['label'] = 'Copywriter Campaign Report';
+        $g_menu[$i]['sub_menu'][$j]['url'] = '/client_campaign/cp_campaign_report.php';
+        $g_menu[$i]['sub_menu'][$j]['image'] = '<img src="/image/icons/as.gif" border="0">';
+    }
+    if (User::getPermission() >= 5) // 4=>5
+    {
+        $j++;
+        $g_menu[$i]['sub_menu'][$j]['label'] = 'Editor Monthly Production Report';
+        $g_menu[$i]['sub_menu'][$j]['url'] = '/client_campaign/editor_acct_report.php';
+        $g_menu[$i]['sub_menu'][$j]['image'] = '<img src="/image/icons/ks.gif" border="0">';
+        $j++;
+        $g_menu[$i]['sub_menu'][$j]['label'] = 'Editor Working Report';
+        $g_menu[$i]['sub_menu'][$j]['url'] = '/client_campaign/editor_work_report.php';
+        $g_menu[$i]['sub_menu'][$j]['image'] = '<img src="/image/icons/ks.gif" border="0">';
+        $j++;
+        $g_menu[$i]['sub_menu'][$j]['label'] = "Ranking Report";
+        $g_menu[$i]['sub_menu'][$j]['url'] = '/client_campaign/cp_ranking_search.php';
+        $g_menu[$i]['sub_menu'][$j]['image'] = '<img src="/image/icons/ps.gif" border="0">';
+        $j++;
+        $g_menu[$i]['sub_menu'][$j]['label'] = "Add Ranking";
+        $g_menu[$i]['sub_menu'][$j]['url'] = '/client_campaign/cp_campaign_ranking.php';
+        $g_menu[$i]['sub_menu'][$j]['image'] = '<img src="/image/icons/cd.gif" border="0">';
+
+    }
+
+    /*
+    $j ++;
+    $g_menu[$i]['sub_menu'][$j]['label'] = 'Keyword List';
+    $g_menu[$i]['sub_menu'][$j]['url'] = '/client_campaign/keyword_list.php';
+    $g_menu[$i]['sub_menu'][$j]['image'] = '<img src="/image/icons/ks.gif" border="0">';
+    $j ++;
+    $g_menu[$i]['sub_menu'][$j]['label'] = 'Add Campaign Keyword';
+    $g_menu[$i]['sub_menu'][$j]['url'] = '/client_campaign/list.php';
+    $g_menu[$i]['sub_menu'][$j]['image'] = '<img src="/image/icons/ps.gif" border="0">';
+	$j ++;
+    $g_menu[$i]['sub_menu'][$j]['label'] = 'Assign Keyword';
+    $g_menu[$i]['sub_menu'][$j]['url'] = '/client_campaign/batch_assign_keyword.php';
+    $g_menu[$i]['sub_menu'][$j]['image'] = '<img src="/image/icons/ak.gif" border="0">';
+    */
+}
+
+// added by snug xu 2006-11-24 14:53
+// not let agency user  see Campaign & Article Management 
+if (User::getPermission() >= 1 && User::getPermission() < 4 && User::getPermission() != 2) { // 3=>4
+    //$g_current_path = 'article';
+    $i ++;
+    $g_menu[$i]['path'] = 'article';
+    $g_menu[$i]['module_name'] = 'Campaign & Article Management';
+    if (User::getPermission() == 1) {
+        $g_menu[$i]['url'] = '/client_campaign/ed_cp_campaign_list.php';
+    } else {
+        $g_menu[$i]['url'] = '/client_campaign/client_list.php';
+    }
+
+    $g_menu[$i]['sub_menu'] = array();
+    $j = 0;
+    $g_menu[$i]['sub_menu'][$j]['label'] = 'Campaign & Article Management';
+    if (User::getPermission() == 1) {
+        $g_menu[$i]['sub_menu'][$j]['url'] = '/client_campaign/ed_cp_campaign_list.php';
+    } else {
+        $g_menu[$i]['sub_menu'][$j]['url'] = '/client_campaign/client_list.php';
+    }
+    $g_menu[$i]['sub_menu'][$j]['image'] = '<img src="/image/icons/as.gif" border="0">';
+
+    $j ++;
+    $g_menu[$i]['sub_menu'][$j]['label'] = 'My Articles';
+    $g_menu[$i]['sub_menu'][$j]['url'] = '/article/article_list.php';
+    $g_menu[$i]['sub_menu'][$j]['image'] = '<img src="/image/icons/cd.gif" border="0">';
+    /*
+    $j ++;
+    $g_menu[$i]['sub_menu'][$j]['label'] = 'My Keywords';
+    $g_menu[$i]['sub_menu'][$j]['url'] = '/article/article_keyword_list.php';
+    $g_menu[$i]['sub_menu'][$j]['image'] = '<img src="/image/icons/cd.gif" border="0">';
+    */
+    if (User::getPermission() > 1) {
+        $j ++;
+        $g_menu[$i]['sub_menu'][$j]['label'] = 'Article Version History';
+        $g_menu[$i]['sub_menu'][$j]['url'] = '/article/article_history_list.php';
+        $g_menu[$i]['sub_menu'][$j]['image'] = '<img src="/image/icons/ps.gif" border="0">';
+        $j ++;
+        $g_menu[$i]['sub_menu'][$j]['label'] = 'Reassign Keyword';
+        $g_menu[$i]['sub_menu'][$j]['url'] = '/client_campaign/list_cpw.php';
+        $g_menu[$i]['sub_menu'][$j]['image'] = '<img src="/image/icons/ak.gif" border="0">';
+    }
+    /*
+     * add by liu shu fen 10:02 2007-12-24
+     */
+//    if (User::getPermission() == 1) {
+//        $j++;
+//        $g_menu[$i]['sub_menu'][$j]['label'] = 'Unassigned Keyword';
+//        $g_menu[$i]['sub_menu'][$j]['url']   = '';// /client_campaign/unassigned_keyword.php
+//        $g_menu[$i]['sub_menu'][$j]['image'] = '<img src="/image/icons/cd.gif" border="0">';
+//
+//    }
+}
+
+$i ++;
+$g_menu[$i]['path'] = 'preference';
+$g_menu[$i]['module_name'] = 'System Setting';
+$g_menu[$i]['url'] = '/user/passwd.php';
+$g_menu[$i]['sub_menu'] = array();
+$j = 0;
+$g_menu[$i]['sub_menu'][$j]['label'] = 'Update Password';
+$g_menu[$i]['sub_menu'][$j]['url'] = '/user/passwd.php';
+$g_menu[$i]['sub_menu'][$j]['image'] = '<img src="/image/icons/up.gif" border="0">';
+
+if (User::getPermission() >= 5) { // 4=>5
+    $j ++;
+    $g_menu[$i]['sub_menu'][$j]['label'] = 'Mail Templates';
+    $g_menu[$i]['sub_menu'][$j]['url'] = '/mail/list.php';
+    $g_menu[$i]['sub_menu'][$j]['image'] = '<img src="/image/icons/ps.gif" border="0">';
+    $j ++;
+    $g_menu[$i]['sub_menu'][$j]['label'] = 'Add Mail Templates';
+    $g_menu[$i]['sub_menu'][$j]['url'] = '/mail/add.php';
+    $g_menu[$i]['sub_menu'][$j]['image'] = '<img src="/image/icons/as.gif" border="0">';
+    $j ++;
+    $g_menu[$i]['sub_menu'][$j]['label'] = 'General Notes';
+    $g_menu[$i]['sub_menu'][$j]['url'] = '/client_campaign/general_notes.php';
+    $g_menu[$i]['sub_menu'][$j]['image'] = '<img src="/image/icons/ps.gif" border="0">';
+    $j ++;
+    $g_menu[$i]['sub_menu'][$j]['label'] = 'Add General Notes';
+    $g_menu[$i]['sub_menu'][$j]['url'] = '/client_campaign/add_general_notes.php';
+    $g_menu[$i]['sub_menu'][$j]['image'] = '<img src="/image/icons/as.gif" border="0">';
+    $j ++;
+    $g_menu[$i]['sub_menu'][$j]['label'] = 'Update Ranking Quotiety';
+    $g_menu[$i]['sub_menu'][$j]['url'] = '/client_campaign/modify_cp_ranking_quotiety.php';
+    $g_menu[$i]['sub_menu'][$j]['image'] = '<img src="/image/icons/as.gif" border="0">';
+}
+
+if (User::getPermission() >= 3) { // 2=>3
+    $j ++;
+    $g_menu[$i]['sub_menu'][$j]['label'] = 'Company Mailer';
+    $g_menu[$i]['sub_menu'][$j]['url'] = '/mail/ck_mailer.php';
+    $g_menu[$i]['sub_menu'][$j]['image'] = '<img src="/image/icons/ak.gif" border="0">';
+}
+if (User::getPermission() >= 5) { // 4=>5
+    $j ++;
+    $g_menu[$i]['sub_menu'][$j]['label'] = 'Article Cost';
+    $g_menu[$i]['sub_menu'][$j]['url'] = '/client_campaign/article_cost.php';
+    $g_menu[$i]['sub_menu'][$j]['image'] = '<img src="/image/icons/ak.gif" border="0">';
+    $j++;
+    $g_menu[$i]['sub_menu'][$j]['label'] = 'Add/Edit Article Type';
+    $g_menu[$i]['sub_menu'][$j]['url'] = '/article/article_type.php';
+    $g_menu[$i]['sub_menu'][$j]['image'] = '<img src="/image/icons/ak.gif" border="0">';
+    $j++;
+    $g_menu[$i]['sub_menu'][$j]['label'] = 'Preference';
+    $g_menu[$i]['sub_menu'][$j]['url'] = '/user/preference.php';
+    $g_menu[$i]['sub_menu'][$j]['image'] = '<img src="/image/icons/up.gif" border="0">';
+}
+//////////////////////////////////
+if (User::getRole() == 'copy writer') {
+	$j++;
+	$g_menu[$i]['sub_menu'][$j]['label'] = 'Update User Info';
+    $g_menu[$i]['sub_menu'][$j]['url'] = '/user/user_info.php';
+	$g_menu[$i]['sub_menu'][$j]['image'] = '<img src="/image/icons/up.gif" border="0">';
+    $j++;
+    $g_menu[$i]['sub_menu'][$j]['label'] = 'Select Category';
+    $g_menu[$i]['sub_menu'][$j]['url'] = '/category/select.php';
+    $g_menu[$i]['sub_menu'][$j]['image'] = '<img src="/image/icons/ak.gif" border="0">';
+}
+
+//if (User::getRole() != 'agency') {
+//    $i++;
+//    $g_menu[$i]['path'] = 'bbs';
+//    $g_menu[$i]['module_name'] = 'Forum';
+//    $g_menu[$i]['url'] = '/bbs';
+//    $g_menu[$i]['tab'] = 'pop';
+//}
+
+// added by snug 2006-11-24 13:47
+// don't let user who role is agency see the suggession menu
+if (User::getPermission() != 2)
+{
+    $i ++;
+    $g_menu[$i]['path'] = 'suggestions';
+    $g_menu[$i]['module_name'] = 'Suggestions';
+    $g_menu[$i]['url'] = '/suggestions/suggestions.php';
+}
+
+if (User::getPermission() >= 3)
+{
+    $i ++;
+    $g_menu[$i]['path'] = 'sat';
+    $g_menu[$i]['module_name'] = 'Sat';
+    $g_menu[$i]['url'] = '/sat/index.php';
+}
+//////////////////////////////////////
+
+unset($i, $j);
+
+function get_cmi_by_path($path)
+{
+    global $g_menu;
+
+    $count = count($g_menu);
+    for ($i = 0; $i < $count; $i ++) {
+        if ($g_menu[$i]['path'] == $path) {
+            return $i;
+        }
+    }
+}
+
+$current_menu_index = get_cmi_by_path($g_current_path);
+
+$smarty->assign('main_menu', $g_menu);
+$smarty->assign('current_menu_index', $current_menu_index);
+$smarty->assign('sub_menu', $g_menu[$current_menu_index]['sub_menu']);
+
+$smarty->assign('search_type', $g_tag['search_type']);
+//print_r($g_tag['search_type']);
+?>

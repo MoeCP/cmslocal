@@ -1,0 +1,13 @@
+{if $article_info.richtext_body != ''}{$article_info.richtext_body}{else}{$article_info.body|nl2br}{/if}
+{if $article_info.template  eq '2'}
+{if $article_info.small_image|strip != ''}<p>Small Image: {$article_info.small_image}</p>{/if}
+{if $article_info.large_image|strip != ''}<p>Large Image: {$article_info.large_image}</p>{/if}
+{if $article_info.image_credit|strip != ''}<p>Image Credit: {$article_info.image_credit}</p>{/if}
+{if $article_info.image_caption|strip != ''}<p>Image Caption: {$article_info.image_caption}</p>{/if}
+{if $article_info.blurb|strip != ''}<p>Blurb: {$article_info.blurb|nl2br}</p>{/if}
+{if $article_info.meta_description|strip != ''}<p>Meta description: {$article_info.meta_description}</p>{/if}
+{if $article_info.category_id|strip != ''}<p>Category: {$article_info.category_id}</p>{/if}
+{/if}
+{if $article_info.show_cp_bio eq '1'}
+<p>Author Bio: {$article_info.cp_bio}</p>
+{/if}

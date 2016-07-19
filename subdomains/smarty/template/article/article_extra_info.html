@@ -1,0 +1,198 @@
+{include file="themes/$theme/header_jump.html"}
+{if $feedback ne ''}
+<script language="JavaScript">
+<!--
+alert("{$feedback}");
+//-->
+</script>
+{/if}
+{literal}
+<style type="text/css">
+.disabled_input { border-right: #000033 0px solid; border-top: #000033 0px solid; font-size: 12px; border-left: #000033 0px solid; border-bottom: #000033 0px solid; background:#ffffff}
+</style>
+<script language="JavaScript">
+<!--
+function formSubmit()
+{
+  var form = $('f_extra_info');
+  {/literal}
+  {*
+  if ($('article_url').value <= 0)
+  {
+    alert("Please specify the article URL");
+    $('article_url').focus();
+    return false;
+  }
+  *}
+  {literal}
+  if ($('article_type').value <= 0)
+  {
+    alert("Please specify the article type");
+    $('article_type').focus();
+    return false;
+  }
+  if ($('city').value <= 0 && $('state').value <= 0 &&  $('country').value <= 0)
+  {
+    alert("Please specify city or state or country");
+    $('country').focus();
+    return false;
+  }
+//  var length = $('table_related_articles').rows.length;
+//  for (var i=1 ;i <= length ; i++)
+//  {
+//    if (!($('related_article_id' + i).value > 0 && $('related_keyword' + i).value > 0 && $('related_article_url' + i).value > 0))
+//    {
+//      alert("Related Articles Info is not Finished, please try again.");
+//      $('related_article_id' + i).focus();
+//      return false;
+//    }
+//  }
+  form.submit();
+}
+
+function additionalArticles(tableid, tbIndex) {
+  if (tbIndex == "" || tbIndex == undefined)
+  {
+	  tbIndex = $(tableid).rows.length - 1;
+  }
+  var objRow = $(tableid).insertRow(tbIndex+1);
+  //alert($(tableid).rows.length);
+  var objCel = objRow.insertCell(0);
+  objCel.innerHTML = "<input type=\"text\" name=\"related_article_id[]\" id=\"related_article_id" + tbIndex + "\" size=\"20\">";
+  var objCel = objRow.insertCell(1);
+  objCel.innerHTML = "<input type=\"text\" name=\"related_keyword[]\"  id=\"related_keyword" + tbIndex + "\" size=\"30\">";
+  var objCel = objRow.insertCell(2);
+  objCel.innerHTML = "<input type=\"text\" name=\"related_article_url[]\" id=\"related_article_url" + tbIndex + "\" size=\"75\">";
+}
+function senIsObject(obj)
+{
+    try {
+      if (obj === undefined) return false;
+      if (obj === null) return false;
+      if (obj == "undefined") return false;
+		  return true;
+    } catch (e) {
+		  return false;
+    }
+}
+//-->
+</script>
+<style>
+.divselectsytle {
+  float: left;
+}
+</style>
+{/literal}
+{*<div id="ajaxloading">Loading...</div>*}
+<form method="post" name="f_extra_info" id="f_extra_info" action="#" onsubmit="return formSubmit();" >
+<input type="hidden" name="campaign_id" id="campaign_id" value="{$smarty.get.cid}" />
+<input type="hidden" name="article_id" id="article_id" value="{$smarty.get.article_id}" />
+<input type="hidden" name="article_number" id="article_number" value="{$info.article_number}" />
+<input type="hidden" name="extra_info_id" id="extra_info_id" value="{$info.extra_info_id}" />
+<table border="0" cellspacing="1" cellpadding="4" align="center" width="100%" >  
+  <tr>
+    <td class="moduleTitle" colspan="6">Aol Extra Info</td>
+  </tr>
+  <tr>
+    <td colspan="20" >
+      <table class="helpTable" width="100%">
+      <tr><td valign="top">&nbsp;&#8226;&nbsp;</td><td>Please Enter Aol Extra Info for The article</td></tr>
+      </table><br />
+    </td>
+  </tr>
+  <tr>
+    <td class="blackLine" colspan="6" ><img src="/image/misc/s.gif"></td>
+  </tr>
+  <tr>
+    <td align="right" class="requiredHint"  >Article ID</td>
+    <td ><label>{$info.article_number}</label>&nbsp;&nbsp;<input type="checkbox" name="is_force_load" id="is_force_load"  value="1" {if $info.is_force_load == 1}checked{/if}/><label for="is_force_load" >Force to Generate XML?</label></td>
+    <td width="350" ></td>
+  </tr>
+  <tr>
+    <td align="right" class="requiredHint"  >Article URL</td>
+    <td ><input type="text" name="article_url" id="article_url"  size="100" value="{$info.article_url}"/></td>
+  </tr>
+  <tr>
+    <td align="right" class="requiredHint"  >Article Type</td>
+    <td >
+      <select name="article_type" id="article_type"><option value="">[choose]</option>{html_options options=$extra_info_types selected=$info.article_type}</select>
+    </td>
+  </tr>
+    <tr>
+    <td></td>
+    <td >
+      <div id="div_country" class="divselectsytle">
+        <script>
+          ajaxAction("/article/article_extra_info_geo.php?t=1&p=&s={$info.country}", 'div_country');
+        </script>
+      </div>
+      <div id="div_state" class="divselectsytle">
+        <script>
+        {literal}
+          function loadstate()
+          {
+            if (senIsObject($('country')))
+            {
+              ajaxAction("/article/article_extra_info_geo.php?t=2&p=" + $('country').value + "&s={/literal}{if $info.state != ''}{$info.state}{else if $info.city != ''}{$info.city}{/if}{literal}", 'div_state');
+            }
+            else
+            {
+              setTimeout("loadstate()", 500);
+            }
+          }
+          loadstate();
+         {/literal}
+        </script>
+      </div>
+      <div id="div_city" class="divselectsytle" >
+        <script>
+        {literal}
+          function loadcity()
+          {
+            var parent = null;
+            if (senIsObject($('state')))
+            {
+              if ($('state').value > 0)
+              {
+                ajaxAction("/article/article_extra_info_geo.php?t=3&p=" + $('state').value + "&s={/literal}{$info.city}{literal}", 'div_city');
+              }
+            }
+            else
+            {
+              setTimeout("loadcity()", 500);
+            }
+          }
+          loadcity();
+        {/literal}
+        </script>
+      </div>
+    </td>
+  </tr>
+  <tr><td  align="left" class="requiredHint" >Related Articles</td><td></td></tr>
+  <tr>
+    <td colspan="2" align="right">
+      <table id="table_related_articles">
+        <tr><td align="center">Related Article ID</td><td align="center">Related Keyword</td><td align="center">Related Article URL</td><tr>
+        {foreach from=$related_articles key=key item=article}
+        <tr>
+          <td><input type="text" name="related_article_id[]" value="{$key}" id="related_article_id1" size="20"/></td>
+          <td><input type="text" name="related_keyword[]" value="{$article.keyword}" id="related_keyword1" size="30"/></td>
+          <td><input type="text" name="related_article_url[]" value="{$article.url}" id="related_article_url1" size="75"/></td>
+        </tr>
+        {foreachelse}
+        <tr>
+          <td><input type="text" name="related_article_id[]" value="" id="related_article_id1" size="20"/></td>
+          <td><input type="text" name="related_keyword[]" value="" id="related_keyword1" size="30"/></td>
+          <td><input type="text" name="related_article_url[]" value="" id="related_article_url1" size="75"/></td>
+        </tr>
+        {/foreach}
+      </table>
+      <a href="javascript:void(0)" onclick="additionalArticles('table_related_articles')" >Additional Related Articles</a>
+    </td>
+  </tr>
+  <tr>
+    <td align="center" ><input type="submit" name="button" id="button" value="Submit" /></td>
+  </tr>
+</table>
+ </form>
+{include file="themes/$theme/footer_jump.html"}

@@ -1,0 +1,102 @@
+{include file="themes/$theme/header.html"}
+
+{if $feedback ne ''}
+<script language="JavaScript">
+<!--
+alert('{$feedback}');
+//-->
+</script>
+{/if}
+{literal}
+<script type="text/javascript">
+function checkKeyword() {
+    if (document.getElementById("keyword").value == '' ) {
+        alert("Please enter keyword for search!");
+    } else {
+        document.search.submit();  
+    }
+}
+</script>
+{/literal}
+<div id="page-box1">
+  <h2>Manual Content List</h2>
+  <div id="campaign-search" >
+    <div id="campaign-search-box" >
+  <form name="search" id="search" action="/manual_content/manual_content_list.php">
+  <table border="0" cellspacing="1" cellpadding="4">
+  <tr>
+    <td >Keyword:</td>
+    <td><input type="text" name="keyword" id="keyword"></td>
+    <td><select id="category" name="category">{html_options options=$category selected=$cat_selected}</select></td>
+    <td colspan="4">
+        <input type="image" src="/images/button-search.gif" value="submit" onclick="checkKeyword()" />
+    </td>
+  </tr>
+  </table>
+  </form>
+    </div>
+  </div>
+</div>
+<div class="tablepadding"> 
+<table id="table-1" cellspacing="0" cellpadding="0" align="center" class="sortableTable">
+  <form action="/manual_content/manual_content_list.php" name="manual_content_list" method="post" />
+  <input type="hidden" name="content_id" />
+  <input type="hidden" name="form_refresh" value="N" />
+  <thead>
+  <tr class="sortableTab">
+    <th class="table-left-corner">&nbsp;&nbsp;&nbsp;&nbsp;</th>
+    <td nowrap class="columnHeadInactiveBlack table-left-2">#</td>
+    <td nowrap class="columnHeadInactiveBlack">Title</td>
+    <td nowrap class="columnHeadInactiveBlack">Published</td>
+    <td nowrap class="columnHeadInactiveBlack">ID</td>
+    <td nowrap class="columnHeadInactiveBlack">Category</td>
+    <td nowrap class="columnHeadInactiveBlack">Author</td>
+    <td nowrap class="columnHeadInactiveBlack">Date</td>
+    <td nowrap class="columnHeadInactiveBlack table-right-2">&nbsp;</td>
+    <th class="table-right-corner">&nbsp;&nbsp;&nbsp;</th>
+  </tr>
+  </thead>
+  {foreach from=$contents item=item name="loop"}
+  <tr class="{if $smarty.foreach.loop.iteration % 2 eq 0}even{else}odd{/if}">
+    <td class="table-left" >&nbsp;</td>
+    <td class="table-left-2">{$smarty.foreach.loop.iteration + $count_start}</td>
+    <td>{$item.title}</td>
+    <td>{$item.publish}</td>
+    <td>{$item.content_id}</td>
+    <td>{$category[$item.category]}</td>
+    <td>{$item.author}</td>
+    <td>{$item.created}</td>
+    <td align="right" nowrap class="table-right-2">
+      <input type="button" class="button" value="View" onclick="javasript:window.location='/manual_content/view_manual_content.php?content_id={$item.content_id}';" />
+      {if $user_permission >= 5 }
+	  <input type="button" class="button" value="Update" onclick="javasript:window.location='/manual_content/add_manual_content.php?content_id={$item.content_id}';" />
+      <input type="submit" class="button" value="Delete" onclick="return deleteSubmit('manual_content_list', 'content_id', '{$item.content_id}', 'D', 'This Manual Content')" />
+      {/if}
+    </td>
+    <td class="table-right" >&nbsp;</td>
+  </tr>
+  {/foreach}
+  </form>
+</table>
+</div>
+
+<script type="text/javascript">
+//<![CDATA[
+{literal}
+var st = new SortableTable(document.getElementById("table-1"),
+  ["None", "CaseInsensitiveString", "CaseInsensitiveString", "None"]);
+
+st.onsort = function () {
+  var rows = st.tBody.rows;
+  var l = rows.length;
+  for (var i = 0; i < l; i++) {
+    removeClassName(rows[i], i % 2 ? "odd" : "even");
+    addClassName(rows[i], i % 2 ? "even" : "odd");
+  }
+};
+
+st.asyncSort(0);
+{/literal}
+//]]>
+</script>
+{include file="themes/$theme/footer.html"}

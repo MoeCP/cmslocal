@@ -1,0 +1,687 @@
+{include file="themes/$theme/header_jump.html"}
+
+<link rel="stylesheet" type="text/css" href="spell_checker/spell_checker/css/spell_checker.css">
+<script src="spell_checker/spell_checker/cpaint/cpaint2.inc.compressed.js" type="text/javascript"></script>
+<!-- You can use either one of the files below, but the compressed one
+     will be faster and a lot smaller to download -->
+<script src="spell_checker/spell_checker/js/spell_checker_compressed.js" type="text/javascript"></script>
+<!--<script src="js/spell_checker.js" type="text/javascript"></script>-->
+{if $feedback ne ''}
+<script language="JavaScript">
+<!--
+alert("{$feedback}");
+//-->
+</script>
+{/if}
+{literal}
+<style type="text/css">
+.disabled_input { border-right: #000033 1px solid; border-top: #000033 1px solid; font-size: 14px; background-color:#ffffee; border-left: #000033 1px solid; border-bottom: #000033 1px solid }
+/*
+.disabled_input { border-right: #000033 0px solid; border-top: #000033 0px solid; font-size: 12px; border-left: #000033 0px solid; border-bottom: #000033 0px solid; background:background-color}
+*/
+</style>
+<script language="JavaScript">
+{/literal}
+{if $login_role neq 'client'}
+{literal}
+<!--
+tinyMCE.init({
+mode : "exact",
+theme : "advanced",
+elements : "richtext_body",
+extended_valid_elements : "iframe[src|width|height|name|align]",
+relative_urls : false,
+remove_script_host : false,
+theme_advanced_toolbar_location : "top",
+theme_advanced_toolbar_align : "left",
+atd_button_url: "/js/tiny_mce/plugins/AtD/atdbuttontr.gif",
+atd_rpc_url: "/js/tiny_mce/plugins/AtD/server/proxy.php?url=",
+atd_rpc_id: {/literal}"{$atd_key}"{literal},
+atd_css_url: "/js/tiny_mce/plugins/AtD/css/content.css",
+atd_show_types: "Bias Language,Cliches,Complex Expression,Diacritical Marks,Double Negatives,Hidden Verbs,Jargon Language,Passive voice,Phrases to Avoid,Redundant Expression",
+atd_ignore_strings: "AtD,rsmudge",
+atd_ignore_enable: "false",
+plugins : "spellchecker,searchreplace,charcount,paste,wordcount,AtD,media",
+theme_advanced_buttons1 : "bold,italic,underline, separator,forecolor ,separator,search,replace,separator, code, separator,AtD,charcount",
+theme_advanced_buttons1_add_before: "media,image,undo,redo,paste,pastetext,pasteword,selectall,separator,hr,link,unlink,separator, formatselect, bullist,numlist,outdent,indent,justifyleft,justifycenter,justifyright",
+theme_advanced_buttons2 :"",
+theme_advanced_buttons3 : "",
+paste_auto_cleanup_on_paste : true,
+directionality: "ltr",
+force_br_newlines : "false",
+force_p_newlines : "true",
+debug : false,
+cleanup : true,
+cleanup_on_startup : false,
+safari_warning : false,
+paste_preprocess : function(pl, o) {
+    // Content string containing the HTML from the clipboard
+    o.content = o.content;
+},
+paste_postprocess : function(pl, o) {
+    // Content DOM node containing the DOM structure of the clipboard
+    o.node.innerHTML = o.node.innerHTML;
+},
+setup: function(ed) {
+  var text = "";
+  var wordcount = false;
+  var total_word = 0;
+  var max_word = $('max_word').value;
+  var check_word = parseInt(max_word);
+  if (isNaN(check_word)) {
+    check_word = 0;
+  }
+  ed.onKeyUp.add(function(ed, e) {
+    if (!wordcount) {
+            wordcount = addWordCount(ed);
+    }
+
+    total_word = getEditorCount(ed);
+    if (total_word < max_word && check_word > max_word || total_word + 1< check_word) {
+      check_word = max_word;
+    }
+    if (check_word > 0 && total_word > 0&& (total_word - check_word) >= 50) {
+        alert("You have exceeded the word limit");
+        check_word = total_word + 1;
+    }
+  });
+
+  ed.onLoadContent.add(function(ed,e) {
+    if (!wordcount) {
+            wordcount = addWordCount(ed);
+    }
+    getEditorCount(ed);});
+}
+});
+
+{/literal}
+{/if}
+{literal}
+var login_role = "{/literal}{$login_role}{literal}";
+check_f_article =  function()
+{
+    var f = document.f_article;
+    if (login_role != 'client')
+    {
+        if (f.title.value.length == 0) {
+        alert('Please provides title of the article');
+        f.title.focus();
+        return false;
+        }
+	    tinyMCE.triggerSave(false,false);
+	    if (f.richtext_body.value.length == 0) {
+            alert('Please enter the content of the article');
+	        f.richtext_body.focus();
+	        return false;
+	    }
+	    f.temp_body.value = f.richtext_body.value;//firefox;
+	    //tinyMCE.updateContent('f_article');
+    }
+    else
+    {
+	    if (f.body.value.length == 0) {
+	    alert('Please enter the content of the article');
+	    f.comment.focus();
+	    return false;
+	    }
+	    f.temp_body.value = f.body.value;//firefox;
+    }
+    return true;
+}
+
+doAction = function(action, url)
+{
+    if (action != 'reject' && action != 'temp' && action != 'autotemp' && action != 'approval' && action != 'submit' && action != 'save' && action != 'force' && action != 'forcec'&& action != 'force reject' && action != 'publish' && action != '1gc' && action != '1gd')
+    {
+       alert('Please sign in this system');
+       return false;
+    }
+    $("approve_action").value = action;
+    if (!check_f_article()) 
+    {
+	    return false;
+    }
+    var f = document.f_article;
+    if (login_role != 'client')
+    {
+        tinyMCE.triggerSave(false,false);
+        f.temp_body.value = f.richtext_body.value;//firefox;
+        //tinyMCE.updateContent('f_article');
+    }
+    else
+    {
+        f.temp_body.value = f.body.value;//firefox;
+    }
+	//document.forms['f_article'].submit();
+//    document.getElementById('f_article').submit();
+    if (action == 'force')
+    {
+        if (f.article_status.value == 0 && confirm('Will approve even if copywriter has not submitted article. Continue?'))
+        {
+            $('f_article').submit();
+        }
+        else if (f.article_status.value == 1 && confirm('Article has not been google-checked. Continue?')) 
+        {
+            $('f_article').submit();
+        }
+        else if (f.article_status.value != 1 && f.article_status.value != 0 && confirm("Do you want to force approve this article?"))
+        {
+            $('f_article').submit();
+        }
+        else
+        {
+           $('comment').focus();
+           return false;
+        }
+        return true;
+    }
+    if (action == 'publish')
+    {
+        f.article_status.value = 6;
+        $('f_article').submit();
+    }
+    if( action == 'approval' )
+    {
+        if (f.article_status.value == '1gd')
+        {
+            if (!confirm("This article wasn't passed google checking.\nAre you sure this article is  not duplicated?"))
+            {
+               $('comment').focus();
+               return false;
+            }
+        }
+    }
+    else
+    {
+        if (f.article_status.value == '1' && (action == '1gc' || action == '1gd')) 
+        {
+               $("approve_action").value = action;
+              Element.show('show_result');
+        }
+        else
+        {
+          if (action == 'save')
+          {
+              $("approve_action").value = 'temp';
+              Element.show('show_result');
+          }
+          if (action == 'reject')
+          {
+              if (login_role != 'client')
+              {
+                  f.article_status.value = 2;
+              }
+              else 
+              {
+                  f.article_status.value = 3;
+              }
+              Element.show('show_result');
+          }
+        }
+     }
+      new Ajax.Updater
+      (
+          'show_status',
+           url, 
+           {
+               method:'post',  
+               parameters: Form.serialize('f_article'),
+               evalScripts:true,
+               onComplete:showResult
+           }
+      );
+     return true;
+}
+
+CountWords=function(this_field, show_word_count, show_char_count) 
+{
+
+  if (show_word_count == null) {
+    show_word_count = true;
+  }
+
+  if (show_char_count == null) {
+    show_char_count = false;
+  }
+  
+  var fullStr = this_field.value;
+
+  fullStr = fullStr.replace(new RegExp('</p>', 'gi'), '</p>\n');
+	fullStr = fullStr.replace(new RegExp('</div>', 'gi'), '</div>\n');
+	fullStr = fullStr.replace(new RegExp('<br[ ]?[/]?>', 'gi'), '<br />\n');
+
+  fullStr = fullStr.stripTags();
+  fullStr = fullStr.replace(new RegExp('&nbsp;', 'g'), ' ');//replace &nbsp; with space
+  fullStr = fullStr.unescapeHTML();
+  fullStr = fullStr.replace(new RegExp("\r\n", "gi"), "\n");
+
+  var char_count = fullStr.length - 1;
+
+  fullStr += " ";
+  fullStr = fullStr.replace(new RegExp("\n", "gi"), " ");
+  fullStr = fullStr.replace(/[ ]+/gi, ' ');
+
+   fullStr = fullStr.replace(/^[^A-Za-z0-9]+/gi, "");
+  var splitString   = fullStr.split(" ");
+  var word_count = splitString.length - 1;
+
+  if (fullStr.length < 2) {
+    word_count = 0;
+  }
+
+  if (word_count == 1) {
+    wordOrWords = " word";
+  } else {
+    wordOrWords = " words";
+  }
+
+  if (char_count == 1) {
+    charOrChars = " character";
+  } else {
+    charOrChars = " characters";
+  }
+
+  if (show_word_count & show_char_count) {
+       $('word_count').value=word_count + wordOrWords  + " " + char_count + charOrChars;
+  } else {
+
+    if (show_word_count) {
+        $('word_count').value=word_count + wordOrWords;
+    } else {
+      if (show_char_count) {
+        $('word_count').value=char_count + charOrChars;
+      }
+    }
+  }
+  //return word_count;
+}
+
+showResult = function()
+{
+	Element.hide('show_result');
+	Element.show('show_shape_end');
+}
+
+addGeneralNote=function(note_id) {
+    if (note_id != 0)
+    {
+        //var div_id = eval("general_note_"+note_id);
+        var div_id = "general_note_"+note_id;
+        var note_body = htmlSpecialCharsDecode($(div_id).innerHTML);
+        var old_comment = $("comment").value;
+        if (old_comment == '') {
+            $("comment").value = note_body;
+        } else {
+            $("comment").value = $("comment").value+"\n"+note_body;
+        }
+    }
+}
+htmlSpecialCharsDecode=function(str) {
+    var r = new RegExp("<br[ ]*[/]?>", "ig");
+    str = str.replace(new RegExp("&amp;", "gi"), "&");
+    str = str.replace(new RegExp("&quot;", "gi"), "\"");
+    str = str.replace(new RegExp("&#039;", "gi"), "\'");
+    str = str.replace(new RegExp("&lt;", "gi"), "<");
+    str = str.replace(new RegExp("&gt;", "gi"), ">");
+
+    str = str.replace("\r\n", "\n");
+    str = str.replace(r, "\n");
+    str = str.replace(new RegExp("\n+", "g"), "\n");
+    return str;
+}
+//-->
+</script>
+{/literal}
+<div class="loadingajax" style="display:none;z-index:1000" id="show_result"  align="center" valign="center" >Loading...</div>
+<div id="page-box1" >
+  <strong>Once you've reviewed the article and made comments click the Reject or the approve button to notify your editorial team.</strong> <br /><br />
+  <div class="pageposition" >
+  <table width="100%"  class="formClass" ><tr><td valign="top">
+  <div id="page-left">
+  <form action="#" method="post"  name="f_article" id="f_article" {if $js_check eq true} onsubmit="return check_f_article()"{/if}>
+    <input type="hidden" name="refererby" value="{$refererby}" />
+    <input type="hidden" name="max_word" id="max_word" value="{$keyword_info.max_word}" />
+    <input type="hidden" name="keyword_id" value="{$keyword_info.keyword_id}" />
+    <input type="hidden" name="campaign_id" value="{$keyword_info.campaign_id}" />
+    <input type="hidden" name="client_id" value="{$keyword_info.client_id}" />
+    <input type="hidden" name="article_id" value="{$keyword_info.article_id}" />
+    <input type="hidden" name="article_status" id="article_status" value="{$keyword_info.article_status}" />
+    <input type="hidden" name="approve_action" id="approve_action" value="temp" />
+    <input type="hidden" name="is_edit" id="is_edit" value="cancle_edit" />
+    <input type="hidden" name="is_paintext" id="is_paintext" value="0" />
+    <input type="hidden" name="action_status" id="action_status" value="{$keyword_info.action_status}" />
+    <input type="hidden" name="language" id="language" value="{$keyword_info.language}" />
+    <input type="hidden" name="temp_body" id="temp_body">
+    {if $login_role eq 'client'}
+    <input type="hidden" name="opt" id="opt" value="{$opt}" />
+    {/if}
+  <div class="form-item">
+  <table cellspacing="0" cellpadding="5" border="0" width="80%">
+      <tbody><tr>
+      <td align="right" class="form-label"><strong>Article Title</strong></td>
+      <td align="left">    {if $login_role neq 'client'}
+      {if $keyword_info.title_param == '1'}
+    <input type="text" name="title" id="title" size="100" value="{$keyword_info.title}" />
+      {else}
+    <input type="text" name="title" id="title" size="100" value="{if $keyword_info.title != ''}{$keyword_info.title}{else}{$keyword_info.keyword}{/if}"/>
+      {/if}
+    {else}
+    {$keyword_info.title}
+    <input type="hidden" name="title" id="title" value="{$keyword_info.title}" />
+    {/if}
+    {if $is_show_extra_info}
+      <a href="javascript:void(0)" onclick="openWindow('/article/article_extra_info.php?cid={$keyword_info.campaign_id}&article_id={$keyword_info.article_id}', 'height=700,width=720,status=no,toolbar=no,menubar=no,location=no,resizable=yes,scrollbars=yes');" >Add Additional Meta Info</a>
+    {/if}</td>
+      </tr>
+    </tbody></table> 
+  </div>
+  <div class="form-item">
+  <table cellspacing="0" cellpadding="5" border="0" width="80%">
+      <tbody><tr>
+      <td align="right" class="form-label"><strong>Html Title Tag</strong></td>
+      <td align="left">{if $keyword_info.title_param == '1'}
+      <input type="text" name="html_title" id="html_title" size="100" value="{$keyword_info.html_title}" />
+      {else}
+      <input type="text" name="html_title" id="html_title" size="100" value="{if $keyword_info.html_title != ''}{$keyword_info.html_title}{else}{$keyword_info.keyword}{/if}" readonly />
+      {/if}</td>
+      </tr>
+    </tbody></table> 
+  </div>
+  {if $custom_fields}
+  {foreach from=$custom_fields item=item key=key name='loop'}
+  <div class="form-item">
+  <table cellspacing="0" cellpadding="5" border="0" width="60%">
+      <tbody><tr>
+      <td align="right" class="form-label"><strong>{$item.label}:&nbsp;</strong></td>
+      <td align="left">
+       {if $login_role neq 'client'}
+       <input type="text" name="{$key}" id="{$key}" size="100" value="{$keyword_info[$key]}" />
+       {else}
+       <input type="hidden" name="{$key}" id="{$key}" value="{$keyword_info[$key]}" />
+       {$keyword_info[$key]|default:'n/a'}
+       {/if}
+      </td>
+      </tr>
+    </tbody></table> 
+  </div>
+  {/foreach}
+  {/if}
+  {if $is_show_url_category}
+  <div class="form-item">
+  <table cellspacing="0" cellpadding="5" border="0" width="80%">
+      <tbody><tr>
+      <td align="right" class="form-label"><strong>Url Category</strong></td>
+      <td align="left"><input type="text" name="url_category" id="url_category" size="100" value="{$keyword_info.url_category}" /></td>
+      </tr>
+    </tbody></table> 
+  </div>
+  {/if}
+  {if $keyword_info.meta_param == '1'}
+  <div class="form-item">
+  <table cellspacing="0" cellpadding="5" border="0" width="80%">
+      <tbody><tr>
+      <td align="right" class="form-label"><strong>Meta Keywords</strong></td>
+      <td align="left"><input type="text" name="keyword_meta" id="keyword_meta" value="{$keyword_info.keyword_meta}" size="100"/></td>
+      </tr>
+    </tbody></table> 
+  </div>
+  <div class="form-item">
+  <table cellspacing="0" cellpadding="5" border="0" width="80%">
+      <tbody><tr>
+      <td align="right" class="form-label"><strong>Meta Description</strong></td>
+      <td align="left"><textarea name="description_meta" id="description_meta" style="width: 550px; height: 60px;" >{$keyword_info.description_meta}</textarea></td>
+      </tr>
+    </tbody></table> 
+  </div>
+  {/if}
+  {if $login_role neq 'client'}
+  <div class="form-item">
+  <table cellspacing="0" cellpadding="5" border="0" width="80%">
+      <tbody><tr>
+      <td align="right" class="form-label"><strong>Article Content</strong></td>
+      <td align="left">
+      <div id="contentdiv" >
+      <textarea name="richtext_body" id="richtext_body" style="width: 700px; height: 400px;" >{if $keyword_info.richtext_body == ''}{$keyword_info.body|nl2br}{else}{$keyword_info.richtext_body}{/if}</textarea>
+      </div>
+      </td>
+      </tr>
+    </tbody></table> 
+  </div>
+  {else}
+  <div class="form-item">
+  <table cellspacing="0" cellpadding="5" border="0" width="80%">
+      <tbody><tr>
+      <td align="right" class="form-label"><strong>Word Count</strong></td>
+      <td align="left"><input type="text" class="disabled_input" name="word_count" id="word_count" value="0" size="90"   onkeyup="CountWords($('body'), true, true);" readOnly  class="disabled_input"/></td>
+      </tr>
+    </tbody></table> 
+  </div>
+  {if $keyword_info.tags}
+  <div class="form-item">
+  <table cellspacing="0" cellpadding="5" border="0" width="80%">
+      <tbody><tr>
+      <td align="right" class="form-label"  style="width:50px" ><strong>Tags</strong></td>
+      <td align="left">{$keyword_info.tags}</td>
+      </tr>
+    </tbody></table> 
+  </div>
+  {/if}
+  <div class="form-item">
+  <table cellspacing="0" cellpadding="5" border="0" width="80%">
+      <tbody><tr>
+      <td align="right" class="form-label"><strong>Article Content</strong></td>
+      <td align="left">
+        <div id="div_body_test" ></div>
+        <input type="hidden" name="richtext_body" id="richtext_body"
+        value="{if $keyword_info.richtext_body == ''}{$keyword_info.body|nl2br}{else}{$keyword_info.richtext_body|escape:"html"}{/if}" />
+        <input type="hidden" name="body" id="body" value="{if $keyword_info.richtext_body == ''}{$keyword_info.body|escape:"html"}{else}{$keyword_info.richtext_body|escape:"html"}{/if}" />
+        <div style="width: 700px; height: 400px;overflow:auto;color:#000000;background:#ffffff;">{if $keyword_info.richtext_body == '' }{$keyword_info.body|nl2br}{else}{$keyword_info.richtext_body}{/if}</div></td>
+      </tr>
+    </tbody></table> 
+  </div>
+  <script>
+  <!--
+  CountWords($('body'), true, true);
+  -->
+  </script>
+  {/if}
+  <div class="form-item">
+  <table cellspacing="0" cellpadding="5" border="0" width="80%">
+      <tbody><tr>
+      <td align="right" class="form-label"><strong>Comments</strong></td>
+      <td align="left"><textarea name="comment" style="width: 700px; height: 160px;" id="comment" id="comment">{$smarty.post.comment}</textarea></td>
+      </tr>
+    </tbody></table> 
+  </div>
+  {if $login_role neq 'client'}
+  <div class="form-item">
+  <table cellspacing="0" cellpadding="5" border="0" width="80%">
+      <tbody><tr>
+      <td align="right" class="form-label"><strong>Select General Editorial Notes</strong></td>
+      <td align="left"><select id="general_note_subject" name="general_note_subject" onchange="addGeneralNote(this.value)">{html_options options=$general_note_subjects}</select></td>
+      </tr>
+    </tbody></table> 
+  </div>
+    {if $general_note_bodies neq ''}
+      {foreach from=$general_note_bodies item=note_body key=note_id name=general_notes}
+        <div style="display:none" id="general_note_{$note_id}" name="general_note_{$note_id}">{$note_body|nl2br}</div>
+      {/foreach}
+    {/if}
+    {if $keyword_info.body neq '' }
+    {if $login_role eq "admin"}
+    {/if}
+    {/if}
+  {/if}
+    <div id="form-buttons">
+      <div id="div_button" >
+    {if $login_role neq 'client'}
+      {if $login_role eq 'copy writer'}
+        <input type="button" value="Submit" class="button" onclick="doAction('submit' , '{$url}' );">&nbsp;
+      {elseif $keyword_info.article_status == '1'}
+        <input type="button" value="Google Clean" class="button" onclick="doAction('1gc' , '{$url}' );">&nbsp;
+        <input type="button" value="Google Duplicated" class="button" onclick="doAction('1gd' , '{$url}' );">&nbsp;
+        {if $login_role eq 'admin' && $keyword_info.richtext_body neq ''}
+        <input type="button" value="Force Approve" class="button" onclick="doAction('force' , '{$url}' );">&nbsp;
+        {/if}
+      {elseif $keyword_info.article_status eq '4'}
+        <input type="button" value="Force Request Edit" class="button" onclick="doAction('reject' , '{$url}' );">&nbsp;
+        {if $login_role eq 'admin' }
+        <input type="button" value="Force Client Approve" class="button" onclick="doAction('forcec' , '{$url}' );">&nbsp;
+        {/if}
+      {elseif $keyword_info.article_status eq '2' || $keyword_info.article_status eq '1gd'}
+        <input type="button" value="Force Approve" class="button" onclick="doAction('force' , '{$url}' );">&nbsp;
+        <input type="button" value="Request Edit" class="button" onclick="doAction('reject' , '{$url}' );">&nbsp;
+      {else}
+        <input type="button" value="Request Edit" class="button" onclick="doAction('reject' , '{$url}' );">&nbsp;
+        <input type="button" value="Approve" class="button" onclick="doAction('approval' , '{$url}' );">&nbsp;
+      {/if}
+    {elseif $keyword_info.article_status eq '4' && $login_role eq 'client'}
+      <input type="button" value="Reject" class="button" onclick="doAction('reject' , '{$url}' );">&nbsp;
+      <input type="button" value="Approve" class="button" onclick="doAction('approval' , '{$url}' );">&nbsp;
+    {/if}
+    <input type="reset" value="Reset" class="button" />
+      </div>
+    </div>
+    <div id="show_shape_end" class="corner" style="display:none;width:310px;z-index:1000;height: 30px;" >
+      <div class="ricohint" style="width:310px;z-index:1000;" id="show_status"  align="center" >saving...</div>
+    </div>
+    </form>
+  </div>
+{if $tags}
+{include file="article/article_tags.html"}
+{/if}
+  </td><td valign="top" >
+  <div id="page-right" >
+    <div class="small-note" >
+       <a href="javascript:void(0);" onclick="openWindow('/client_campaign/campaign_style_guide.php?campaign_id={$keyword_info.campaign_id}', 'height=500,width=600,status=no,toolbar=no,menubar=no,location=no,resizable=yes,scrollbars=yes');"  >Content Production Style Guide</a><br />
+    </div>
+  {if $login_role neq 'client'}
+<table cellspacing="0" cellpadding="0" border="0" width="283" class="info-table">
+  <tbody><tr>
+    <td height="41" background="/images/info-table-top.gif" align="center">Article Information </td>
+  </tr>
+  <tr>
+    <td><table class="article-info" >
+      
+      <tbody><tr class="even">
+        <td>Campaign Name</td>
+        <td>{$keyword_info.campaign_name}</td>
+      </tr>
+      <tr class="odd" >
+        <td >Campaign Keywords</td>
+        <td >{$keyword_info.keyword}</td>
+      </tr>
+      <tr class="even">
+        <td>Start Date</td>
+        <td>{$keyword_info.date_start|date_format:"%m-%d-%Y"}</td>
+      </tr>
+      <tr class="odd">
+        <td >Due Date</td>
+        <td >{$keyword_info.date_end|date_format:"%m-%d-%Y"}</td>
+      </tr>
+      <tr class="even">
+        <td>No. of Words</td>
+        <td><div id="max-word-td" >{if $keyword_info.max_word == 0}No limit{else}{$keyword_info.max_word}{/if}</div></td>
+      </tr>
+      {foreach from=$optional_fields item=item key=key name="loop"}
+      <tr class="{if $smarty.foreach.loop.iteration % 2 eq 0}even{else}odd{/if}">
+        <td>{$item.label}</td>
+        <td>{$keyword_info[$key]|html_entity_decode}</td>
+      </tr>
+      {/foreach}
+      <tr class="odd">
+        <td>Article Type</td>
+        <td>{$article_type[$keyword_info.article_type]}</td>
+      </tr>
+      {if $login_role neq 'client'}
+      <tr class="even">
+        <td >Editor</td>
+        <td >{$keyword_info.ue_name}</td>
+      </tr>
+      <tr class="odd">
+        <td>Copywriter</td>
+        <td>{$keyword_info.uc_name}</td>
+      </tr>
+        {if $login_role eq 'admin'}
+      <tr class="even">
+        <td >Mapping-ID</td>
+        <td >{$keyword_info.mapping_id|html_entity_decode}</td>
+      </tr>
+        {/if}
+      {/if}
+    </tbody></table></td>
+  </tr>
+  <tr>
+    <td><img alt="" src="/images/info-table-bottom.gif"></td>
+  </tr>
+</tbody></table>
+{/if}
+    <div class="small-note" >
+      Keyword Instructions: <br />
+       <a href="javascript:void(0);" onclick="openWindow('/client_campaign/campaign_style_guide.php?campaign_id={$keyword_info.campaign_id}', 'height=500,width=600,status=no,toolbar=no,menubar=no,location=no,resizable=yes,scrollbars=yes');"  >Content Production Style Guide</a><br />
+        {if $login_role neq 'client'}<a href="javascript:void(0);" onclick="openWindow('/client_campaign/campaign_notes.php?campaign_id={$keyword_info.campaign_id}', 'height=400,width=550,status=no,toolbar=no,menubar=no,location=no,resizable=yes,scrollbars=yes');"  >Editorial notes</a>{/if}<br />
+      {if $keyword_info.keyword_description!='' }
+      <b>Note From {$keyword_info.pm_name}:</b><br />
+      <div  style="height:150px;width:280px;overflow:auto;text-align:left;" >
+      {$keyword_info.keyword_description}
+      </div>
+      {/if}
+      {if $notes.notes !='' }
+       Editor Notes <br />
+       <div style="height:150px;width:280px;overflow:auto;text-align:left;">
+        <b>Note From {$notes.user_name}:</b><br />{$notes.notes}
+       </div>
+      {/if}
+    </div>
+  </div>
+  </td></tr></table>
+  <div style="clear: both;"></div>
+  </div>
+</div>
+<div id="article-coments" >
+{if $comment_count neq 0}
+<table border="0" cellspacing="0" cellpadding="0" width="85%" class="comments-info" >
+  <tr class="comments-head" >
+    <td class="comments-head-left">&nbsp;</td>
+    <td  colspan="8" ><span class="comments-header">Current Articles Comments Information</span></td>
+    <td class="comments-head-right">&nbsp;</td>
+  </tr>
+  <tr>
+    <td colspan="10" >
+  {foreach from=$keyword_info.comment item=item name="loop"}
+     <table cellspacing="0" cellpadding="10" bordercolor="#999999" border="1" width="100%">
+   <tr>
+    <td>
+    <table cellspacing="0" width="100%">
+  <tr>
+    <td></td>
+    <td align="right" class="comments-label">Role: &nbsp;</td>
+    <td>{$item.creation_role}</td>
+    <td align="right" class="comments-label">Creator: &nbsp;</td>
+    {if $login_role neq 'client' || $login_role eq 'client' && $item.creation_role neq 'editor' and $item.creation_role neq 'copy writer'}
+    <td>{if $item.creation_role eq 'client'}{$item.ccreator}{else}{$item.creator}{/if}</td>
+    {else}
+    <td>{$item.creation_role}</td>
+    {/if}
+    <td align="right" class="comments-label">Comment Date: &nbsp; </td>
+    <td>{$item.creation_date|date_format:"%m-%d-%Y %H:%M:%S"}</td>
+    <td align="right" class="comments-label">Version: &nbsp;</td>
+    <td>{$item.version_number}</td>
+    <td></td>
+  </tr>
+  <tr>
+    <td></td>
+    <td colspan="10" >{$item.comment|nl2br}</td>
+    <td></td>
+  </tr>
+    </table>
+     </td>
+   </tr>
+    </table>
+  {/foreach}
+    </td>
+  </tr>
+</table>
+{/if}
+</div>
+{include file="themes/$theme/footer_jump.html"}

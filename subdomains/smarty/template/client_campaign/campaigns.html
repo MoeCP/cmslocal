@@ -1,0 +1,145 @@
+{include file="themes/$theme/header.html"}
+{if $feedback ne ''}
+<script language="JavaScript">
+<!--
+alert('{$feedback}');
+//-->
+</script>
+{/if}
+<div id="page-box1">
+  <h2>{if $is_view_all}Client Campaign Report{else}Client Campaign Setting{/if}</h2>
+  <div id="campaign-search" >
+      <div id="campaign-search-box" >
+<form name="f_assign_keyword_return" action="" method="get">
+<table border="0" cellspacing="1" cellpadding="4">
+  <tr>
+    <td nowrap>Campaign Search (by campaign name or company name)</td>
+    <td><input type="text" name="keyword" id="search_keyword"></td>
+    {if $user_permission_int > 3}
+    <td   nowrap>Campaign Status:</td>
+    <td><select name="archived">{html_options options=$archived_status selected=$smarty.get.archived}</select></td>
+    <td   nowrap>Client Agency:</td>
+    <td><select name="agency">{html_options options=$all_agency selected=$smarty.get.agency}</select></td>
+    {/if}
+    <td><input type="image" src="/images/button-search.gif" value="submit" /></td>
+    <td nowrap>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+    <td width="70%">&nbsp;</td>
+  </tr>
+</table>
+</form>
+    </div>
+  </div>
+</div>
+<div class="tablepadding"> 
+<form name="f_archive_form" id="f_archive_form" action="/client_campaign/campaigns.php" method="post">
+<input type="hidden" name="status" id="status" value="" />
+<input type="hidden" name="campaign_id" id="campaign_id" value="" />
+<table id="table-1" cellspacing="0" cellpadding="0" align="center" class="sortableTable">
+  <thead>
+  <tr class="sortableTab">
+    <th class="table-left-corner">&nbsp;&nbsp;&nbsp;&nbsp;</th>
+    <td nowrap class="columnHeadInactiveBlack table-left-2">#</td>
+    <td nowrap class="columnHeadInactiveBlack">Company Name</td>
+    <td nowrap class="columnHeadInactiveBlack">Campaign Name</td>
+    <td nowrap class="columnHeadInactiveBlack">Campaign Type</td>
+    <td nowrap class="columnHeadInactiveBlack">Campaign ID</td>
+    <td nowrap class="columnHeadInactiveBlack">Total Keywords</td>
+    <td nowrap class="columnHeadInactiveBlack">% assigned</td>
+    <td nowrap class="columnHeadInactiveBlack">% submitted</td>
+    <td nowrap class="columnHeadInactiveBlack">% Editor approved</td>
+    <td nowrap class="columnHeadInactiveBlack">% client Approved</td>
+    <td nowrap class="columnHeadInactiveBlack">% delivered</td>
+    <td nowrap class="columnHeadInactiveBlack">Due Date</td>
+    <td nowrap class="columnHeadInactiveBlack">Days Past Due/Completed Date</td>
+    {if $is_home}
+    <td nowrap class="columnHeadInactiveBlack">Submitted Today</td>
+    <td nowrap class="columnHeadInactiveBlack">Client Approved(Month)</td>
+    {/if}
+    <td nowrap class="columnHeadInactiveBlack table-right-2">Action</td>
+    <th class="table-right-corner">&nbsp;&nbsp;&nbsp;</th>
+  </tr>
+  </thead>
+{foreach from=$result item=item name="loop"}
+<tr {*class="{if $smarty.foreach.loop.iteration % 2 eq 0}even{else}odd{/if}"*}>
+  <td class="table-left" >&nbsp;</td>
+  {eval var= $startNo+$smarty.foreach.loop.iteration assign='rowNumber'}
+  <td class="table-left-2">{$rowNumber}</td>
+  <td>{$item.company_name}</td>
+	<td nowrap>{if $item.campaign_type == 1}<a href="/client_campaign/keyword_list.php?campaign_id={$item.campaign_id}" >{$item.campaign_name}</a>{else}<a href="/client_campaign/image_keyword_list.php?campaign_id={$item.campaign_id}" >{$item.campaign_name}</a>{/if}</td>
+	<td>{$campaign_type[$item.campaign_type]}</td>
+	<td>{$item.campaign_id}</td>
+	<td>{$item.total}</td>
+	<td ><div {if $item.old_assigned}class="greenclass"{/if}>{$item.pct_total_assign|default:"0%"}({$item.total_assign})</div></td>
+	<td ><div {if $item.old_submitted}class="yellowclass"{/if}>{$item.pct_total_submit|default:"0%"}({$item.total_submit})</div></td>
+	<td ><div {if $item.old_approved}class="redclass"{/if}>{$item.pct_total_editor_approval|default:"0%"}({$item.total_editor_approval})</div></td>
+	<td>{$item.pct_total_client_approval|default:"0%"}({$item.total_client_approval})</td>
+	<td>{$item.pct_total_delivered|default:"0%"}({$item.total_delivered})</td>
+	<td>{$item.date_end}</td>
+  {if $item.archived == 1}
+  <td>{$item.completed_date}</td>
+  {else}
+	<td>{if $item.total_assign > $item.total_client_approval && $item.past_days > 0}{$item.past_days}{/if}</td>
+  {/if}
+  {if $is_home}
+  <td>{$item.today_submit|default:0}</td>
+  <td>{$item.month_client_approval|default:0}</td>
+  {/if}
+  <td align="right" nowrap class="table-right-2" id="tdaction{$item.campaign_id}" >
+  <span id="span{$item.campaign_id}" >
+  {if $item.archived == 1}
+      <strong>Archived</strong>
+  {else}
+      <input type="button" class="button" value="Archive" onclick="formsubmit(1, {$item.campaign_id},{if ($item.total_assign==$item.total_client_approval)}1{else}0{/if})"/>
+  {/if}
+  </span>
+  {if $is_view_all}
+      <input type="button" class="button" value="Editorial Notes" onclick="openWindow('/client_campaign/campaign_notes.php?campaign_id={$item.campaign_id}', 'height=485,width=550,status=no,toolbar=no,menubar=no,location=no,resizable=no,scrollbars=yes');"/>
+      <input type="button" class="button" value="Update" onclick="window.open('/client_campaign/client_campaign_set.php?campaign_id={$item.campaign_id}');"/>
+  {/if}
+  </td>
+  <td class="table-right" >&nbsp;</td>
+</tr>
+{/foreach}
+</table>
+</form>
+<div class="pagingpaddingleft" >
+  <table align="center" width="100%" border="0" cellspacing="0" cellpadding="0" >
+    <tr><td class="table-left table-paging-left" width="20" height="37" >&nbsp;</td><td class="table-bottom">{$pager} (Total Page:{$total})(Total Count:{$count})</td><td class="table-right table-paging-right" width="21">&nbsp;</td></tr>
+  </table>
+</div>
+</div>
+<script type="text/javascript">
+//<![CDATA[
+{literal}
+var st = new SortableTable(document.getElementById("table-1"),
+  ["None", "Number", "CaseInsensitiveString", "CaseInsensitiveString", "Number", "None"]);
+
+st.onsort = function () {
+  var rows = st.tBody.rows;
+  var l = rows.length;
+  for (var i = 0; i < l; i++) {
+    removeClassName(rows[i], i % 2 ? "odd" : "even");
+    addClassName(rows[i], i % 2 ? "even" : "odd");
+  }
+};
+
+st.asyncSort(0);
+function formsubmit(status, cid, completed)
+{
+    var form = $('f_archive_form');
+    form.status.value = status;
+    form.campaign_id.value = cid;
+    if (completed == 0)
+    {
+        if (!confirm('This campaign is not completed. Are you sure set it as archived?'))
+        {
+            return false;
+        }
+    }
+    eid = 'span'+cid;
+    archiveCampaign(eid, 'f_archive_form');
+}
+{/literal}
+//]]>
+</script>
+{include file="themes/$theme/footer.html"}

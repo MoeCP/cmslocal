@@ -1,0 +1,55 @@
+{include file="themes/$theme/header.html"}
+{if $feedback ne ''}
+<script language="JavaScript">
+<!--
+alert('{$feedback}');
+//-->
+</script>
+{/if}
+{if $user_permission_int >= 5}
+<div id="page-box2" >
+<table width="100%">
+  <tr>
+    <td>{include file="user/qa_task.html"}</td>
+  </tr> 
+</table>
+</div>
+{/if}
+{if $user_permission_int >= 3}
+<div id="page-box2" >
+<table width="100%">
+  <tr>
+    <td>{include file="user/notification.html"}</td>
+  </tr> 
+</table>
+</div>
+{/if}
+<div id="page-box1">
+  <div>
+    <table width="100%"  cellspacing="1" cellpadding="4">
+      <tr>
+        <td align="left"><h2>Campaign Progress Report</h2></td>
+        <td align="right"><span>{$smarty.now|date_format:"%A, %B %e, %Y"}</span></td>
+      </tr>
+    </table>
+  </div>
+  <div id="campaign-search-box" >
+  <form name="f_index_search" id="f_index_search" action="/index.php" method="get">
+  <table border="0" cellspacing="1" cellpadding="4">
+    <tr>
+      <td nowrap>Month:</td>
+      <td><select name="month" onchange="ajaxSubmit('/user/admin_index.php', 'f_index_search', 'adminreport')" >{html_options options=$monthes selected=$smart.get.monthes|default:$month}</select></td>
+      {if $user_permission_int >= 5}
+      <td nowrap>Project Manager</td>
+      <td><select name="project_manager_id" onchange="ajaxSubmit('/user/admin_index.php', 'f_index_search', 'adminreport')">{html_options options=$pms selected=$smart.get.project_manager_id|default:''}</select></td> 
+      {/if}
+    </tr>
+  </table>
+  </form>
+  </div>
+</div>
+<div class="tablepadding" >
+  <div id="adminreport" ></div>
+</div>
+<script>ajaxSubmit('/user/admin_index.php', 'f_index_search', 'adminreport');</script>
+{include file="themes/$theme/footer.html"}

@@ -1,0 +1,95 @@
+{include file="themes/$theme/header.html"}
+
+{if $feedback ne ''}
+<script language="JavaScript">
+<!--
+alert('{$feedback}');
+//-->
+</script>
+{/if}
+<div id="page-box1">
+  <h2>
+  Comments Page &nbsp;&nbsp;&nbsp;&nbsp;</h2>
+  <div id="campaign-search" >
+    <div id="campaign-search-box" >
+ <form name="f_assign_keyword_return" id="f_assign_keyword_return"  action="" method="get">
+<table border="0" cellspacing="1" cellpadding="4">
+  <tr>
+    <td   nowrap>Keyword</td>
+    <td><input type="text" name="keyword" id="search_keyword" value="{$smarty.get.keyword}"></td>
+    {if $user_permission_int <> 1 && $user_permission_int <> 3}
+    <td nowrap>Client</td>
+    <td><select name="client_id">{html_options options=$clients selected=$smarty.get.client_id}</select></td>
+    {/if}
+    <td nowrap>Campaign</td>
+    <td><select name="campaign_id">{html_options options=$campaigns  selected=$smarty.get.campaign_id}</select></td>
+    {if $user_permission_int <> 3}
+    <td nowrap>Editor</td>
+    <td><select name="editor_id">{html_options options=$editors selected=$smarty.get.editor_id}</select></td>
+    {/if}
+    {if $user_permission_int <> 1}
+    <td nowrap>Copywriter</td>
+    <td><select name="writer_id">{html_options options=$writers selected=$smarty.get.writer_id}</select></td>
+    {/if}
+    <td nowrap>Show:</td>
+    <td nowrap>
+       <select name="perPage" onchange="this.form.submit();">{html_options options=$g_pager_perPage selected=$smarty.get.perPage|default:50}</select> row(s)&nbsp;&nbsp;&nbsp;
+    </td>
+    <td colspan="4" nowrap><input type="image" src="/images/button-search.gif" value="submit" /></td>
+  </tr>
+</table><br>
+</form>       
+    </div>
+  </div>
+</div>
+<div class="tablepadding"> 
+<form action="" method="post"  name="f_acct_flow" id="f_acct_flow" >
+  <input type="hidden" name="user_id" value="">
+  <input type="hidden" name="payment_flow_status" value="">
+  <input type="hidden" name="article_ids" value="">
+  <input type="hidden" name="month" value="">
+  <input type="hidden" name="vendor_id" value=""/>
+  <input type="hidden" name="role" id="role"  value="{$role}">
+</form>
+<table id="table-1" cellspacing="0" align="center" cellpadding="0" class="sortableTable">
+  <thead>
+  <tr class="sortableTab">
+    <th class="table-left-corner">&nbsp;&nbsp;&nbsp;&nbsp;</th>
+    <td nowrap class="columnHeadInactiveBlack table-left-2" rowspan="2">#</td>
+    <td nowrap class="columnHeadInactiveBlack" rowspan="2">Date</td>
+    <td nowrap class="columnHeadInactiveBlack" rowspan="2">Keyword</td>
+    <td nowrap class="columnHeadInactiveBlack" rowspan="2">Author</td>
+    <td nowrap class="columnHeadInactiveBlack" rowspan="2">Comment</td>
+    <td nowrap class="columnHeadInactiveBlack" rowspan="2">Campaign</td>
+    <td nowrap class="columnHeadInactiveBlack table-right-2" rowspan="2">Article Title</td>
+    <th class="table-right-corner" rowspan="2">&nbsp;&nbsp;&nbsp;&nbsp;</th>
+  </tr>
+  </thead>
+  {foreach from=$result item=item name="loop"}
+  <tr class="{if $smarty.foreach.loop.iteration % 2 eq 0}even{else}odd{/if}">
+    <td class="table-left" >&nbsp;</td>
+    {eval var= $startNo+$smarty.foreach.loop.iteration assign='rowNumber'}
+    <td class="table-left-2">{$rowNumber}</td>
+    <td>{$item.creation_date}</td>
+    <td><a href="/article/article_comment_list.php?article_id={$item.article_id}" >{$item.keyword}</a></td>
+    <td>{if $user_permission_int == 1 && $item.creation_role=='client'}Client{else}{if $item.creation_role=='client'}{$item.creator}{else}{$item.author}{/if}{/if}</td>
+    <td>{$item.comment}</td>
+    <td><a href="{if $user_permission_int == 1}/article/article_keyword_list.php{elseif $user_permission_int== 3}/article/article_list.php{else}/client_campaign/keyword_list.php{/if}?campaign_id={$item.campaign_id}" target="_blank">{$item.campaign_name}</a></td>
+    <td nowrap class="table-right-2">{$item.title}</td>
+    <td class="table-right" >&nbsp;</td>
+  </tr>
+  {/foreach}
+</table>
+<div class="pagingpaddingleft" >
+  <table align="center" width="100%" border="0" cellspacing="0" cellpadding="0" >
+    <tr><td class="table-left table-paging-left" width="20" height="37" >&nbsp;</td><td class="table-bottom">{$pager} (Total Page:{$total})(Total Count:{$count})</td><td class="table-right table-paging-right" width="21">&nbsp;</td></tr>
+  </table>
+</div>
+</div>
+{literal}
+<script type="text/javascript">
+//<![CDATA[
+//]]>
+</script>
+{/literal}
+{include file="themes/$theme/footer.html"}

@@ -1,0 +1,118 @@
+{include file="themes/$theme/header.html"}
+
+{if $feedback ne ''}
+<script language="JavaScript">
+<!--
+alert('{$feedback}');
+//-->
+</script>
+{/if}
+{literal}
+<script language="JavaScript">
+function check_f_article_cost( operation )
+{
+	var f = document.f_article_cost;
+	f.operation.value = operation;
+	f.submit();
+}
+
+function redirect(campaign_id, client_id)
+{
+  var param = '';
+  if (campaign_id.length > 0 || client_id.length > 0)
+  {
+    param = '?';
+    if (campaign_id > 0)
+    {
+        param += "campaign_id=" + campaign_id + '&';
+    }
+
+    if (client_id > 0)
+    {
+        param += "client_id=" + client_id + '&';
+    }
+    changeReturn('/client_campaign/article_cost.php', param);
+  }
+}
+</script>
+{/literal}
+<div id="page-box1">
+  <h2>Custom Campaign Cost</h2>
+  <div id="campaign-search" >
+    <strong>Please enter the Campaign's custom cost per word for each type.</strong>
+  </div>
+  <div class="form-item" >
+<form action="" method="post" name="f_article_cost" >
+<table cellspacing="0" cellpadding="4" align="center" width="99%">
+    <input type="hidden" name="operation" value="" />
+    <input type="hidden" name="query_string" value="{$query_string}" />
+     <tr>
+	      <td class="bodyBold">Basic Information</td>
+	      <td align="right" class="requiredHint" colspan="10" >Required Information</td>
+      </tr>
+      <tr>
+	      <td class="blackLine" colspan="10"><img src="/image/misc/s.gif"></td>
+     </tr>
+     <tr>
+        <td class="requiredInput" >Client&nbsp;</td>
+        <td align="left" colspan="10" >
+          <select name="client" id="client" onchange="redirect($('campaign').value, this.value)" >
+          <option value="" >[all]</option>
+          {html_options options=$all_client  selected=$smarty.get.client_id}
+          </select>
+        </td>
+      </tr>
+     <tr>
+        <td class="requiredInput" >Campaign Name:&nbsp;</td>
+        <td align="left" colspan="10" >
+          <select name="campaign" id="campaign" onchange="redirect(this.value, $('client').value)" >{html_options options=$campaign_list  selected=$smarty.get.campaign_id}</select>
+        </td>
+      </tr>
+  {if $total_type > 0}
+  {foreach from=$article_types item=type key=key name="loop" }
+    {*if $key % 1 == 0*}
+      <tr>
+    {*/if*}
+      <td class="requiredInput">
+      <input type="hidden" name="campaign_id[]"  value="{$type.campaign_id}" />
+      <input type="hidden" name="article_type[]"  value="{$type.article_type}" />
+      <input type="hidden" name="invoice_status[]"  value="{$type.invoice_status}" />
+      <input type="hidden" name="cost_id[]"  value="{$type.cost_id}" />
+      {$all_article_types[$type.article_type]} Copywriter Cost per Word:
+      </td>
+      <td align="left" nowrap>
+      $<input type="text" name="cp_cost[]"  value="{$type.cp_cost}"  />
+      </td>
+      <td class="requiredInput">{$all_article_types[$type.article_type]} Editor Cost per word:</td>
+      <td nowrap>$<input type="text" name="editor_cost[]"  value="{$type.editor_cost}"  /></td>
+    {*if $key % 1 == 1 || $key+1 == $total_type*}
+      </tr>
+    {*/if*}
+    <tr>
+      <td></td>
+      <td><input type="checkbox" name="pay_by_article[{$key}]" value="1" {if $type.pay_by_article == 1}checked{/if} />Pay by Article</td>
+    </tr>
+    <tr>
+      <td class="dataLabel">{$all_article_types[$type.article_type]} Copywriter Cost per Article</td>
+      <td><input type="text" name="cp_article_cost[]"  value="{$type.cp_article_cost}"  /></td>
+      <td class="dataLabel">{$all_article_types[$type.article_type]} Editor Cost per Article</td>
+      <td nowrap>$<input type="text" name="editor_article_cost[]"  value="{$type.editor_article_cost}"  /></td>
+    </tr>
+    <tr>
+      <td colspan="4" align="center" class="blackLine" ><br /></td>
+    </tr>
+  {/foreach}
+  {else}
+      <tr><td></td><td colspan="6" align="left" >There is no type cost per word for this campaign</td></tr>
+  {/if}
+      <tr>
+      <td colspan="6" align="center">
+	      {if $total_type > 0}<input type="button" class="button" name="save" value="Save" onclick="check_f_article_cost('save')"/>&nbsp;&nbsp;&nbsp;&nbsp;{/if}
+        <input type="button" class="button" name="new_article_cost" id="new_article_cost" value="Add New Type" onclick="javascript:openWindow('/client_campaign/add_article_cost.php?campaign_id={$campaign_id}', 'newwindow', 'height=341px,width=420px,status=no,toolbar=no,menubar=no,location=no,resizable=yes,scrollbars=yes');"/>
+      </td>
+      </tr>
+  </form>
+</table>
+  </div>
+</div>
+{include file="themes/$theme/footer.html"}

@@ -1,0 +1,37 @@
+<div class="page-box1-class">
+<h2>My Specialities&nbsp;&nbsp;&nbsp;&nbsp;{if $login_role == 'copy writer' || $login_role == 'editor' || $login_role == 'admin'}<input type="button" class="button" value="
+    Add/Edit" onclick="window.location.href='/category/select.php?user_id={$user_info.user_id}&frm=user_detail'" />{/if}</h2>
+</div>
+<table id="table-2" cellspacing="0" align="center" cellpadding="0" class="sortableTable">
+  <tr>
+    <th class="table-left-corner">&nbsp;&nbsp;&nbsp;&nbsp;</th>
+    <td nowrap class="columnHeadInactiveBlack table-left-2">Number</td>
+    <td nowrap class="columnHeadInactiveBlack">Category</td>
+    <td nowrap class="columnHeadInactiveBlack">Level</td>
+    <td nowrap class="columnHeadInactiveBlack">Description</td>
+    <td nowrap class="columnHeadInactiveBlack table-right-2">Sample</td>
+    <th class="table-right-corner">&nbsp;&nbsp;&nbsp;&nbsp;</th>
+  </tr>
+  {foreach from=$categories item=item name="loop"}
+  <tr class="{if $smarty.foreach.loop.iteration % 2 eq 0}even{else}odd{/if}">
+    <td class="table-left" >&nbsp;</td>
+    <td class="table-left-2">{$smarty.foreach.loop.iteration}</td>
+    <td>{$item.category}</td>
+    <td>{$g_user_levels[$item.level]}</td>
+    <td rowspan="{$item.total_row}">{$item.description|nl2br}</td>
+    <td rowspan="{$item.total_row}" class="table-right-2">{$item.sample|nl2br}</td>
+    <td class="table-right" >&nbsp;</td>
+  </tr>
+  {if $item.children}
+  {foreach from=$item.children item=item2 name="loop2"}
+  <tr class="{if $smarty.foreach.loop2.iteration % 2 eq 0}even{else}odd{/if}">
+    <td class="table-left" >&nbsp;</td>
+    <td class="table-left-2"></td>
+    <td>&nbsp;&nbsp;&nbsp;&nbsp;{$item2.category}</td>
+    <td>{$g_user_levels[$item2.level]}</td>
+    <td class="table-right" >&nbsp;</td>
+  </tr>
+  {/foreach}
+  {/if}
+  {/foreach}
+</table>

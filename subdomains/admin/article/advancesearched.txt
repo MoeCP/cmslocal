@@ -1,0 +1,95 @@
+Advanced Query Syntax(Google Like Syntax)
+We only provide two fixed fields: @title, @content; and provide one more extra multiple-value field: @tag
+
+If you have any qeustions, Please contact us.<leo@infinitenine.com/nancy@infinitenine.com>
+
+...To Be Continue...
+---------------------------------------------------------
+
+The following special operators and modifiers can be used when using this advanced search page: 
+* operator OR:
+    hello | world
+
+* operator NOT:
+    hello -world
+    hello !world
+
+* field search operator:
+    @title hello @content world
+
+* field position limit modifier, only find the first 50 words in the field "content":
+    @content[50] hello
+
+* multiple-field search operator:
+    @(title,content) hello world
+
+* all-field search operator, this is default:
+    @* hello
+
+* phrase search operator:
+    "hello world"
+
+* proximity search operator:
+    "hello world"~10
+
+* quorum matching operator:
+    "the world is a wonderful place"/3
+
+* strict order operator (aka operator "before"):
+    aaa << bbb << ccc
+
+* exact form modifier:
+    raining =cats and =dogs
+
+* field-start and field-end modifier:
+    ^hello world$
+
+Query Example:
+"shoes brand" @title "nike basketball"~5 @content breathability -(ventilation|springy) @* cushioning
+
+The full meaning of this search is:
+
+    * Find the words 'shoes' and 'brand' adjacently in any field in a document;
+    * Additionally, the same document must also contain the words 'nike' and 'basketball' in the title field, with up to, 
+                    but not including, 5 words between the words in question; (E.g. "nike elite youth basketball.." would be matched,
+		    however "nike celebrates the second annual elite youth basketball league" would not because two terms have 5 or more words between them)
+    * Additionally, the same document must contain the word 'breathability' in the content field, 
+                    but not contain either 'ventilation' or 'springy';
+    * Additionally, the same document must contain the word 'cushioning' in any field.
+
+
+There always is implicit AND operator, so "hello world" means that both "hello" and "world" must be present in matching document.
+
+OR operator precedence is higher than AND, so "looking for cat | dog | mouse" means "looking for ( cat | dog | mouse )" and not "(looking for cat) | dog | mouse". 
+
+Proximity distance is specified in words, adjusted for word count, and applies to all words within quotes. For instance,
+"cat dog mouse"~5 query means that there must be less than 8-word span which contains all 3 words, 
+ie. "CAT aaa bbb ccc DOG eee fff MOUSE" document will not match this query, because this span is exactly 8 words long. 
+
+Quorum matching operator introduces a kind of fuzzy matching. It will only match those documents that pass a given threshold of given words. 
+The example above ("the world is a wonderful place"/3) will match all documents that have at least 3 of the 6 specified words. 
+
+Strict order operator (aka operator "before"), will match the document only if its argument keywords occur in the document exactly in the query order.For instance, "black << cat" query (without quotes) will match the document "black and white cat" but not the "that cat was black" document. 
+Order operator has the lowest priority. It can be applied both to just keywords and more complex expressions, ie. this is a valid query:
+(bag of words) << "exact phrase" << red|green|blue
+
+Field-start and field-end keyword modifiers, will make the keyword match only if it occurred at the very start or the very end of a fulltext field, respectively. For instance, the query "^hello world$" (with quotes and thus combining phrase operator and start/end modifiers) will only match documents that contain at least one field that has exactly these two keywords. 
+
+
+
+Anther Query Example:
+"shoes brand" @tag:Global Financial Crisis,Making Money,Insurance
+
+This query means:
+* Find the words words 'shoes' and 'brand' adjacently in any field in a document;
+* Additionally, the same document must belong to the Tag "Global Financial Crisis" Or Tag "Making Money" OR Tag "Insurance"
+Here the Tag means categories.
+Notice: you should put the @tag:... at the end of any search terms.
+
+
+
+---------------------------------------------------------
+...To Be Continue...
+
+
+

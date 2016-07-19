@@ -1,0 +1,89 @@
+{if $type neq 3}
+<select name="{$name}" id="{$name}" {$action}>
+{html_options options=$all selected=$selected}
+</select>
+  {if $type eq 2}
+  <script type="text/javascript">
+  loadRanking();
+  </script>
+  {/if}
+{/if}
+{if $type neq 1 && $type neq 2}
+  {if $ranking_info.readability > 0 && $ranking_info.informational_quality > 0 && $ranking_info.timeliness > 0}
+  <script type="text/javascript">
+  var read    = document.getElementsByName("readability");
+  var quality = document.getElementsByName("informational_quality");
+  var time    = document.getElementsByName("timeliness");
+  for (var i = 0; i < read.length ; i++ )
+  {literal}
+  {
+      {/literal}
+      if ( read[i].value == {$ranking_info.readability}{literal} )
+      {   
+          read[i].checked = true;
+          break;
+      }
+  }
+  for (var j = 0; j < quality.length ; j++ )
+  {
+      {/literal}
+      if ( quality[j].value == {$ranking_info.informational_quality} )
+      {literal}
+      {
+          quality[j].checked = true;
+          break;
+      }
+  }
+  for (var k = 0; k < time.length ; k++ )
+  {
+      {/literal}
+      if ( time[k].value == {$ranking_info.timeliness} )
+      {literal}
+      {
+          time[k].checked = true;
+          break;
+      }
+  }{/literal}
+  </script>
+ {else}
+ <script type="text/javascript">
+ 
+  var read    = document.getElementsByName("readability");
+  var quality = document.getElementsByName("informational_quality");
+  var time    = document.getElementsByName("timeliness");
+  for (var i = 0; i < read.length ; i++ )
+  {literal}
+  if (read[i].value == 3)
+  {
+      read[i].checked = true;
+  } else {
+      read[i].checked = false;
+  }
+
+  for (var j = 0; j < quality.length ; j++ )
+  { 
+      if (quality[j].value == 3)
+      {
+          quality[j].checked = true;
+      } else {
+          quality[j].checked = false; 
+      }
+  }
+  for (var k = 0; k < time.length ; k++ )
+  { 
+      if ( time[k].value == 3 )
+      {
+        time[k].checked = true;
+
+      } else {
+          time[k].checked = false;
+      }
+  }
+  {/literal}
+  </script>
+   {/if}
+  <script>
+  document.getElementById("c").innerHTML = "<textarea name='comments' id='comments' style='width: 630px; height: 200px;' >{$ranking_info.comments}</textarea>";
+  document.getElementById("ranking_id_area").innerHTML = "<input type='hidden' name='ranking_id' id='ranking_id' value='{$ranking_info.ranking_id}'/>";
+  </script>
+{/if}

@@ -1,0 +1,12 @@
+user_id,user_name,first_name,last_name,email,address,status,Type 1,Type 2,Type 3,total,pay_words_total,pay_count_article,pay_amount,payment_preference,payment_status
+985,joshberida,Joshua,Berida,jberida@copypress.info,,Active,0,2547,2106,12733,2614,27,$125.14,,Not Paid
+975,bbustamante,Brenna,Bustamante,bbustamante@copypress.info,,Active,0,0,2396,15014,0,33,$178.5,,Not Paid
+902,frankiecalcana,Frankie,Calcana,fcalcana@copypress.info,,Active,0,0,2423,25542,0,43,$262,,Not Paid
+916,beacanuel,Bea,Canuel,bcanuel@copypress.info,"93 Hernandez Street Catmon, Malabon City",Active,0,10865,2784,26948,1035,48,$303.05,,Not Paid
+982,joemesa,Jose,de Mesa,jmesa@copypress.info,,Active,0,1007,2478,18042,0,37,$194.5,,Not Paid
+274,keckel,Kathy,Eckel,kathy@thisweekinparkcity.com,6290 Starview Drive,Active,129779,1110,5577,141462,0,404,$2007,Direct Deposit,Not Paid
+927,francismansueto,Francis,Mansueto,fmansueto@copypress.info,,Active,0,0,2000,19378,0,39,$233,,Not Paid
+888,charmcglinchey,Charley,McGlinchey,charley_mcg@hotmail.com,21 Bell Pde,Active,0,0,304,304,0,1,$6,"Paypal (International Only) ",Not Paid
+36,jillenaobrien,Jillena,O'Brien,jillenabean@gmail.com,82 E 850 S,Active,98292,0,0,98292,0,271,$1355,Direct Deposit,Not Paid
+914,michaelsanchez,Michael,Sanchez,msanchez@copypress.info,,Active,0,569,1950,24454,0,52,$303,,Not Paid
+47,cstromness,Cara,Stromness,cara.stromness@gmail.com,13127 S Charing Way,Active,114806,0,2251,117057,0,335,$1645,Direct Deposit,Not Paid

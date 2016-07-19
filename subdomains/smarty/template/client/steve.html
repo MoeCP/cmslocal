@@ -1,0 +1,217 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD html 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset={$sys_charset}">
+<title>{$page_title}</title>
+<style type="text/css">@import url("login.css");</style>
+<script type="text/javascript" src="/js/common.js"></script>
+
+<style type="text/css">
+<!--
+{literal}
+body {
+	background-image: url();
+	background-color: #F3F3F3;
+	margin-left: 0px;
+	margin-top: 0px;
+	margin-right: 0px;
+	margin-bottom: 0px;
+}
+.small {
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 11px;
+        color:#000000;
+	
+	}
+    .loginTopBg {
+        background:url(/image/loginTopBg.gif) repeat-x;
+    }
+
+    .loginTopShade {
+        background:url(/image/loginTopShade.gif) repeat-x;
+    }
+
+    .loginBg{
+        background:#818181 url(/image/loginBg.gif) repeat-x;
+    }
+    .textbox {
+        border:1px solid #999999;
+        background-color:#ffffff;
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 11px;
+        width:120px;
+        padding:2px;
+
+    }
+    .loginSignin {
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 18px;
+        color: #818181;
+        font-weight:bold;
+    }
+
+    .loginBillBoard {
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 11px;
+        color:#ffffff;
+    }
+
+{/literal}
+-->
+</style>
+
+<script language="JavaScript">
+<!--
+{literal}
+function check_f_login()
+{
+  var f = document.f_login;
+  if (f.user_name.value.length == 0) {
+      alert('Please enter user name');
+      f.user_name.focus();
+      return false;
+  }
+  if (f.user_pw.value.length == 0) {
+      alert('Please enter password');
+      f.user_pw.focus();
+      return false;
+  }
+  if (f.sc_img.value.length != 4) {
+      alert('You must use 4 digits to enter security code');
+      f.sc_img.focus();
+      return false;
+  }
+}
+{/literal}
+//-->
+</script>
+
+{literal}
+<script language="JavaScript" type="text/JavaScript">
+<!--
+function MM_reloadPage(init) {  //reloads the window if Nav4 resized
+  if (init==true) with (navigator) {if ((appName=="Netscape")&&(parseInt(appVersion)==4)) {
+    document.MM_pgW=innerWidth; document.MM_pgH=innerHeight; onresize=MM_reloadPage; }}
+  else if (innerWidth!=document.MM_pgW || innerHeight!=document.MM_pgH) location.reload();
+}
+MM_reloadPage(true);
+//-->
+</script>
+{/literal}
+</head>
+
+<body>
+<table height="100%" width="100%">
+	<tr><td>
+<div style="text-align: center">
+<div style="background-image: url(login1.jpg); background-repeat: no-repeat; height: 382px; width: 777px; vertical-align: middle; margin-left: auto; margin-right: auto; text-align: left;">
+	<div style="margin-left: 440px; padding-top: 115px; width: 275px;">
+            <table border=0 cellspacing=0 cellpadding=5 align=center width=100%>
+              <form action="/login.php" method="post" name="f_login" onsubmit="return check_f_login()">
+                <tr>
+                  <td colspan="3" class="loginSignin" style="border-bottom: 1px solid rgb(153, 153, 153); padding: 10px;" align="left">User Login</td>
+                </tr>
+                <tr>
+                  <td class=small align=right nowrap>User Name:</td>
+                  <td colspan="2"><input class=textbox type="text" name="user_name" onchange="javascript:this.value=Trim(this.value)" /></td>
+                </tr>
+                <tr>
+                  <td class=small align=right>Password: </td>
+                  <td colspan="2"><input class=textbox type="password" size='20' name="user_pw" onchange="javascript:this.value=Trim(this.value)" /></td>
+                </tr>
+                <tr>
+                  <td class=small align=right>Themes: </td>
+                  <td colspan="2"><select name="sel_style" class="input">
+                      <option value="Default">Default</option>
+                  </select></td>
+                </tr>
+                <tr>
+                  <td class=small align=right>Security Code: </td>
+                  <td ><input type="text" class=textbox name="sc_img" size="11" maxlength="4" onchange="javascript:this.value=Trim(this.value)" value="Please enter 4 digits" onfocus="javascript:if (this.value=='Please enter 4 digits') this.value=''"></td>
+                  <td ><img src="/sc_img.php" width="70" height="20" border="0"></td>
+                </tr>
+                <tr>
+                  <td colspan="3" style="border-top: 1px solid rgb(153, 153, 153); padding: 10px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                      <input class=small type="submit" name="Login" value=" Login " style="width:100; height:25;"></td>
+                </tr>
+              </form>
+            </table>
+	</div>
+</div>
+</div>
+	</td></tr>
+<table>
+<!--
+<div align="left"></div>
+<table width="100%" height="100%"  border="0" cellpadding="0" cellspacing="0">
+  <tr>
+    <td><div align="center">
+      <table width="776" border="0" align="center" cellpadding="0" cellspacing="0">
+        <tr>
+          <td height="382" background="login1.jpg" style="position:relative "><div id="Layer1" style="position:absolute; left:561px; top:222px; width:274px; height:231px; z-index:1">
+            {literal}
+            <script language="javascript">
+           --><!--
+            if (window.navigator.userAgent.indexOf("MSIE")>=1)
+            {
+              document.getElementById("Layer1").style.cssText ="position:absolute; left:441px; top:122px; width:274px; height:231px; z-index:1";
+              /*
+              document.getElementById("Layer1").style.position="absolute";
+              document.getElementById("Layer1").style.left="441px";
+              document.getElementById("Layer1").style.top="122px";
+              document.getElementById("Layer1").style.width="274px";
+              document.getElementById("Layer1").style.height="231px";
+              //document.getElementById("Layer1").style.z-index="1";
+              */
+            } else {
+              if (window.navigator.userAgent.indexOf("Firefox")>=1)
+              {
+                document.getElementById("Layer1").style.cssText="position:absolute; left:561px; top:222px; width:274px; height:231px; z-index:1";
+              } else {
+                document.getElementById("Layer1").style.cssText="position:absolute; left:441px; top:122px; width:274px; height:231px; z-index:1";    
+              }
+            }
+            //--><!--
+            </script>
+            {/literal}
+
+            <table border=0 cellspacing=0 cellpadding=5 align=center width=100%>
+              <form action="/login.php" method="post" name="f_login" onsubmit="return check_f_login()">
+                <tr>
+                  <td colspan="3" class="loginSignin" style="border-bottom: 1px solid rgb(153, 153, 153); padding: 10px;" align="left">User Login</td>
+                </tr>
+                <tr>
+                  <td class=small align=right nowrap>User Name:</td>
+                  <td colspan="2"><input class=textbox type="text" name="user_name" onchange="javascript:this.value=Trim(this.value)" /></td>
+                </tr>
+                <tr>
+                  <td class=small align=right>Password: </td>
+                  <td colspan="2"><input class=textbox type="password" size='20' name="user_pw" onchange="javascript:this.value=Trim(this.value)" /></td>
+                </tr>
+                <tr>
+                  <td class=small align=right>Themes: </td>
+                  <td colspan="2"><select name="sel_style" class="input">
+                      <option value="Default">Default</option>
+                  </select></td>
+                </tr>
+                <tr>
+                  <td class=small align=right>Security Code: </td>
+                  <td ><input type="text" class=textbox name="sc_img" size="11" maxlength="4" onchange="javascript:this.value=Trim(this.value)" value="Please enter 4 digits" onfocus="javascript:if (this.value=='Please enter 4 digits') this.value=''"></td>
+                  <td ><img src="/sc_img.php" width="70" height="20" border="0"></td>
+                </tr>
+                <tr>
+                  <td colspan="3" style="border-top: 1px solid rgb(153, 153, 153); padding: 10px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                      <input class=small type="submit" name="Login" value=" Login " style="width:100; height:25;"></td>
+                </tr>
+              </form>
+            </table>
+          </div></td>
+          </tr>
+      </table>
+    </div></td>
+  </tr>
+</table>
+<div align="left"></div>
+-->
+</body>
+</html>

@@ -1,0 +1,29 @@
+{if $feedback ne ''}
+<script language="JavaScript">
+alert("{$feedback}");
+</script>
+{/if}
+{if $item.payment_flow_status eq 'paid'}
+<script language="JavaScript">
+$('status_' + {$item.user_id}).innerHTML = 'paid';
+</script>
+{/if}
+{if $item.payment_flow_status eq ''}
+<input type="button" class="button" value="Confirm First" onclick="doAcctFlow('Confirm with {$role} first?', '{$item.user_id}', 'ap', '{$item.month}', '{$item.vendor_id}');">
+<input type="button" class="button" value="Approve Now" onclick="doAcctFlow('Approve without {$role} confirmation?', '{$item.user_id}', 'cpc', '{$item.month}', '{$item.vendor_id}');">
+{elseif $item.payment_flow_status eq 'ap'}
+<font color="red">[Awaiting {if $role == 'editor'}editor{else}copywriter{/if} confirmation]</font>
+<input type="button" class="button" value="Confirm again" onclick="doAcctFlow('Send confirmation email to {$role} again?', '{$item.user_id}', 'ap',  '{$item.month}','{$item.vendor_id}');">
+<input type="button" class="button" value="Force Approve" onclick="doAcctFlow('Approve without {$role} confirmation?', '{$item.user_id}', 'cpc', '{$item.month}', '{$item.vendor_id}');">
+{elseif $item.payment_flow_status eq 'cpc' && $item.vendor_id  > 0 && ($pay_plugin=='NetSuite' || $pay_plugin=='QuickBook')}
+<input type="button" class="button" value="create bill" onclick="doAcctFlow('create bill {$pay_plugin}?', '{$item.user_id}', 'cbill', '{$item.month}', '{$item.vendor_id}');">
+{elseif $item.payment_flow_status eq 'cpc' || $item.payment_flow_status eq 'cbill'}
+<input type="button" class="button" value="mark as paid" onclick="doAcctFlow('paid?', '{$item.user_id}', 'paid', '{$item.month}', '{$item.vendor_id}');">
+{elseif $item.payment_flow_status neq 'paid'}
+<a href="#" target="_self" onMouseOver="return overlib('<table width=300><tr><td nowrap>memo </td></tr><tr><td>{$item.memo|nl2br|strip|escape:html}</td></tr></table>');" onMouseOut="return nd();">disapprove with explanation</a>
+<input type="button" class="button" value="re-approve" onclick="doAcctFlow('re-approve?', '{$item.user_id}', 'ap','{$item.month}', '{$item.vendor_id}');">
+{/if}
+{if $item.payment_flow_status eq 'paid'||$item.payment_flow_status eq 'cpc' || $item.payment_flow_status eq 'cbill'}
+<input type="button" class="button" value="view invoice" onclick="window.open('/client_campaign/cp_invoice.php?user_id={$item.user_id}&month={$item.month}&role={$item.role}', 'view_invoice',  'status=yes, width=900, height=400,  left=50,  top=50, scrollbars=yes, resizable=yes');">
+{/if}
+{$adodb_log}

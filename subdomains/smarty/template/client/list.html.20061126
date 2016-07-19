@@ -1,0 +1,93 @@
+{include file="themes/$theme/header.html"}
+
+{if $feedback ne ''}
+<script language="JavaScript">
+<!--
+alert('{$feedback}');
+//-->
+</script>
+{/if}
+
+
+<table border="0" cellspacing="1" cellpadding="4">
+  <tr>
+    <td colspan="8" class="moduleTitle">Clients List</td>
+  </tr>
+  <tr><td colspan="9" nowrap><table class="helpTable" width="100%" cellspacing="0" cellpadding="4">
+      <tr><td>You can enter the "client user name","company name","city" etc. into the keyword input to search the relevant client's information</td></tr></table></td></tr>
+  <form name="f_assign_keyword_return" action="/client/list.php" method="get">
+  <tr>
+    <td class="requiredInput" nowrap>Client Keyword</td>
+    <td><input type="text" name="keyword" id="search_keyword"></td>
+    <td><input type="submit" value="Search" class="moduleButton"></td>
+    <td nowrap>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+    <td width="70%">&nbsp;</td>
+  </tr>
+  </form>
+</table><br>
+
+<table id="table-1" cellspacing="0" cellpadding="4" align="center" class="sortableTable" width="99%">
+  <form action="/client/list.php" name="client_list" method="post" />
+  <input type="hidden" name="client_id" />
+  <input type="hidden" name="form_refresh" value="N" />
+  <thead>
+  <tr class="sortableTab">
+    <td nowrap class="columnHeadInactiveBlack">Number</td>
+    <td nowrap class="columnHeadInactiveBlack">User Name</td>
+    {if $login_role eq 'admin'}
+    <td nowrap class="columnHeadInactiveBlack">Password</td>
+    {/if}
+    <td nowrap class="columnHeadInactiveBlack">Company Name</td>
+    <td nowrap class="columnHeadInactiveBlack">City</td>
+    <td nowrap class="columnHeadInactiveBlack">Zip</td>
+    <td nowrap class="columnHeadInactiveBlack">State</td>
+    <td nowrap class="columnHeadInactiveBlack">Email</td>
+    <td nowrap class="columnHeadInactiveBlack">Status</td>
+    <td nowrap class="columnHeadInactiveBlack">&nbsp;</td>
+  </tr>
+  </thead>
+  {foreach from=$result item=item name="loop"}
+  <tr class="{if $smarty.foreach.loop.iteration % 2 eq 0}even{else}odd{/if}">
+    <td>{$smarty.foreach.loop.iteration}</td>
+    <td><a href="javascript:openWindow('/client/client_detail_info.php?client_id={$item.client_id}', 'newwindow', 'height=300,width=300,status=no,toolbar=no,menubar=no,location=no,resizable=yes,scrollbars=yes');">{$item.user_name}</a></td>
+    {if $login_role eq 'admin'}
+    <td>{$item.user_pw}</td>
+    {/if}
+    <td>{$item.company_name}</td>
+    <td>{$item.city}</td>
+    <td>{$item.zip}</td>
+    <td>{$item.state}</td>
+    <td>{$item.email}</td>
+    <td>{$item.status}</td>
+    <td align="right" nowrap>
+	<input type="button" class="button" value="Update" onclick="javasript:window.location='/client/client_set.php?client_id={$item.client_id}';" />
+	<input type="submit" class="button" value="Delete" onclick="return deleteSubmit('client_list', 'client_id', '{$item.client_id}', 'D', 'This Client')" />
+    </td>
+  </tr>
+  {/foreach}
+  </form>
+</table>
+<table align="center">
+  <tr><td>{$pager} (Total Page:{$total})</td></tr>
+</table>
+
+<script type="text/javascript">
+//<![CDATA[
+{literal}
+var st = new SortableTable(document.getElementById("table-1"),
+  ["Number", "CaseInsensitiveString", "CaseInsensitiveString", "CaseInsensitiveString", "CaseInsensitiveString", "CaseInsensitiveString", "CaseInsensitiveString", "CaseInsensitiveString", "None"]);
+
+st.onsort = function () {
+  var rows = st.tBody.rows;
+  var l = rows.length;
+  for (var i = 0; i < l; i++) {
+    removeClassName(rows[i], i % 2 ? "odd" : "even");
+    addClassName(rows[i], i % 2 ? "even" : "odd");
+  }
+};
+st.asyncSort(0);
+{/literal}
+//]]>
+</script>
+
+{include file="themes/$theme/footer.html"}

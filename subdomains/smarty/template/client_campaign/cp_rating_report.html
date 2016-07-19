@@ -1,0 +1,116 @@
+{include file="themes/$theme/header.html"}
+
+{if $feedback ne ''}
+<script language="JavaScript">
+<!--
+alert('{$feedback}');
+//-->
+</script>
+{/if}
+
+<table border="0" cellspacing="1" cellpadding="4">
+  <tr>
+    <td colspan="15" class="moduleTitle">Copywriter Rating Report List</td>
+  </tr>
+  <form name="f_assign_keyword_return" action="#" method="get">
+  <tr>
+  	<td class="requiredInput" nowrap>Copywriter</td>
+	<td><select name="copy_writer_id" onchange="this.form.submit();"><option value="">[choose]</option>{html_options options=$all_copy_writer selected=$smarty.get.copy_writer_id}</select></td>
+    <td class="requiredInput" nowrap>From:</td>
+    <td>
+	<input type="text" name="start_date" id="start_date" size="10" maxlength="10" value="{$start_date }" />
+	<input type="button" class="button" id="btn_start_date" value="...">
+	<script type="text/javascript">
+	Calendar.setup({ldelim}
+	    inputField  : "start_date",
+	    ifFormat    : "%Y-%m-%d",
+	    showsTime   : false,
+	    button      : "btn_start_date",
+	    singleClick : true,
+	    step        : 1,
+	    range       : [1940, 2010]
+	{rdelim});
+	</script>
+    </td>
+    <td class="requiredInput" nowrap>To:</td>
+    <td>
+    	<input type="text" name="end_date" id="end_date" size="10" maxlength="10" value="{$end_date}" />
+	<input type="button" class="button" id="btn_end_date" value="...">
+	<script type="text/javascript">
+	Calendar.setup({ldelim}
+	    inputField  : "end_date",
+	    ifFormat    : "%Y-%m-%d",
+	    showsTime   : false,
+	    button      : "btn_end_date",
+	    singleClick : true,
+	    step        : 1,
+	    range       : [1940, 2010]
+	{rdelim});
+	</script>
+    </td>
+    <td class="requiredInput" nowrap>Show:</td>
+    <td><select name="perPage" onchange="this.form.submit();">{html_options options=$g_pager_perPage selected=$smarty.get.perPage}</select> row(s)</td>
+    <td colspan="4"><input type="image" src="/images/button-search.gif" value="submit" /></td>
+  </tr>
+  </form>
+</table><br>
+
+<table id="table-1" cellspacing="0" align="center" cellpadding="0" class="sortableTable">
+  <thead>
+  <tr class="sortableTab">
+    <th class="table-left-corner">&nbsp;&nbsp;&nbsp;&nbsp;</th>
+    <td nowrap class="columnHeadInactiveBlack table-left-2" >#</td>
+    <td nowrap class="columnHeadInactiveBlack" >User Name</td>
+    <td nowrap class="columnHeadInactiveBlack" >First Name</td>
+    <td nowrap class="columnHeadInactiveBlack" >Last Name</td>
+    <td nowrap class="columnHeadInactiveBlack" >Email</td>
+    <td nowrap class="columnHeadInactiveBlack" >Total Aritcle</td>
+    <td nowrap class="columnHeadInactiveBlack table-right-2" >Average Rating</td>
+    <th class="table-right-corner">&nbsp;&nbsp;&nbsp;</th>
+  </tr>
+  </thead>
+  <form action="" method="post"  name="f_acct_flow">
+  <input type="hidden" name="user_id" value="">
+  <input type="hidden" name="payment_flow_status" value="">
+  <input type="hidden" name="article_ids" value="">
+  <input type="hidden" name="month" value="">
+  {foreach from=$result item=item name="loop"}
+  <tr class="{if $smarty.foreach.loop.iteration % 2 eq 0}even{else}odd{/if}">
+    <td class="table-left" >&nbsp;</td>
+    <td class="table-left-2">{$smarty.foreach.loop.iteration}</td>
+    <td>{$item.user_name}</td>
+    <td>{$item.first_name}</td>
+    <td>{$item.last_name}</td>
+    <td>{$item.email}</td>
+    <td>{$item.total}</td>
+    <td class="table-right-2">{$item.average}</td>
+    <td class="table-right" >&nbsp;</td>
+  </tr>
+  {/foreach}
+  </form>
+</table>
+<table align="center">
+  <tr><td>{$pager} (Total Page:{$total})(Total Count:{$count})</td></tr>
+</table>
+
+<script type="text/javascript">
+//<![CDATA[
+{literal}
+var st = new SortableTable(document.getElementById("table-1"),
+  ["Number", "CaseInsensitiveString", "CaseInsensitiveString",  "CaseInsensitiveString", "CaseInsensitiveString", "Number", "Number", "Number" , "Number" , "Number" , "Number" ]);
+
+st.onsort = function () {
+  var rows = st.tBody.rows;
+  var l = rows.length;
+  for (var i = 0; i < l; i++) {
+    removeClassName(rows[i], i % 2 ? "odd" : "even");
+    addClassName(rows[i], i % 2 ? "even" : "odd");
+  }
+};
+
+st.asyncSort(0);
+{/literal}
+//]]>
+</script>
+
+{include file="themes/$theme/footer.html"}

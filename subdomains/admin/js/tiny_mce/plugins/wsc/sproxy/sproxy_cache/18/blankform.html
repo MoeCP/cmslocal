@@ -1,0 +1,70 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>WSC Initialization Document</title>
+	<style type="text/css">
+		html, body{
+			margin:0px;
+			padding:0px;
+			font-family:Verdana, Arial, Helvetica, sans-serif;
+			font-weight:bold;
+			font-size:14px;
+			height:100%;
+		}
+		table{
+			height:100%;
+			width:100%;
+			border:0px;
+			border-collapse:collapse;
+		}
+		table td{
+			padding:0px;
+			height:100%;
+			vertical-align:middle;
+			text-align:center;
+		} 
+		
+	</style>
+	<script type="text/javascript">
+		//<!--
+		//rss
+		if(/^\s*$/.test("<#relaxedDomain#>") == false){
+			document.domain = "<#relaxedDomain#>";
+		}
+		//~rss
+		//-->
+	</script>
+</head>
+	<body onload="parent.opener.spellWin=parent; parent.opener.WSC.ChkFrm();">
+		<table>
+			<tr>
+				<td>
+					Loading...
+				</td>
+			</tr>
+		</table>
+		<form action="" method="post" enctype="application/x-www-form-urlencoded;">
+			<input type="hidden" name="sp_asce" />
+			<input type="hidden" name="slang" />
+			<input type="hidden" name="intlang" />
+			<input type="hidden" name="text" />
+			<input type="hidden" name="cmd" />
+			<input type="hidden" name="trg_url" />
+			<input type="hidden" name="trg_wnd" />
+			<input type="hidden" name="txt_ctrl" />
+			<input type="hidden" name="svc_time" />
+			<input type="hidden" name="statinfo" />
+			<input type="hidden" name="customerid" />
+			<input type="hidden" name="schema_url" />
+			<input type="hidden" name="schema" />
+			<input type="hidden" name="spp_langs" />
+			<input type="hidden" name="hide" />
+			<input type="hidden" name="ssrv_host" />
+			<input type="hidden" name="cust_dic_ids" />
+			<input type="hidden" name="udn" />
+			<input type="hidden" name="settings" />
+			<input type="hidden" name="relaxedDomain" />
+		</form>
+	</body>
+</html>

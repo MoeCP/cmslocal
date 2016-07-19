@@ -1,0 +1,17 @@
+user_name,status,email,contact_name,client_id,total_word,total_word_for_editor,total_article_for_editor,total_word_for_writer,total_article_for_writer,pay_total_words_for_editor,pay_total_words_for_writer,pay_total_articles_for_editor,pay_total_articles_for_writer,cost
+CopyPress,A,cmorris@copypress.com,,45,14000,7000,7,7000,7,7000,7000,0,0,$770
+ethanhathaway,A,vincent.po@ethanhathaway.com,Vincent Po,210,2000,1000,2,1000,2,1000,1000,0,0,$70
+kzippcopypress,A,kylezipp@gmail.com,,219,1500,750,1,750,1,750,750,0,0,$30
+connection,A,dporupski@copypress.com,,225,22750,11375,47,11375,47,8575,8575,28,28,$684.25
+AutoRevo,A,jmccormick@steelcast.com,,295,20000,10000,20,10000,20,10000,10000,0,0,$600
+VSE,A,jmccormick@steelcast.com,,314,1000,500,1,500,1,500,500,0,0,$35
+Build_Direct,A,jmccormick@steelcast.com,,318,14000,7000,7,7000,7,7000,7000,0,0,$420
+Hipmunk,A,hipmunk@copypress.com,,350,500,250,1,250,1,250,250,0,0,$77.5
+FlipKey,A,cmorris@steelcast.com,,379,20000,10000,20,10000,20,10000,10000,0,0,$700
+BKMediaGroup,A,zbudgor@steelcast.com,,402,26238,13119,21,13119,21,13119,13119,0,0,$787.14
+FurzyJohnsonMoo,A,jmccormick@steelcast.com,,410,5000,2500,2,2500,2,2500,2500,0,0,$275
+HipmunkConnect,A,hipmunk@copypress.com,,429,284000,142000,284,142000,284,142000,142000,0,0,$25310
+Mediagistic,A,mediagistic@copypress.com,,478,53600,26800,61,26800,61,26800,26800,0,0,$1608
+DealerOn,A,sduffy@steelcast.com,,491,167000,83500,167,83500,167,83500,83500,0,0,$4175
+GallantFish,A,cmorris@steelcast.com,,496,3000,1500,1,1500,1,1500,1500,0,0,$120
+Phelps,A,cmorris@steelcast.com,,497,57600,28800,48,28800,48,28800,28800,0,0,$1728

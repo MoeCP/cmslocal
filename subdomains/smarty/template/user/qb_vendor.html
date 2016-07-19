@@ -1,0 +1,95 @@
+{include file="themes/$theme/header.html"}
+
+{if $feedback ne ''}
+<script language="JavaScript">
+<!--
+alert("{$feedback}");
+//-->
+</script>
+{/if}
+
+<script language="JavaScript">
+<!--
+var login_permission = '{$login_permission}';
+{literal}
+function check_f_vendor()
+{
+}
+{/literal}
+//-->
+</script>
+<div id="page-box1">
+  <h2>{if $user_info.vendor_id > 0}Update{else}Create{/if} QuickBook Vendor for {$user_info.user_name}&nbsp;&nbsp;&nbsp;&nbsp;</h2>
+  <div id="campaign-search" >
+    <strong>Please enter the vendor's required information.</strong>
+  </div>
+  <div class="form-item" >
+<form action="" method="post"  name="f_vendor" {if $js_check eq true} onsubmit="return check_f_vendor()"{/if}>
+<br><table border="0" cellspacing="1" cellpadding="4" align="center" width="100%">
+  <input type="hidden" name="user_id" value="{$user_info.user_id}" />
+  <input type="hidden" name="ListID" value="{$user_info.qb_vendor_id}" />
+  <input type="hidden" name="EditSequence" value="{$user_info.qb_sequence}" />
+  <tr>
+    <td class="bodyBold">Basic Information</td>
+    <td align="right" class="requiredHint">Required Information</td>
+  </tr>
+  <tr>
+    <td class="blackLine" colspan="2"><img src="/image/misc/s.gif"></td>
+  </tr>
+  <tr>
+    <td class="requiredInput">Name</td>
+    <td><input name="FirstName" type="text" id="FirstName" value="{$user_info.first_name}"  /><input name="MiddleName" type="text" id="MiddleName" value="{$user_info.middle_name}" size="5" /><input name="LastName" type="text" id="LastName" value="{$user_info.last_name}"/ ></td>
+  </tr>
+  <tr>
+    <td class="requiredInput">Address1</td>
+    <td><textarea name="VendorAddress[Addr1]" cols="60" rows="4" id="Addr1">{$user_info.address}</textarea></td>
+  </tr>
+  <tr>
+    <td class="requiredInput">Address2</td>
+    <td><textarea name="VendorAddress[Addr2]" cols="60" rows="4" id="Addr2">{$user_info.address2}</textarea></td>
+  </tr>
+  <tr>
+    <td class="requiredInput">City</td>
+    <td><input name="VendorAddress[City]" type="text" id="City" value="{$user_info.city}" onchange="javascript:this.value=Trim(this.value)" size="20"></td>
+  </tr>
+  <tr>
+    <td class="requiredInput">State</td>
+    <td><input name="VendorAddress[State]" type="text" id="State" value="{$user_info.state}" onchange="javascript:this.value=Trim(this.value)" size="20"></td>
+  </tr>
+  <tr>
+    <td class="requiredInput">Postal Code</td>
+    <td><input name="VendorAddress[PostalCode]" type="text" id="PostalCode" value="{$user_info.zip}" onchange="javascript:this.value=Trim(this.value)" size="20"></td>
+  </tr>
+  <tr>
+    <td class="requiredInput">Country</td>
+    <td><input name="VendorAddress[Country]" type="text" id="Country" value="{$user_info.country}" onchange="javascript:this.value=Trim(this.value)" size="50"><input type="hidden" name="Phone" value="{$user_info.pay_pref}" /></td>
+  </tr>
+  <tr>
+    <td class="requiredInput">Phone</td>
+    <td><input name="Mobile" type="text" id="Mobile" value="{$user_info.phone}" size="50"></td>
+  </tr>
+  <tr>
+    <td class="requiredInput">Bank Routing Number</td>
+    <td><input name="Pager" type="text" id="Pager" value="{$user_info.routing_number}"  size="50" /></td>
+  </tr>
+  <tr>
+    <td class="requiredInput">Back Account Number</td>
+    <td><input name="AltPhone" type="text" id="AltPhone" value="{$user_info.bank_info}"  size="50" /></td>
+  </tr>
+  <tr>
+    <td class="requiredInput">Email</td>
+    <td><input name="Email" type="text" id="Email" value="{$user_info.email}" size="50"></td>
+  </tr>
+  <tr>
+    <td class="requiredInput">Tax ID</td>
+    <td><input name="VendorTaxIdent" type="text" id="VendorTaxIdent" value="{$user_info.social_security_number}"  size="50" /></td>
+  </tr>
+  <tr>
+    <td>&nbsp;</td>
+    <td><input type="submit" value="Submit" class="button">&nbsp;<input type="reset" value="reset" class="button"></td>
+  </tr>
+</table>
+</form>
+  </div>
+</div>
+{include file="themes/$theme/footer.html"}

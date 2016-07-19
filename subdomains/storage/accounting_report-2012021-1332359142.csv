@@ -1,0 +1,9 @@
+user_id,user_name,first_name,last_name,email,address,status,Type 1,Type 2,Type 3,total,pay_words_total,pay_count_article,pay_amount,payment_preference,payment_status
+902,frankiecalcana,Frankie,Calcana,fcalcana@copypress.info,,Active,0,0,5837,5837,0,12,$54,,Not Paid
+916,beacanuel,Bea,Canuel,bcanuel@copypress.info,"93 Hernandez Street Catmon, Malabon City",Active,0,3122,2862,14630,8646,12,$143.46,,Not Paid
+274,keckel,Kathy,Eckel,kathy@thisweekinparkcity.com,6290 Starview Drive,Active,105918,2774,574,110313,0,314,$1590,Direct Deposit,paid
+5,editor,editor,jones,andrew@infinitenine.com,316 W 2nd St,Active,0,554,0,554,0,1,$8,Direct Deposit,Not Paid
+927,francismansueto,Francis,Mansueto,fmansueto@copypress.info,,Active,0,0,2879,2879,0,6,$27,,Not Paid
+36,jillenaobrien,Jillena,O'Brien,jillenabean@gmail.com,82 E 850 S,Active,90783,10221,0,106865,0,276,$1425,Direct Deposit,paid
+914,michaelsanchez,Michael,Sanchez,msanchez@copypress.info,,Active,0,0,5323,5323,0,12,$54,,Not Paid
+47,cstromness,Cara,Stromness,cara.stromness@gmail.com,13127 S Charing Way,Active,98730,0,0,98730,0,285,$1425,Direct Deposit,Not Paid

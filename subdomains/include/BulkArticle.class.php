@@ -1,0 +1,99 @@
+<?php
+require_once COMMON_PATH.'/mycsvparser.php';
+class BulkArticle {
+ 
+    function save($arr) 
+    {
+        global $conn, $feedback;
+        foreach ($arr as $k => $value)  {
+            if (is_array($value)) {
+                if (!empty($value)) $arr[$k] = addslashes(serialize($value));
+                else $arr[$k] = '';
+            } else {
+                $arr[$k] = addslashes(htmlspecialchars(trim($value)));
+            }
+        }
+        extract($arr);
+
+        if ($client_id == '') {
+            $feedback = "Please Choose a Client";
+            return false;
+        }
+
+        if ($filename == '') {
+            $feedback = "Please specify the file name";
+            return false;
+        }
+
+        $si = 0;
+        $fi = 0;
+
+        $oMyCSV = new MyCSVParser(array('file' => $filename));
+        $fields = $oMyCSV->getFirstLine();
+
+        $import_data = $oMyCSV->getAllData();
+
+        /*
+        print_r($fields);
+        print_r($import_data);
+        $labels = array("Article Name","Article ID","Content");
+        foreach ($fields as $k => $field) {
+            if ($field == 'skip') continue;
+            $label = $labels[$k];
+            $data['fields'][$field] = $labels[$k];
+            $data[$field] = $import_data[$label];
+        }
+        */
+
+        $bdlabel = isset($import_data["Content"]) ? "Content" : "Text";
+        $ailabel = isset($import_data["Article ID"]) ? "Article ID" : "Article Number";
+        foreach ($import_data[$ailabel] as $k => $value) {
+            $article_id = $value;
+            $richtext_body = $import_data[$bdlabel][$k];
+
+
+            $richtext_body = htmlspecialchars(trim($richtext_body));
+            $body = change_richtxt_to_paintxt($richtext_body, ENT_QUOTES);
+            $richtext_body = addslashes($richtext_body);
+            $richtext_update = " `richtext_body` = '{$richtext_body}', ";
+
+            $q = "SELECT ar.article_id, ar.article_number, aaf.blurb ".
+                "FROM articles AS ar ".
+                "LEFT JOIN article_additional_fields AS aaf ON (ar.article_id = aaf.article_id) ".
+                "LEFT JOIN campaign_keyword AS ck ON (ar.keyword_id = ck.keyword_id) ".
+                "LEFT JOIN client_campaigns AS cc ON (cc.campaign_id = ck.campaign_id) ".
+                "WHERE (ar.article_number = '".$article_id."' OR ar.article_id='".$article_id."') AND ar.article_status>=5 AND cc.client_id = 350";
+            $ret = $conn->GetRow($q);
+            if (empty($ret)) {
+                $fi++;
+                continue;
+            }
+
+            //##$conn->StartTrans();
+            $conn->Execute("INSERT INTO bulk_article_backup (`article_id`, `article_number`, `richtext_body`, `body`, `title`, `total_words`, `real_words`, `created` ) SELECT `article_id`, `article_number`, `richtext_body`, `body`, `title`, `total_words`, `real_words`, DATE_FORMAT(NOW(),'%Y-%m-%d %H:%i:%s') AS `created` FROM articles WHERE (article_number = '".$article_id."' OR article_id='".$article_id."') AND article_status>=5");
+            $conn->Execute("UPDATE articles ".
+                           "SET " . $richtext_update . 
+                               "`body` = '".$body."' ".
+                           "WHERE article_id = '".$ret["article_id"]."' AND article_status >= 5");
+            if (isset($import_data["Blurb"]) && !empty($import_data["Blurb"][$k])) {
+                $blurb = addslashes(htmlspecialchars(trim($import_data["Blurb"][$k])));
+                $conn->Execute("UPDATE article_additional_fields ".
+                               "SET `blurb` = '".$blurb."' ".
+                               "WHERE article_id = '".$ret["article_id"]."'");
+            }
+            //##$ok = $conn->CompleteTrans();
+            if ($conn->Affected_Rows() == 1) {
+                $si ++;
+            } else {
+                $fi ++;
+            }
+
+        }
+
+        $feedback = "There are {$si} articles update Successful, {$fi} articles Failure";
+        return true;
+    }
+
+
+}
+?>

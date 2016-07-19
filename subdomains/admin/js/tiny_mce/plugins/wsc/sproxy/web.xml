@@ -1,0 +1,12 @@
+<servlet>
+<servlet-name>SProxy</servlet-name>
+<servlet-class>net.webspellchecker.sproxy.SProxy</servlet-class>
+<init-param>
+    <param-name>sproxyIniPath</param-name>
+    <param-value>./sproxy.ini</param-value>
+</init-param>
+</servlet>
+<servlet-mapping>
+<servlet-name>SProxy</servlet-name>
+<url-pattern>/sproxy</url-pattern>
+</servlet-mapping>

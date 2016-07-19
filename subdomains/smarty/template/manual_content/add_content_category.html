@@ -1,0 +1,72 @@
+{include file="themes/$theme/header.html"}
+<link rel="stylesheet" type="text/css" href="spell_checker/spell_checker/css/spell_checker.css">
+{if $feedback ne ''}
+<script language="JavaScript">
+<!--
+alert("{$feedback}");
+//-->
+</script>
+{/if}
+
+{literal}
+<script language="JavaScript">
+<!--
+function checkContent()
+{
+    var f = document.add_content_category;
+    if (f.pref_value.value.length == 0) {
+        alert("Please enter category title!");
+        f.pref_value.focus();
+        return false;
+    }
+    f.submit();
+}
+//-->
+</script>
+{/literal}
+
+<div id="page-box1">
+  <h2>Manual Content Category Setting</h2>
+  <div id="campaign-search" >
+    <strong>Please enter the manual content category required information.</strong>
+  </div>
+  <div class="form-item" >
+<br><table border="0" cellspacing="1" cellpadding="4" align="center" width="100%">
+  <form action="" method="post"  name="add_content_category" id="add_content_category" >
+  <input type="hidden" name="pref_id" value="{$content.pref_id}">
+  <input type="hidden" name="pref_table" value="{$table}">
+  <input type="hidden" name="pref_field" value="{$field}">
+  <tr>
+    <td class="bodyBold">Basic Information</td>
+    <td align="right" class="requiredHint">Required Information</td>
+  </tr>
+  <tr>
+    <td class="blackLine" colspan="2"><img src="/image/misc/s.gif"></td>
+  </tr>
+  {*
+  {if $categories neq ''}
+    <td>
+      {foreach from=$categories item=cat name="category_loop"}
+      <tr>
+        <td>{$cat.pref_value}</td>
+      </tr>
+      {/foreach}
+  {/if}
+  *}
+  <tr>
+    <td class="requiredInput">Category Title*</td>
+    <td><input id="pref_value" name="pref_value" type="text" size="60" value="{$content.pref_value}" /></td>
+  </tr>
+  <tr>
+    <td class="blackLine" colspan=2><img src="/image/misc/s.gif"></td>
+  </tr>
+  <tr>
+    <td>&nbsp;</td>
+    <td><input type="button" value="Submit" class="button" onclick="checkContent()">&nbsp;<input type="reset" value="reset" class="button"></td>
+  </tr>
+  </form>
+</table>
+  </div>
+<br>
+</div>
+{include file="themes/$theme/footer.html"}

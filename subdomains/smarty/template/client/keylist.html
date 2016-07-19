@@ -1,0 +1,167 @@
+{include file="themes/$theme/header.html"}
+
+<script language="JavaScript">
+{if $feedback ne ''}
+<!--
+alert('{$feedback}');
+//-->
+{/if}
+var url = '{$url}';
+{literal}
+function generate_api_key(cu_id, client_id)
+{
+//    $('operation').value = 'generate';
+//    ajaxApiKeyPost(cu_id);
+  window.location.href="generatekey.php?cu_id=" +cu_id + '&client_id=' + client_id  ;
+}
+
+function sent_api_key(cu_id) 
+{
+  $('operation').value = 'sent';
+  ajaxApiKeyPost(cu_id);
+}
+
+function operation_api(opt, cu_id)
+{
+  if (opt == 'delete')
+  {
+      if (!confirm('If you delete this api, you can\'t do any operations for this api key. Are you sure to delete it? '))
+      { return false;
+      }
+  }
+  $('operation').value = opt;
+  ajaxApiKeyPost(cu_id);
+}
+
+function ajaxApiKeyPost(cu_id)
+{
+    $('cu_id').value = cu_id;
+    ajaxSubmit(url, 'f_keylist' , 'post_result_div', 'post')
+}
+{/literal}
+</script>
+
+<form action="/client/keylist.php" id="f_keylist"  name="f_keylist" method="post" >
+  <input type="hidden"  id="cu_id"  name="cu_id" />
+  <input type="hidden"  id="operation"  name="operation" />
+</form>
+
+<div id="page-box1">
+  {if $login_role != 'client'}
+ <table width="100%"  cellspacing="1" cellpadding="4"><tr><td align="left">
+  <h2>Client API Key List</h2></td><td>
+  <ul id="campaign-nav">
+    <li><input type="button" onclick="window.location.href='/client/generatekey.php?client_id={$smarty.get.client_id}&pfrom=keylist'" value="Generate API Key" class="button" /></li>
+  </ul></td></tr>
+</table>
+  <div id="campaign-search" >
+    <div id="campaign-search-box" >
+    <form name="f_assign_keyword_return" action="/client/keylist.php" method="get">
+    <table border="0" cellspacing="1" cellpadding="4">
+      <tr>
+        <td nowrap>Domain</td>
+        <td><input type="text" name="domain" id="domain" value="{$smarty.get.domain}"></td>
+        <td nowrap>Client</td>
+        <td><select name="client_id">{html_options options=$clients selected=$smarty.get.client_id}</select></td>
+        <td>API Type</td>
+        <td><select name="apitype"><option value="" >[choose]</option>{html_options options=$types selected=$smarty.get.apitype}</select></td>
+        <td><input type="image" src="/images/button-search.gif" value="submit"></td>
+      </tr>
+    </table>
+    </form>
+    </div>
+  </div>
+  {else}
+   <table width="100%"  cellspacing="1" cellpadding="4"><tr><td align="left">
+    <h2>Client API Key List</h2></td><td>
+    <ul id="campaign-nav">
+      <li><input type="button" onclick="openWindow('http://www.box.net/shared/4i6847lhr9sco3jqksvx')" value="Download WP Plugin" class="button" /></li>
+    </ul></td></tr>
+  </table>
+  {/if}
+</div>
+<div class="tablepadding"> 
+  <div id="post_result_div"></div>
+<table id="table-1" cellspacing="0" cellpadding="0" align="center" class="sortableTable">
+<thead>
+<tr class="sortableTab">
+  <th class="table-left-corner">&nbsp;&nbsp;&nbsp;&nbsp;</th>
+  <td nowrap class="columnHeadInactiveBlack table-left-2">Number</td>
+  <td nowrap class="columnHeadInactiveBlack">User Name</td>
+  <td nowrap class="columnHeadInactiveBlack">Email</td>
+  <td nowrap class="columnHeadInactiveBlack">API Key</td>
+  <td nowrap class="columnHeadInactiveBlack">Token</td>
+  {*<td nowrap class="columnHeadInactiveBlack">API Signature</td>*}
+  <td nowrap class="columnHeadInactiveBlack">Domain</td>
+  <td nowrap class="columnHeadInactiveBlack">Client</td>
+  <td nowrap class="columnHeadInactiveBlack table-right-2">&nbsp;</td>
+  <th class="table-right-corner">&nbsp;&nbsp;&nbsp;</th>
+</tr>
+</thead>
+{foreach from=$result item=item name="loop"}
+<tr class="{if $smarty.foreach.loop.iteration % 2 eq 0}even{else}odd{/if}">
+  <td class="table-left" >&nbsp;</td>
+  <td class="table-left-2">{$smarty.foreach.loop.iteration}</td>
+  <td>{$item.user}</td>
+  <td>{$item.email}</td>
+  <td>{$item.apikey}</td>
+  <td>{$item.token}</td>
+  {*<td>{$item.apisig}</td>*}
+  <td>{$item.domain}</td>
+  <td><a href="javascript:showClientDialog('{$item.client_id}');">{$item.company_name}</a></td>
+  <td align="right" nowrap class="table-right-2">
+    {if $item.total_tags > 0 }
+    <input type="button" class="button" value="View Tags" onclick="javascript:showDialog({$item.client_user_id})" />
+    {/if}    
+    {if $item.apisig == ''}
+    <input type="button" class="button" value="Generate API Key" onclick="javascript:generate_api_key('{$item.client_user_id}', '{$item.client_id}')" />
+    {else}
+    <input type="button" class="button" value="Send API Key" onclick="javascript:operation_api('sent', {$item.client_user_id})" />
+    {/if}
+    {if $login_role == 'admin'}
+    <input type="button" class="button" value="Delete" onclick="javascript:operation_api('delete', {$item.client_user_id})" />
+    {/if}
+  </td>
+  <td class="table-right" >&nbsp;</td>
+</tr>
+{/foreach}
+</table>
+<div class="pagingpaddingleft" >
+  <table align="center" width="100%" border="0" cellspacing="0" cellpadding="0" >
+    <tr><td class="table-left table-paging-left" width="20" height="37" >&nbsp;</td><td class="table-bottom">{$pager} (Total Page:{$total})(Total Count:{$count})</td><td class="table-right table-paging-right" width="21">&nbsp;</td></tr>
+  </table>
+</div>
+</div>
+
+{literal}
+<script type="text/javascript">
+function showClientDialog(client_id) {
+  var url = '/client/ajax_client_set.php?client_id=' + client_id;
+  showWindowDialog(url, 500, 500, "Edit Client Info.");
+};
+</script>
+{/literal}
+
+<script type="text/javascript">
+//<![CDATA[
+{literal}
+var st = new SortableTable(document.getElementById("table-1"),
+  [null, "Number", "CaseInsensitiveString", "CaseInsensitiveString", "CaseInsensitiveString", "CaseInsensitiveString", "CaseInsensitiveString", "CaseInsensitiveString", "CaseInsensitiveString", "None"]);
+
+st.onsort = function () {
+  var rows = st.tBody.rows;
+  var l = rows.length;
+  for (var i = 0; i < l; i++) {
+    removeClassName(rows[i], i % 2 ? "odd" : "even");
+    addClassName(rows[i], i % 2 ? "even" : "odd");
+  }
+};
+st.asyncSort(0);
+function showDialog(source) {
+  var url = '/client/tags.php?source=' + source;
+  showWindowDialog(url, 500, 350, "Domain Tags");
+};
+{/literal}
+//]]>
+</script>
+{include file="themes/$theme/footer.html"}

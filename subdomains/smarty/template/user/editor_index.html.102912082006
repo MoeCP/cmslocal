@@ -1,0 +1,84 @@
+{include file="themes/$theme/header.html"}
+
+{literal}
+<style>
+    .graph { 
+        position: relative; /* IE is dumb */
+        width: 200px; 
+        border: 1px solid #B1D632; 
+        padding: 2px; 
+    }
+    .graph .bar { 
+        display: block;
+        position: relative;
+        background: #B1D632; 
+        text-align: center; 
+        color: #333; 
+        height: 2em; 
+        line-height: 2em;            
+    }
+    .graph .bar span { position: absolute; left: 1em; }
+</style>
+{/literal}
+
+{if $feedback ne ''}
+<script language="JavaScript">
+<!--
+alert('{$feedback}');
+//-->
+</script>
+{/if}
+
+<table border="0" cellspacing="1" cellpadding="4" align="left" width="60%">
+<tr><td>
+  <table align="right" width="100%">
+    <tr><td colspan="2"><img src="/image/logo.gif" width="212" height="40" alt="Company Logo" border="0"></td></tr>
+    <tr><td align="left">CKMediaGroup Copywriter Progress Report</td><td align="right">{$smarty.now|date_format:"%A, %B %e, %Y"}</td></tr>
+  </table>
+</td></tr>
+
+<tr><td>
+<table border="0" cellspacing="1" cellpadding="4" align="left" width="99%">
+{foreach from=$reports.report key=key item=item name="loop"}
+<tr>
+  <td>{$reports.campaign[$key]}#&nbsp;Total articles</td>
+  <td>
+  <a href="/article/article_keyword_list.php?campaign_id={$key}">
+  <div class="graph">
+    <strong class="bar" style='width: {$item|string_format:"%d"};'>{$item|string_format:"%d"}</strong>
+  </div>
+  </a>
+  </td>
+</tr>
+<tr>
+  <td>{$reports.campaign.$key}#&nbsp;Total pending articles</td>
+  <td><a href="/article/article_keyword_list.php?campaign_id={$key}">
+  <div class="graph">
+    <strong class="bar" style='width: {$reports.pending_report[$key]|string_format:"%d"};'>{$reports.pending_report[$key]|string_format:"%d"}</strong>
+  </div>
+  </a></td>
+</tr>
+{/foreach}
+</table>
+</td></tr>
+
+<tr><td>
+  <table align="right" width="100%">
+    <tr><td align="left">Total articles so far: &nbsp;{$reports.total_articles} </td></tr>
+    <tr><td align="left">Total pending articles: &nbsp;{$reports.total_pending}</td></tr>
+    <!-- <tr><td align="left"><br>Project Manager: &nbsp; John Smith  213.666.4444&nbsp; <a href="mailto:john@ckmediagroup.com">john@ckmediagroup.com</a></td></tr> -->
+  </table>
+</td></tr>
+
+<tr><td>
+  <table align="right" width="100%">
+    <tr><td align="left"><br><br>Content Kings Media Group</td></tr>
+    <tr><td align="left">1602 Alton Road, #571</td></tr>
+    <tr><td align="left">Miami Beach, FL 33139</td></tr>
+    <tr><td align="left"><br><br>Tel: 305.673.9903</td></tr>
+    <tr><td align="left">Fax: 305.604.1565</td></tr>
+  </table>
+</td></tr>
+
+<table>
+{include file="themes/$theme/footer.html"}

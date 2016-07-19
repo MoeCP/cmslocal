@@ -1,0 +1,102 @@
+{include file="themes/$theme/header.html"}
+{literal}
+<script type="text/javascript">
+function search_choice() {
+
+    var search = $("s_choice");
+    for (var s = 0; s < search.length ; s++ )
+    {
+        if (s !=0 && search[s].selected == true)
+        {
+            window.location.href = "/client_campaign/cp_performance_report.php?s_choice=" + search[s].value;
+            break;
+        }
+    }
+}
+</script>
+{/literal}
+<div id="page-box1">
+  <h2>Writer Performance Report</h2>
+  <div id="campaign-search" >
+    <strong>You can search copywriters' ranking</strong>
+    <div id="campaign-search-box" >
+ <form id="search" name="search" action="" method="get">
+<table cellspacing="0" cellpadding="4">
+  <tbody>
+    <tr align="left" >
+      <td>Writer Search ( name, user name )</td>
+      <td><input type="text" name="search_keyword" id="search_keyword" value="{$smarty.get.search_keyword}" /></td>
+      <td> 
+      <select name="s_choice" id="s_choice">
+      {html_options options=$search_choice selected=$smarty.get.s_choice}
+      </select> 
+      </td>
+      <td><input type="image" src="/images/button-search.gif" value="submit" /></td>
+     </tr>
+  </tbody>
+</table>
+</form>
+    </div>
+  </div>
+</div>
+<div class="tablepadding"> 
+<table id="table-1" cellspacing="0" cellpadding="0" align="center" class="sortableTable">
+  <tr class="sortableTab">
+    <th class="table-left-corner">&nbsp;&nbsp;&nbsp;&nbsp;</th>
+    <td nowrap class="columnHeadInactiveBlack table-left-2">Number</td>
+    <td nowrap class="columnHeadInactiveBlack">User</td>
+    <td nowrap class="columnHeadInactiveBlack">Name</td>
+    <td nowrap class="columnHeadInactiveBlack">Email</td>
+    <td nowrap class="columnHeadInactiveBlack">Style </td>
+    <td nowrap class="columnHeadInactiveBlack">Research Quality</td>
+    <td nowrap class="columnHeadInactiveBlack">Timeliness</td>
+    <td nowrap class="columnHeadInactiveBlack">% Editor approved</td>
+    <td nowrap class="columnHeadInactiveBlack">% Client approved</td>
+    <td nowrap class="columnHeadInactiveBlack">Productivity</td>
+    <td nowrap class="columnHeadInactiveBlack table-right-2">Overall</td>
+    <th class="table-right-corner">&nbsp;&nbsp;&nbsp;</th>
+  </tr>
+  {foreach from=$result item=item name="loop"}
+  <tr class="{if $smarty.foreach.loop.iteration % 2 eq 0}even{else}odd{/if}">
+    <td class="table-left" >&nbsp;</td>
+    <td class="table-left-2">{$smarty.foreach.loop.iteration}</td>
+    <td><a href="javascript:openWindow('/user/user_detail_info.php?user_id={$item.user_id}', 'newwindow', 'height=370,width=280,status=no,toolbar=no,menubar=no,location=no,resizable=yes,scrollbars=yes');">{$item.user_name}</a></td>
+    <td>{$item.first_name} {$item.last_name}</td>
+    <td>{$item.email}</td>
+    <td>{$item.readability}</td>
+    <td>{$item.informational_quality}</td>
+    <td>{$item.timeliness}</td>
+    <td>{$item.pct_editor_approved} ({$item.editor_approved}) </td>
+    <td>{$item.pct_client_approved} ({$item.client_approved}) </td>
+    <td>{$item.editor_approved} </td>
+    <td class="table-right-2">{$item.ranking}</td>
+    <td class="table-right" >&nbsp;</td>
+  </tr>
+  {/foreach}
+</table>
+<div class="pagingpaddingleft" >
+  <table align="center" width="100%" border="0" cellspacing="0" cellpadding="0" >
+    <tr><td class="table-left table-paging-left" width="20" height="37" >&nbsp;</td><td class="table-bottom">{$pager} (Total Page:{$total})(Total Count:{$count})</td><td class="table-right table-paging-right" width="21">&nbsp;</td></tr>
+  </table>
+</div>
+</div>
+<script type="text/javascript">
+//<![CDATA[
+{literal}
+var st = new SortableTable(document.getElementById("table-1"),
+  ["None", "Number", "CaseInsensitiveString", "CaseInsensitiveString",  "Number", "Number", "Number", "Number", "Number","Number"]);
+
+st.onsort = function () {
+  var rows = st.tBody.rows;
+  var l = rows.length;
+  for (var i = 0; i < l; i++) {
+    removeClassName(rows[i], i % 2 ? "odd" : "even");
+    addClassName(rows[i], i % 2 ? "even" : "odd");
+  }
+};
+
+st.asyncSort(0);
+{/literal}
+//]]>
+</script>
+{include file="themes/$theme/footer.html"}

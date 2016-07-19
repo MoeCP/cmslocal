@@ -1,0 +1,9 @@
+user_id,user_name,first_name,last_name,email,address,status,Type 1,Type 2,Type 3,total,pay_words_total,pay_count_article,pay_amount,payment_preference,payment_status
+902,frankiecalcana,Frankie,Calcana,francis.calcana@huamarketing.com,,Active,0,1570,41637,43207,0,96,$434,,Not Paid
+916,beacanuel,Bea,Canuel,bea.canuel@huamarketing.com,"93 Hernandez Street Catmon, Malabon City",Active,0,2683,35440,38123,0,88,$398.5,,Not Paid
+274,keckel,Kathy,Eckel,kathy@thisweekinparkcity.com,6290 Starview Drive,Active,0,0,29643,29643,0,67,$301.5,Direct Deposit,Not Paid
+5,editor,editor,jones,andrew@infinitenine.com,316 W 2nd St,Active,0,327,0,327,327,0,$4.905,Direct Deposit,Not Paid
+927,francismansueto,Francis,Mansueto,francis.mansueto@huamarketing.com,,Active,0,0,1012,42134,0,91,$426.5,,Not Paid
+36,jillenaobrien,Jillena,O'Brien,jillenabean@gmail.com,82 E 850 S,Active,0,0,15308,15308,0,33,$148.5,Direct Deposit,Not Paid
+914,michaelsanchez,Michael,Sanchez,michael.sanchez@huamarketing.com,,Active,0,4900,41174,51154,0,113,$552,,Not Paid
+47,cstromness,Cara,Stromness,cara.stromness@gmail.com,13127 S Charing Way,Active,0,0,30225,30225,0,66,$297,Direct Deposit,Not Paid

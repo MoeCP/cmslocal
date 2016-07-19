@@ -1,0 +1,186 @@
+<form action="" method="post"  name="f_candidate_s" id="f_candidate_s"  enctype="multipart/form-data" >
+<input type="hidden" name="candidate_id" value="{$cid}"/>
+<input type="hidden" name="opt_index" value="1" />
+<div class="tab_content" style="display: block;" id="writing_experience">
+  <h2>Writing Experience<br /> </h2>
+  <div>1. Please provide a link to your personal website, portfolio, and/or blog. </div>
+  {*<div><span class="spanlabel">*</span> You must provide at least one. </div>*}
+  <br />
+  <table border="0" cellspacing="1" cellpadding="4" align="center" width="100%">  
+    {foreach from=$candidate_plinks item=item key=key name=foo}
+    <tr>
+      <td>{$item}<input type="hidden" name="plinks[type][]" value="{$key}" /></td>
+      <td><input type="text" name="plinks[value][]" value="{if $plinks[$key].value}{$plinks[$key].value}{else}http://www.{/if}" size="60"/></td>
+    </tr>
+    {/foreach}
+  </table>
+  {if $info.plinks}
+  <table border="0" cellspacing="1" cellpadding="4" align="center" width="100%" class="sortableTable">
+    <tr>
+      <th class="table-left-corner">&nbsp;&nbsp;&nbsp;&nbsp;</th>
+      <td class="columnHeadInactiveBlack table-left-2">Type</td>
+      <td class="columnHeadInactiveBlack table-right-2">Url</td>
+      <th class="table-right-corner">&nbsp;&nbsp;&nbsp;</th>
+    </tr>
+    {foreach from=$info.plinks item=item}
+    {if $item.value}
+    <tr>
+      <td class="table-left" ></td>
+      <td class="table-left-2" >{$candidate_plinks[$item.type]}</td>
+      <td class="table-right-2">{$item.value}</td>
+      <td class="table-right" ></td>
+    </tr>
+    {/if}
+    {/foreach}
+  </table>
+  {/if}
+  <br />
+  <br />
+{*  <div>2. What best describes you as a writer?</div>
+  <div><span class="spanlabel">*</span> You must choose at least one.</div>
+  <br />
+  <table border="0" cellspacing="1" cellpadding="4" align="center" width="100%" >
+    {foreach from=$candidate_writers item=item key=key}
+    <tr>
+      <td><input type="checkbox" name="writer_level[]" id="writer_level{$key}" value="{$item}" {if $info.writer_level_checked[$key]}checked{/if}/> {$item}</td>
+      <td width="80%" ></td>
+    </tr>
+    {/foreach}
+  </table>
+  <br />
+  <br />
+  <div>3. lease provide a sample of your best work in the following categories. If you don't have a sample in a particular category, leave it blank.</div>
+  <div><span class="spanlabel" >*</span>You must choose at least one. </div>
+  <br />
+  <table border="0" cellspacing="1" cellpadding="4" align="center" width="100%" >
+      <tr class="titleStyle">
+        <td>Sample Type</td>
+        <td>	Add URL</td>
+        <td class="title2Style" >(or)</td>
+        <td>Upload a PDF/Word Document</td>
+      </tr>
+      {foreach from=$sample_types item=item key=key}
+      <tr>
+        <td nowrap>{$item}<input type="hidden" name="samples[type][]" value="{$key}" /></td>
+        <td><input type="text" name="samples[link][]" value="{if $samples[$key].link}{$samples[$key].link}{else}http://www.{/if}" size="40"/></td>
+        <td></td>
+        <td><input type="file" name="samples[fileField][]" size="40" /><input type="hidden" name="samples[filename][]" value="{$samples[$key].fileField.filename}" /></td>
+      </tr>
+      {/foreach}
+  </table>
+{if $info.samples}
+  <table border="0" cellspacing="1" cellpadding="4" align="center" width="100%" class="sortableTable">
+    <tr>
+      <th class="table-left-corner">&nbsp;&nbsp;&nbsp;&nbsp;</th>
+      <td class="columnHeadInactiveBlack table-left-2">Sample Type</td>
+      <td class="columnHeadInactiveBlack">Url</td>
+      <td class="columnHeadInactiveBlack">Writing Samples</td>
+      <td class="columnHeadInactiveBlack table-right-2"></td>
+      <th class="table-right-corner">&nbsp;&nbsp;&nbsp;</th>
+    </tr>
+  {foreach from=$info.samples item=item key=key}
+  {if $item.fileField || $item.link}
+  <tr>
+    <td class="table-left" >&nbsp;</td>
+    <td class="table-left-2">{$sample_types[$item.type]}</td>
+    <td>{$item.link}</td>
+    <td>{$item.fileField.name}</td>
+    <td class="table-right-2">{if $item.fileField}<input type="button" value="Donwload" class="button" onclick="javascript:openWindow('/user/sample_download.php?cid={$info.candidate_id}&t={$item.fileField.type|escape:"url"}&f={$item.fileField.filename|escape:"url"}', 'height=370,width=450,status=no,toolbar=no,menubar=no,location=no,resizable=yes,scrollbars=yes');"/> &nbsp;<input type="button" value="Delete File" class="button" onclick="delWritingSample(jQuery(this), '{$info.candidate_id}', '{$item.fileField.filename}', 'candidate_samples' )" />{/if}</td>
+    <td class="table-right" >&nbsp;</td>
+  </tr>
+  {/if}
+  {/foreach}
+  {if $info.is_samples_doc}
+  <tr>
+    <td class="table-left" >&nbsp;</td>
+    <td class="table-left-2" colspan="3" ></td>
+    <td class="table-right-2"><input type="button" onclick="javascript:openWindow('/user/sample_download.php?cid={$info.candidate_id}', 'height=370,width=450,status=no,toolbar=no,menubar=no,location=no,resizable=yes,scrollbars=yes');" value="Download All" class="button"></td>
+    <td class="table-right" >&nbsp;</td>
+  </tr>
+  {/if}
+  </table>
+{/if}
+  <br />
+  <br />*}
+  <div>2. Please list up to three specialities. Only list a specialty if you have a writing sample or relevant experience.</div>
+  <div><span class="spanlabel" >*</span>You must choose at least one. </div>
+  <br />
+
+  <table border="0" cellspacing="1" cellpadding="4" align="center" width="100%">
+       <tr class="titleStyle">
+        <td>Categories</td>
+        <td>	Sub-Category</td>
+        <td>	Add URL</td>
+        <td class="title2Style" >(or)</td>
+        <td>Upload a PDF/Word Document </td>
+        <td class="title2Style" >(or)</td>
+        <td>Relevant Experience</td>
+        <td>Description</td>
+      </tr>
+      {section name=foo start=0 loop=3}
+      <tr>
+      {if $info.categories[$smarty.section.foo.index]}
+       {eval var=$info.categories[$smarty.section.foo.index].parent_id assign='parent_id'}
+        <td><select name="categories[parent_id][]" class="selectWidth" >{html_options options=$scategories selected=$parent_id}</select></td>
+        <td><select name="categories[category_id][]" class="selectWidth">{html_options options=$subcategeries[$parent_id] selected=$info.categories[$smarty.section.foo.index].category_id}</select></td>
+        <td><input type="text" name="categories[link][]" size="15" value="{if $info.categories[$smarty.section.foo.index].link}{$info.categories[$smarty.section.foo.index].link}{else}http://www.{/if}" /></td>
+        <td></td>
+        <td><input type="file" name="categories[fileField][]"  /><input type="hidden" name="categories[filename][]" value="{$info.categories[$smarty.section.foo.index].fileField.filename}" /></td>
+        <td></td>
+        <td><select name="categories[level][]">{html_options options=$candidate_levels selected=$info.categories[$smarty.section.foo.index].level}</select><input type="hidden" name="categories[category][]" value="{$info.categories[$smarty.section.foo.index].category}" /></td>
+        <td><textarea name="categories[description][]" class="selectWidth" >{$info.categories[$smarty.section.foo.index].description}</textarea></td>
+      {else}
+        <td><select name="categories[parent_id][]" class="selectWidth" >{html_options options=$scategories}</select></td>
+        <td><select name="categories[category_id][]" class="selectWidth"><option value="" >Select</option></select></td>
+        <td><input type="text" name="categories[link][]" size="15" value="http://www." /></td>
+        <td></td>
+        <td><input type="file" name="categories[fileField][]"  /><input type="hidden" name="categories[filename][]" value="" /></td>
+        <td></td>
+        <td><select name="categories[level][]" class="selectWidth">{html_options options=$candidate_levels}</select><input type="hidden" name="categories[category][]" value="" /></td>
+        <td><textarea name="categories[description][]" ></textarea></td>
+      {/if}
+      </tr>
+      {/section}
+  </table>
+{if $info.categories}
+  <table border="0" cellspacing="1" cellpadding="4" align="center" width="100%" class="sortableTable">
+    <tr>
+      <th class="table-left-corner">&nbsp;&nbsp;&nbsp;&nbsp;</th>
+      <td class="columnHeadInactiveBlack table-left-2">Category</td>
+      <td class="columnHeadInactiveBlack">Url</td>
+      <td class="columnHeadInactiveBlack">Relevant Experience</td>
+      <td class="columnHeadInactiveBlack">Description</td>
+      <td class="columnHeadInactiveBlack">Samples</td>
+      <td class="columnHeadInactiveBlack table-right-2"></td>
+      <th class="table-right-corner">&nbsp;&nbsp;&nbsp;</th>
+    </tr>
+  {foreach from=$info.categories item=item key=key}
+  <tr>
+    <td class="table-left" >&nbsp;</td>
+    <td class="table-left-2">{$item.category}</td>
+    <td >{$item.link}</td>
+    <td >{if $item.level}{$candidate_levels[$item.level]}{/if}</td>
+    <td >{if $item.level}{$item.description}{/if}</td>
+    <td >{$item.fileField.name}</td>
+    <td class="table-right-2">{if $item.fileField}<input type="button" value="Donwload" class="button" onclick="javascript:openWindow('/user/sample_download.php?cid={$info.candidate_id}&fd=candidate_categories&t={$item.fileField.type|escape:"url"}&f={$item.fileField.filename|escape:"url"}', 'height=370,width=450,status=no,toolbar=no,menubar=no,location=no,resizable=yes,scrollbars=yes');"/> &nbsp;<input type="button" value="Delete File" class="button" onclick="delWritingSample(jQuery(this), '{$info.candidate_id}', '{$item.fileField.filename}' , 'candidate_categories')" />{/if}</td>
+    <td class="table-right" >&nbsp;</td>
+  </tr>
+  {/foreach}
+  {if $info.is_categories_doc}
+  <tr>
+    <td class="table-left" >&nbsp;</td>
+    <td class="table-left-2" colspan="5" ></td>
+    <td class="table-right-2"><input type="button" onclick="javascript:openWindow('/user/sample_download.php?cid={$info.candidate_id}&fd=candidate_categories', 'height=370,width=450,status=no,toolbar=no,menubar=no,location=no,resizable=yes,scrollbars=yes');" value="Download All" class="button"></td>
+    <td class="table-right" >&nbsp;</td>
+  </tr>
+  {/if}
+  </table>
+{/if}
+  <br />
+  <br />
+  <div>3. Additional comments</div>
+  <br />
+  <div><textarea rows="5" cols="50" id="comments" name="comments">{$info.comments}</textarea></div>
+  <div>&nbsp;Having trouble submitting the form? Send email to hr@copypress.com &nbsp;&nbsp;<input type="button" value="Submit" class="button" onclick="check_f_candidate_s()" /></div>
+</div>
+</form>

@@ -1,0 +1,119 @@
+{include file="themes/$theme/header.html"}
+<script type="text/javascript" src="/js/nanjia/NanJia.js"></script>
+<script type="text/javascript" src="/js/nanjia/Ajax.js"></script>
+<script type="text/javascript" src="/js/nanjia/Array.js"></script>
+<script type="text/javascript" src="/js/nanjia/String.js"></script>
+<script type="text/javascript" src="/js/nanjia/Calendar.js"></script>
+<script type="text/javascript" src="/js/nanjia/Event.js"></script>
+<script type="text/javascript" src="/js/nanjia/File.js"></script>
+<script type="text/javascript" src="/js/calendar.js"></script>
+<link rel="stylesheet" type="text/css" href="/js/calendar.css">
+<script type="text/javascript">
+{literal}
+function show(campaign_id) {
+    var url = '/client_campaign/campaign_style_guide.php?campaign_id='+campaign_id;
+    openWindow(url, 'height=500,width=600,status=no,toolbar=no,menubar=no,location=no,resizable=yes,scrollbars=yes');
+}
+{/literal}
+</script>
+
+{literal}
+<style>
+    .graph { 
+        /*position: relative; /* IE is dumb */
+        width: 200px; 
+        border: 1px solid #B1D632; 
+        padding: 2px; 
+    }
+    .graph .bar { 
+        display: block;
+        /*position: relative;*/
+        background: #B1D632; 
+        text-align: center; 
+        color: #333; 
+        height: 2em; 
+        line-height: 2em;            
+    }
+    .graph .bar span { position: absolute; left: 1em; }
+    .graph .rejectedbar { 
+        display: block;
+        /*position: relative;*/
+        background: #DA7166; 
+        text-align: center; 
+        color: #333; 
+        height: 2em; 
+        line-height: 2em;            
+    }
+    .graph .rejectedbar span { /*position: absolute;*/ left: 1em; }
+</style>
+{/literal}
+
+{$xajax_javascript}
+
+{if $feedback ne ''}
+<script language="JavaScript">
+<!--
+alert('{$feedback}');
+//-->
+</script>
+{/if}
+<div class="tablepadding" >
+<div id="page-box2" >
+<table border="0" cellspacing="1" cellpadding="4" width="100%" >
+<tr valign="top" >
+  <td width="70%">
+  {*notification part *}
+  {include file="user/notification.html"}
+  </td>
+  <td width="25%" >
+    <h2>Payment Overview</h2>
+    <table border="0" cellspacing="1" cellpadding="4" align="left" width="99%" class="sortableTable" >
+    <tr class="{if $smarty.foreach.loop.iteration % 2 eq 0}odd{else}even{/if}" >
+      <td> Total articles completed to date:</td>
+      <td>{$reports.total_completed_so_far}</td>
+    </tr>
+    <tr class="{if $smarty.foreach.loop.iteration % 2 eq 0}even{else}odd{/if}">
+      <td>Total current assignments:</td>
+      <td>{$reports.total_assigned|default:0}</td>
+    </tr>
+    <tr class="{if $smarty.foreach.loop.iteration % 2 eq 0}odd{else}even{/if}" >
+      <td>Total client approved articles to date: </td>
+      <td>{$reports.total_client_approved_so_far|default:0}</td>
+    </tr>
+    <tr class="{if $smarty.foreach.loop.iteration % 2 eq 0}even{else}odd{/if}" >
+      <td>Total articles assigned so far: </td>
+      <td>{$reports.total_assigned_so_far}</td>
+    </tr>
+    <tr class="{if $smarty.foreach.loop.iteration % 2 eq 0}odd{else}even{/if}" >
+      <td nowrap><span class="total-text">Total client approved articles {$monthtitle}: </span></td><td><a href="/client_campaign/client_approval_list.php?month={$showmonth}">{$reports.1gc_this_month|default:0}</a></td>
+    </tr>
+    </table>    
+    <table border="0" cellspacing="0" cellpadding="0" align="center" width="99%" class="all-link-text">
+      <tr><td align="right" >Click <a href="/client_campaign/client_approval_list.php?month={$showmonth}" >here</a> to view your pay summary</td></tr>
+    </table>
+  </td>
+</tr>
+<tr valign="top" >
+  <td>
+  {*campaign overview part *}
+  {include file="user/campaign_overview.html"}
+  </td>
+  <td>
+    <h2>Calendar</h2>
+    <div id="calendar_showdiv"></div>
+  </td>
+</tr>
+</table>
+</div>
+</div>
+{literal}
+<script type="text/javascript">
+function EventHandle() {
+    return new Content.Cal.Event();
+}
+date = new Date();
+ca = new NanJia.Calendar(EventHandle);
+ca.Current();
+</script>
+{/literal}
+{include file="themes/$theme/footer.html"}

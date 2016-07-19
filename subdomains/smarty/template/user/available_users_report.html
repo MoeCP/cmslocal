@@ -1,0 +1,79 @@
+{include file="themes/$theme/header.html"}
+
+{if $feedback ne ''}
+<script language="JavaScript">
+<!--
+alert('{$feedback}');
+//-->
+</script>
+{/if}
+<div id="page-box1">
+  <h2>Available CopyWriter Report</h2>
+  <div id="campaign-search" >
+    <div id="campaign-search-box" >
+  <form name="f_assign_keyword_return" action="#" method="get">
+  <table border="0" cellspacing="1" cellpadding="4">
+  <tr>
+    <td  nowrap>Show:</td>
+    <td><select name="perPage" onchange="this.form.submit();">{html_options options=$g_pager_perPage selected=$smarty.get.perPage}</select> row(s)</td>
+    <td colspan="4"><input type="image" src="/images/button-search.gif" value="submit" /></td>
+  </tr>
+  </table>
+  </form>
+    </div>
+  </div>
+</div>
+<div class="tablepadding"> 
+<table id="table-1" cellspacing="0" align="center" cellpadding="0" class="sortableTable">
+  <thead>
+  <tr class="sortableTab">
+    <th class="table-left-corner">&nbsp;&nbsp;&nbsp;&nbsp;</th>
+    <td nowrap class="columnHeadInactiveBlack table-left-2">No.</td>
+    <td nowrap class="columnHeadInactiveBlack">User</td>
+    <td nowrap class="columnHeadInactiveBlack">First Name</td>
+    <td nowrap class="columnHeadInactiveBlack">Last Name</td>
+    <td nowrap class="columnHeadInactiveBlack">Email</td>
+    <td nowrap class="columnHeadInactiveBlack table-right-2">Dates Unavailable</td>
+    <th class="table-right-corner">&nbsp;&nbsp;</th>
+</tr>
+  </thead>
+  {foreach from=$users item=item name="loop"}
+  <tr class="{if $smarty.foreach.loop.iteration % 2 eq 0}even{else}odd{/if}">
+        <td class="table-left" >&nbsp;</td>
+    <td class="table-left-2">{$smarty.foreach.loop.iteration}</td>
+    <td><a href="javascript:openWindow('/user/user_detail_info.php?user_id={$item.user_id}', 'newwindow', 'height=370,width=280,status=no,toolbar=no,menubar=no,location=no,resizable=yes,scrollbars=yes');">{$item.user_name}</a></td>
+    <td>{$item.first_name}</td>
+    <td>{$item.last_name}</td>
+    <td>{$item.email}</td>
+    <td class="table-right-2">{$item.unavailable|nl2br}</td>
+    <td class="table-right" >&nbsp;</td>
+  </tr>
+  {/foreach}
+</table>
+<div class="pagingpaddingleft" >
+  <table align="center" width="100%" border="0" cellspacing="0" cellpadding="0" >
+    <tr><td class="table-left table-paging-left" width="20" height="37" >&nbsp;</td><td class="table-bottom">{$pager} (Total Page:{$total})(Total Count:{$count})</td><td class="table-right table-paging-right" width="21">&nbsp;</td></tr>
+  </table>
+</div>
+</div>
+<script type="text/javascript">
+//<![CDATA[
+{literal}
+var st = new SortableTable(document.getElementById("table-1"),
+  ["None", "Number", "CaseInsensitiveString", "CaseInsensitiveString",  "CaseInsensitiveString", "CaseInsensitiveString", "CaseInsensitiveString", "CaseInsensitiveString", "Number","Number", "CaseInsensitiveString"]);
+
+st.onsort = function () {
+  var rows = st.tBody.rows;
+  var l = rows.length;
+  for (var i = 0; i < l; i++) {
+    removeClassName(rows[i], i % 2 ? "odd" : "even");
+    addClassName(rows[i], i % 2 ? "even" : "odd");
+  }
+};
+
+st.asyncSort(0);
+{/literal}
+//]]>
+</script>
+
+{include file="themes/$theme/footer.html"}

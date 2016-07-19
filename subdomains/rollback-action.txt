@@ -1,0 +1,6 @@
+#½«×´Ì¬»Ö¸´µ½editor approval
+UPDATE articles SET article_status=4 , client_approval_date = '0000-00-00 00:00:00' WHERE article_id=133288;
+delete from article_payment_log where article_id  = 133288;
+delete from article_action where article_id  = 133288 and status = 5 and new_status = 6;
+delete from article_action where article_id  = 133288 and status = 4 and new_status = 5;
+	

@@ -1,0 +1,174 @@
+<?php
+ini_set('max_execution_time', 600);
+require_once('../pre.php');//¼ÓÔØÅäÖÃÐÅÏ¢
+require_once CMS_INC_ROOT.'/Client.class.php';
+if ((!user_is_loggedin() || User::getPermission() < 5) && !client_is_loggedin()) { // 4=>5
+    header("Location: http://".$_SERVER['HTTP_HOST']."/logout.php");
+    exit;
+}
+require_once CMS_INC_ROOT.'/Campaign.class.php';
+require_once CMS_INC_ROOT.'/Article.class.php';
+
+require_once "File/Archive.php"; 
+
+// $files is an array of path to the files that must be added to the archive 
+
+File_Archive::setOption("zipCompressionLevel", 0); 
+
+// $files is an array of path to the files that must be added to the archive 
+
+//$files = 
+//File_Archive::extract( 
+//    $files, 
+//    File_Archive::toArchive("myGallery.zip", File_Archive::toOutput()) 
+//);
+
+
+if (trim($_GET['campaign_id']) == '') {
+    echo "<script>alert('Please choose an campaign');window.close();</script>";
+    exit;
+}
+$campaign_info = Campaign::getInfo($_GET['campaign_id']);
+
+//$param = array('article_status' => 5);
+//$param += array('campaign_id' => $_GET['campaign_id']);
+$all_article = Article::downloadArticleByCampaignID($_GET['campaign_id'], $_GET['cp_completed']);
+if (empty($all_article)) {
+    if ($_GET['cp_completed'] == 1) {
+        echo "<script>alert('There is no copywriter complete article in this campagin');window.close();</script>";
+    } else {
+        echo "<script>alert('No finished article in this campagin');window.close();</script>";
+    }
+    exit;
+}
+foreach ($all_article as $k_ar_id => $v_ar_id) {
+    $ar_arr['article_id'][$v_ar_id['article_id']] = $v_ar_id['article_id'];
+    // added by snug xu 2006-11-26 14:00 - START
+    // if mode is not text and richtext body of article was added
+    // then set  $article_info['body'] as  $article_info['richtext_body']
+    if ($_GET['mode'] != 'text_zip')
+    {
+        if (strlen($v_ar_id['richtext_body']))
+        {
+           $all_article[$k_ar_id]['body'] = htmlspecialchars_decode($v_ar_id['richtext_body'], ENT_QUOTES);
+        } 
+        else
+        {
+            $all_article[$k_ar_id]['body'] = nl2br($v_ar_id['body']);
+        }
+    }
+    // added by snug xu 2006-11-26 14:00 - END
+}
+if (client_is_loggedin()) {
+    Article::setDownLoadTime($ar_arr);
+}
+
+//windows valid file name,
+$reg_str = array('/\//', '/\\\/', '/\*/', '/\?/', '/\:/', '/\"/', '/\</', '/\>/', '/\|/');
+
+//print_r($all_article);
+//$client_name = "tst og";
+$client_user_name = preg_replace( '#\s+#', '_', trim($campaign_info['user_name']) );
+$campaign_name = preg_replace( '#\s+#', '_', trim($campaign_info['campaign_name']) );
+$campaign_name = preg_replace( $reg_str, '_', $campaign_name );//windows valid file name,
+//$org_file = $g_article_storage."/".$campaign_info['user_name']."/".$campaign_info['campaign_name'].".zip";
+//$dest = File_Archive::toArchive($g_article_storage."/".$campaign_info['user_name']."/".$campaign_info['campaign_name'].".zip", File_Archive::toFiles()); 
+$org_file = $g_article_storage.$client_user_name."/".$campaign_name.".zip";
+$dest = File_Archive::toArchive($org_file, File_Archive::toFiles()); 
+if ($_GET['mode'] == 'html_zip') {
+    $suffix = '.html';
+    // there will be language->charset (en-->'iso-8859-1')
+    $sys_charset = 'iso-8859-1';
+    $html_str_head = '<!DOCTYPE html PUBLIC "-//W3C//DTD html 4.01 Transitional//EN"><html><head>';
+    $html_str_head .= '<meta http-equiv="Content-Type" content="text/html; charset='.$sys_charset.'"><title>';
+    $html_str_body = '</title></head><body><table align="center"><tr><td>Article Title</td><td>';
+    $html_str_td1 = '<tr><td>Keyword</td><td>';
+    $html_str_td2 = '</td></tr><tr><td>Mapping-ID</td><td>';
+    $html_str_td3 = '</td></tr><tr><td>Article Content</td><td>';
+    $html_str_end = '</td></tr></table></body></html>';
+
+    $html_str_td5 = '</td></tr><tr><td>Optional Field 1</td><td>';
+    $html_str_td6 = '</td></tr><tr><td>Optional Field 2</td><td>';
+    $html_str_td7 = '</td></tr><tr><td>Optional Field 3</td><td>';
+    $html_str_td8 = '</td></tr><tr><td>Optional Field 4</td><td>';
+
+    foreach ($all_article as $kar => $var) {
+        $optional  = (!empty($var['optional1']) ? ($html_str_td5 .$var['optional1']) : '');
+        $optional .= (!empty($var['optional2']) ? ($html_str_td6 .$var['optional2']) : '');
+        $optional .= (!empty($var['optional3']) ? ($html_str_td7 .$var['optional3']) : '');
+        $optional .= (!empty($var['optional4']) ? ($html_str_td8 .$var['optional4']) : '');
+        $filename = preg_replace( '#\s+#', '_', trim($var['keyword']) );
+        $filename = preg_replace( $reg_str, '_', $filename );//windows valid file name,
+
+        $dest->newFile($filename.$suffix);
+        $dest->writeData($html_str_head.$var['title'].$html_str_body.$var['title'].$html_str_td1.$var['keyword']. (!empty($var['mapping_id']) ? ($html_str_td2 .$var['mapping_id']) : '') . $optional . $html_str_td3.$var['body'].nl2br($html_str_end));
+		//$dest->close();
+        //exit;
+    }
+	$dest->close(); //
+}  elseif ($_GET['mode'] == 'text_zip') {
+    $suffix = '.txt';
+    foreach ($all_article as $kar => $var) {
+        $filename = preg_replace( '#\s+#', '_', trim($var['keyword']) );
+        $filename = preg_replace( $reg_str, '_', $filename );//windows valid file name,
+        if (empty($var['body'])) $var['body'] = stripslashes(change_richtxt_to_paintxt($var['richtext_body'],ENT_QUOTES));
+        $dest->newFile($filename.$suffix);
+        $dest->writeData("Article title: ".$var['title']."\r\n");
+        $dest->writeData("Keyword: ".$var['keyword']."\r\n");
+        if (!empty($var['mapping_id'])) {
+            $dest->writeData("Mapping-ID: ".$var['mapping_id']."\r\n");
+        }
+        if (!empty($var['optional1'])) {
+            $dest->writeData("Optional Field 1: ".$var['optional1']."\r\n");
+        }
+        if (!empty($var['optional2'])) {
+            $dest->writeData("Optional Field 2: ".$var['optional2']."\r\n");
+        }
+        if (!empty($var['optional3'])) {
+            $dest->writeData("Optional Field 3: ".$var['optional3']."\r\n");
+        }
+        if (!empty($var['optional4'])) {
+            $dest->writeData("Optional Field 4: ".$var['optional4']."\r\n");
+        }
+        $dest->writeData("Article content: "."\r\n".$var['body']."\r\n");
+        //echo "Article title: ".$article_info['title']."\r\n";
+        //echo "Keyword: ".$article_info['keyword']."\r\n";
+        //echo "Article content: "."\r\n".$article_info['body']."\r\n";
+        //$dest->close();
+        //exit;
+    }
+	$dest->close();//
+}else if ($_GET['mode'] == 'doc_zip') {
+    $suffix = '.doc';
+    foreach ($all_article as $kar => $var) {
+        $filename = preg_replace( '#\s+#', '_', trim($var['keyword']) );
+        $filename = preg_replace( $reg_str, '_', $filename );//windows valid file name,
+        $dest->newFile($filename . $suffix);
+        $article_doc  = getArticleDoc($var);
+        $dest->writeData($article_doc);
+    }
+	$dest->close();//
+} else {
+    echo "<script>alert('Mode error, Please try again');window.close();</script>";
+    exit;
+}
+
+//$org_file = $g_article_storage."/".$campaign_info['user_name']."/".$campaign_info['campaign_name'].".zip";
+//echo "<script>window.location.href='/storage/".$org_file."';window.close();</script>";
+/*
+	require_once("HTTP/Download.php");
+	$dl = &new HTTP_Download();
+	$dl->setFile($org_file);
+	$dl->setContentDisposition(HTTP_DOWNLOAD_ATTACHMENT, basename($org_file));
+	$dl->setContentType('application/x-zip');
+	$dl->send();
+*/
+
+header("Cache-Control: private, must-revalidate");
+header("Content-Type: application/zip");
+header("Content-Disposition: attachment; filename=" . basename($org_file) );
+header("Pragma: private");
+header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
+readfile($org_file);
+
+?>

@@ -1,0 +1,22 @@
+{include file="themes/$theme/header_jump.html"}
+<style>
+{literal}
+.divTextarea {
+  height:100px;
+}
+{/literal}
+</style>
+<table width="90%" align="center" >
+  <tr>
+    <td class="moduleTitle" >Keyword Instructions</td>
+  </tr>
+  <tr>
+    <td class="blackLine" ><img src="/image/misc/s.gif"></td>
+  </tr>
+{if $notes != ''}
+<tr><td><div class="divContent" >{$notes}</div></td></tr>
+{else}
+<tr><td><div class="divMain" >There is no Keyword Description</div></td></tr>
+{/if}
+</table>
+{include file="themes/$theme/footer_jump.html"}

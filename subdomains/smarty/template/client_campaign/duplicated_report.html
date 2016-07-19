@@ -1,0 +1,105 @@
+
+{include file="themes/$theme/header.html"}
+
+{if $feedback ne ''}
+<script language="JavaScript">
+<!--
+alert('{$feedback}');
+//-->
+</script>
+{/if}
+<div id="page-box1">
+  <h2>Possible Duplicate Report</h2>
+  <div id="campaign-search" >
+    <div id="campaign-search-box" >
+<form name="f_assign_keyword_return" id="f_assign_keyword_return" action="/client_campaign/duplicated_report.php" method="get">
+<input name="opt" id="opt" type="hidden" value="" />
+<table border="0" cellspacing="1" cellpadding="4">
+<tr>
+	<td   nowrap>Copywriter</td>
+	<td><select name="cp_id"><option value="">[choose]</option>{html_options options=$all_copy_writer selected=$smarty.get.cp_id}</select></td>
+ 	<td   nowrap>Editor</td>
+	<td><select name="editor_id"><option value="">[choose]</option>{html_options options=$all_editor selected=$smarty.get.editor_id}</select></td>
+  <td   nowrap>Campaign</td>
+	<td nowrap><select name="cid"><option value="">[choose]</option>{html_options options=$all_campaigns selected=$smarty.get.cid}</select></td>
+  <td>
+  <input type="image" src="/images/button-search.gif" value="submit" onclick="$('f_assign_keyword_return').action='/client_campaign/duplicated_report.php'" />&nbsp;<input type="submit" value="Export CSV" class="moduleButton" onclick="$('f_assign_keyword_return').action='/client_campaign/duplicated_export.php'" /></td>
+</tr>
+</table><br />
+</form>
+    </div>
+  </div>
+</div>
+<div class="tablepadding"> 
+<table id="table-1" cellspacing="0" cellpadding="0" align="center" class="sortableTable">
+  <thead>
+  <tr class="sortableTab">
+    <th class="table-left-corner">&nbsp;&nbsp;&nbsp;&nbsp;</th>
+    <td nowrap class="columnHeadInactiveBlack table-left-2">Number</td>
+    <td nowrap class="columnHeadInactiveBlack">Article Id</td>
+    <td nowrap class="columnHeadInactiveBlack">Keyword</td>
+    <td nowrap class="columnHeadInactiveBlack">URL</td>
+    <td nowrap class="columnHeadInactiveBlack">Copywriter</td>
+    <td nowrap class="columnHeadInactiveBlack">Editor</td>
+    <td nowrap class="columnHeadInactiveBlack">Campaign Name</td>
+    <td nowrap class="columnHeadInactiveBlack table-right-2">Detected Time</td>
+    <th class="table-right-corner">&nbsp;&nbsp;&nbsp;</th>
+  </tr>
+  </thead>
+  <tbody>
+  {foreach from=$result item=item name="loop"}
+  <tr class="{if $smarty.foreach.loop.iteration % 2 eq 0}even{else}odd{/if}">
+    <td class="table-left" >&nbsp;</td>
+    <td class="table-left-2">{$smarty.foreach.loop.iteration}</td>
+    <td>{$item.article_id}</td>
+    <td><a href="/article/approve_article.php?article_id={$item.article_id}&keyword_id={$item.keyword_id}" >{$item.keyword}</a></td>
+    <td>{$item.checking_url}</td>
+    <td>{$item.user_name}</td>
+    <td>{$item.editor}</td>
+    <td>{$item.campaign_name}</td>
+    <td class="table-right-2">{$item.detected_date}</td>
+    <td class="table-right" >&nbsp;</td>
+  </tr>
+  {/foreach}
+
+  </tbody>
+</table>
+<div class="pagingpaddingleft" >
+  <table align="center" width="100%" border="0" cellspacing="0" cellpadding="0" >
+    <tr><td class="table-left table-paging-left" width="20" height="37" >&nbsp;</td><td class="table-bottom">{$pager} (Total Page:{$total})(Total Count:{$count})</td><td class="table-right table-paging-right" width="21">&nbsp;</td></tr>
+  </table>
+</div>
+</div>
+<form name="f_article_list" id="f_article_list" action="/article/article_report.php" method="post">
+  <input id="operation" name="operation" value="" type="hidden" />
+  <input id="keyword_id" name="keyword_id" value="" type="hidden" />
+  <input id="overdue" name="overdue" value="" type="hidden" />
+</form>
+<script type="text/javascript">
+//<![CDATA[
+
+var st = new SortableTable(document.getElementById("table-1"),
+  [{if $is_pay_adjust != 1}'None',{/if}"Number", "CaseInsensitiveString", "CaseInsensitiveString", "CaseInsensitiveString", "CaseInsensitiveString", "CaseInsensitiveString", "CaseInsensitiveString", "Date", "Date", "None"]);
+{literal}
+st.onsort = function () {
+  var rows = st.tBody.rows;
+  var l = rows.length;
+  for (var i = 0; i < l; i++) {
+    removeClassName(rows[i], i % 2 ? "odd" : "even");
+    addClassName(rows[i], i % 2 ? "even" : "odd");
+  }
+};
+st.asyncSort(0);
+function sendReminder(keyword_id, overdue, opt)
+{
+    var f = document.f_article_list;
+    f.operation.value = opt;
+    f.keyword_id.value = keyword_id;
+    f.overdue.value = overdue;
+    f.submit();
+}
+{/literal}
+//]]>
+</script>
+
+{include file="themes/$theme/footer.html"}

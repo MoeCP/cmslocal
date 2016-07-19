@@ -1,0 +1,145 @@
+{include file="themes/$theme/header.html"}
+
+{if $feedback ne ''}
+<script language="JavaScript">
+<!--
+alert('{$feedback}');
+//-->
+</script>
+{/if}
+<div id="page-box1">
+  <h2>{if $archived == 1}Archived {/if}Campaign List</h2>
+  <div id="campaign-search" >
+    <strong>Enter in the campaign name or keywords to narrow your search results</strong>
+    <div id="campaign-search-box" >
+  <form name="f_assign_keyword_return" action="/client_campaign/list.php" method="get">
+  <input type="hidden" name="archived" id="archived" value="{$archived}" />
+  <table border="0" cellspacing="1" cellpadding="4">
+  <tr>
+    <td nowrap>Campaign Keyword</td>
+    <td><input type="text" name="keyword" id="search_keyword"></td>
+    <td><input type="image" src="/images/button-search.gif" value="submit" /></td>
+    <td nowrap>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+    <td width="70%">&nbsp;</td>
+  </tr>
+  </table>
+  </form>
+    </div>
+  </div>
+</div>
+<div class="tablepadding" >
+<form action="/client_campaign/list.php" name="campaign_list" method="post" >
+<table id="table-1" cellspacing="0" cellpadding="0" align="center" class="sortableTable">
+  <input type="hidden" name="campaign_id" />
+  <input type="hidden" name="form_refresh" value="N" />
+  <thead>
+  <tr class="sortableTab">
+    <th class="table-left-corner">&nbsp;&nbsp;&nbsp;&nbsp;</th>
+    <td nowrap class="columnHeadInactiveBlack table-left-2">Campaign Name</td>
+    <td nowrap class="columnHeadInactiveBlack">Campaign ID</td>
+    <td nowrap class="columnHeadInactiveBlack">Campaign Type</td>
+    <td nowrap class="columnHeadInactiveBlack">Client Company Name</td>
+	{if $is_show}
+    <td nowrap class="columnHeadInactiveBlack">Total Budget</td>
+    <td nowrap class="columnHeadInactiveBlack">Cost/Article</td>
+	{/if}
+    <td nowrap class="columnHeadInactiveBlack">Total Google Clean Article</td>
+    <td nowrap class="columnHeadInactiveBlack">Start Date</td>
+    <td nowrap class="columnHeadInactiveBlack">Due Date</td>
+    <td nowrap class="columnHeadInactiveBlack">Created Date</td>
+    <td nowrap class="columnHeadInactiveBlack">Creator</td>
+    <td nowrap class="columnHeadInactiveBlack table-right-2">&nbsp;</td>
+    <th class="table-right-corner">&nbsp;&nbsp;&nbsp;</th>
+  </tr>
+  </thead>
+  {foreach from=$result item=item name="loop"}
+  <tr class="{if $smarty.foreach.loop.iteration % 2 eq 0}even{else}odd{/if}">
+    <td class="table-left" >&nbsp;</td>
+    <td class="table-left-2">
+      {if $item.campaign_type == 2}
+        <a href="/client_campaign/image_keyword_list.php?campaign_id={$item.campaign_id}&archived={$archived}"  >{$item.campaign_name}</a>
+      {else}
+        <a href="/client_campaign/keyword_list.php?campaign_id={$item.campaign_id}&archived={$archived}"  >{$item.campaign_name}</a>
+      {/if}
+    </td>
+    <td>{$item.campaign_id}</td>
+    <td>{$campaign_type[$item.campaign_type]}</td>
+    <td>{$item.company_name}</td>
+	{if $is_show}
+    <td>{$item.total_budget}</td>
+    <td>{$item.cost_per_article}</td>
+	{/if}
+    <td>{$item.total_gc}</td>
+    <td>{$item.date_start|date_format:"%m-%d-%Y"}</td>
+    <td>{$item.date_end|date_format:"%m-%d-%Y"}</td>
+    <td>{$item.date_created|date_format:"%m-%d-%Y"}</td>
+    <td>{$item.creator_user}</td>
+    <td align="right" nowrap class="table-right-2">
+    {if $archived != 1}
+    {if $item.campaign_type == 1}
+    {if $login_permission > 3 || $login_permission == 2}{* 2=>3 *}
+	{if $login_permission > 3}
+	  <input type="button" class="button" value="Add Keyword" onclick="openLink('/client_campaign/keyword_add.php?campaign_id={$item.campaign_id}');" />
+    {if $login_permission >= 5}
+    <input type="button" class="button" value="Import Keywords" onclick="openLink('/client_campaign/uploadkeywordfile.php?campaign_id={$item.campaign_id}');" />
+    {/if}
+    {if $item.parent_id > 0 && $item.is_import_kw == 0}
+    <input type="button" class="button" value="Replicate Keyword" onclick="openLink('/client_campaign/keyword_add.php?campaign_id={$item.campaign_id}&pid={$item.parent_id}');" />
+    {/if}
+	  <input type="button" class="button" value="Assign Keyword" onclick="openLink('/client_campaign/batch_assign_keyword.php?campaign_id={$item.campaign_id}');" />
+	  {/if}
+	  {* added by snug xu 2006-11-24 18:40 *}
+	  {* show update campaign and delete campaign button to admin and agency*}
+	    <input type="button" class="button" value="Update" onclick="openLink('/client_campaign/client_campaign_set.php?campaign_id={$item.campaign_id}');" />
+      {if $login_permission >= 5}
+      <input type="submit" class="button" value="Delete" onclick="return deleteSubmit('campaign_list', 'campaign_id', '{$item.campaign_id}', 'D', 'This Client Campaign')" />
+      {/if}
+     {/if}
+    {if $login_role eq 'admin' || $login_role eq 'client'}
+	  <input type="button" class="button" value="Download Article" onclick="openLink('/article/download_article_list.php?campaign_id={$item.campaign_id}');" />
+    {/if}
+    {else if $item.campaign_type == 2}
+     {if $login_permission > 3 || $login_permission == 2}{* 2=>3 *}
+      {if $login_permission > 3}
+      <input type="button" class="button" value="Add Keyword" onclick="openLink('/client_campaign/image_keyword_add.php?campaign_id={$item.campaign_id}');" />
+      {/if}
+     {/if}
+    {/if}
+    {if $login_role eq 'admin' || $login_role eq 'project manager'}
+     <input type="button" class="button" value="Editorial notes" onclick="openLink('/client_campaign/campaign_notes.php?campaign_id={$item.campaign_id}');" />
+    {/if}
+   {/if}
+    </td>
+<td class="table-right" >&nbsp;</td>
+  </tr>
+  {/foreach}
+
+</table>
+</form>
+<div class="pagingpaddingleft" >
+  <table align="center" width="100%" border="0" cellspacing="0" cellpadding="0" >
+    <tr><td class="table-left table-paging-left" width="20" height="37" >&nbsp;</td><td class="table-bottom">{$pager} (Total Page:{$total})(Total Count:{$count})</td><td class="table-right table-paging-right" width="21">&nbsp;</td></tr>
+  </table>
+</div>
+</div>
+<script type="text/javascript">
+//<![CDATA[
+{literal}
+var st = new SortableTable(document.getElementById("table-1"),
+  ["None","CaseInsensitiveString", "CaseInsensitiveString", "Number", "Number", "Date", "Date", "None"]);
+
+st.onsort = function () {
+  var rows = st.tBody.rows;
+  var l = rows.length;
+  for (var i = 0; i < l; i++) {
+    removeClassName(rows[i], i % 2 ? "odd" : "even");
+    addClassName(rows[i], i % 2 ? "even" : "odd");
+  }
+};
+
+st.asyncSort(0);
+{/literal}
+//]]>
+</script>
+
+{include file="themes/$theme/footer.html"}

@@ -1,0 +1,14 @@
+user_id,user_name,first_name,last_name,email,address,status,Type 1,Type 2,Type 3,total,pay_words_total,pay_count_article,pay_amount,payment_preference,payment_status
+875,nataliebetts,Natalie,Betts,nat.p.betts@gmail.com,14 Farrell Street,Active,351,0,0,351,351,0,$5.265,"Paypal (International Only) ",Not Paid
+55,heatherburdsal,Heather,Burdsal,hburdsal@gmail.com,915 E 820 N #21,Active,6170,0,0,6170,6170,0,$61.7,Direct Deposit,Not Paid
+902,frankiecalcana,Frankie,Calcana,francis.calcana@huamarketing.com,,Active,15869,0,0,24136,8267,42,$292.67,,Not Paid
+916,beacanuel,Bea,Canuel,bea.canuel@huamarketing.com,"93 Hernandez Street Catmon, Malabon City",Active,16633,2043,2386,43568,16633,44,$415.83,,Not Paid
+274,keckel,Kathy,Eckel,kathy@thisweekinparkcity.com,6290 Starview Drive,Active,40348,0,7431,47779,0,144,$650,Direct Deposit,Not Paid
+7,alex_editor,alex,hoang,alex@infinitenine.com,blahblah,Inactive,193,0,0,193,193,0,$2.895,Check,Not Paid
+5,editor,editor,jones,andrew@infinitenine.com,316 W 2nd St,Active,1,0,0,5572,5572,0,$83.58,Direct Deposit,Not Paid
+36,jillenaobrien,Jillena,O'Brien,jillenabean@gmail.com,82 E 850 S,Active,36110,10280,12840,101616,38466,263,$1321.09,Direct Deposit,Not Paid
+230,amandarowan,Amanda,Rowan,pandabr18@hotmail.com,422 University Village,Active,0,0,2961,2961,0,20,$30,Direct Deposit,Not Paid
+914,michaelsanchez,Michael,Sanchez,michael.sanchez@huamarketing.com,,Active,12442,0,890,13332,0,35,$183,,Not Paid
+47,cstromness,Cara,Stromness,cara.stromness@gmail.com,13127 S Charing Way,Active,41354,0,0,41822,468,118,$594.68,Direct Deposit,Not Paid
+883,ericthuesen,Eric,Thuesen,bigtallturtle@yahoo.com,14726-D Perthshire,Active,0,508,4751,6965,0,26,$53.5,Direct Deposit,Not Paid
+859,swilliams,Sherry,Williams,slw9999@live.com,10360 N Donegal Rd.,Active,0,0,1435,1435,0,3,$24,Direct Deposit,Not Paid

@@ -1,0 +1,390 @@
+<?php
+class CustomField{
+
+    private $field_id;
+    private $clabel;
+    private $cfield;
+    private $ctable;
+    private $description;
+    private $client_id;
+    private $is_required;
+
+	function __construct()
+	{
+        $this->field_id = 0;
+        $this->clabel = 0;
+        $this->cfield = '';
+        $this->ctable = 'campaign_keyword';
+        $this->description = '';
+        $this->client_id = 0;
+        $this->is_required = 1;
+	}
+
+    function CustomField()
+    {
+        $this->__construct();
+    }
+
+    public static function getTableName()
+    {
+        return 'custom_fields';
+    }
+
+    function setCTable($ctable)
+    {
+        $this->ctable = $ctable;
+    }
+
+    function getCTable()
+    {
+        return $this->ctable;
+    }
+
+    public static function showCustomFieldFromTable($prefix = array('optional', 'custom_field'), $ctable = 'campaign_keyword')
+    {
+        global $conn;
+        $conditions = array();
+        if (is_string($prefix)) {
+            $conditions[] = '`Field` LIKE \'' . $prefix . '%\'';
+        }else if (is_array($prefix)) {
+            foreach ($prefix as $item) {
+                $conditions[] = '`Field` LIKE \'' . $item . '%\'';
+            }
+        }
+       
+        $sql = 'SHOW columns FROM ' . $ctable . ' WHERE ' .  implode(" OR ", $conditions);
+        $result = $conn->GetAll($sql);
+        $data = array();
+        foreach ($result as $item) {
+            $field = $item['Field'];
+            $data[] = $item['Field'];
+        }
+        return $data;
+    }
+
+    function getDataByParam($p = array())
+    {
+        global $conn;
+        $data = $condition = array();
+        foreach ($p as $k => $v) {
+            $v = addslashes($v);
+            $condition[] = $k . '=\'' . $v . '\''; 
+        }
+        if ($this->ctable) {
+            $ctable = addslashes($this->ctable);
+            $condition[] = 'ctable=\'' . $ctable . '\''; 
+        }
+        if (!empty($condition)) {
+            $sql = 'SELECT * FROM ' . self::getTableName() . ' WHERE ' . implode(' AND ', $condition);
+            $result = $conn->GetAll($sql);
+            foreach ($result as $item) {
+                if (substr($item['cfield'], 0,12) =='custom_field') $item['is_show_required'] = 1;
+                $data[$item['cfield']] = $item;
+            }
+        }
+        return $data;
+    }
+
+    function getID($client_id, $cfield)
+    {
+        global $conn;
+        if ($client_id > 0 && $cfield) {
+            $sql = 'SELECT field_id FROM ' . self::getTableName() . ' WHERE client_id= ' . $client_id . ' AND cfield=\''. $cfield . '\'';
+            $field_id = $conn->GetOne($sql);
+            return $field_id;
+        }
+        return null;
+    }
+
+    function save($p)
+    {
+        global $conn, $feedback;
+        foreach ($p as $k => $v) {
+            $p[$k] = addslashes(trim($v));
+        }
+        $client_id = isset($p['client_id']) ? $p['client_id'] : 0;
+        if (isset($p['client_id']) && empty($client_id)) {
+            $feedback = 'Invalid client, please to check';
+            return false;
+        }
+        $cfield = isset($p['cfield'] )? $p['cfield'] : '';
+        if (isset($p['cfield']) && empty($cfield)) {
+            $feedback = 'Invalid field, please to check ';
+            return false;
+        }
+        $tableName =  self::getTableName();
+        $field_id = isset($p['field_id']) ? $p['field_id']: 0;
+        if (empty($field_id)) {
+            if (empty($client_id) || empty($cfield)) {
+                if (empty($client_id)) $feedback = 'Invalid client, please to check';
+                else if ($cfield) $feedback = 'Invalid field, please to check ';
+                return false;
+            }
+            $field_id = $this->getID($client_id, $cfield);
+        } 
+
+        $fields = array_keys($p);
+        if ($field_id  > 0) {
+            $sets = array();
+            foreach ($p as $k => $v) {
+                $sets[] = $k .'=\'' . $v. '\'' ;
+            }
+            $sql = 'UPDATE ' . $tableName . ' SET ' . implode(',', $sets) . ' WHERE field_id = ' . $field_id;
+        } else {
+            $sql = 'INSERT INTO `' . $tableName .'` (`' . implode('`,`', $fields). '`) VALUES (\'' . implode("', '", $p) . '\')' ;
+        }
+        $conn->Execute($sql);
+        if (empty($field_id)) {
+            $field_id = $this->getID($client_id, $cfield);
+        }
+        return $field_id;
+    }
+
+    function batchStore($p)
+    {
+        global $feedback, $conn;
+        $feedback = 'Success';
+        $fields = $p['is_checked'];
+        $labels = $p['clabel'];
+        $descriptions = $p['description'];
+        $is_required = $p['is_required'];
+        $field_ids = $p['field_id'];
+        $client_id = $p['client_id'];
+        $ctable = $p['ctable'];
+        $edit_role = $p['edit_role'];
+        if (empty($client_id)) $feedback = 'Invalid client, please to check';
+        $rows = array();
+        foreach ($fields as  $field) {
+            $data = array('cfield' => $field);
+            $data['clabel'] = $labels[$field];
+            $data['edit_role'] = $edit_role[$field];
+            $data['ctable'] = $ctable;
+            $data['client_id'] = $client_id;
+            if (empty($data['clabel'])) {
+                $feedback = 'Please specify the label for ' . $field;
+                return false;
+            }
+            $data['status'] = 1;
+            $data['description'] = $descriptions[$field];
+            $data['is_required'] = $is_required[$field];
+            $rows[] = $data;
+        }
+        foreach ($rows as $k => $data) {
+            $this->save($data);
+        }
+        $conditions = array('client_id=' . $client_id, 'ctable=\'' . $ctable . '\'');
+        $conditions[] = 'cfield NOT IN (\'' . implode("', '", $fields). '\')';
+        $sql = 'UPDATE ' . self::getTableName() . ' SET status = 0 where ' .implode(' AND ', $conditions);
+        $conn->Execute($sql);
+        return true;
+    }
+
+    public static function fieldMapping($fields)
+    {
+        $result = array();
+        foreach ($fields as $k => $v)
+        {
+            $data = array();
+             $arr = CustomField::getDefaultLabelAndDesc($v);
+             extract($arr);
+             $data['clabel'] = $label;
+             $data['description'] = $desc;
+             $data['edit_role'] = $edit_role;
+             $data['is_required'] = 1;
+             if (substr($v, 0,12) =='custom_field') {
+                 $data['is_show_required'] = 1;
+             }
+             $result[$v] = $data;
+        }
+        return $result;
+    }
+
+    public static function getLabelAndDesc($field)
+    {
+        $desc = '';
+        $edit_role = self::getDefaultEditRole($field);
+         switch($field) {
+         case 'custom_field1':
+             $label = 'PK';
+             $desc = 'Primary Keyword';
+             break;
+         case 'custom_field2':
+             $label = 'SK1';
+             $desc = 'Secondary Keyword 1';
+             break;
+         case 'custom_field3':
+             $label = 'SK2';
+             $desc = 'Secondary Keyword 2';
+             break;
+         case 'optional1':
+             $label = 'EPID';
+             break;
+         case 'optional2':
+             $label = 'CPID';
+             break;
+         case 'optional3':
+             $label = 'eBay URL';
+             break;
+         case 'optional4':
+             $label = 'Google search';
+             break;
+         case 'optional5':
+             $label = 'Category Name';
+             break;
+         case 'optional6':
+             $label = 'Catalog_ID';
+             break;
+         case 'optional7':
+             $label = 'Catalog Name';
+             break;
+         }
+         return compact('label', 'desc', 'edit_role');
+    }
+
+    
+    public static function getDefaultEditRole($field)
+    {
+        $lastChar = substr($field, -1);
+        $substr = str_replace($lastChar, '', $field);
+        if ($substr == 'custom_field') {
+            $edit_role = 1;//copy writer
+        } else if ($substr == 'optional') {
+            $edit_role = 4;//PM
+        }
+        return $edit_role;
+    }
+    public static function getDefaultLabelAndDesc($field)
+    {
+        $desc = '';
+        $edit_role = self::getDefaultEditRole($field);
+         switch($field) {
+         case 'custom_field1':
+             $label = 'PK';
+             $desc = 'Primary Keyword';
+             break;
+         case 'custom_field2':
+             $label = 'SK1';
+             $desc = 'Secondary Keyword 1';
+             break;
+         case 'custom_field3':
+             $label = 'SK2';
+             $desc = 'Secondary Keyword 2';
+             break;
+         case 'custom_field4':
+             $label = 'SK3';
+             $desc = 'Secondary Keyword 3';
+             break;
+         case 'custom_field5':
+             $label = 'SK4';
+             $desc = 'Secondary Keyword 4';
+             break;
+         case 'optional1':
+             $label = 'Optional Field 1';
+             break;
+         case 'optional2':
+             $label = 'Optional Field 2';
+             break;
+         case 'optional3':
+             $label = 'Optional Field 3';
+             break;
+         case 'optional4':
+             $label = 'Optional Field 4';
+             break;
+         case 'optional5':
+             $label = 'Optional Field 5';
+             break;
+         case 'optional6':
+             $label = 'Optional Field 6';
+             break;
+         case 'optional7':
+             $label = 'Optional Field 7';
+             break;
+         case 'optional8':
+             $label = 'Optional Field 8';
+             break;
+         case 'optional9':
+             $label = 'Optional Field 9';
+             break;
+         case 'optional10':
+             $label = 'Optional Field 10';
+             break;
+         }
+        return compact('label', 'desc', 'edit_role');
+    }
+
+    public static function getActiveFields($params = array() , $prefix = array('optional', 'custom_field'))
+    {
+        global $conn;
+        if (!isset($params['ctable'])) $params['ctable'] = 'campaign_keyword';
+        if (!isset($params['status'])) $params['status'] = 1;
+        $conditions = array();
+        if (!empty($params)) {
+            foreach ($params as $k => $item) {
+                if (is_array($item)) {
+                    foreach ($item as $subk => $v) {
+                        $item[$subk] = addslashes($v);
+                    }
+                    $conditions[] = $k .  ' IN (\'' . implode("','", $item) . '\')';
+                } else {
+                    $item  = addslashes($item);
+                    $conditions[] = $k . ' = \'' . $item . '\'';
+                }
+            }
+        }
+        $sql = 'SELECT * FROM  ' . self::getTableName() . ' WHERE  1 ' ;
+        if (!empty($prefix)) {
+            if (is_string($prefix)) {
+                $sql .= ' AND cfield LIKE \'' . addslashes($prefix) .  '%\'';
+            } else if (is_array($prefix)) {
+                $subconditions = array();
+                foreach ($prefix as $k => $v) {
+                    $subconditions[] = 'cfield LIKE \'' . addslashes($v) .  '%\'';
+                }
+                if (!empty($subconditions)) {
+                    $sql .= ' AND (' . implode(" OR ", $subconditions) . ')';
+                }
+            }
+        }
+        if (!empty($conditions)) $sql .= ' AND ' . implode(" AND ", $conditions);
+        return $conn->GetAll($sql);
+    }
+
+    public static function getFieldLabels($client_id = 0, $prefix = array('optional', 'custom_field'), $from='all')
+    {
+        $fieldLabels = array();
+        if ($from != 'custom' ) {
+            $fields = CustomField::showCustomFieldFromTable($prefix);
+            foreach ($fields as $field) {
+                $item = CustomField::getDefaultLabelAndDesc($field);
+                $fieldLabels[$field]['label'] = $item['label'];
+                $fieldLabels[$field]['description'] = strlen($item['desc']) ? '(' . $item['desc'] . ')' : '';
+                $fieldLabels[$field]['edit_role'] = $item['edit_role'];
+                $fieldLabels[$field]['is_required'] = $item['is_required'];
+            }
+        }
+        if ($client_id > 0) {
+            $results = CustomField::getFieldLabelsFromDB(array('client_id'=> $client_id), $prefix);
+            if (!empty($results)) {
+                $fieldLabels = array_merge($fieldLabels, $results);
+            }
+        }
+        return $fieldLabels;
+    }
+
+
+    public static function getFieldLabelsFromDB($param, $prefix = array('optional', 'custom_field'))
+    {
+        $results = CustomField::getActiveFields($param, $prefix);
+        foreach ($results as $k => $item) {
+            $field = $item['cfield'];
+            $fieldLabels[$field]['label'] = $item['clabel'];
+            $fieldLabels[$field]['description'] = strlen($item['description']) ?  $item['description'] : '';
+            $fieldLabels[$field]['edit_role'] = $item['edit_role'];
+            $fieldLabels[$field]['is_required'] = $item['is_required'];
+        }
+        return $fieldLabels;
+    }
+
+
+}
+?>

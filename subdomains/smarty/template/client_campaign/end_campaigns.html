@@ -1,0 +1,109 @@
+{include file="themes/$theme/header.html"}
+{if $feedback ne ''}
+<script language="JavaScript">
+<!--
+alert('{$feedback}');
+//-->
+</script>
+{/if}
+<div id="page-box1">
+  <h2>End/Reactive Client Campaign</h2>
+  <div id="campaign-search" >
+      <div id="campaign-search-box" >
+<form name="f_assign_keyword_return" action="" method="get">
+<table border="0" cellspacing="1" cellpadding="4">
+  <tr>
+    <td nowrap>Campaign Search (by campaign name or company name)</td>
+    <td><input type="text" name="keyword" id="search_keyword" value="{$smarty.get.keyword}" /></td>
+    <td><input type="image" src="/images/button-search.gif" value="submit" /></td>
+    <td nowrap>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+    <td width="70%">&nbsp;</td>
+  </tr>
+</table>
+</form>
+    </div>
+  </div>
+</div>
+<div class="tablepadding"> 
+<form name="f_opt_form" id="f_opt_form" action="/client_campaign/end_campaigns.php" method="post">
+<input type="hidden" name="status" id="status" value="" />
+<input type="hidden" name="campaign_id" id="campaign_id" value="" />
+<table id="table-1" cellspacing="0" cellpadding="0" align="center" class="sortableTable">
+  <thead>
+  <tr class="sortableTab">
+    <th class="table-left-corner">&nbsp;&nbsp;&nbsp;&nbsp;</th>
+    <td nowrap class="columnHeadInactiveBlack table-left-2">#</td>
+    <td nowrap class="columnHeadInactiveBlack">Company Name</td>
+    <td nowrap class="columnHeadInactiveBlack">Campaign Name</td>
+    <td nowrap class="columnHeadInactiveBlack">Total Keywords</td>
+    <td nowrap class="columnHeadInactiveBlack">% unassigned</td>
+    <td nowrap class="columnHeadInactiveBlack">% active unassigned</td>
+    <td nowrap class="columnHeadInactiveBlack">% canceled</td>
+    <td nowrap class="columnHeadInactiveBlack">Due Date</td>
+    <td nowrap class="columnHeadInactiveBlack table-right-2">Action</td>
+    <th class="table-right-corner">&nbsp;&nbsp;&nbsp;</th>
+  </tr>
+  </thead>
+{foreach from=$result item=item name="loop"}
+<tr {*class="{if $smarty.foreach.loop.iteration % 2 eq 0}even{else}odd{/if}"*}>
+  <td class="table-left" >&nbsp;</td>
+  {eval var= $startNo+$smarty.foreach.loop.iteration assign='rowNumber'}
+  <td class="table-left-2">{$rowNumber}</td>
+  <td>{$item.company_name}</td>
+	<td nowrap>{$item.campaign_name}</td>
+	<td>{$item.total}</td>
+	<td>{$item.pct_total_unassign|default:"0%"}({$item.total_unassign})</td>
+	<td>{$item.pct_total_active|default:"0%"}({$item.total_active})</td>
+	<td>{$item.pct_total_canceled|default:"0%"}({$item.total_canceled})</td>
+	<td>{$item.date_end}</td>
+  <td align="right" nowrap class="table-right-2">
+  <input type="button" class="button" value="Keywords" onclick="window.open('/client_campaign/keywords.php?campaign_id={$item.campaign_id}');" />
+  {if $item.total_canceled > 0}
+      <input type="button" class="button" value="Reactived Keywords" onclick="formsubmit('A', {$item.campaign_id})"/>
+  {/if}
+  {if $item.total_active > 0}
+      <input type="button" class="button" value="Cancel All Unassigned Keywords" onclick="formsubmit('D', {$item.campaign_id})"/>
+  {/if}
+  </td>
+  <td class="table-right" >&nbsp;</td>
+</tr>
+{/foreach}
+</table>
+</form>
+<div class="pagingpaddingleft" >
+  <table align="center" width="100%" border="0" cellspacing="0" cellpadding="0" >
+    <tr><td class="table-left table-paging-left" width="20" height="37" >&nbsp;</td><td class="table-bottom">{$pager} (Total Page:{$total})(Total Count:{$count})</td><td class="table-right table-paging-right" width="21">&nbsp;</td></tr>
+  </table>
+</div>
+</div>
+<script type="text/javascript">
+//<![CDATA[
+{literal}
+var st = new SortableTable(document.getElementById("table-1"),
+  ["None", "Number", "CaseInsensitiveString", "CaseInsensitiveString", "Number", "None"]);
+
+st.onsort = function () {
+  var rows = st.tBody.rows;
+  var l = rows.length;
+  for (var i = 0; i < l; i++) {
+    removeClassName(rows[i], i % 2 ? "odd" : "even");
+    addClassName(rows[i], i % 2 ? "even" : "odd");
+  }
+};
+
+st.asyncSort(0);
+function formsubmit(status, cid)
+{
+  var form =$('f_opt_form');
+  if (status == 'A' && confirm('Are you sure reactive all keywords?') || status == 'D' &&confirm('Are you sure canceled unassiged keywords?'))
+  {
+        form.status.value = status;
+        form.campaign_id.value = cid;
+        form.submit();
+  }
+  return false;
+}
+{/literal}
+//]]>
+</script>
+{include file="themes/$theme/footer.html"}

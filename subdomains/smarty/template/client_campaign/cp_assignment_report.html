@@ -1,0 +1,95 @@
+{include file="themes/$theme/header.html"}
+
+{if $feedback ne ''}
+<script language="JavaScript">
+<!--
+alert('{$feedback}');
+//-->
+</script>
+{/if}
+
+<table border="0" cellspacing="1" cellpadding="4">
+  <tr>
+    <td colspan="8" class="moduleTitle">Copywriter Assignment List</td>
+  </tr>
+  <form name="f_assign_keyword_return" action="#" method="get">
+  <tr>
+    <td class="requiredInput" nowrap>Campaign</td>
+    <td><select name="campaign_id"><option value="">[choose]</option>{html_options options=$campaign_list  selected=$smarty.get.campaign_id}</select></td>
+    <td class="requiredInput" nowrap>Show:</td>
+    <td><select name="perPage" onchange="this.form.submit();">{html_options options=$g_pager_perPage selected=$smarty.get.perPage}</select> row(s)</td>
+    <td colspan="4"><input type="image" src="/images/button-search.gif" value="submit" /></td>
+  </tr>
+  </form>
+</table><br>
+
+<table id="table-1" cellspacing="0" align="center" cellpadding="0" class="sortableTable">
+  <thead>
+  <tr class="sortableTab">
+    <th class="table-left-corner">&nbsp;&nbsp;&nbsp;&nbsp;</th>
+    <td nowrap class="columnHeadInactiveBlack table-left-2">No.</td>
+    <td nowrap class="columnHeadInactiveBlack">User</td>
+    <td nowrap class="columnHeadInactiveBlack">First Name</td>
+    <td nowrap class="columnHeadInactiveBlack">Last Name</td>
+    <td nowrap class="columnHeadInactiveBlack">Email</td>
+    <td nowrap class="columnHeadInactiveBlack">Working on</td>
+    <td nowrap class="columnHeadInactiveBlack">Current assignment</td>    
+    <!--td nowrap class="columnHeadInactiveBlack">Assigned</td-->
+    <!--td nowrap class="columnHeadInactiveBlack">Total assigned</td-->    
+    <td nowrap class="columnHeadInactiveBlack">Completed</td>
+    <td nowrap class="columnHeadInactiveBlack">Total completed</td> 
+    <td nowrap class="columnHeadInactiveBlack">Last Login</td>
+      <td nowrap class="columnHeadInactiveBlack table-right-2">Mail</td>	
+      <th class="table-right-corner">&nbsp;&nbsp;&nbsp;</th>
+	</tr>
+  </thead>
+  {foreach from=$result item=item name="loop"}
+  <tr class="{if $smarty.foreach.loop.iteration % 2 eq 0}even{else}odd{/if}">
+    <td class="table-left" >&nbsp;</td>
+    <td class="table-left-2">{$smarty.foreach.loop.iteration}</td>
+    <td><a href="javascript:openWindow('/user/user_detail_info.php?user_id={$item.user_id}', 'newwindow', 'height=370,width=280,status=no,toolbar=no,menubar=no,location=no,resizable=yes,scrollbars=yes');">{$item.user_name}</a></td>
+    <td>{$item.first_name}</td>
+    <td>{$item.last_name}</td>
+    <td>{$item.email}</td>
+<!--    <td>{if $item.count gt 0}<a href="/client_campaign/cp_working_on_articles.php?copy_writer_id={$item.user_id}" target="_blank"><font color="red">{$item.count}</font></a>{else}{$item.count}{/if}</td>-->
+   <td>
+	{foreach from=$item.campaigns item=campaign }
+	{$campaign.campaign_name}:&nbsp;{if $campaign.count>0}<a href="/client_campaign/cp_working_on_articles.php?copy_writer_id={$item.user_id}&campaign_id={$campaign.campaign_id}" target="_blank"><font color="red">{$campaign.count}</font></a>{else}0{/if}<br />
+	{/foreach}
+   </td>
+    <td>{$item.current_assignment}&nbsp;&nbsp;&nbsp;<a href="/client_campaign/keyword_list.php?copy_writer_id={$item.user_id}&campaign_id={$item.campaign_id}" target="_blank"><font color="red">{if $item.current_assignment_count gt 0}{$item.current_assignment_count}{/if}</font></a></td>
+    <!--td>{if $item.month_assigned_count>0 }{$item.month_assigned_count}{else}0{/if}</td-->
+    <!--td>{if $smarty.get.campaign_id gt 0}<a href="/client_campaign/keyword_list.php?copy_writer_id={$item.user_id}&campaign_id={$smarty.get.campaign_id}" target="_blank">{if $item.assigned_count gt 0}<font color="red">{$item.assigned_count}</font>{else}{$item.assigned_count}{/if}</a>{else}{$item.assigned_count}{/if}</td--> 
+    <td>{if $item.month_completed_count>0 }{$item.month_completed_count}{else}0{/if}</td>
+    <td>{if $item.completed_count >0 }{$item.completed_count}{else}0{/if}</td>
+    <td nowrap>{if $item.time!=NULL}<font color="red">{$item.time|date_format:"%D %H:%M:%S"}</font>{else}&nbsp;{/if}</td>
+	  <td class="table-right-2"><form target="_blank" action="/mail/ck_mailer.php" method="post"><input type="hidden" name="list1" value={$item.user_id}><input type="submit" value="send mail"></form></td>
+    <td class="table-right" >&nbsp;</td>
+  	</tr>
+  {/foreach}
+</table>
+<table align="center">
+  <tr><td>{$pager} (Total Page:{$total})(Total Count:{$count})</td></tr>
+</table>
+
+<script type="text/javascript">
+//<![CDATA[
+{literal}
+var st = new SortableTable(document.getElementById("table-1"),
+  ["Number", "CaseInsensitiveString", "CaseInsensitiveString",  "CaseInsensitiveString", "CaseInsensitiveString", "CaseInsensitiveString", "CaseInsensitiveString", "Number","Number", "CaseInsensitiveString"]);
+
+st.onsort = function () {
+  var rows = st.tBody.rows;
+  var l = rows.length;
+  for (var i = 0; i < l; i++) {
+    removeClassName(rows[i], i % 2 ? "odd" : "even");
+    addClassName(rows[i], i % 2 ? "even" : "odd");
+  }
+};
+
+st.asyncSort(0);
+{/literal}
+//]]>
+</script>
+
+{include file="themes/$theme/footer.html"}

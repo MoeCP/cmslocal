@@ -1,0 +1,42 @@
+{include file="themes/$theme/header_jump.html"}
+
+{if $feedback ne ''}
+<script language="JavaScript">
+<!--
+alert("{$feedback}");
+//-->
+</script>
+{/if}
+
+<div id="page-box1">
+  <h2>Feed Detail</h2>
+<div class="form-item"> 
+<table border="0" cellspacing="1" cellpadding="4" align="center" width="100%">
+  <tr>
+    <td class="bodyBold" colspan="2">Basic Information</td>
+    <td align="right" class="requiredHint" colspan="2" >Required Information</td>
+  </tr>
+  <tr>
+    <td class="blackLine" colspan="4"><img src="/image/misc/s.gif"></td>
+  </tr>
+  <tr>
+    <td class="requiredInput">ID:&nbsp;</td>
+    <td colspan="3">{$info.id}</td>
+  </tr>
+  <tr>
+    <td class="requiredInput">Title:&nbsp;</td>
+    <td>{$info.title}</td>
+    <td class="requiredInput">Link:&nbsp;</td>
+    <td>{$info.link}</td>
+  </tr>
+  <tr>
+    <td class="requiredInput">Description:&nbsp;</td>
+    <td colspan="3">{$info.description|nl2br}</td>
+  </tr>
+   <tr>
+    <td class="blackLine" colspan="4"><img src="/image/misc/s.gif"></td>
+  </tr> 
+</table>
+</div>
+</div>
+{include file="themes/$theme/footer_jump.html"}

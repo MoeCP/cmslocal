@@ -1,0 +1,62 @@
+65
+<ajax-response><response type="object" id="user_report" ><type1 type1_value="2" /><type2 type2_value="1" /><type3 type3_value="0" /><total total_value="3" /><pay_total pay_total_value="1" /><user_id user_id_value="65" /></response></ajax-response>
+65
+<ajax-response><response type="object" id="user_report" ><type1 type1_value="0" /><type2 type2_value="0" /><type3 type3_value="0" /><total total_value="0" /><pay_total pay_total_value="0" /><user_id user_id_value="65" /></response></ajax-response>
+65
+<ajax-response><response type="object" id="user_report" ><type1 type1_value="0" /><type2 type2_value="0" /><type3 type3_value="0" /><total total_value="0" /><pay_total pay_total_value="0" /><user_id user_id_value="65" /></response></ajax-response>
+65
+<ajax-response><response type="object" id="user_report" ><type1 type1_value="2" /><type2 type2_value="1" /><type3 type3_value="0" /><total total_value="3" /><pay_total pay_total_value="1" /><user_id user_id_value="65" /></response></ajax-response>
+65
+<ajax-response><response type="object" id="user_report" ><type1 type1_value="0" /><type2 type2_value="0" /><type3 type3_value="0" /><total total_value="0" /><pay_total pay_total_value="0" /><user_id user_id_value="65" /></response></ajax-response>
+65
+<ajax-response><response type="object" id="user_report" ><type1 type1_value="0" /><type2 type2_value="0" /><type3 type3_value="0" /><total total_value="0" /><pay_total pay_total_value="0" /><user_id user_id_value="65" /></response></ajax-response>
+65
+<ajax-response><response type="object" id="user_report" ><type1 type1_value="2" /><type2 type2_value="1" /><type3 type3_value="0" /><total total_value="3" /><pay_total pay_total_value="1" /><user_id user_id_value="65" /></response></ajax-response>
+65
+<ajax-response><response type="object" id="user_report" ><type1 type1_value="0" /><type2 type2_value="0" /><type3 type3_value="0" /><total total_value="0" /><pay_total pay_total_value="0" /><user_id user_id_value="65" /></response></ajax-response>
+65
+<ajax-response><response type="object" id="user_report" ><type1 type1_value="2" /><type2 type2_value="1" /><type3 type3_value="0" /><total total_value="3" /><pay_total pay_total_value="1" /><user_id user_id_value="65" /></response></ajax-response>
+65
+<ajax-response><response type="object" id="user_report" ><type1 type1_value="0" /><type2 type2_value="0" /><type3 type3_value="0" /><total total_value="0" /><pay_total pay_total_value="0" /><user_id user_id_value="65" /></response></ajax-response>
+65
+<ajax-response><response type="object" id="user_report" ><type1 type1_value="2" /><type2 type2_value="1" /><type3 type3_value="0" /><total total_value="3" /><pay_total pay_total_value="1" /><user_id user_id_value="65" /></response></ajax-response>
+65
+<ajax-response><response type="object" id="user_report" ><type1 type1_value="0" /><type2 type2_value="0" /><type3 type3_value="0" /><total total_value="0" /><pay_total pay_total_value="0" /><user_id user_id_value="65" /></response></ajax-response>
+65
+<ajax-response><response type="object" id="user_report" ><type1 type1_value="0" /><type2 type2_value="0" /><type3 type3_value="0" /><total total_value="0" /><pay_total pay_total_value="0" /><user_id user_id_value="65" /></response></ajax-response>
+65
+<ajax-response><response type="object" id="user_report" ><type1 type1_value="2" /><type2 type2_value="1" /><type3 type3_value="0" /><total total_value="3" /><pay_total pay_total_value="1" /><user_id user_id_value="65" /></response></ajax-response>
+65
+<ajax-response><response type="object" id="user_report" ><type1 type1_value="0" /><type2 type2_value="0" /><type3 type3_value="0" /><total total_value="0" /><pay_total pay_total_value="0" /><user_id user_id_value="65" /></response></ajax-response>
+65
+<ajax-response><response type="object" id="user_report" ><type1 type1_value="0" /><type2 type2_value="0" /><type3 type3_value="0" /><total total_value="0" /><pay_total pay_total_value="0" /><user_id user_id_value="65" /></response></ajax-response>
+65
+<ajax-response><response type="object" id="user_report" ><type1 type1_value="0" /><type2 type2_value="0" /><type3 type3_value="0" /><total total_value="0" /><pay_total pay_total_value="0" /><user_id user_id_value="65" /></response></ajax-response>
+65
+<ajax-response><response type="object" id="user_report" ><type1 type1_value="2" /><type2 type2_value="1" /><type3 type3_value="0" /><total total_value="3" /><pay_total pay_total_value="1" /><user_id user_id_value="65" /></response></ajax-response>
+65
+<ajax-response><response type="object" id="user_report" ><type1 type1_value="0" /><type2 type2_value="0" /><type3 type3_value="0" /><total total_value="0" /><pay_total pay_total_value="0" /><user_id user_id_value="65" /></response></ajax-response>
+65
+<ajax-response><response type="object" id="user_report" ><type1 type1_value="2" /><type2 type2_value="1" /><type3 type3_value="0" /><total total_value="3" /><pay_total pay_total_value="1" /><user_id user_id_value="65" /></response></ajax-response>
+65
+<ajax-response><response type="object" id="user_report" ><type1 type1_value="0" /><type2 type2_value="0" /><type3 type3_value="0" /><total total_value="0" /><pay_total pay_total_value="0" /><user_id user_id_value="65" /></response></ajax-response>
+65
+<ajax-response><response type="object" id="user_report" ><type1 type1_value="0" /><type2 type2_value="0" /><type3 type3_value="0" /><total total_value="0" /><pay_total pay_total_value="0" /><user_id user_id_value="65" /></response></ajax-response>
+65
+<ajax-response><response type="object" id="user_report" ><type1 type1_value="2" /><type2 type2_value="1" /><type3 type3_value="0" /><total total_value="3" /><pay_total pay_total_value="1" /><user_id user_id_value="65" /></response></ajax-response>
+65
+<ajax-response><response type="object" id="user_report" ><type1 type1_value="0" /><type2 type2_value="0" /><type3 type3_value="0" /><total total_value="0" /><pay_total pay_total_value="0" /><user_id user_id_value="65" /><month month_value="200607" /></response></ajax-response>
+65
+<ajax-response><response type="object" id="user_report" ><type1 type1_value="2" /><type2 type2_value="1" /><type3 type3_value="0" /><total total_value="3" /><pay_total pay_total_value="1" /><user_id user_id_value="65" /><month month_value="200608" /></response></ajax-response>
+65
+<ajax-response><response type="object" id="user_report" ><type1 type1_value="0" /><type2 type2_value="0" /><type3 type3_value="0" /><total total_value="0" /><pay_total pay_total_value="0" /><user_id user_id_value="65" /><month month_value="200607" /></response></ajax-response>
+65
+<ajax-response><response type="object" id="user_report" ><type1 type1_value="2" /><type2 type2_value="1" /><type3 type3_value="0" /><total total_value="3" /><pay_total pay_total_value="1" /><user_id user_id_value="65" /><month month_value="200608" /></response></ajax-response>
+65
+<ajax-response><response type="object" id="user_report" ><type1 type1_value="0" /><type2 type2_value="0" /><type3 type3_value="0" /><total total_value="0" /><pay_total pay_total_value="0" /><user_id user_id_value="65" /><month month_value="200607" /></response></ajax-response>
+65
+<ajax-response><response type="object" id="user_report" ><type1 type1_value="2" /><type2 type2_value="1" /><type3 type3_value="0" /><total total_value="3" /><pay_total pay_total_value="1" /><user_id user_id_value="65" /><month month_value="200608" /></response></ajax-response>
+87
+<ajax-response><response type="object" id="user_report" ><type1 type1_value="0" /><type2 type2_value="0" /><type3 type3_value="0" /><total total_value="0" /><pay_total pay_total_value="0" /><user_id user_id_value="87" /><month month_value="" /></response></ajax-response>
+87
+<ajax-response><response type="object" id="user_report" ><type1 type1_value="0" /><type2 type2_value="0" /><type3 type3_value="0" /><total total_value="0" /><pay_total pay_total_value="0" /><user_id user_id_value="87" /><month month_value="200608" /></response></ajax-response>

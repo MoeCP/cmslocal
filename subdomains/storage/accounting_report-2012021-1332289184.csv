@@ -1,0 +1,9 @@
+user_name,status,email,contact_name,client_id,total_word,total_word_for_editor,total_article_for_editor,total_word_for_writer,total_article_for_writer,pay_total_words_for_editor,pay_total_words_for_writer,pay_total_articles_for_editor,pay_total_articles_for_writer,cost
+homeaway,A,cbarbot@homeaway.com,Cory Barbot,3,49456,24728,45,24728,45,8646,8646,26,26,$1190.84
+CopyPress,A,rwhitney@copypress.com,,45,7052,3526,2,3526,2,2366,2366,1,1,$298.26
+testclient,A,oli@clevercode.net,,105,1108,554,1,554,1,0,0,1,1,$32
+HUA-Marketing,A,bgolson@huamarketing.com,,146,34950,17475,37,17475,37,0,0,37,37,$706
+groovecommerce,A,kevin@groovecommerce.com,Kevin Doory,148,2094,1047,2,1047,2,0,0,2,2,$50
+macys,A,swinkler@copypress.com,Lauren Goldstein,164,590862,295431,842,295431,842,0,0,842,842,$16840
+Adstalker,A,cqi@funlink.com,Charlie Qi,165,6244,3122,6,3122,6,0,0,6,6,$150
+SandmadePhotos,A,stuart@sandmadephotos.com,Stuart Chamberlain,180,5548,2774,4,2774,4,0,0,4,4,$152

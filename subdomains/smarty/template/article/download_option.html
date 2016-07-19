@@ -1,0 +1,81 @@
+{include file="themes/$theme/header_jump.html"}
+{if $feedback ne ''}
+<script language="JavaScript">
+<!--
+alert("{$feedback}");
+//-->
+</script>
+{/if}
+{literal}
+<style type="text/css">
+.disabled_input { border-right: #000033 0px solid; border-top: #000033 0px solid; font-size: 12px; border-left: #000033 0px solid; border-bottom: #000033 0px solid; background:#ffffff}
+</style>
+<script language="JavaScript">
+<!--
+function formSubmit()
+{
+  var form = document.getElementById('f_article');
+  if (form.title.checked || form.mk.checked || form.md.checked || form.body.checked)
+  {
+    form.submit();
+  } else {
+    alert("Please pick one option at least");
+    return false;
+  }
+}
+//-->
+</script>
+{/literal}
+<div id="page-box1" >
+<h2>Download options</h2>
+  <div id="campaign-search" >
+    <strong>Please pick download options for XML items</strong>
+  </div>
+  <div class="form-item" style="width:400px">
+<form action="/article/xml.php" method="get" name="f_article" id="f_article" target="_blank">
+{foreach from=$data item=v key=k}
+<input type="hidden" name="{$k}" value="{$v}" />
+{/foreach}
+<input type="hidden" name="cid" id="cid" value="{$smarty.get.cid}" />
+<input type="hidden" name="article_id" id="article_id" value="{$smarty.get.article_id}" />
+<input type="hidden" name="article_ids" id="article_ids" value="{$smarty.get.article_ids}" />
+<table border="0" cellspacing="1" cellpadding="4" align="center" width="100%" >  
+  <tr>
+    <td ><input type="checkbox" name="title" id="title" value="1" checked /><label>Title</label></td>
+  </tr>
+  <tr>
+    <td ><input type="checkbox" name="mk" id="mk" value="1" checked /><label>Meta Keyword</label></td>
+  </tr>
+  <tr>
+    <td ><input type="checkbox" name="md" id="md" value="1" checked /><label>Meta Description</label></td>
+  </tr>
+  <tr>
+    <td ><input type="checkbox" name="mid" id="mid" value="1" checked /><label>Mapping-ID</label></td>
+  </tr>
+  <tr>
+    <td ><input type="checkbox" name="rich_body" id="rich_body" value="1" checked /><label>Rich Body</label></td>
+  </tr>
+  <tr>
+    <td ><input type="checkbox" name="text_body" id="text_body" value="1" /><label>Text Body</label></td>
+  </tr>
+  <tr>
+    <td ><input type="checkbox" name="ht" id="ht" value="1"  /><label>Html Title</label></td>
+  </tr>
+  {if $login_role != 'client'}
+  <tr>
+    <td ><input type="checkbox" name="author" id="author" value="1"  /><label>Copywriter</label></td>
+  </tr>
+  {/if}
+  {foreach from=$optional_fields item=item key=key name="loop"}
+  <tr>
+    <td ><input type="checkbox" name="{$key}" id="{$key}" value="1" /><label>{$item.label}</label></td>
+  </tr>
+  {/foreach}
+  <tr>
+    <td align="center" ><input type="button" name="button" id="button" class="button" value="Submit" onclick="javascript:formSubmit();" /></td>
+  </tr>
+</table>
+ </form>
+  </div>
+ </div>
+{include file="themes/$theme/footer_jump.html"}

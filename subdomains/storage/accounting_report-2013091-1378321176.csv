@@ -1,0 +1,3 @@
+user_name,status,email,contact_name,client_id,total_word,total_word_for_editor,total_article_for_editor,total_word_for_writer,total_article_for_writer,pay_total_words_for_editor,pay_total_words_for_writer,pay_total_articles_for_editor,pay_total_articles_for_writer,cost
+ethanhathaway,A,vincent.po@ethanhathaway.com,Vincent Po,210,1200,600,2,600,2,600,600,0,0,$30
+connection,A,rwhitney@copypress.com,Ryan Whitney,225,75000,37500,50,37500,50,37500,37500,0,0,$2250

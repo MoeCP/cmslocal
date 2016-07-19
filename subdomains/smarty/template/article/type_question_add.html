@@ -1,0 +1,72 @@
+{include file="themes/$theme/header.html"}
+
+{if $feedback ne ''}
+<script language="JavaScript">
+<!--
+alert("{$feedback}");
+//-->
+</script>
+{/if}
+
+{literal}
+<script language="JavaScript">
+<!--
+function check_f_question()
+{
+  var f = document.f_question;
+
+  if (f.type_id.value.length == 0) {
+    alert('Please choose a article type');
+    f.type_id.focus();
+    return false;
+  }
+
+  if (f.type_id.value.length == 0) {
+    alert('Please enter questions');
+    f.question.focus();
+    return false;
+  }
+
+  return true;
+}
+//-->
+</script>
+{/literal}
+
+<div id="page-box1">
+  <h2>Add Type Question</h2>
+  <div id="campaign-search" >
+    <strong>Please enter the article type question required information.</strong>
+  </div>
+  <div class="form-item" >
+<br><table border="0" cellspacing="1" cellpadding="4" align="center" width="100%">
+  <form action="" method="post"  name="f_question" {if $js_check eq true} onsubmit="return check_f_question()"{/if}>
+  <tr>
+    <td class="bodyBold">Basic Information</td>
+    <td align="right" class="requiredHint">Required Information</td>
+  </tr>
+  <tr>
+    <td class="blackLine" colspan=2><img src="/image/misc/s.gif"></td>
+  </tr>
+  <tr>
+    <td class="requiredInput">Article Type</td>
+    <td><select name="type_id"><option value="">[choose]</option>{html_options options=$article_type selected=$info.type_id}</select></td>
+  </tr>
+  <tr>
+    <td class="requiredInput">Questions</td>
+    <td><textarea name="question" cols="80" rows="7" id="question">{$info.question}</textarea><br />split the quesitons as Enter Key</td>
+  </tr>
+  <tr>
+    <td class="blackLine" colspan="2"><img src="/image/misc/s.gif"></td>
+  </tr>
+
+  <tr>
+    <td>&nbsp;</td>
+    <td><input type="submit" value="Submit" class="button" />&nbsp;<input type="reset" value="reset" class="button" /></td>
+  </tr>
+  </form>
+</table>
+<br>
+  </div>
+</div>
+{include file="themes/$theme/footer.html"}

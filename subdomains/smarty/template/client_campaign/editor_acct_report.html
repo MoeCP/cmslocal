@@ -1,0 +1,86 @@
+{include file="themes/$theme/header.html"}
+
+{if $feedback ne ''}
+<script language="JavaScript">
+<!--
+alert('{$feedback}');
+//-->
+</script>
+{/if}
+
+{literal}
+
+{/literal}
+
+<form name="f_editor_report_search" action="#" method="get">
+<input type="hidden" name="user_role" id="user_role" value="{$user_role}" />
+<table border="0" cellspacing="1" cellpadding="4">
+  <tr>
+    <td colspan="8" class="moduleTitle">{$monthes[$month]|cat:"-01"|date_format:"%B %Y"} Editor Monthly Production Report</td>
+  </tr>
+  <tr>
+    <td class="requiredInput" nowrap>Show:</td>
+    <td><select name="perPage" onchange="this.form.submit();">{html_options options=$g_pager_perPage selected=$smarty.get.perPage}</select> row(s)</td>
+    <td class="requiredInput" nowrap>Month:</td>
+    <td><select name="month" onchange="this.form.submit();">{html_options options=$monthes selected=$month}</select></td>
+    <td colspan="4"><input type="image" src="/images/button-search.gif" value="submit" /></td>
+  </tr>
+</table>
+</form>
+<br>
+
+<table id="table-1" cellspacing="0" align="center" cellpadding="0" class="sortableTable">
+  <thead>
+  <tr class="sortableTab">
+    <th class="table-left-corner">&nbsp;&nbsp;&nbsp;&nbsp;</th>
+    <td nowrap class="columnHeadInactiveBlack table-left-2" rowspan="2">#</td>
+    <td nowrap class="columnHeadInactiveBlack" rowspan="2">User Name</td>
+    <td nowrap class="columnHeadInactiveBlack" rowspan="2">First Name</td>
+    <td nowrap class="columnHeadInactiveBlack" rowspan="2">Last Name</td>
+    <td nowrap class="columnHeadInactiveBlack" rowspan="2">Email</td>
+    <td nowrap class="columnHeadInactiveBlack" rowspan="2">Approval Total</td>
+    <td nowrap class="columnHeadInactiveBlack" rowspan="2">Rejected Total</td>
+    <td nowrap class="columnHeadInactiveBlack table-right-2" rowspan="2">Available Total</td>
+    <th class="table-right-corner" rowspan="2">&nbsp;&nbsp;&nbsp;&nbsp;</th>
+  </tr>
+  </thead>
+  {foreach from=$result item=item name="loop"}
+  <tr class="{if $smarty.foreach.loop.iteration % 2 eq 0}even{else}odd{/if}">
+    <td class="table-left" >&nbsp;</td>
+    <td class="table-left-2">{$smarty.foreach.loop.iteration}</td>
+    <td>{$item.user_name}</td>
+    <td>{$item.first_name}</td>
+    <td>{$item.last_name}</td>
+    <td>{$item.email}</td>
+    <td id='approval_num_{$item.user_id}' >{$item.approval_num}</td>
+    <td id='rejected_num_{$item.user_id}' >{$item.rejected_num}</td>
+    <td id='total_num_{$item.user_id}'  class="table-right-2">{$item.total_num}</td>
+    <td class="table-right" >&nbsp;</td>
+  </tr>
+  {/foreach}
+</table>
+<table align="center">
+  <tr><td>{$pager} (Total Page:{$total})(Total Count:{$count})</td></tr>
+</table>
+
+<script type="text/javascript">
+//<![CDATA[
+{literal}
+var st = new SortableTable(document.getElementById("table-1"),
+  ["Number", "CaseInsensitiveString", "CaseInsensitiveString",  "CaseInsensitiveString", "CaseInsensitiveString", "Number" ]);
+
+st.onsort = function () {
+  var rows = st.tBody.rows;
+  var l = rows.length;
+  for (var i = 0; i < l; i++) {
+    removeClassName(rows[i], i % 2 ? "odd" : "even");
+    addClassName(rows[i], i % 2 ? "even" : "odd");
+  }
+};
+
+st.asyncSort(0);
+{/literal}
+//]]>
+</script>
+
+{include file="themes/$theme/footer.html"}

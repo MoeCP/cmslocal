@@ -1,0 +1,44 @@
+user_id,user_name,first_name,last_name,email,address,status,user_type,Digital Media,Type 1,Type 2,Type 3,total,pay_words_total,pay_count_article,pay_amount,payment_preference,payment_status
+1611,TAndersonEditor,Theresa,Anderson,traanderson@gmail.com,1145 Corner Rd,Active,1,0,2500,0,0,17800,17800,0,$178,Direct Deposit,Not Paid
+1627,DBararEditor,Darla,Barar,darla.barar@alumni.utexas.net,17919 Holderness Ln,Active,1,0,2000,0,0,2000,0,4,$20,Direct Deposit,Not Paid
+1640,ABeckstettEdit,Alexandra,Beckstett,a.beckstett@gmail.com,4052 Weber Way,Active,1,0,1000,0,675,1675,675,2,$16.75,Direct Deposit,Not Paid
+1707,CBrittainEditor,Chloe,Brittain,chloebrittain@hotmail.com,14 Sunlake Way SE,Active,1,0,1500,0,0,7466,5966,3,$74.66,Paypal,Not Paid
+1622,ABrownEditor,Angela,Brown,divisible.by.three@gmail.com,9871 Hwy 28E,Active,1,0,1000,0,0,17750,16750,2,$177.5,Direct Deposit,Not Paid
+1648,MaryCrottyEdit,Mary,Crotty,marycrottywriting@gmail.com,1707 Thornblade Ridge Drive,Active,1,0,3000,0,0,3000,0,6,$30,Direct Deposit,Not Paid
+1639,ClareDemingEdit,Clare,Deming,clare_deming@hotmail.com,247 4th Ave,Active,1,0,1500,0,675,2175,675,3,$21.75,Paypal,Not Paid
+1700,BDesmondEdit,Buddah,Desmond,buddahdesmond@yahoo.com,309 Yoakum Parkway Apt 1504,Active,1,0,1500,0,0,1500,0,3,$15,Paypal,Not Paid
+1638,JGabrielsonEdit,Julie,Gabrielson,juliemgabrielson@gmail.com,1825 Kentucky Ave,Active,1,0,3500,0,0,3500,0,7,$35,Direct Deposit,Not Paid
+1656,KatGrayEditor,Kat,Gray,abovethelevelplain@gmail.com,19707 Highway 280 East 703,Active,1,0,500,0,0,500,0,1,$5,Direct Deposit,Not Paid
+1645,ShaneHallEdit,Shane,Hall,shanecarlhall@gmail.com,1731 Fruit Cove Woods Dr.,Active,1,0,1500,0,0,3500,2000,3,$35,Direct Deposit,Not Paid
+1534,NHauptmanEdit,Nina,Hauptman,nina.kate@hotmail.com,4223 1/4 Lindblade Dr.,Active,1,0,6500,0,0,6500,6500,0,$65,Direct Deposit,Not Paid
+1646,CHemmingsEdit,Carolyn,Hemmings,cphemm@msn.com,4063 Monticello Ave,Active,1,0,2000,0,0,4000,2000,4,$40,Direct Deposit,Not Paid
+1610,DHeuvelEdit,Deborah,Heuvel,debvandenheuvel@hotmail.com,209 Riverwalk Circle,Active,1,0,3500,0,0,3500,0,7,$35,Paypal,Not Paid
+1705,NHollandEditor,Nikki,Holland,hollnik07@gmail.com,14 Brookside Ave W,Active,1,0,3700,0,0,3700,3700,0,$37,Direct Deposit,Not Paid
+5,editor,editor,jones,rdecanaga@copypress.com,316 W 2nd St,Active,1,0,9,0,0,9,9,0,$0,Direct Deposit,Not Paid
+1515,KKaradzaEditor,Kathy,Karadza,kkaradza@gmail.com,"1181 71st Street, Floor 1",Active,1,0,500,0,0,500,0,1,$5,Direct Deposit,Not Paid
+1136,rkarraneditor,Rajiv,Karran,rajivkarran@gmail.com,,Active,1,0,2000,0,0,2950,950,4,$29.5,Paypal,Not Paid
+1635,AnnaKuehlEditor,Anna,Kuehl,gfjetset@gmail.com,305 10th Street South #4420,Active,1,0,4400,0,0,15070,15070,0,$150.7,Paypal,Not Paid
+1628,EMacEachernEdit,Erin,MacEachern,erinmac1101@gmail.com,429 County Road 1448,Active,1,0,2000,0,0,21651,19651,4,$216.51,Direct Deposit,Not Paid
+1643,BillMcSteenEdit,Bill,McSteen,billmcsteen@gmail.com,528 Old Farm Road,Active,1,0,2500,0,675,15979,13479,5,$159.79,Paypal,Not Paid
+1689,RMetzEditor,Rebecca,Metz,rebeccametz@gmail.com,1808 Rice Street,Active,1,0,1575,0,675,5250,5250,0,$52.5,Direct Deposit,Not Paid
+1636,JamesMonroeEdit,James,Monroe,james.monroe621@gmail.com,2272 Canehill Ave.,Active,1,0,1500,0,0,7200,5700,3,$72,Paypal,Not Paid
+1687,CMoriarityEdit,Caitlin,Moriarity,clmoriarity@gmail.com,1133 Louisville Avenue Apt. 6,Active,1,0,1000,0,0,1000,0,2,$10,Direct Deposit,Not Paid
+1676,CMueriEditor,Christine,Mueri,camueri@gmail.com,34513 Southview Drive,Active,1,0,1000,0,0,2000,1000,2,$20,Direct Deposit,Not Paid
+1726,DMumpowerEdit,David,Mumpower,mumpower@gmail.com,9222 Adenleigh Way #3210,Active,1,0,1500,0,0,1500,0,3,$15,Paypal,Not Paid
+1516,JoyNelsonEditor,Joy,Nelson,jen2345_24@hotmail.com,21254 40th way s PO box 98008,Active,1,0,500,0,1350,21150,20650,1,$211.5,Direct Deposit,Not Paid
+58,jobrian,Jillena,O'Brien,jillenabean@gmail.com,5716 Fillmore Dr,Active,1,0,500,0,0,23200,22700,1,$232,Direct Deposit,Not Paid
+1525,KaraParlinEditor,Kara,Parlin,kparlin@gmail.com,18002 Richmond Place Drive #2915,Active,1,0,2000,0,0,2000,0,4,$20,Direct Deposit,Not Paid
+1522,APerellaEditor,Alisha,Perella,alisha.perella@outlook.com,1703 N. Taylor Road,Active,1,0,1500,0,0,2488,988,3,$24.88,Direct Deposit,Not Paid
+1668,CPerkinsEditor,Catherine,Perkins,catherinekietsu@gmail.com,127 W Fairbanks Ave #211,Active,1,0,4500,0,0,4500,0,9,$45,Paypal,Not Paid
+1500,ARadesEditor,Alicia,Rades,ajrades@gmail.com,PO Box 12 Withee,Active,1,0,500,0,0,500,500,0,$5,Direct Deposit,Not Paid
+1330,JRakowskiEditor,John,Rakowski,jrakowski@steelcast.com,,Inactive,1,0,14000,0,0,14000,14000,0,$140,,Not Paid
+1517,CRodmanEditor,Cassandra,Rodman,ajkeene.rn@gmail.com,1885 Shore Drive South 225,Active,1,0,1500,0,0,1500,1500,0,$15,Direct Deposit,Not Paid
+1595,ShandaSilerEdit,Shanda,Siler,shandasiler@yahoo.com,118 Southfork Ln.,Active,1,0,2500,0,0,5500,3000,5,$55,Paypal,Not Paid
+1649,AlexStrineEdit,Alex,Strine,strine.alex@gmail.com,275 Virginville Road,Active,1,0,1500,0,0,1500,0,3,$15,Paypal,Not Paid
+1637,DorotaEditor,Dorota,Szczepanska,Dorota@dsews.com,14070 115 Avenue,Active,1,0,6000,0,0,6000,0,12,$60,Paypal,Not Paid
+1641,MeganTilleyEdit,Megan,Tilley,mt11g@my.fsu.edu,1128 Ocala Rd C6,Active,1,0,4000,0,675,4675,675,8,$46.75,Direct Deposit,Not Paid
+1768,JWestEditor,Jessica,West,jpwest6@gmail.com,1020 Fourth Street,Active,1,0,4000,0,0,4000,0,8,$40,Direct Deposit,Not Paid
+1634,LWhittleEditor,Leigh,Whittle,leighannwhittle1@gmail.com,6647 Big Spring Road,Active,1,0,2500,0,0,2500,0,5,$25,Direct Deposit,Not Paid
+1513,AWithersEditor,Ashley,Withers,withers.ashley@gmail.com,146 13th ave NE,Active,1,0,2027,0,0,2027,2027,0,$20.27,Direct Deposit,Not Paid
+1787,LisaWynneEdit,Lisa,Wynne,lisa.c.wynne@gmail.com,1405 Patterson Road,Active,1,0,1500,0,0,1500,0,3,$15,Paypal,Not Paid
+1651,KZeedickEditor,Karen,Zeedick,klzeedick@hotmail.com,110 Sam Snead Circle,Active,1,0,1000,0,0,1000,0,2,$10,Direct Deposit,Not Paid

@@ -1,0 +1,51 @@
+{include file="themes/$theme/header_jump.html"}
+{literal}
+<script language="JavaScript">
+function check_request_extension(){
+   var f = document.request_extension;
+  if (f.reason.value.length == 0) {
+    alert('Please enter reason');
+    return false;
+  }
+  if (f.days_asked.value.length == 0) 
+  {
+    alert('Please enter day asked');
+    return false;
+  }
+  return true;
+}
+</script>
+{/literal}
+<div id="page-box1">
+  <h2>Request Extension</h2>
+  <div class="form-item" >
+<form action="" name="request_extension" method="post" onSubmit="return check_request_extension()">
+<table border="0" cellspacing="1" cellpadding="4" align="center" width="100%">
+<input type="hidden" value="{$info.campaign_id}"  name="campaign_id" />
+<input type="hidden" value="{$info.copy_writer_id}"  name="copy_writer_id" />
+<input type="hidden" value="{$info.editor_id}"  name="editor_id" />
+<input type="hidden" value="{$info.extension_id}"  name="extension_id" />
+<tr>
+	<td class="requiredInput">Subject</td>
+	<td>
+		request for extension on {$campaign_name} from {$copy_writer_name}
+		<input type="hidden" value="request for extension on {$campaign_name} from {$copy_writer_name}" name="subject"  />
+	</td>
+</tr>
+<tr>
+	<td class="requiredInput">Reason:</td>
+	<td><textarea cols="50" rows="10" name="reason" >{$info.reason}</textarea></td>
+</tr>
+<tr>
+	<td class="requiredInput">Days asked:</td>
+	<td><input type="text" value="{if $info.days_asked == ''}2{else}{$info.days_asked}{/if}" name="days_asked" /></td>
+</tr>
+<tr>
+<td colspan="2" align="center" ><input type="submit" class="button" name="button" value="submit"/></td>
+</tr>
+</table>
+</form>
+  </div>
+</div>
+
+{include file="themes/$theme/footer_jump.html"}

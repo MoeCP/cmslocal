@@ -1,0 +1,105 @@
+{include file="themes/$theme/header.html"}
+{if $feedback ne ''}
+<script language="JavaScript">
+<!--
+alert("{$feedback}");
+//-->
+</script>
+{/if}
+<center><div style="color:red">{$feedback}</div></center>
+<div id="page-box1">
+  <h2>Technical Support</h2>
+  <div id="campaign-search" >
+   {if $user_permission_int > 0}Use this form to report any technical issues you encounter while operating in the CopyPress system. Please note the  campaign and article number if you are having trouble with a particular article. Please clear your cache and restart your browser or computer and try again before submitting this form. We recommend using the latest version of Chrome or Firefox while using CopyPress.{else}Use this form to report any technical issues you encounter while using CopyPress system.{/if}
+  </div><br />
+  <div class="form-item" >
+<form action="" method="post" id="f_bug" onsubmit="return check_f()">
+<input type="hidden" name="campaign_name" id="campaign_name" value="{$info.campaign_name}" >
+<table width="90%">
+<tr>
+<td width="15%" align="right" class="requiredInput">Problem Title</td><td width="85%"><input style="width:460px;" type="text" value="{$info.subject}" name="subject" id="subject" /></td>
+</tr>
+<tr>
+  <td align="right" class="dataLabel">Campaign</td>
+  <td>
+    <select id="campaign_id" name="campaign_id"  onchange="setCampaignName(this)" >{html_options options=$campaigns selected=$info.campaign_id}</select>
+  </td>
+</tr>
+<tr>
+  <td align="right" class="dataLabel">Article Number</td>
+  <td><input style="width:460px;" type="text" value="{$info.article_number}" name="article_number" id="article_number" /></td>
+</tr>
+<tr>
+<td width="15%" align="right" class="requiredInput">What happened</td><td width="85%"><textarea name="happened" id="happened" cols="70" rows="8">{$info.happened}</textarea></td>
+</tr>
+<tr>
+<td width="15%" align="right" class="requiredInput">What should have happened</td><td width="85%"><textarea name="raw_happened" id="raw_happened" cols="70" rows="8">{$info.raw_happened}</textarea></td>
+</tr>
+<tr>
+<td align="right" class="requiredInput">Steps to Reproduce</td><td><textarea name="steps" id="steps" cols="70" rows="8">{$info.steps}</textarea></td>
+</tr>
+<tr>
+  <td align="right" class="requiredInput">Browser information</td>
+  <td>
+    Which brower were you using? <br />
+    <select id="browser" name="browser" >{html_options options=$browsers selected=$info.browser}</select>
+  </td>
+</tr>
+<tr>
+  <td align="right" class="requiredInput" >Operating System</td>
+  <td>
+    Which OS were you using<br />
+    <select id="operating_system" name="operating_system" >{html_options options=$os selected=$info.operating_system}</select>
+  </td>
+</tr>
+<tr>
+<td></td><td><input type="submit" class="button" value="Submit"></td>
+</tr>
+</table>
+</form>
+  </div>
+</div>
+<script>
+{literal}
+function setCampaignName(obj)
+{
+    $('campaign_name').value = obj.options[obj.selectedIndex].text;
+}
+function check_f()
+{
+    var f = document.f_bug;
+    if (f.subject.value.length == 0) {
+        alert('Please input problem title');
+        f.subject.focus();
+        return false;
+    }
+    if (f.happened.value.length == 0) {
+        alert('Please decribe what happened');
+        f.happened.focus();
+        return false;
+    }
+    if (f.raw_happened.value.length == 0) {
+        alert('Please decribe what should have happened');
+        f.fact_happened.focus();
+        return false;
+    }
+    if (f.steps.value.length == 0) {
+        alert('Please decribe how can we reproduce the problem');
+        f.steps.focus();
+        return false;
+    }
+    if (f.browser.value.length == 0) {
+        alert('Please specify your browser');
+        f.browser.focus();
+        return false;
+    }
+    if (f.operating_system.value.length == 0) {
+        alert('Please specify your operating system');
+        f.operating_system.focus();
+        return false;
+    }
+    return true;
+}
+{/literal}
+</script>
+{include file="themes/$theme/footer.html"}

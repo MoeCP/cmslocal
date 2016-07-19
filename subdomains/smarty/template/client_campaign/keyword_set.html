@@ -1,0 +1,149 @@
+{include file="themes/$theme/header.html"}
+
+{if $feedback ne ''}
+<script language="JavaScript">
+<!--
+alert("{$feedback}");
+//-->
+</script>
+{/if}
+
+{literal}
+<script language="JavaScript">
+<!--
+function check_f_keyword()
+{
+  var f = document.f_keyword;
+
+  if (f.keyword.value.length == 0) {
+    alert('Please provides keyword');
+    f.keyword.focus();
+    return false;
+  }
+
+  if (f.date_start.value.length == 0) {
+    alert('Please enter start date of the campaign');
+    return false;
+  }
+  if (f.date_end.value.length == 0) {
+    alert('Please enter Due Date of the campaign');
+    return false;
+  }
+  if (f.article_type.value.length == 0) {
+    alert('Please provides article type');
+    f.article_type.focus();
+    return false;
+  }
+
+  return true;
+}
+tinyMCEInit('keyword_description');
+//-->
+</script>
+{/literal}
+<div id="page-box1">
+  <h2>Campaign Keyword Settings</h2>
+  <div id="campaign-search" >
+    <strong>Please enter the Client's campaign keyword information according to requirement.</strong>
+  </div>
+  <div class="form-item" >
+<br><table border="0" cellspacing="1" cellpadding="4" align="center" width="100%">
+  <form action="" method="post"  name="f_keyword" {if $js_check eq true} onsubmit="return check_f_keyword()"{/if}>
+  <input type="hidden" name="keyword_id" value="{$keyword_info.keyword_id}">
+  <tr>
+    <td class="bodyBold">Basic Information</td>
+    <td align="right" class="requiredHint">Required Information</td>
+  </tr>
+  <tr>
+    <td class="blackLine" colspan=2><img src="/image/misc/s.gif"></td>
+  </tr>
+  <tr>
+    <td class="dataLabel">Campaign Name</td>
+    <td>{$keyword_info.campaign_name}</td>
+  </tr>
+  <tr>
+    <td class="dataLabel">Client Name</td>
+    <td>{$keyword_info.user_name}</td>
+  </tr>
+  <tr>
+    <td class="dataLabel">Company Name</td>
+    <td>{$keyword_info.company_name}</td>
+  </tr>
+  <tr>
+    <td class="requiredInput">Campaign Keywords</td>
+    <td><input name="keyword" value="{$keyword_info.keyword}" id="keyword" size="80" /></td>
+  </tr>
+  <tr>
+    <td class="dataLabel">Mapping-ID</td>
+    <td><input name="mapping_id" value="{$keyword_info.mapping_id}" id="mapping_id" size="80" /></td>
+  </tr>
+  {foreach from=$fields item=item key=key}
+  <tr>
+    <td class="dataLabel">{$item.label}</td>
+    <td><input name="{$key}" value="{$keyword_info[$key]}" id="{$key}" size="80" /></td>
+  </tr>
+  {/foreach}
+  <tr>
+    <td class="requiredInput">Start Date</td>
+    <td><input type="text" name="date_start" id="date_start" size="10" maxlength="10" value="{$keyword_info.date_start}" readonly/>
+        <input type="button" class="button" id="btn_cal_date_start" value="...">
+        <script type="text/javascript">
+        Calendar.setup({ldelim}
+            inputField  : "date_start",
+            ifFormat    : "%Y-%m-%d",
+            showsTime   : false,
+            button      : "btn_cal_date_start",
+            singleClick : true,
+            step        : 1,
+            range       : [1990, 2030]
+        {rdelim});
+        </script></td>
+  </tr>
+  <tr>
+    <td class="requiredInput">Due Date</td>
+    <td><input type="text" name="date_end" id="date_end" size="10" maxlength="10" value="{$keyword_info.date_end}" readonly/>
+        <input type="button" class="button" id="btn_cal_date_end" value="...">
+        <script type="text/javascript">
+        Calendar.setup({ldelim}
+            inputField  : "date_end",
+            ifFormat    : "%Y-%m-%d",
+            showsTime   : false,
+            button      : "btn_cal_date_end",
+            singleClick : true,
+            step        : 1,
+            range       : [1990, 2030]
+        {rdelim});
+        </script></td>
+  </tr>
+  <tr><td class="dataLabel" >SCID</td><td><input name="subcid" id="subcid" value="{$keyword_info.subcid|default:0}" size="80"/></td></tr>
+  <tr>
+	<td class="requiredInput">Article Type</td>
+	<td>
+   {if $keyword_info.article_type == '' || $keyword_info.article_type == -1 || $keyword_info.copy_writer_id == 0}
+  <select name="article_type">{html_options options=$article_type selected=$keyword_info.article_type}</select>
+  {else}
+  {$article_type[$keyword_info.article_type]}
+  <input name="article_type" type="hidden" value="{$keyword_info.article_type}" />
+  {/if}
+  </td>
+  </tr>
+  <tr>
+    <td class="dataLabel">Keyword Instructions</td>
+    <td><textarea name="keyword_description" cols="60" rows="6" id="keyword_description">{$keyword_info.keyword_description}</textarea></td>
+  </tr>
+  {*<tr>
+    <td class="dataLabel">Article Category</td>
+    <td><input name="keyword_category" id="keyword_category" value="{$pref_info.pref_value}" size="80">&nbsp;<!-- <img src="/image/select.gif" alt="Select" title="Select" LANGUAGE=javascript onclick='return window.open("/client_campaign/select_pref.php?pref_table=campaign_keyword&pref_field=keyword_category","select_pref","width=600,height=400,resizable=1,scrollbars=1");' align="absmiddle" style='cursor:hand;cursor:pointer'> -->&nbsp;<input type="image" src="/image/clear_field.gif" alt="Clear" title="Clear" LANGUAGE=javascript onClick="this.form.keyword_category.value='';return false;" align="absmiddle" style='cursor:hand;cursor:pointer'></td>
+  </tr>*}
+  <tr>
+    <td class="blackLine" colspan="2"><img src="/image/misc/s.gif"></td>
+  </tr>
+  <tr>
+    <td>&nbsp;</td>
+    <td><input type="submit" value="Submit" class="button">&nbsp;<input type="reset" value="reset" class="button"></td>
+  </tr>
+  </form>
+</table>
+  </div>
+</div>
+{include file="themes/$theme/footer.html"}

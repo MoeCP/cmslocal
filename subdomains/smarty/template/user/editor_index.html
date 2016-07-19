@@ -1,0 +1,100 @@
+{include file="themes/$theme/header.html"}
+<script type="text/javascript" src="/js/nanjia/NanJia.js"></script>
+<script type="text/javascript" src="/js/nanjia/Ajax.js"></script>
+<script type="text/javascript" src="/js/nanjia/Array.js"></script>
+<script type="text/javascript" src="/js/nanjia/String.js"></script>
+<script type="text/javascript" src="/js/nanjia/Calendar.js"></script>
+<script type="text/javascript" src="/js/nanjia/Event.js"></script>
+<script type="text/javascript" src="/js/nanjia/File.js"></script>
+<script type="text/javascript" src="/js/calendar.js"></script>
+<link rel="stylesheet" type="text/css" href="/js/calendar.css">
+{literal}
+<style>
+    .graph { 
+        position: relative; /* IE is dumb */
+        width: 200px; 
+        border: 1px solid #B1D632; 
+        padding: 2px; 
+    }
+    .graph .bar { 
+        display: block;
+        position: relative;
+        background: #B1D632; 
+        text-align: center; 
+        color: #333; 
+        height: 2em; 
+        line-height: 2em;            
+    }
+    .graph .bar span { position: absolute; left: 1em; }
+</style>
+{/literal}
+
+{if $feedback ne ''}
+<script language="JavaScript">
+<!--
+alert('{$feedback}');
+//-->
+</script>
+{/if}
+<div class="tablepadding" >
+<div id="page-box1">
+  <h2>Editor Progress Report</h2>
+</div> 
+<div id="page-box2" >
+<table border="0" cellspacing="1" cellpadding="4" width="100%" >
+<tr valign="top" >
+  <td width="70%">
+  {include file="user/notification.html"}
+  </td>
+  <td width="25%" >
+    <h2>Payment Overview</h2>
+    <table border="0" cellspacing="1" cellpadding="4" align="left" width="99%" class="sortableTable" >
+    <tr class="odd" >
+      <td> Total Articles completed to date:</td>
+      <td>{$reports.total_completed}</td>
+    </tr>
+    <tr class="even" >
+      <td>Total current assignments: </td>
+      <td>{$reports.total_assigned|default:0}</td>
+    </tr>
+    <tr class="odd" >
+      <td>Total articles pending approval: </td>
+      <td>{$reports.total_pending|default:0}</td>
+    </tr>
+    <tr class="even" >
+      <td>Total client approved articles to date: </td>
+      <td>{$reports.total_client_approved_so_far|default:0}</td>
+    </tr>
+    <tr class="odd" >
+      <td colspan="2" ><a href="/client_campaign/client_approval_list.php?month={$showmonth}"><font color="red"><span class="total-text">Total client approved articles {$monthtitle}: {$reports.1gc_this_month|default:0}<span></font></a></td>
+    </tr>
+    </table>
+    <table border="0" cellspacing="0" cellpadding="0" align="center" width="99%" class="all-link-text" >
+      <tr><td align="right" >Click <a href="/client_campaign/client_approval_list.php?month={$showmonth}" >here</a> to view your pay summary</td></tr>
+    </table>
+  </td>
+</tr>
+<tr valign="top">
+  <td width="70%">
+  {*campaign overview part *}
+  {include file="user/campaign_overview.html"}
+  </td>
+  <td width="25%" >
+    <h2>Calendar</h2>
+    <div id="calendar_showdiv"></div>
+  </td>
+</tr>
+</table>
+</div>
+</div>
+{literal}
+<script type="text/javascript">
+function EventHandle() {
+    return new Content.Cal.Event();
+}
+date = new Date();
+ca = new NanJia.Calendar(EventHandle);
+ca.Current();
+</script>
+{/literal}
+{include file="themes/$theme/footer.html"}

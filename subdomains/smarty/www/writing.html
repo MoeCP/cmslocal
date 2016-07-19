@@ -1,0 +1,55 @@
+<div class="title-top-box" >Writing Background</div>
+<div class="form-item">
+  <div class="title-desc-box">
+  <strong>
+  Please provide us with your writing background. Simply select the type of writing and provide us with the link, book, magazine, company, etc .where you completed this work.  You can include more than one writing experience by selecting the add button. <br />
+  Please note: If you list online writing experience you MUST supply the link to the specific article under "source".  
+  </strong>
+  </div>
+<form action="" method="post"  name="f_candidate_w" >
+<input type="hidden" name="candidate_id" value="{$cid}"/>
+<input type="hidden" name="opt_index" value="3" />
+<br>
+<table border="0" cellspacing="1" cellpadding="4" align="center" width="100%">  
+  <tr>
+    <td class="bodyBold" colspan="2">Basic Information</td>
+    <td align="right"  colspan="3" class="requiredHint">Required Information</td>
+  </tr>
+  <tr>
+    <td class="blackLine" colspan="5"><img src="/image/misc/s.gif"></td>
+  </tr>
+  <tr>
+    <td colspan="5">
+    <table>
+  <tr>
+    <td><input type="button"  class="button" value="+" onclick="addRow('writingrow', {$totalwriting_background}, 'tr')" /></td>
+    <td align="left" >Writing Type</td>
+    <td align="left" >Source</td>
+  </tr>
+  {if $info.writing_background}
+  {foreach from=$info.writing_background.type item=item key=key}
+  <tr {if $key == 0}id="writingrow"{/if}>
+    <td>{if $key == 0}<span></span>{else}<input type="button"  class="button" value="-" onclick="jQuery(this).parent().parent().remove();" />{/if}</td>
+    <td><select name="writing_background[type][]">{html_options options=$writing_background selected=$item}</select></td>
+    <td><input type="text" name="writing_background[source][]" value="{$info.writing_background.source[$key]}" size="100" /></td>
+  </tr>
+  {/foreach}
+  {else}
+  <tr id="writingrow" >
+    <td><span></span></td>
+    <td><select name="writing_background[type][]">{html_options options=$writing_background}</select></td>
+    <td><input type="text" name="writing_background[source][]" value="" size="100" /></td>
+  </tr>
+  {/if}
+      </table>
+    </td>
+  </tr>
+  <tr>
+    <td class="blackLine" colspan="5"><img src="/image/misc/s.gif"></td>
+  </tr>
+  <tr>
+    <td colspan="4" >&nbsp;Having trouble submitting the form? Send email to hr@copypress.com&nbsp;&nbsp;<input type="button" value="Next" class="button" onclick="check_f_candidate_w()" /></td>
+  </tr>
+</table>
+</form>
+</div>

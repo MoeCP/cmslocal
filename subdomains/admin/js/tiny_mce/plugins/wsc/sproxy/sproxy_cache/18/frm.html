@@ -1,0 +1,80 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Frameset//EN" "http://www.w3.org/TR/html4/frameset.dtd">
+<!-- (c) <#product_copyright#>  All rights reserved.  <#product_website#> -->
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<title><#product_website#></title>
+	<script type="text/javascript">
+		//<!--
+		var cFlag = 0;
+		/*~var hide = '<#hide#>';*/
+	
+		//rss
+		if(/^\s*$/.test("<#relaxedDomain#>") == false){
+			document.domain = "<#relaxedDomain#>";
+		}
+		//~rss
+		if(opener && opener.windowTitle){
+			document.title = opener.windowTitle;
+		}
+	
+		function uHandler() {
+			if (isMSIE()){
+				if (frames.length == 5){
+					if (frames[4]){
+						if (frames[4].parentOpen){
+							opener.is_window_opened = false;
+						}
+					}
+				}
+			}
+			/*intended for endSpellCheck invoking (callback interface)*/
+			endSpellCheckCallbackInvoker('close',opener.WSC.getCtrlName(),null);
+			/*~intended for endSpellCheck invoking (callback interface)*/
+			
+			//unexpected closing window when doSpell button pressed twice
+			/*if(parent){
+				parent.close();
+			}*/
+		}
+		
+		function lHandler() {
+			opener.spellWin = window;
+		}
+	
+		function isUsrAgent(s) {
+			return navigator.userAgent.indexOf(s) != -1;
+		}
+	
+		function isMSIE() {
+			return navigator.appName == 'Microsoft Internet Explorer';
+		}
+	
+		/*intended for onEndSpellCheck invoking (callback interface)*/
+		var isAlreadyObey = false;
+		function endSpellCheckCallbackInvoker(sExitType,sCtrlId,sCheckedText){
+			if(isAlreadyObey === false){
+				switch(sExitType){
+					case "cancel":
+					case "close":
+					case "finish":
+						window.opener.WSC.endSpellCheckCallback(sExitType,sCtrlId,sCheckedText);
+					break;
+				}
+				isAlreadyObey = true;
+			}
+		}
+		
+		/*~intended for onEndSpellCheck invoking (callback interface)*/
+		//-->
+	</script>
+</head>
+<frameset rows="<#firstframeh#>,*,<#thirdframeh#>,0" frameborder="no" framespacing="0" border="0" onLoad="lHandler()" onUnload="uHandler()">
+	<frame title="navigation bar" name="navbar" src="<#docblank#>" marginwidth="2" marginheight="0" noresize scrolling="no" frameborder="no" framespacing="0" />	
+    <!--~<frame name="mid" src="<#sproxy_url#>?cmd=script&doc=wsc_core&name=blankform&hide=<#hide#>&relaxedDomain=<#relaxedDomain#>" marginwidth="0" marginheight="0" noresize="noresize" scrolling="auto" frameborder="no" framespacing="0" />-->
+
+	<frame title="text body" name="mid" src="<#sproxy_url#>?cmd=script&doc=wsc_core&name=blankform&relaxedDomain=<#relaxedDomain#>" marginwidth="0" marginheight="0" noresize="noresize" scrolling="auto" frameborder="no" framespacing="0" />    
+	<frame title="manage body" name="bot" src="<#docblank#>" marginwidth="1" marginheight="1" noresize="noresize" scrolling="auto" frameborder="no" framespacing="0" />
+	<frame title="bottom body" name="spellsuggestall" src="<#docblank#>" marginwidth="1" marginheight="1" noresize="noresize" scrolling="no" frameborder="no" framespacing="0" />
+</frameset>
+<noframes><body>Sorry, your browser does not support frames!</body></noframes>
+</html>

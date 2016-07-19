@@ -1,0 +1,71 @@
+{include file="themes/$theme/header.html"}
+
+{if $feedback ne ''}
+<script language="JavaScript">
+<!--
+alert('{$feedback}');
+//-->
+</script>
+{/if}
+
+
+<div name="google_approve_div" id="google_approve_div">
+<table id="table-1" cellspacing="0" align="center" class="sortableTable">
+  <thead>
+  <tr class="sortableTab">
+    <th class="table-left-corner">&nbsp;&nbsp;&nbsp;&nbsp;</th>
+    <td nowrap class="columnHeadInactiveBlack table-left-2">Number</td>
+    <td nowrap class="columnHeadInactiveBlack">Keyword</td>
+    <td nowrap class="columnHeadInactiveBlack">Article Number</td>
+    <td nowrap class="columnHeadInactiveBlack">Campaign Name</td>
+    <td nowrap class="columnHeadInactiveBlack">Article Type</td>
+    <td nowrap class="columnHeadInactiveBlack">Editor</td>
+    <td nowrap class="columnHeadInactiveBlack">Start Date </td>
+    <td nowrap class="columnHeadInactiveBlack">Due Date</td>
+    <td nowrap class="columnHeadInactiveBlack table-right-2">Word Count</td>
+    <th class="table-right-corner">&nbsp;&nbsp;&nbsp;</th>
+  </tr>
+  </thead>
+  <tbody>
+  {foreach from=$result item=item name="loop"}
+  <tr class="{if $smarty.foreach.loop.iteration % 2 eq 0}even{else}odd{/if}">
+    <td class="table-left" >&nbsp;</td>
+    <td class="table-left-2">{$smarty.foreach.loop.iteration}</td>
+    <td>{$item.keyword}</td>
+    <td>
+      {$item.article_number}
+    </td>
+    <td>{$item.campaign_name|truncate:20:"..."}</td>
+    <td>{$article_types[$item.at_parent_id]}</td>
+    <td>{$item.ue_name}</td>
+    <td>{$item.date_start|date_format:"%m-%d-%Y"}</td>
+    <td>{$item.date_end|date_format:"%m-%d-%Y"}</td>
+    <td class="table-right-2">{$item.total_words}</td>
+    <td class="table-right" >&nbsp;</td>
+  </tr>
+  {/foreach}
+  </tbody>
+</table>
+
+<script type="text/javascript">
+//<![CDATA[
+{literal}
+var st = new SortableTable(document.getElementById("table-1"),
+  ["Number", "CaseInsensitiveString", "CaseInsensitiveString", "CaseInsensitiveString", "CaseInsensitiveString", "CaseInsensitiveString", "Date", "Date"]);
+
+st.onsort = function () {
+  var rows = st.tBody.rows;
+  var l = rows.length;
+  for (var i = 0; i < l; i++) {
+    removeClassName(rows[i], i % 2 ? "odd" : "even");
+    addClassName(rows[i], i % 2 ? "even" : "odd");
+  }
+};
+
+st.asyncSort(1);
+{/literal}
+//]]>
+</script>
+</div>
+
+{include file="themes/$theme/footer.html"}

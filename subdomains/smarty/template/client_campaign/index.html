@@ -1,0 +1,135 @@
+{include file="themes/$theme/header.html"}
+{if $feedback ne ''}
+<script language="JavaScript">
+<!--
+alert('{$feedback}');
+//-->
+</script>
+{/if}
+{*<div id="page-box1">
+  <table width="100%"  cellspacing="1" cellpadding="4"><tr><td align="left">
+  <h2>Campaign Progress Report</h2></td><td align="right"><ul id="campaign-nav">{if $agency_id }{else}<li><input type="button" onclick="window.location.href='/client_campaign/order_campaign_set.php';" value="Order New Campaign" class="button" /></li>{/if}</ul><span>{$smarty.now|date_format:"%A, %B %e, %Y"}</span></td></tr>
+  </table>
+</div>*}
+<table align="center" width="100%" >
+  <tr><td>
+    <table border="0" cellspacing="0" cellpadding="0" class="homeTable" >
+    <h2 class="clienthometitle" >Campaign Overview</h2>{*<td  class="title"  align="right" >{if $agency_id }{else}<input type="button" onclick="window.location.href='/client_campaign/order_campaign_set.php';" value="Order New Campaign" class="button" />{/if}</td><td class="title"></td>*}</tr>
+    <tr class="sortableTab" >
+      <th nowrap class="table-left-2">Campaign Name</th>
+      <th>Progress</th>
+      <th nowrap>Project Manager</th>
+      <th nowrap >Start Date</th>
+      <th nowrap>Due Date</th>
+      <th class="table-right-2">Action</th>
+    </tr>
+    {foreach from=$reports.report item=item name="loop"}
+    <tr  class="odd" >
+      <td class="table-left-2"  >{$item.campaign_name}</td>
+      <td >
+      <div class="clear" >
+      <div>
+      <a {if $item.is_pop_style_guide eq 1}onclick="javascript:show({$item.campaign_id})"{/if}href="/article/{if $item.total_article_approved}pending_article_list.php{else}article_keyword_list.php{/if}?campaign_id={$item.campaign_id}">
+        <div class="graph" valign="center">
+            <strong class="bar"style='width: {$item.percent|string_format:"%.2f"}%;'>{$item.percent|string_format:"%.2f"}%</strong>
+        </div>
+      </a>
+      </div>
+      <div class="floatleft" >
+       &nbsp;&nbsp;
+       {*<input type="button" onclick="openWindow('/article/download_latest_articles.php?campaign_id={$item.campaign_id}', 'height=300,width=500,status=no,toolbar=no,menubar=no,location=no,resizable=yes,scrollbars=yes');" value="Download Latest Articles" class="button" />*}
+       
+       </div>
+       </div>
+      </td>
+      <td  ><a href="mailto:{$user_info.email}">{$user_info.email}</a></td>
+      <td  >{$item.date_start}</td>
+      <td  >{$item.date_end}</td>
+      <td nowrap class="table-right-2" >{if $item.percent > 0}<input type="button" onclick="window.location.href='/article/download_article_list.php?campaign_id={$item.campaign_id}'" value="Download Latest Articles" class="button" />{/if}&nbsp{*<input type="button" onclick="openWindow('/client_campaign/campaign_style_guide.php?campaign_id={$item.campaign_id}', 'height=500,width=600,status=no,toolbar=no,menubar=no,location=no,resizable=yes,scrollbars=yes');" value="Style Guide" class="button" />*}</td>
+    </tr>
+    {/foreach}
+    </table><br />
+    <div class="pagingpaddingleft" ></div>
+  </td></tr>
+{if $articles}
+<tr>
+  <td>
+<table id="table-1" cellspacing="0" cellpadding="0"  class="homeTable" >
+  <h2 class="clienthometitle" >Articles Awaiting Approval</h2>
+  <tr class="sortableTab">
+    <td nowrap class="columnHeadInactiveBlack table-left-2">No.</td>
+    <td nowrap class="columnHeadInactiveBlack">Keyword</td>
+    <td nowrap class="columnHeadInactiveBlack">Campaign Name</td>
+    {if $login_role neq 'client'}
+    <td nowrap class="columnHeadInactiveBlack">Copywriter</td>
+    <td nowrap class="columnHeadInactiveBlack">Editor</td>
+    {/if}
+    <td nowrap class="columnHeadInactiveBlack">Start Date</td>
+    <td nowrap class="columnHeadInactiveBlack">Due Date</td>
+    <td nowrap class="columnHeadInactiveBlack">Article Number</td>
+    <td nowrap class="columnHeadInactiveBlack">Status</td>
+    <td nowrap class="columnHeadInactiveBlack">Noflow Status</td>	
+    <td nowrap class="columnHeadInactiveBlack table-right-2">Action</td>
+  </tr>
+  {foreach from=$articles item=item name="loop"}
+  <tr class="{if $smarty.foreach.loop.iteration % 2 eq 0}even{else}odd{/if}">
+    <input type="hidden" name="article_id[]" id="article_id_{$smarty.foreach.loop.iteration}" value="{$item.article_id}" />
+	{*<td class="table-left-2"><input type="checkbox" name="isUpdate[]" id="isUpdate_{$smarty.foreach.loop.iteration}" value="{$smarty.foreach.loop.iteration}" onclick="javascript:checkItem('Select_All', f_common, event)" /></td>*}
+    <td class="table-left-2">{$smarty.foreach.loop.iteration}</td>
+    <td><a href="javascript:void(0)" onclick="showArticleDialog('{$item.article_id}', '{$item.keyword_id}', '{$campaign_id}')" >{$item.keyword}</a></td>
+    {*<td  align="center"><a title="{$item.campaign_name}" href="#" >{$item.campaign_name|truncate:20:"..."}</a></td>*}
+    <td>{$item.campaign_name}</td>
+    {if $login_role neq 'client'}
+    <td>{$item.copywriter}</td>
+    <td>{$item.editor}</td>
+    {/if}
+    <td >{$item.date_start|date_format:"%m-%d-%Y"}</td>
+    <td >{$item.date_end|date_format:"%m-%d-%Y"}</td>
+    <td >{$item.article_number}</td>
+	<td>{$article_status[$item.article_status]}</td>
+	<td>{$noflow_status[$item.noflow_status]}</td>	
+    <td  nowrap class="table-right-2">
+	    <input type="button" class="button" value="Review Article" onclick="javasript:window.location='/article/approve_article.php?keyword_id={$item.keyword_id}&article_id={$item.article_id}&campaign_id={$campaign_id}&fmp=home';" />
+    </td>
+  </tr>
+  {/foreach}
+  <tr>
+  <td  width="100%" class="contentLabel table-right-2 table-left-2 tdAlignLeft" colspan="7" >{if $articles}If you would like more information, please click <a href="/article/pending_article_list.php">here</a>{else}No Result{/if}</td>
+  </tr>
+</table>
+  </td>
+</tr>
+{/if}
+ {* <tr><td>
+    <table border="0" cellspacing="0" cellpadding="0" align="center" width="100%" class="homeTable" >
+    <tr class="sortableTab" >
+      <th height="25" align="left" class="table-right-2 table-left-2" colspan="2" >Overview</th>
+    </tr>
+    <tr class="odd" >
+    <td class="table-left" >&nbsp;</td>
+    <td class="table-left-2 table-right-2">
+    {if $reports.report}
+    {foreach from=$reports.report item=item name="loop"}
+    {$item.campaign_name}: {$item.total_article_download} of articles in ready for download<br />
+    {/foreach}
+    <br />
+    {/if}
+    Total articles completed to date: {$reports.total_article_deliverd|default:0}<br />
+    Total completed articles this month:{$reports.total_month} <br />
+    {$client_info.user_name} Articles working on: {$reports.total_keyword}&nbsp;&nbsp;
+    </td>
+    <td class="table-left-2 table-right-2 81px" nowrap>
+      <div class="progresstitle" >Total Campaign Progress</div>
+       <div>
+      <div class="progressgraph" ><a href="/article/pending_article_list.php"><div class="graph"><strong class="bar" style='color:#FFFFFF;width: {$reports.percent|string_format:"%.2f"}%;'>{$reports.percent|string_format:"%.2f"}%</strong></div></a></div>
+     </div>
+    </td>
+    </tr>
+    </table>
+      <div class="pagingpaddingleft" >
+      
+      </div>
+  </td></tr>*}
+ 
+</table>
+{include file="themes/$theme/footer.html"}

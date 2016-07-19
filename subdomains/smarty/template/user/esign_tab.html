@@ -1,0 +1,105 @@
+<div class="page-box1-class">
+<h2>E-Sign Information Detail</h2>
+</div>
+<table border="0" cellspacing="1" cellpadding="4" align="center" width="100%">
+  <tr>
+    <td class="moduleTitle" colspan="2"></td>
+  </tr>
+  <tr>
+    <td class="blackLine" colspan="15"><img src="/image/misc/s.gif"></td>
+  </tr>
+  {foreach from=$egroups  item=esigngroup name="egloop" }
+  <tr class="{if $smarty.foreach.egloop.iteration % 2 eq 0}even{else}odd{/if}">
+    <td class="requiredInput">Email</td>
+    <td>{$esigngroup.email}</td>
+    <td class="requiredInput">Title</td>
+    <td>{$esigngroup.title}</td>
+    <td class="requiredInput">Created</td>
+    <td>{$esigngroup.created|date_format:"%D %H:%M:%S"}</td>
+  </tr>
+  <tr>
+    <td class="requiredInput">Message</td>
+    <td colspan="5" >{if $esigngroup.message==''}n/a{else}{$esigngroup.message|nl2br}{/if}</td>
+  </tr>
+  {if $esigngroup.sub}
+  <tr>
+    <td class="requiredInput" style="text-align:left" colspan="10">E-Sign Documents</td>
+  </tr>
+  <tr>
+    <td colspan="10" >
+    {foreach from=$esigngroup.sub item=esign name="eloop"}
+    <table border="0" cellspacing="1" cellpadding="4" align="center" width="90%">
+      <tr>
+        {*<td class="dataLabel">Document Key:</td>
+        <td>{$esign.doc_key}</td>
+        <td class="dataLabel">Lastest Document Key:</td>
+        <td>{if $esign.latest_doc_key == ''}{$esign.doc_key}{else}{$esign.latest_doc_key}{/if}</td>
+        *}<td class="dataLabel">Title:</td>
+        <td>{$esign.title}</td>
+        <td colspan="6" >
+        {if $esign.estatus > 4 &&  $esign.filename != ''}
+         Signed Document:&nbsp;<a href="/user/download.php?user_id={$esigngroup.user_id}&f={$esign.filename}" >{$esign.filename}</a>
+        {/if}
+        </td>
+      </tr>
+      <tr>
+        <td class="dataLabel">Sent Date:</td>
+        <td>{$esign.sent|date_format:"%D %H:%M:%S"}</td>
+        <td class="dataLabel">Signed Date:</td>
+        <td>{if $esign.signed !=''}{$esign.signed|date_format:"%D %H:%M:%S"}{else}n/a{/if}</td>
+        <td class="dataLabel">E-Sign Status:</td>
+        <td>{$estatuses[$esign.estatus]}</td>
+      </tr>
+      {*<tr>
+        <td class="dataLabel">Sent Documents:</td>
+        <td colspan="4" >
+            {foreach from=$esign.docs item=doc }
+            Document key:{$doc.documentkey}; Name: {$doc.name}<br />
+           {/foreach}
+        </td>
+        <td>
+        {if $esign.estatus > 4 &&  $esign.filename != ''}
+         Download:<a href="/user/download.php?user_id={$esigngroup.user_id}&f={$esign.filename}" >{$esign.filename}</a>
+        {/if}
+        </td>
+      </tr>*}
+      {if $esign.sub}
+      <tr>
+        <td class="dataLabel">E-Sign Details:</td>
+        <td colspan="20" >
+          <table cellspacing="0" align="left" cellpadding="0" class="sortableTable">
+            <tr>
+              <th class="table-left-corner">&nbsp;&nbsp;&nbsp;&nbsp;</th>
+              <th class="table-left-2" >E-Sign Status</th>
+              <th>Date</th>
+              <th class="table-right-2" >Description</th>
+              {*<th>DocumentVersionKey</th>*}
+              <th class="table-right-corner">&nbsp;&nbsp;&nbsp;&nbsp;</th>
+            </tr>
+          {foreach from=$esign.sub item=log name="logloop"}
+          <tr class="{if $smarty.foreach.logloop.iteration % 2 eq 0}odd{else}even{/if}">
+            <th class="table-left">&nbsp;&nbsp;&nbsp;&nbsp;</th>
+            <td class="table-left-2">{$estatuses[$log.estatus]}</td>
+            <td>{$log.created|date_format:"%D %H:%M:%S"}</td>
+            <td class="table-right-2">{$log.description}</td>
+            <th class="table-right">&nbsp;&nbsp;&nbsp;&nbsp;</th>
+            {*<td>{$log.documentVersionKey}</td>*}
+          </tr>
+          {/foreach}
+          </table>
+        </td>
+      </tr>
+      {/if}
+      <tr>
+        <td class="blackLine" colspan="10"><img src="/image/misc/s.gif"></td>
+      </tr>
+      </table>
+    {/foreach}
+    </td>
+   </tr>
+   {/if}
+  <tr>
+    <td class="blackLine" colspan="15"><img src="/image/misc/s.gif"></td>
+  </tr>
+  {/foreach}
+</table>

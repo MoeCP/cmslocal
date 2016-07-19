@@ -1,0 +1,204 @@
+{include file="themes/$theme/header.html"}
+{if $feedback ne ''}
+<script language="JavaScript">
+<!--
+alert('{$feedback}');
+//-->
+</script>
+{/if}
+<div id="page-box1">
+  <h2>User List&nbsp;&nbsp;&nbsp;&nbsp;{if $user_permission_int > 4}<input type="button" class="button" value="Add User" onclick="javasript:window.location='/user/user_add.php';" />{/if}</h2>
+  <div id="campaign-search" >
+    <strong>You can enter the "user name","first name","last name","role" etc. into the keyword input to search the relevant user's information</strong>
+    <div id="campaign-search-box" >
+<form name="f_assign_keyword_return" id="f_assign_keyword_return" action="/user/list.php" method="get">
+  <input type="hidden" name="get_operation" value="search" />
+<table border="0" cellspacing="1" cellpadding="4">
+  <tr>
+    <td   nowrap>User Keyword</td>
+    <td><input type="text" name="keyword" id="search_keyword"></td>
+    <td   nowrap>Role</td>
+    <td><select name="role"><option value="">[show all]</option>{html_options options=$user_roles selected=$smarty.get.role}</select></td>
+    {* modified by LSF 2007-11-2 *}
+    <td   nowrap>User Status:</td>
+    <td><select name="status">{html_options options=$total_status selected=$smarty.get.status}</select></td>
+    {*END*}
+    <td   nowrap>Pay Level</td>
+    <td><select name="pay_level"><option value="">[show all]</option>{html_options values=$pay_levels output=$pay_levels selected=$smarty.get.pay_level}</select></td>
+    <td   nowrap>Show:</td>
+    <td><select name="perPage" onchange="this.form.submit();">{html_options options=$g_pager_perPage selected=$smarty.get.perPage}</select> row(s)</td>
+    <td><input type="image" src="/images/button-search.gif" value="submit" onclick="$('f_assign_keyword_return').action='/user/list.php';" />&nbsp;<input type="submit" value="Export CSV" class="moduleButton" onclick="$('f_assign_keyword_return').action='/user/export_list.php';" /></td>
+    <td nowrap>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+    <td width="20%">&nbsp;</td>
+  </tr>
+</table><br>
+</form>
+    </div>
+  </div>
+</div>
+<div class="tablepadding"> 
+<table id="table-1" cellspacing="0" align="center" cellpadding="0" class="sortableTable">
+  <form action="/user/list.php" name="users_list" method="post" />
+  <input type="hidden" name="user_id" />
+  <input type="hidden" name="frequency" />
+  <input type="hidden" name="form_refresh" value="N" />
+  <input type="hidden" name="operation" value="delete" />
+  <thead>
+  <tr class="sortableTab">
+    <th class="table-left-corner">&nbsp;&nbsp;&nbsp;&nbsp;</th>
+    <td nowrap class="columnHeadInactiveBlack table-left-2">Number</td>
+    <td nowrap class="columnHeadInactiveBlack">User Name</td>
+    <td nowrap class="columnHeadInactiveBlack">Pay Level</td>
+    {if $login_role eq 'admin'}
+    <td nowrap class="columnHeadInactiveBlack">Password</td>
+    <td nowrap class="columnHeadInactiveBlack">User ID</td>
+    {/if}
+    <td nowrap class="columnHeadInactiveBlack">First Name</td>
+    <td nowrap class="columnHeadInactiveBlack">Last Name</td>
+    <td nowrap class="columnHeadInactiveBlack">Sex</td>
+    <td nowrap class="columnHeadInactiveBlack">Email</td>
+    <td nowrap class="columnHeadInactiveBlack">Status</td>
+    <td nowrap class="columnHeadInactiveBlack">First Language</td>
+    <td nowrap class="columnHeadInactiveBlack">Payment Preference</td>
+    <td nowrap class="columnHeadInactiveBlack">Role</td>
+    <td nowrap class="columnHeadInactiveBlack">Points Month/Total</td>
+    <td nowrap class="columnHeadInactiveBlack">Total Client Rejected</td>
+    {if $current_user_id==3 || $login_role eq 'admin'}
+    <td nowrap class="columnHeadInactiveBlack">Auditing Frequency</td>
+    {/if}
+    <td nowrap class="columnHeadInactiveBlack table-right-2">&nbsp;</td>
+    <th class="table-right-corner">&nbsp;&nbsp;&nbsp;&nbsp;</th>
+  </tr>
+  </thead>
+  {foreach from=$result item=item name="loop"}
+  <tr class="{if $smarty.foreach.loop.iteration % 2 eq 0}even{else}odd{/if}">
+        <td class="table-left" >&nbsp;</td>
+    {eval var= $startNo+$smarty.foreach.loop.iteration assign='rowNumber'}
+    <td class="table-left-2">{$rowNumber}</td>
+    <td nowrap>
+    {if $user_permission_int > 4}
+    <a href="javascript:void(0)" onclick="showUserDialog({$item.user_id})" class="js-cp-box-user" data-name="{$item.user_name}" data-id="user{$item.user_id}">{$item.user_name}</a>
+    {else}
+    {$item.user_name}
+    {/if}
+    </td>
+    <td>{if $item.pay_level > 0}{$item.pay_level}{else}n/a{/if}</td>
+    {if $login_role eq 'admin'}
+    <td>{$item.user_pw}</td>
+    <td>{$item.user_id}</td>
+    {/if}
+    <td>{$item.first_name}</td>
+    <td>{$item.last_name}</td>
+    <td>{$item.sex}</td>
+    <td>{$item.email}</td>
+    <td>
+      {if $item.status eq A }
+        <label style="color:red" >{$total_status.A}<label>
+      {elseif $item.status eq D}
+        {$total_status.D}
+      {/if}
+     </td>
+     <td>{$item.first_language}</td>
+     <td>{$item.pay_pref}</td>
+    <td>{$item.role}{if $item.user_type eq '-1' && $item.role eq 'admin'}<label style="color:red;">(Limited)</label>{/if}</td>
+    <td>{if $item.permission == 1 ||  $item.permission == 3}{$stats[$item.user_id]|default:0}{else}n/a{/if}</td>
+    <td>{if $item.permission == 1 ||  $item.permission == 3}{$item.total_rejected}{else}n/a{/if}</td>
+    {if $current_user_id==3 || $login_role eq 'admin'}
+    <td>
+     {if $item.role eq 'editor' || ($item.user_id!=3&&$item.role eq 'project manager')}
+	<select name="auditing_frequency" onchange="return setAuditingFrequency( this,'{$item.user_id}' ,  'set_frequency')">{html_options options=$auditing_frequency selected=$item.auditing_frequency}</select>
+     {else}
+	n/a
+     {/if}
+     </td>
+    {/if}
+    <td align="right" nowrap class="table-right-2">
+    {if $user_permission_int == 5}
+    {*let all copywriter create vendor*}
+    {*{if $item.w9_status eq 1 && $item.country == 'United States of America' && (($item.pay_pref eq 1 || $item.pay_pref eq 2) && $pay_plugin  == 'NetSuit' || $pay_plugin  == 'QuickBook')}
+      <input type="button" class="button" value="{if $item.vendor_id == 0}Create Vendor{else}Update Vendor{/if} " onclick="javasript:window.location='/user/netsuite.php?user_id={$item.user_id}'" />
+    {/if}*}
+    {if ($item.permission == 1 || $item.permission == 3) && ($pay_plugin  == 'QuickBook' || $pay_plugin  == 'NetSuit')}
+      {if $pay_plugin  == 'NetSuit'}
+      <input type="button" class="button" value="{if $item.vendor_id == 0}Create Vendor{else}Update Vendor{/if} " onclick="javasript:window.location='/user/netsuite.php?user_id={$item.user_id}'" />
+      {else if $pay_plugin == 'QuickBook'}
+      <input type="button" class="button" value="{if $item.qb_vendor_id == 0}Create Vendor{else}Update Vendor{/if} " onclick="javasript:window.location='/user/qb_vendor.php?user_id={$item.user_id}'" />
+      {/if}
+    {/if}
+    <input type="button" class="button" value="Esign Send" onclick="javasript:window.location='/user/esign.php?user_id={$item.user_id}'" />
+    {/if}
+    {if  $item.permission == 1 || $item.permission == 3}
+    <input type="button" class="button" value="Add Note" onclick="showNoteDialog({$item.user_id})" />
+    <input type="button" class="button" value="Notes" onclick="javasript:window.location='/user/notes.php?user_id={$item.user_id}'" />
+    {/if}
+     <input type="button" class="button" value="Profile" onclick="javasript:window.location='/user/user_detail.php?user_id={$item.user_id}';" />
+    {if $user_permission_int !=4}
+    <input type="submit" class="button" value="Send Account Info" onclick="return sendEmail('users_list', 'user_id', '{$item.user_id}', 'operation', 'send_account_info')" />
+     <input type="button" class="button" value="Update" onclick="javasript:window.location='/user/user_set.php?user_id={$item.user_id}';" />
+     <input type="submit" class="button" value="{if $item.status eq A}Disable{else}Enable{/if}" onclick="return changeUserStatus('users_list', 'user_id', '{$item.user_id}', {if $item.status eq A}'D'{else}'A'{/if}, {if $item.status eq A}'delete'{else}'active'{/if}, 'This User')" />
+     {/if}
+     </td>
+    <td class="table-right" >&nbsp;</td>
+  </tr>
+  {/foreach}
+  </form>
+</table>
+<div class="pagingpaddingleft" >
+  <table align="center" width="100%" border="0" cellspacing="0" cellpadding="0" >
+    <tr><td class="table-left table-paging-left" width="20" height="37" >&nbsp;</td><td class="table-bottom">{$pager} (Total Page:{$total})(Total Count:{$count})</td><td class="table-right table-paging-right" width="21">&nbsp;</td></tr>
+  </table>
+</div>
+</div>
+<script type="text/javascript">
+//<![CDATA[
+var st = new SortableTable(document.getElementById("table-1"),
+  ["None", "Number", "CaseInsensitiveString", {if $login_role eq 'admin'}"CaseInsensitiveString",{/if} "CaseInsensitiveString", "CaseInsensitiveString", "CaseInsensitiveString", "CaseInsensitiveString", "CaseInsensitiveString", "CaseInsensitiveString", "None"]);
+
+{literal}
+st.onsort = function () {
+  var rows = st.tBody.rows;
+  var l = rows.length;
+  for (var i = 0; i < l; i++) {
+    removeClassName(rows[i], i % 2 ? "odd" : "even");
+    addClassName(rows[i], i % 2 ? "even" : "odd");
+  }
+};
+
+st.asyncSort(0);
+function setAuditingFrequency( o, user_id, operation )
+{
+	var f = document.users_list;
+	f.operation.value = operation;
+	f.frequency.value = o.options[o.selectedIndex].value;
+	f.user_id.value =user_id;
+	f.submit();
+}
+function showUserDialog(user_id) {
+  var url = '/user/ajax_user_set.php?user_id=' + user_id;
+  showWindowDialog(url, 600, 500, "Edit User Info.");
+}
+
+function showNoteDialog(user_id) {
+  var url = '/user/ajax_note_add.php?user_id=' + user_id;
+  showWindowDialog(url, 500, 500, "Add User Note");
+}
+
+{/literal}
+//]]>
+</script>
+
+{if $loggedin_user_name eq 'admin' || $loggedin_user_name eq 'mmcglothan'}
+<script type="text/javascript" src="/js/agora/jquery-1.9.1.js"></script>
+<script type="text/javascript" >  
+jQuery.noConflict();  
+</script>
+<script src="/js/agora/chatbox.js"
+    data-app-id="49A7332C-96F1-45C9-A3DA-7E78F2848ECD"
+    data-access-token=""
+    data-image-url="//content.copypress.com/images/bgcornerb.png"
+    data-user-id="user{$smarty.session.user_id}" data-user-name="{$loggedin_user_name}"></script>
+</script>
+
+{/if}
+
+{include file="themes/$theme/footer.html"}

@@ -1,0 +1,10 @@
+{if $feedback ne ''}
+<script language="JavaScript">
+alert("{$feedback}");
+</script>
+{/if}
+{$adodb_log}
+<script language="JavaScript">
+$('spanArticleType').update('{$spanstr}');
+$('article_type').update('{html_options options=$types|escape:"quotes"}');
+</script>

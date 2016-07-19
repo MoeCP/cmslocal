@@ -1,0 +1,108 @@
+{include file="themes/$theme/header.html"}
+
+{if $feedback ne ''}
+<script language="JavaScript">
+<!--
+alert('{$feedback}');
+//-->
+</script>
+{/if}
+<div id="page-box1">
+  <h2>User Access Report</h2>
+  <div id="campaign-search" >
+    <strong>Search user's login information by role</strong>
+    <div id="campaign-search-box" >
+  <form name="f_assign_keyword_return" action="/user/user_last_login_list.php" method="get">
+  <table border="0" cellspacing="1" cellpadding="4">
+  <tr>
+    <td  nowrap>Role</td>
+    <td><select name="role"><option value="">[show all]</option>{html_options options=$user_roles selected=$smarty.get.role}</select></td>
+    <td  nowrap>Show:</td>
+    <td><select name="perPage" onchange="this.form.submit();">{html_options options=$g_pager_perPage selected=$smarty.get.perPage}</select> row(s)</td>
+    <td><input type="image" src="/images/button-search.gif" value="submit" /></td>
+    <td nowrap>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+    <td width="20%">&nbsp;</td>
+  </tr>
+  </table>
+  </form>   
+    </div>
+  </div>
+</div>
+<div class="tablepadding"> 
+<table id="table-1" cellspacing="0" align="center" cellpadding="0" class="sortableTable">
+  <thead>
+  <tr class="sortableTab">
+    <th class="table-left-corner">&nbsp;&nbsp;&nbsp;&nbsp;</th>
+    <td nowrap class="columnHeadInactiveBlack table-left-2">Number</td>
+    <td nowrap class="columnHeadInactiveBlack">User Name</td>
+    {if $login_role eq 'admin'}
+    <td nowrap class="columnHeadInactiveBlack">Password</td>
+    {/if}
+    <td nowrap class="columnHeadInactiveBlack">First Name</td>
+    <td nowrap class="columnHeadInactiveBlack">Last Name</td>
+    <td nowrap class="columnHeadInactiveBlack">Sex</td>
+    <td nowrap class="columnHeadInactiveBlack">Email</td>
+    <td nowrap class="columnHeadInactiveBlack">Status</td>
+    <td nowrap class="columnHeadInactiveBlack">Role</td>
+    <td nowrap class="columnHeadInactiveBlack table-right-2">Last Login Time</td>
+    <th class="table-right-corner">&nbsp;&nbsp;&nbsp;&nbsp;</th>
+  </tr>
+  </thead>
+  {foreach from=$result item=item name="loop"}
+  <tr class="{if $smarty.foreach.loop.iteration % 2 eq 0}even{else}odd{/if}">
+    <td class="table-left" >&nbsp;</td>
+    <td class="table-left-2">{$smarty.foreach.loop.iteration}</td>
+    <td><a href="javascript:openWindow('/user/user_detail_info.php?user_id={$item.user_id}', 'newwindow', 'height=300,width=280,status=no,toolbar=no,menubar=no,location=no,resizable=yes,scrollbars=yes');">{$item.user_name}</a></td>
+
+    {if $login_role eq 'admin'}
+    <td>{$item.user_pw}</td>
+    {/if}
+
+    <td>{$item.first_name}</td>
+    <td>{$item.last_name}</td>
+    <td>{$item.sex}</td>
+    <td>{$item.email}</td>
+    <td>{$item.status}</td>
+    <td>{$item.role}</td>
+    <td nowrap class="table-right-2">
+    {if $item.time!=NULL}<font color="red">{$item.time|date_format:"%D %H:%M:%S"}</font>
+    {else}
+	<form action="/user/user_last_login_list.php" method="post" name="form_{$item.user_id}" >
+    	<input name="button" type="submit" value="send welcome email">
+    	<input name="user_id" type="hidden" value="{$item.user_id}">
+    	<input name="operation" type="hidden" value="welcome_email">
+	</form>
+    {/if}
+    </td>
+    <td class="table-right" >&nbsp;</td>
+  </tr>
+  {/foreach}
+  </form>
+</table>
+<div class="pagingpaddingleft" >
+  <table align="center" width="100%" border="0" cellspacing="0" cellpadding="0" >
+    <tr><td class="table-left table-paging-left" width="20" height="37" >&nbsp;</td><td class="table-bottom">{$pager} (Total Page:{$total})(Total Count:{$count})</td><td class="table-right table-paging-right" width="21">&nbsp;</td></tr>
+  </table>
+</div>
+</div>
+<script type="text/javascript">
+//<![CDATA[
+var st = new SortableTable(document.getElementById("table-1"),
+  ["None", "Number", "CaseInsensitiveString", {if $login_role eq 'admin'}"CaseInsensitiveString",{/if} "CaseInsensitiveString", "CaseInsensitiveString", "CaseInsensitiveString", "CaseInsensitiveString", "CaseInsensitiveString", "CaseInsensitiveString", "None"]);
+
+{literal}
+st.onsort = function () {
+  var rows = st.tBody.rows;
+  var l = rows.length;
+  for (var i = 0; i < l; i++) {
+    removeClassName(rows[i], i % 2 ? "odd" : "even");
+    addClassName(rows[i], i % 2 ? "even" : "odd");
+  }
+};
+
+st.asyncSort(0);
+{/literal}
+//]]>
+</script>
+
+{include file="themes/$theme/footer.html"}

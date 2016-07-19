@@ -1,0 +1,100 @@
+{include file="themes/$theme/header.html"}
+<script type="text/javascript" src="/js/jquery-1.6.1.min.js"></script>
+<script type="text/javascript" src="/js/jquery.imgareaselect-0.3.min.js"></script>
+{if $feedback ne ''}
+<script language="JavaScript">
+<!--
+alert("{$feedback}");
+//-->
+</script>
+{/if}
+{if $large_photo_exists neq '' }
+<script language="JavaScript">
+jQuery.noConflict(); 
+var large_img_width = {$large_img_width};
+var large_img_height = {$large_img_height};
+var thumb_width = {$thumb_width};
+var thumb_height = {$thumb_height};
+<!--
+{literal}
+function preview(img, selection) { 
+	var scaleX = thumb_width / selection.width; 
+	var scaleY = thumb_height / selection.height; 
+	
+	jQuery('#thumbnail + div > img').css({ 
+		width: Math.round(scaleX * large_img_width) + 'px', 
+		height: Math.round(scaleY * large_img_height) + 'px',
+		marginLeft: '-' + Math.round(scaleX * selection.x1) + 'px', 
+		marginTop: '-' + Math.round(scaleY * selection.y1) + 'px' 
+	});
+	jQuery('#x1').val(selection.x1);
+	jQuery('#y1').val(selection.y1);
+	jQuery('#x2').val(selection.x2);
+	jQuery('#y2').val(selection.y2);
+	jQuery('#w').val(selection.width);
+	jQuery('#h').val(selection.height);
+} 
+
+jQuery(document).ready(function () { 
+	jQuery('#save_thumb').click(function() {
+		var x1 = jQuery('#x1').val();
+		var y1 = jQuery('#y1').val();
+		var x2 = jQuery('#x2').val();
+		var y2 = jQuery('#y2').val();
+		var w = jQuery('#w').val();
+		var h = jQuery('#h').val();
+		if(x1=="" || y1=="" || x2=="" || y2=="" || w=="" || h==""){
+			alert("You must make a selection first");
+			return false;
+		}else{
+			return true;
+		}
+	});
+}); 
+
+jQuery(window).load(function () { 
+	jQuery('#thumbnail').imgAreaSelect({ aspectRatio: '1:1', onSelectChange: preview }); 
+});
+{/literal}
+//-->
+</script>
+{/if}
+<div id="page-box1">
+  <h2>Photo Upload and Crop</h2>
+  {if $large_photo_exists neq '' && $thumb_photo_exists neq ''}
+  <div class="form-item" >
+   {$large_photo_exists}&nbsp;{$thumb_photo_exists}
+   <p><a href="/user/profile_photo.php?a=delete&user_id={$user_id}">Delete Images</a></p>
+   </div>
+  {else}
+  <div id="campaign-search" >
+    <strong>Upload New Photo</strong>
+  </div>
+  <div class="form-item" >
+  <form name="photo" enctype="multipart/form-data" action="{$post_url}" method="post">
+    <input type="hidden" name="user_id" value="{$user_id}" /> 
+    <input type="file" name="image" size="30" /> <input type="submit" class="button" name="upload" value="Upload" />
+  </div>
+  {if $large_photo_exists}
+  <div class="blackLine">&nbsp;</div>
+  <div class="form-item" >
+    <img src="/user/img_profile.php?g={$resized_filename}" style="float: left; margin-right: 10px;" id="thumbnail" alt="Create Thumbnail" />
+    <div style="float:left; position:relative; overflow:hidden; width:{$thumb_width}px; height:{$thumb_height}px;">
+      <img src="/user/img_profile.php?g={$resized_filename}" style="position: relative;" alt="Thumbnail Preview" />
+    </div>
+    <br style="clear:both;"/>
+    <form name="thumbnail" action="{$post_url}" method="post">
+      <input type="hidden" name="user_id" value="{$user_id}" /> 
+      <input type="hidden" name="x1" value="" id="x1" />
+      <input type="hidden" name="y1" value="" id="y1" />
+      <input type="hidden" name="x2" value="" id="x2" />
+      <input type="hidden" name="y2" value="" id="y2" />
+      <input type="hidden" name="w" value="" id="w" />
+      <input type="hidden" name="h" value="" id="h" />
+      <input type="submit" name="upload_thumbnail" class="button"  value="Save Thumbnail" id="save_thumb" />
+    </form>
+  </div>
+  {/if}
+  {/if}
+</div>
+{include file="themes/$theme/footer.html"}

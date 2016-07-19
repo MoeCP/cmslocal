@@ -1,0 +1,229 @@
+{include file="themes/$theme/header.html"}
+
+{if $feedback ne ''}
+<script language="JavaScript">
+<!--
+alert('{$feedback}');
+//-->
+</script>
+{/if}
+<div id="page-box1">
+  <h2>Adjust Keywords for Payment</h2>
+  <div id="campaign-search" >
+    <strong>You can enter the "keyword","campaign name","company name" etc. into the keyword input to search the relevant campaign's keyword information</strong>
+     <div id="campaign-search-box" >
+<form name="f_assign_keyword_return" id="f_assign_keyword_return" action="" method="get">
+<table border="0" cellspacing="1" cellpadding="4">
+  <tr>
+  {if $role =='copy writer'}
+	<td  nowrap>Copywriter</td>
+	<td><select name="user_id"><option value="">[choose]</option>{html_options options=$all_copy_writer selected=$smarty.get.user_id}</select></td>
+  <td >Editor</td>
+	<td><select name="editor_id"><option value="">[choose]</option>{html_options options=$all_editor selected=$smarty.get.editor_id}</select></td>
+  {else if $role = 'editor'}
+	<td  nowrap>Copywriter</td>
+	<td><select name="copy_writer_id"><option value="">[choose]</option>{html_options options=$all_copy_writer selected=$smarty.get.copy_writer_id}</select></td>
+  <td >Editor</td>
+	<td><select name="user_id"><option value="">[choose]</option>{html_options options=$all_editor selected=$smarty.get.user_id}</select></td>
+  {/if}
+	<td  nowrap colspan="5" >Article Type&nbsp;<select name="article_type"><option value="">[choose]</option>{html_options options=$article_type selected=$smarty.get.article_type}</select>&nbsp;Status&nbsp;
+    <select name="article_status" id="article_status" ><option value="">[show all]</option>{html_options options=$article_status selected=$smarty.get.article_status}</select>&nbsp;&nbsp;&nbsp;
+    {if $month!=$current_month && ($cph_user.payment_flow_status neq 'cpc' && $cph_user.payment_flow_status neq 'paid' || $smarty.get.forced_adjust neq '')}
+          <input type="checkbox" value="1" id="show_current_month" name="show_current_month" {if $smarty.get.show_current_month}checked{/if} />Include Next Pay Period&nbsp;&nbsp;&nbsp;
+    {/if}
+    {if $cph_user.payment_flow_status neq 'paid' && $cph_user.payment_flow_status neq 'cbill'}
+      <input type="checkbox" value="1" id="forced_adjust" name="forced_adjust" {if $smarty.get.forced_adjust}checked{/if} onclick="if (this.checked) $('is_forced_adjust').value = this.value;else $('is_forced_adjust').value = 0" />Forcedly Adjust&nbsp;&nbsp;&nbsp;
+    {/if}
+  </td>
+  <td rowspan="2" >
+	  <input type="image" src="/images/button-search.gif" value="submit" />
+	 </td>
+</tr>
+<tr>
+	 <td  nowrap>Keyword</td>
+	 <td   ><input type="text" name="keyword" id="search_keyword"></td>
+	 {*<td  nowrap>Topic</td>
+	 <td><select name="keyword_category"><option value="">[choose]</option>{html_options options=$keyword_categorys selected=$smarty.get.keyword_category}</select></td>*}
+	<td  nowrap>Month:&nbsp;</td>
+	<td><select name="month" onchange="this.form.submit();"><option value="">[choose]</option>{html_options options=$monthes selected=$month}</select>&nbsp;&nbsp;&nbsp;</td>
+	 <td  nowrap>Show:</td>
+	 <td nowrap>
+	 <select name="perPage" onchange="this.form.submit();">{html_options options=$g_pager_perPage selected=$smarty.get.perPage}</select> row(s)&nbsp;&nbsp;&nbsp;
+    {*{if $smarty.get.forced_adjust neq ''}
+    <input type="checkbox" value="1" id="include_google_clean" name="include_google_clean" {if $smarty.get.include_google_clean}checked{/if} />Include Google Clean &nbsp;&nbsp;&nbsp;
+    <input type="checkbox" value="1" id="include_editor_approval" name="include_editor_approval" {if $smarty.get.include_editor_approval}checked{/if} />Include Editor Approved&nbsp;&nbsp;&nbsp;
+    {/if}*}
+  </td>
+    <td nowrap>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+    <td>&nbsp;</td>
+  </tr>
+</table><br>
+    </div>
+  </div>
+</div>
+<input name="campaign_id" type="hidden" id="campaign_id" value="{$campaign_id}" />
+<input name="role" type="hidden" id="role" value="{$role}" />
+</form>
+<br />
+<div class="tablepadding"> 
+<table id="table-1" cellspacing="0" cellpadding="0" align="center" class="sortableTable">
+  <form action="{$smarty.server.REQUEST_URI}" name="campaign_keyword_list" method="post" />
+  <input type="hidden" name="keyword_id" />
+  <input type="hidden" name="article_id" />
+  <input type="hidden" name="client_approval_date" />
+  <input type="hidden" name="client_id" />
+  <input type="hidden" name="campaign_id" />
+  <input type="hidden" name="user_id" />
+  <input type="hidden" name="role"  value="{$role}" />
+  <input type="hidden" name="article_type" />
+  <input type="hidden" name="log_id" />
+  <input type="hidden" name="pay_month" />
+  <input type="hidden" name="current_month" />
+  <input type="hidden" name="operation" id="operation" />
+  <input type="hidden" name="forced_adjust" id="is_forced_adjust" value="0" />
+  <input type="hidden" name="is_canceled" />
+  <input type="hidden" name="is_delay" />
+  <input type="hidden" name="form_refresh" value="N" />
+  <thead>
+  <tr class="sortableTab">
+    <th class="table-left-corner">&nbsp;&nbsp;&nbsp;&nbsp;</th>
+    <td nowrap class="columnHeadInactiveBlack table-left-2">Number</td>
+    <td nowrap class="columnHeadInactiveBlack">Keyword</td>
+    <td nowrap class="columnHeadInactiveBlack">Article Number</td>
+    <td nowrap class="columnHeadInactiveBlack">Status</td>
+    <td nowrap class="columnHeadInactiveBlack">Company Name</td>
+    <td nowrap class="columnHeadInactiveBlack">Copywriter</td>
+    <td nowrap class="columnHeadInactiveBlack">Editor</td>
+    <td nowrap class="columnHeadInactiveBlack">Start Date</td>
+    <td nowrap class="columnHeadInactiveBlack">Due Date</td>
+    <td nowrap class="columnHeadInactiveBlack">Submit Date</td>
+    <td nowrap class="columnHeadInactiveBlack">Client Approved Date</td>
+    <td nowrap class="columnHeadInactiveBlack">Article Type</td>
+    <td nowrap class="columnHeadInactiveBlack">Total Words</td>
+    <td nowrap class="columnHeadInactiveBlack">Cost</td>
+    <td nowrap class="columnHeadInactiveBlack table-right-2">&nbsp;</td>
+    <th class="table-right-corner">&nbsp;&nbsp;&nbsp;</th>
+  </tr>
+  </thead>
+  <tbody>
+  {foreach from=$result item=item name="loop"}
+  <tr class="{if $smarty.foreach.loop.iteration % 2 eq 0}even{else}odd{/if}">
+    <td class="table-left" >&nbsp;</td>
+    <td class="table-left-2">{$smarty.foreach.loop.iteration}</td>
+    <td>
+	    <a href="/article/approve_article.php?article_id={$item.article_id}&keyword_id={$item.keyword_id}&campaign_id={$item.campaign_id}" target="_blank" onMouseOver="return overlib('<table width=500><tr><td nowrap>Keyword Instructions</td><td >{$item.keyword_description|nl2br|strip|escape:html}</td></tr></table>');" onMouseOut="return nd();">{$item.keyword}</a>
+    </td>
+    <td>{$item.article_number}</td>
+    <td>
+    {$article_status[$item.article_status]}
+    </td>
+    <td>{$item.company_name|truncate:20:"..."}</td>
+    <td><a href="javascript:void(0)" onclick="openWindow('/user/user_detail_info.php?user_id={$item.copy_writer_id}', 'height=300,width=400,status=no,toolbar=no,menubar=no,location=no,resizable=yes,scrollbars=yes');">{$item.uc_name}</a></td>
+    <td><a href="javascript:void(0)" onclick="openWindow('/user/user_detail_info.php?user_id={$item.editor_id}', 'height=300,width=400,status=no,toolbar=no,menubar=no,location=no,resizable=yes,scrollbars=yes');">{$item.ue_name}</a></td>
+    <td>{$item.date_start|date_format:"%m-%d-%Y"}</td>
+    <td>{$item.date_end|date_format:"%m-%d-%Y"}</td>
+    <td>{if $item.article_status == '0' || $item.article_status == ''}n/a{else}{$item.cp_updated|date_format:"%m-%d-%Y"}{/if}</td>
+    <td>{if $item.client_approval_date == ''}n/a{else}{$item.client_approval_date|date_format:"%m-%d-%Y"}{/if}</td>
+    <td>{$article_type[$item.article_type]}</td>
+    <td>{$item.word_count}</td>
+    <td>{$item.article_cost}</td>
+    <td align="left" nowrap class="table-right-2">
+    {if $login_permission > 3}
+        {if ($cph_user.payment_flow_status neq 'cpc'  || $smarty.get.forced_adjust neq '') && $cph_user.payment_flow_status neq 'paid' && $cph_user.payment_flow_status neq 'cbill'}
+            {if $item.is_canceled=='1'}
+                <input type="button" class="button" value="Active Keyword" onclick="javascript:cancelKeyword('{$item.article_id}', '{$item.user_id}', '{$item.log_id}', '{$item.article_type}', '{$item.client_id}', '{$item.campaign_id}', '{$item.client_approval_date}', '{$month}', '0' )" />
+            {else}
+                {if $item.pay_this_month}
+                <input type="button" class="button" value="Add to This Pay Period" onclick="javascript:updateTargetPayMonth('{$item.article_id}','{$item.user_id}', '{$item.log_id}', '{$item.article_type}', '{$item.client_id}', '{$item.campaign_id}', '{$item.client_approval_date}', '{$item.pay_month}', '{$monthes[$month]}', '2' )" />
+                {/if}
+                {if $item.add_to_this_month}
+                <input type="button" class="button" value="Add to This Pay Period" onclick="javascript:updateTargetPayMonth('{$item.article_id}', '{$item.user_id}', '{$item.log_id}', '{$item.article_type}', '{$item.client_id}', '{$item.campaign_id}', '{$item.client_approval_date}', '{$item.pay_month}', '{$monthes[$month]}', '0' )" />
+                {/if}
+                {if $item.is_show_adjust}<input type="button" class="button" value="Delay Payment" onclick="javascript:updateTargetPayMonth('{$item.article_id}','{$item.user_id}', '{$item.log_id}', '{$item.article_type}', '{$item.client_id}', '{$item.campaign_id}', '{$item.client_approval_date}', '{$item.pay_month}', '{$monthes[$month]}', '1' )" />
+                {/if}	
+                {if $item.pay_month == $month || $item.pay_month <= 0}
+                <input type="button" class="button" value="Cancel Keyword" onclick="javascript:cancelKeyword('{$item.article_id}', '{$item.user_id}', '{$item.log_id}', '{$item.article_type}', '{$item.client_id}', '{$item.campaign_id}', '{$item.client_approval_date}', '{$month}', '1' )" />
+                {/if}
+            {/if}
+        {/if}
+     {/if}
+     </td>
+    <td class="table-right" >&nbsp;</td>
+  </tr>
+  {/foreach}
+
+  </tbody>
+</table>
+<div class="pagingpaddingleft" >
+  <table align="center" width="100%" border="0" cellspacing="0" cellpadding="0" >
+    <tr><td class="table-left table-paging-left" width="20" height="37" >&nbsp;</td><td class="table-bottom">{$pager} (Total Page:{$total})(Total Count:{$count})</td><td class="table-right table-paging-right" width="21">&nbsp;</td></tr>
+  </table>
+</div>
+</form>
+</div>
+<script type="text/javascript">
+//<![CDATA[
+
+var st = new SortableTable(document.getElementById("table-1"),
+  [{if $is_pay_adjust != 1}'None',{/if}"Number", "CaseInsensitiveString", "CaseInsensitiveString", "CaseInsensitiveString", "CaseInsensitiveString", "CaseInsensitiveString", "CaseInsensitiveString", "Date", "Date", "None"]);
+{literal}
+st.onsort = function () {
+  var rows = st.tBody.rows;
+  var l = rows.length;
+  for (var i = 0; i < l; i++) {
+    removeClassName(rows[i], i % 2 ? "odd" : "even");
+    addClassName(rows[i], i % 2 ? "even" : "odd");
+  }
+};
+st.asyncSort(0);
+function updateTargetPayMonth( article_id, user_id, log_id, article_type, client_id, campaign_id, client_approval_date, pay_month, current_month, is_delay )
+{
+	var f  = document.campaign_keyword_list;
+	f.article_id.value = article_id;
+	f.client_approval_date.value = client_approval_date;
+	f.article_type.value = article_type;
+	f.client_id.value = client_id;
+	f.campaign_id.value = campaign_id;
+	f.log_id.value = log_id;
+	f.pay_month.value = pay_month;
+	f.current_month.value = current_month;
+	f.is_delay.value = is_delay;
+  f.user_id.value = user_id;
+  if ($('forced_adjust').checked)
+  {
+    $('is_forced_adjust').value = 1;
+  }
+  else
+  {
+    $('is_forced_adjust').value = 0;
+  }
+	f.operation.value = 'move_to_next_pay_peried';
+	f.submit();
+}
+
+function cancelKeyword( article_id, user_id, log_id, article_type, client_id, campaign_id, client_approval_date, current_month, is_canceled )
+{
+	var f = document.campaign_keyword_list;
+  f.is_canceled.value = is_canceled;
+	f.article_id.value = article_id;
+	f.user_id.value = user_id;
+	f.client_approval_date.value = client_approval_date;
+	f.article_type.value = article_type;
+	f.client_id.value = client_id;
+	f.campaign_id.value = campaign_id;
+	f.log_id.value = log_id;
+	f.current_month.value = current_month;
+	f.operation.value = 'cancel_keyword';
+	f.submit();
+}
+
+function showCurrentMonthKeywords()
+{
+	var f = document.f_assign_keyword_return;
+	f.show_current_month.value = 1;
+}
+{/literal}
+//]]>
+</script>
+
+{include file="themes/$theme/footer.html"}

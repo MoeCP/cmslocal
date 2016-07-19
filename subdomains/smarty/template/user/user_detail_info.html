@@ -1,0 +1,126 @@
+{include file="themes/$theme/header_jump.html"}
+
+{if $feedback ne ''}
+<script language="JavaScript">
+<!--
+alert("{$feedback}");
+//-->
+</script>
+{/if}
+<div id="page-box1">
+  <h2>User's Information setting</h2>
+  <div class="view-item" >
+<br><table border="0" cellspacing="1" cellpadding="4" align="center" width="100%">
+  <tr>
+    <td class="moduleTitle" colspan=2></td>
+  </tr>
+  <tr>
+    <td class="bodyBold">Basic Information</td>
+    <td align="right" class="requiredHint">Required Information</td>
+  </tr>
+  <tr>
+    <td class="blackLine" colspan="2"><img src="/image/misc/s.gif"></td>
+  </tr>
+  <tr>
+    <td class="requiredInput">User Name</td>
+    <td>{$user_info.user_name}</td>
+  </tr>
+  <tr>
+    <td class="requiredInput">First Name</td>
+    <td>{$user_info.first_name}</td>
+  </tr>
+  <tr>
+    <td class="requiredInput">Last Name</td>
+    <td>{$user_info.last_name}</td>
+  </tr>
+  {if $user_role eq 'admin' || $user_role eq 'project manager'  || $login_user_id eq $user_info.user_id}
+  <tr>
+    <td class="requiredInput">Gender</td>
+    <td>{$user_info.sex}</td>
+  </tr>
+  {/if}
+  <tr>
+    <td class="requiredInput">Email</td>
+    <td>{$user_info.email}</td>
+  </tr>
+  {if $user_role eq 'admin' || $user_role eq 'project manager' || $user_role eq 'agency' || $login_user_id eq $user_info.user_id}
+  <tr>
+    <td class="requiredInput">Address</td>
+    <td>{$user_info.address}</td>
+  </tr>
+  <tr>
+    <td class="dataLabel">Phone Number</td>
+    <td>{$user_info.phone}</td>
+  </tr>
+  <tr>
+    <td class="dataLabel">Mobile Telephone Number</td>
+    <td>{$user_info.cell_phone}</td>
+  </tr>
+  <tr>
+    <td class="dataLabel">Birthday</td>
+    <td>{$user_info.birthday|date_format:"%m-%d-%Y"}</td>
+  </tr>
+  <tr>
+    <td class="dataLabel">Join Date</td>
+    <td>{$user_info.date_join|date_format:"%m-%d-%Y"}</td>
+  </tr>
+  {if $user_role eq 'admin' || $user_role eq 'project manager'  || $login_user_id eq $user_info.user_id}
+  <tr>
+    <td class="dataLabel">Social Security Number</td>
+    <td>{$user_info.social_security_number}</td>
+  </tr>
+  <tr>
+      <td class="dataLabel">Back Rounting Number</td>
+      <td>{$user_info.routing_number|default:'n/a'}</td>
+  </tr>
+  <tr>
+    <td class="dataLabel">Account Number</td>
+    <td>{$user_info.bank_info}</td>
+  </tr>
+  {/if}
+  <tr>
+    <td class="dataLabel">Role</td>
+    <td>{$user_info.role}</td>
+  </tr>
+  <tr>
+    <td class="dataLabel">Selected category</td>
+    <td>
+    <table cellspacing="0" align="left" cellpadding="1" class="sortableTable" width="99%">
+      {foreach from=$categories item=item name="loop"}
+      <tr class="{if $smarty.foreach.loop.iteration % 2 eq 0}even{else}odd{/if}">
+        <td align="left"><strong>{$item.category}</strong></td>
+      </tr>
+      <tr class="{if $smarty.foreach.loop.iteration % 2 eq 0}even{else}odd{/if}">
+        <td>
+          {if $item.children}
+          <table>
+            {foreach from=$item.children item=child name="loop2"}
+            {if $smarty.foreach.loop2.iteration % 5 eq 1}
+            <tr>
+            {/if}
+        <td><label>{$child.category}</label></td>
+            {if $smarty.foreach.loop2.iteration % 5 eq 0}
+            </tr>
+            {/if}
+          {/foreach}
+        </table>
+          {/if}
+        </td>
+      </tr>
+      {/foreach}
+    </table>
+   	</td>
+  </tr>
+  {/if}
+  <tr>
+    <td class="blackLine" colspan=2><img src="/image/misc/s.gif"></td>
+  </tr>
+
+  <tr>
+    <td>&nbsp;</td>
+    <td><input type="button" value="close window" class="button" onclick="window.close();"></td>
+  </tr>
+</table>
+  </div>
+</div>
+{include file="themes/$theme/footer_jump.html"}

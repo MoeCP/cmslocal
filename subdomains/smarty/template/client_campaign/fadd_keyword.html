@@ -1,0 +1,209 @@
+{include file="themes/$theme/header.html"}
+
+{if $feedback ne ''}
+<script language="JavaScript">
+<!--
+alert("{$feedback}");
+//-->
+</script>
+{/if}
+
+{literal}
+<script language="JavaScript">
+<!--
+function check_f_keyword()
+{
+  var f = document.f_keyword;
+
+  if (f.keyword.value.length == 0) {
+    alert('Please enter campaign keywords');
+    return false;
+  }
+/*  if (f.mapping_id.value.length > 0)
+  {
+      mappings = f.mapping_id.value.split("\n");
+      keywords = f.keyword.value.split("\n");
+      is_not_match = false;
+      var klen = keywords.length;
+      var mlen = mappings.length;
+      if (klen != mlen) {
+          is_not_match = true;
+      } else {
+        for (var i=0; i < klen; i++) {
+            if (keywords[i].length > 0 && mappings[i].length == 0) {
+                is_not_match = true;
+            }
+        }
+      }
+      if (is_not_match) {
+          alert("Each keyword must have one mapping ID");
+          return false;        
+      }
+  }*/
+  /*
+  if (f.date_start.value.length == 0) {
+    alert('Please enter start date of the campaign');
+    return false;
+  }
+  if (f.date_end.value.length == 0) {
+    alert('Please enter Due Date of the campaign');
+    return false;
+  }
+  */
+
+  if (f.copy_writer_id.value.length != 0 || f.editor_id.value.length != 0) {
+	  /*if (f.copy_writer_id.value.length == 0) {
+		alert('Please choose a copywriter for these keywords');
+		f.copy_writer_id.focus();
+		return false;
+	  }*/
+	  if (f.editor_id.value.length == 0) {
+		alert('Please choose an editor for these keywords');
+		f.editor_id.focus();
+		return false;
+	  }
+  }
+
+  return true;
+}
+tinyMCEInit('keyword_description');
+//-->
+</script>
+{/literal}
+<div id="page-box1">
+  <h2>Campaign Keyword Settings</h2>
+  <div id="campaign-search" >
+    <strong>Please enter the Client's campaign keyword information according to requirement.</strong>
+  </div>
+  <div class="form-item" >
+<br><table border="0" cellspacing="1" cellpadding="4" align="center" width="100%">
+  <form action="" method="post"  name="f_keyword" {if $js_check eq true} onsubmit="return check_f_keyword()"{/if}>
+  <input type="hidden" name="campaign_id" value="{$campaign_info.campaign_id}" />
+  {if $parent_id > 0}<input type="hidden" name="parent_id" value="{$parent_id}" />{/if}
+  <tr>
+    <td class="bodyBold">Basic Information</td>
+    <td align="right" class="requiredHint" colspan="6">Required Information</td>
+  </tr>
+  <tr>
+    <td class="blackLine" colspan="10"><img src="/image/misc/s.gif"></td>
+  </tr>
+  <tr>
+    <td class="dataLabel">Campaign Name</td>
+    <td>{$campaign_info.campaign_name}</td>
+  </tr>
+  <tr>
+    <td class="dataLabel">Client Name</td>
+    <td>{$campaign_info.user_name}</td>
+  </tr>
+  <tr>
+    <td class="dataLabel">Company Name</td>
+    <td>{$campaign_info.company_name}</td>
+  </tr>
+  {*<tr>
+    <td class="dataLabel">Cost Per Article</td>
+    <td>{$campaign_info.cost_per_article}</td>
+  </tr>*}
+  <tr>
+    <td class="requiredInput">Add Campaign Keywords</td>
+    <td><textarea name="keyword" cols="35" rows="7" id="keyword" onblur="cmsCalcLine(this.value,'keyword')">{$keyword_info.keyword}</textarea><div id="keyword_lines"></div></td>
+    <td class="dataLabel">Mapping-ID</td>
+    <td><textarea name="mapping_id" cols="35" rows="7" id="mapping_id" onblur="cmsCalcLine(this.value,'mapping_id')">{$keyword_info.mapping_id}</textarea><div id="mapping_id_lines"></div></td>
+  </tr>
+  {foreach from=$optional_fields key=key item=item name='loop'}
+  {if $smarty.foreach.loop.iteration%2 eq 1}
+  <tr>
+  {/if}
+  <td class="dataLabel">{$item.label}</td>
+  <td><textarea name="{$key}" cols="35" rows="15" id="{$key}" onblur="cmsCalcLine(this.value,'{$key}')" >{$keyword_info[$key]}</textarea><div id="{$key}_lines"></div></td>
+  {if $smarty.foreach.loop.iteration%2 eq 0 || $smarty.foreach.loop.iteration == $total_optional}
+   </tr>
+  {/if}
+  {/foreach}
+  <tr>
+    <td class="requiredInput">Start Date</td>
+    <td><input type="text" name="date_start" id="date_start" size="20" maxlength="10" value="{$keyword_info.date_start}" readonly/>
+        <input type="button" class="button" id="btn_cal_date_start" value="...">
+        <script type="text/javascript">
+        Calendar.setup({ldelim}
+            inputField  : "date_start",
+            ifFormat    : "%Y-%m-%d",
+            showsTime   : false,
+            button      : "btn_cal_date_start",
+            singleClick : true,
+            step        : 1,
+            range       : [1990, 2030]
+        {rdelim});
+        </script></td>
+  </tr>
+  <tr>
+    <td class="requiredInput">Due Date</td>
+    <td><input type="text" name="date_end" id="date_end" size="20" maxlength="10" value="{$keyword_info.date_end}" readonly/>
+        <input type="button" class="button" id="btn_cal_date_end" value="...">
+        <script type="text/javascript">
+        Calendar.setup({ldelim}
+            inputField  : "date_end",
+            ifFormat    : "%Y-%m-%d",
+            showsTime   : false,
+            button      : "btn_cal_date_end",
+            singleClick : true,
+            step        : 1,
+            range       : [1990, 2030]
+        {rdelim});
+        </script></td>
+  </tr>
+  <tr>
+    <td class="dataLabel">SCID</td>
+    <td colspan="3" >
+      <textarea name="subcid" cols="35" rows="15" id="subcid" onblur="cmsCalcLine(this.value,'subcid')">{$keyword_info.subcid}</textarea>
+      <div id="subcid_lines"></div>
+    </td>
+  </tr>
+  <tr>
+    <td class="dataLabel">Keyword Instructions</td>
+    <td colspan="3"><textarea name="keyword_description" cols="35" rows="4" id="keyword_description">{$keyword_info.keyword_description}</textarea></td>
+  </tr>
+  {if $keyword_info.article_type == '' || $keyword_info.article_type == -1}
+  <tr>
+  <td class="requiredInput">Article Type</td>
+  <td><select name="article_type">{html_options options=$article_type selected=$keyword_info.article_type}</select></td>
+  </tr>
+  {else}
+  <input type="hidden" name="article_type" value="{$keyword_info.article_type}" />
+  {/if}
+  <tr>
+    <td class="dataLabel">Copywriter</td>
+    <td><select name="copy_writer_id"><option value="">[choose]</option>{html_options options=$all_copy_writer selected=$keyword_info.copy_writer_id}</select></td>
+  </tr>
+  <tr>
+    <td class="requiredInput">Editor</td>
+    <td><select name="editor_id"><option value="">[choose]</option>{html_options options=$all_editor selected=$keyword_info.editor_id}</select></td>
+  </tr>
+  <tr>
+    <td></td>
+    <td><input type="checkbox" value="0" id="keyword_status" name="keyword_status" /><label for="keyword_status">Require Client Approval</lable></td>
+  </tr>
+{*  remove this field for now
+  <tr>
+    <td class="dataLabel">Article Category</td>
+    <td  colspan="4" ><input name="keyword_category" id="keyword_category" value="{$keyword_info.keyword_category}" size="80">&nbsp;<img src="/image/select.gif" alt="Select" title="Select" LANGUAGE=javascript onclick='return window.open("/client_campaign/select_pref.php?pref_table=campaign_keyword&pref_field=keyword_category","select_pref","width=600,height=400,resizable=1,scrollbars=1");' align="absmiddle" style='cursor:hand;cursor:pointer'>&nbsp;<input type="image" src="/image/clear_field.gif" alt="Clear" title="Clear" LANGUAGE=javascript onClick="this.form.keyword_category.value='';return false;" align="absmiddle" style='cursor:hand;cursor:pointer'></td>
+  </tr>
+*}
+  <tr>
+    <td class="blackLine" colspan="4"><img src="/image/misc/s.gif"></td>
+  </tr>
+  <tr>
+    <td>&nbsp;</td>
+    <td><input type="submit" value="Submit" class="button">&nbsp;<input type="reset" value="reset" class="button"></td>
+  </tr>
+  </form>
+</table>
+  </div>
+</div>
+<script type="text/javascript">
+var calc_fields = 'keyword,mapping_id';
+{foreach from=$optional_fields key=key item=item name='loop'}
+  calc_fields+=',' +'{$key}';
+{/foreach}
+cmsCalcLineByFields(calc_fields);
+</script>
+{include file="themes/$theme/footer.html"}

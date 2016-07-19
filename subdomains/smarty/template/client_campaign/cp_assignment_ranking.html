@@ -1,0 +1,34 @@
+{include file="themes/$theme/header_jump.html"}
+<table border="0" cellspacing="1" cellpadding="4" align="center" width="100%">
+  <tr>
+    <td class="moduleTitle" colspan=2>Copywriter Assignment Ranking</td>
+  </tr>
+  <tr>
+    <td class="bodyBold">Basic Information</td>
+  </tr>
+  <tr>
+    <td colspan="2" class="blackLine"><img src="/image/misc/s.gif"/></td>
+  </tr>
+  <tr>
+    <td class="requiredInput" width="40%">Copywriter Name</td>
+    <td colspan="4">{$copywriter_name}</td>
+  </tr>
+  <tr>
+    <td class="requiredInput">Edit Request</td>
+    <td colspan="4">{$editor_reject}</td>
+  </tr>
+  <tr>
+    <td class="requiredInput">Client Reject </td>
+    <td>{$client_reject}</td>
+  </tr>
+  
+  <tr>
+    <td class="requiredInput">Ranking</td>
+    <td>{$ranking}</td>
+  </tr>
+  <tr>
+  <td>&nbsp;</td>
+  <td><input type="button" value="Close Window" onclick="window.close();"></td>
+  </tr>
+</table>
+{include file="themes/$theme/footer_jump.html"}

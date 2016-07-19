@@ -1,0 +1,103 @@
+{include file="themes/$theme/header.html"}
+
+{if $feedback ne ''}
+<script language="JavaScript">
+<!--
+alert("{$feedback}");
+//-->
+</script>
+{/if}
+
+{literal}
+<script language="JavaScript">
+<!--
+function check_f_keyword()
+{
+  var f = document.f_keyword;
+  if (f.date_end.value.length == 0) {
+    alert('Please enter Due Date of the campaign');
+    return false;
+  }
+  return true;
+}
+//-->
+</script>
+{/literal}
+<div id="page-box1">
+  <h2>Change Due Date</h2>
+  <div id="campaign-search" >
+    <strong>Please enter the keyword information according to requirement.choose one editor and one copywriter.</strong>
+  </div>
+  <div class="form-item" >
+<br><table border="0" cellspacing="1" cellpadding="4" align="center" width="100%">
+  <form action="" method="post"  name="f_keyword" {if $js_check eq true} onsubmit="return check_f_keyword()"{/if}>
+  <input type="hidden" name="keyword_id" value="{$keyword_info.keyword_id}">
+  <tr>
+    <td class="bodyBold">Basic Information</td>
+    <td align="right" class="requiredHint">Required Information</td>
+  </tr>
+  <tr>
+    <td class="blackLine" colspan="2"><img src="/image/misc/s.gif"></td>
+  </tr>
+  <tr>
+    <td class="dataLabel">Campaign Name</td>
+    <td>{$keyword_info.campaign_name}</td>
+  </tr>
+  <tr>
+    <td class="dataLabel">Client Name</td>
+    <td>{$keyword_info.user_name}</td>
+  </tr>
+  <tr>
+    <td class="dataLabel">Company Name</td>
+    <td>{$keyword_info.company_name}</td>
+  </tr>
+  <tr>
+    <td class="requiredInput">Campaign Keywords</td>
+    <td><input name="keyword" value="{$keyword_info.keyword}" id="keyword" size="80" readonly /></td>
+  </tr>
+  <tr>
+    <td class="dataLabel">Mapping-ID</td>
+    <td>{$keyword_info.mapping_id}</td>
+  </tr>
+  {foreach from=$fields item=item key=key}
+  <tr>
+    <td class="dataLabel">{$item.label}</td>
+    <td>{$keyword_info[$key]}</td>
+  </tr>
+  {/foreach}
+  <tr>
+    <td class="requiredInput">Start Date</td>
+    <td><input type="text" name="date_start" id="date_start" size="10" maxlength="10" value="{$keyword_info.date_start}" readonly /></td>
+  </tr>
+  <tr>
+    <td class="requiredInput">Due Date</td>
+    <td><input type="text" name="date_end" id="date_end" size="10" maxlength="10" value="{$keyword_info.date_end}" readonly/>
+        <input type="button" class="button" id="btn_cal_date_end" value="...">
+        <script type="text/javascript">
+        Calendar.setup({ldelim}
+            inputField  : "date_end",
+            ifFormat    : "%Y-%m-%d",
+            showsTime   : false,
+            button      : "btn_cal_date_end",
+            singleClick : true,
+            step        : 1,
+            range       : [1990, 2030]
+        {rdelim});
+        </script></td>
+  </tr>
+  <tr>
+	<td class="requiredInput">Article Type</td>
+	<td><select name="article_type">{html_options options=$article_type selected=$keyword_info.article_type}</select></td>
+  </tr>
+  <tr>
+    <td class="blackLine" colspan="2"><img src="/image/misc/s.gif"></td>
+  </tr>
+  <tr>
+    <td>&nbsp;</td>
+    <td><input type="submit" value="Submit" class="button">&nbsp;<input type="reset" value="reset" class="button"></td>
+  </tr>
+  </form>
+</table>
+  </div>
+</div>
+{include file="themes/$theme/footer.html"}

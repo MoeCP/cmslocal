@@ -1,0 +1,95 @@
+{include file="themes/$theme/header.html"}
+{if $feedback ne ''}
+<script language="JavaScript">
+<!--
+alert('{$feedback}');
+//-->
+</script>
+{/if}
+<div id="page-box1">
+  <h2>Article Type Question<input type="button" class="button" value="Add Article Type Question" onclick="javasript:window.location='/article/type_question_add.php';" /></h2>
+  <div id="campaign-search" >
+    <strong>You can enter the "campaign name","keyword","article content" etc. into the keyword input to search the relevant article's information</strong>
+    <div id="campaign-search-box" >
+      <form name="f_assign_keyword_return" id="f_assign_keyword_return" action="" method="get">
+      <table border="0" cellspacing="1" cellpadding="4">
+      <tr>
+        <td  nowrap>Keyword</td>
+        <td><input type="text" name="keyword" id="search_keyword"></td>
+        <td  nowrap>Article Type</td>
+        <td><select name="article_type"><option value="">[choose]</option>{html_options options=$article_type selected=$smarty.get.article_type}</select></td>
+        <td  nowrap>Show:</td>
+        <td nowrap><select name="perPage" onchange="this.form.submit();" nowrap>{html_options options=$g_pager_perPage selected=$smarty.get.perPage}</select> row(s)</td>
+        <td nowrap>
+        <input type="image" src="/images/button-search.gif" value="submit" />
+        </td>
+        <td nowrap>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+        <td width="60%">&nbsp;</td>
+      </tr>
+      </table>
+      </form>
+    </div>
+  </div>
+</div>
+<div class="tablepadding"> 
+<form action="/article/article_list.php" name="article_list" id="article_list" method="post" >
+<table id="table-1" cellspacing="0" cellpadding="0" align="center" class="sortableTable">
+  <input type="hidden" name="keyword_id" />
+  <input type="hidden" name="article_id" />
+  <input type="hidden" name="operation" />
+  <input type="hidden" name="old_status" />
+  <input type="hidden" name="form_refresh" value="N" />
+  <thead>
+  <tr class="sortableTab">
+	<td nowrap class="columnHeadInactiveBlack table-left-2">No.</td>
+    <td nowrap class="columnHeadInactiveBlack">Article Type</td>
+    <td nowrap class="columnHeadInactiveBlack">Question</td>
+    <td nowrap class="columnHeadInactiveBlack table-right-2">Action</td>
+  </tr>
+  </thead>
+  {foreach from=$result item=item name="loop"}
+  <tr class="{if $smarty.foreach.loop.iteration % 2 eq 0}even{else}odd{/if}{if ($item.article_status eq '0' && $login_permission eq 1 || $item.article_status eq '1gc' && $login_permission ge 3) && $tomorrow ge $item.date_end} rejected{/if}">
+    {eval var= $startNo+$smarty.foreach.loop.iteration assign='rowNumber'}
+    <td class="table-left-2">{$rowNumber}</td>
+    <td>{$item.type_name}</td>
+    <td>{$item.question}</td>
+    <td align="right" nowrap class="table-right-2">
+	  </td>
+  </tr>
+  {/foreach}
+</table>
+</form>
+<div class="pagingpaddingleft" >
+  <table align="center" width="100%" border="0" cellspacing="0" cellpadding="0" >
+    <tr><td class="table-left table-paging-left" width="20" height="37" >&nbsp;</td><td class="table-bottom">{$pager} (Total Page:{$total}) (Total Count:{$count})</td><td class="table-right table-paging-right" width="21">&nbsp;</td></tr>
+  </table>
+</div>
+</div>
+{literal}
+<script type="text/javascript">
+//<![CDATA[
+var st = new SortableTable(document.getElementById("table-1"),
+  [ "Number", "CaseInsensitiveString", "CaseInsensitiveString", "CaseInsensitiveString", "CaseInsensitiveString", "CaseInsensitiveString", "Date", "Date", "Number", "None"]);
+
+st.onsort = function () {
+  var rows = st.tBody.rows;
+  var l = rows.length;
+  for (var i = 0; i < l; i++) {
+    removeClassName(rows[i], i % 2 ? "odd" : "even");
+    addClassName(rows[i], i % 2 ? "even" : "odd");
+  }
+};
+
+st.asyncSort(0);
+function check_recall( article_id, status )
+{
+   var f = document.article_list;
+   f.article_id.value = article_id;
+   f.operation.value = 'recall';
+   f.old_status.value = status;
+   f.submit();
+}
+//]]>
+</script>
+{/literal}
+{include file="themes/$theme/footer.html"}

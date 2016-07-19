@@ -1,0 +1,54 @@
+{include file="themes/$theme/header.html"}
+
+{if $feedback ne ''}
+<script language="JavaScript">
+<!--
+alert('{$feedback}');
+//-->
+</script>
+{/if}
+
+{literal}
+<script language="JavaScript">
+<!--
+function check_f_user()
+{
+  var f = document.f_user;
+
+  if (f.pen_name.value.length == 0)
+  {
+    alert('Please enter Pen Name');
+    f.pen_name.focus();
+    return false;
+  }
+  return true;
+}
+
+//-->
+</script>
+{/literal}
+
+<table border="0" cellspacing="1" cellpadding="4" align="center">
+  <tr>
+    <td class="bodyBold" nowrap colspan="2">Update Pen Name</td>
+    <td align="right" class="requiredHint">Required Information</td>
+  </tr>
+  <tr>
+    <td class="blackLine" colspan=3><img src="/image/misc/s.gif"></td>
+  </tr>
+  <form action="#" method="post" name="f_user" {if $js_check eq true} onsubmit="return check_f_user()"{/if}>
+  <input type="hidden" name="user_id" value="{$user_id}" />
+  <tr>
+    <td colspan="2" class="requiredInput">Pen Name</td>
+    <td><input name="pen_name" type="text" id="pen_name" size="20" value="{$pen_name}"/></td>
+  <tr>
+    <td class="blackLine" colspan=3><img src="/image/misc/s.gif"></td>
+  </tr>
+  </tr>
+    <td colspan="2" >&nbsp;</td>
+    <td><input type="submit" value="Submit" class="button">&nbsp;<input type="reset" value="Reset" class="button"></td>
+  </tr>
+  </form>
+</table>
+
+{include file="themes/$theme/footer.html"}

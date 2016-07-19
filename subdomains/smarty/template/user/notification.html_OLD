@@ -1,0 +1,40 @@
+<h2>Notifications</h2>
+<table border="0" cellspacing="1" cellpadding="4" align="left" width="99%" class="sortableTable campaign-table" border="0" id="notification_table">
+<tr>
+  <th nowrap class="campaign-table-top-left">Clear Item{if $reports.total_notifications > 0}&nbsp;<a href="javascript:void(0)" onclick="removeAllNotification(this, '/index.php?operation=deletenote&uid={$uid}')" >Clear All</a>{/if}
+</th>
+  <th>You have <span id="total_notifications" >{if $role == 'designer'}{$reports2.total_notifications}{else}{$reports.total_notifications}{/if}</span> items that need your attention</th>
+  <th class="campaign-table-top-right" >Date</th>
+</tr>
+{if $role == 'designer'}
+{foreach from=$reports2.notifications item=item name="loop"}
+<tr id="trnote{$item.notification_id}" class="{if $smarty.foreach.loop.iteration % 2 eq 0}even{else}odd{/if}">
+  <td>
+    <a href="javascript:void(0)" onclick="removeNotification($('trnote{$item.notification_id}'), '/index.php?operation=deletenote&id={$item.notification_id}')" ><img alt="Clear Item" src="/images/button-clear-item.jpg" /></a>
+  </td>
+  <td>{$item.notes}</td>
+  <td>{$item.generate_date}</td>
+</tr>
+{/foreach}
+{else}
+{foreach from=$reports.notifications item=item name="loop"}
+<tr id="trnote{$item.notification_id}" class="{if $smarty.foreach.loop.iteration % 2 eq 0}even{else}odd{/if}">
+  <td>
+    <a href="javascript:void(0)" onclick="removeNotification($('trnote{$item.notification_id}'), '/index.php?operation=deletenote&id={$item.notification_id}')" ><img alt="Clear Item" src="/images/button-clear-item.jpg" /></a>
+  </td>
+  <td>{$item.notes}</td>
+  <td>{$item.generate_date}</td>
+</tr>
+{/foreach}
+{/if}
+{*    <tr>
+  <td>You have a new message in your inbox</td>
+  <td>Date</td>
+  <td>Clear Item</td>
+</tr>
+<tr  class="odd" >
+  <td>You have been paid X dollars for campaign X</td>
+  <td>Date</td>
+  <td>Clear Item</td>
+</tr>*}
+</table>

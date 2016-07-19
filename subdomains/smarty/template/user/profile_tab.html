@@ -1,0 +1,188 @@
+<div class="page-box1-class">
+<table width="100%"  cellspacing="1" cellpadding="4"><tr><td align="left">
+<h2>User's Information&nbsp;&nbsp;&nbsp;&nbsp;{if  $login_permission == 5}<input type="button" class="button" value="Edit" onclick="showUserDialog()" />{/if}{if $user_info.role == 'copy writer' && ($login_role == 'admin' || $login_role == 'copy writer') &&  $login_permission == 5}&nbsp;&nbsp<input type="button" class="button" value="Upload Photo" onclick="window.location.href='/user/profile_photo.php?user_id={$user_info.user_id}'" />{/if}</h2></td><td align="right" >{if $user_info.photo neq ''}<img alt="Thumbnail Image" src="{$user_info.photo}">{/if}</td></table>
+</div>
+<table border="0" cellspacing="1" cellpadding="4" align="center" width="100%">
+{if $candidate.candidate_id > 0}
+  <tr>
+	<td colspan="2" >{if $candidate.work_in_us == 1}You are authorized to work in the United States{else}You are not authorized to work in the United States{/if}</td>
+  </tr>
+{/if}
+  <tr>
+    <td valign="top" >
+    <table border="0" cellspacing="1" cellpadding="4" align="center" width="100%" class="sortableTable" >
+      <tr class="odd">
+        <th>User Name</th>
+        <td>{$user_info.user_name}</td>
+      </tr>
+      <tr class="even" >
+        <th>First Name</th>
+        <td>{$user_info.first_name}</td>
+      </tr>
+      <tr class="odd">
+        <th>Last Name</th>
+        <td>{$user_info.last_name}</td>
+      </tr>
+      <tr class="even">
+        <th>E-mail Address</th>
+        <td>{$user_info.email}</td>
+      </tr>
+      <tr class="odd">
+        <th>Birthday</th>
+        <td>{$user_info.birthday|date_format:"%m-%d-%Y"}</td>
+      </tr>
+      <tr class="even">
+        <th>Main Number</th>
+        <td>{$user_info.phone|default:'n/a'}</td>
+      </tr>
+      <tr class="odd">
+        <th>Cell Number</th>
+        <td>{$user_info.cell_phone|default:'n/a'}</td>
+      </tr>
+      {*if $login_permission == 5 || $login_permission == 4*}
+      <tr class="even">
+        <th>Address</th>
+        <td colspan="3" >
+          Address1: {$user_info.address|nl2br|default:'n/a'}<br />
+          Address2: {$user_info.address2|nl2br|default:'n/a'}<br />
+          City: {$user_info.city|nl2br|default:'n/a'}<br />
+          State/Province: {$user_info.state|nl2br|default:'n/a'}<br />
+          Zipcode: {$user_info.zip|nl2br|default:'n/a'}<br />
+        </td>
+      </tr>
+      <tr class="odd">
+        <th>Country</th>
+        <td >{$user_info.country|default:'n/a'}</td>
+      </tr>
+      {if $user_info.first_language}
+      <tr class="even">
+        <th>Your first language</th>
+        <td>{$user_info.first_language}</td>
+      </tr>
+      {/if}
+      {*<tr class="even">
+        <th>Notes</th>
+        <td>{$user_info.notes|nl2br|default:'n/a'}</td>
+      </tr>*}
+      {*/if*}
+    </table>
+    </td>
+    <td valign="top">
+    <table border="0" cellspacing="1" cellpadding="4" align="center" width="100%" class="sortableTable" >
+      {if $login_permission == 5 || $login_permission == 4}
+      {if $login_permission == 5}
+      <tr class="even">
+        <th>Pay Level</th>
+        <td>{if $user_info.pay_level > 0}{$user_info.pay_level}{else}n/a{/if}</td>
+      </tr>
+      {/if}
+      <tr class="odd">
+        <th>Password</th>
+        <td>{$user_info.user_pw}</td>
+      </tr>
+      <tr class="even">
+        <th>Role</th>
+        <td>{$user_info.role}{if $user_info.role == 'copy writer'}({$user_types[$user_info.user_type]}){/if}</td>
+      </tr>
+      {/if}
+      <tr class="odd" >
+        <th>Gender</th>
+        <td>{$user_info.sex}</td>
+      </tr>
+      <tr class="even">
+        <th>Hire Date</th>
+        <td>{$user_info.date_join|date_format:"%m-%d-%Y"}</td>
+      </tr>
+      <tr class="odd">
+        <th>SSN</th>
+        <td>{$user_info.hide_ssn|default:'n/a'}</td>
+      </tr>
+      <tr class="even">
+        <th>Payment Preference</th>
+        <td>{$payment_preference[$user_info.pay_pref]}</td>
+      </tr>
+      {if $user_info.pay_pref == 2}
+      <tr class="odd">
+        <th>Bank Name</th>
+        <td>{$user_info.bank_name|default:'n/a'}</td>
+      </tr>
+      <tr class="even">
+        <th>Bank Rounting Number</th>
+        <td>{$user_info.hide_routing_number|default:'n/a'}</td>
+      </tr>
+      <tr class="odd">
+        <th>Account Number</th>
+        <td>{$user_info.hide_bank_info|default:'n/a'}</td>
+      </tr>
+      <tr class="even">
+        <th>Bank Account Type</th>
+        <td>{$acct_types[$user_info.bank_acct_type]}</td>
+      </tr>
+      {/if}
+      {if $user_info.pay_pref == 3}
+      <tr class="odd">
+        <th>Paypal Email Address</th>
+        <td>{$user_info.paypal_email|default:'n/a'}</td>
+      </tr>
+      {/if}
+      {*<tr class="even">
+        <th>Forms Submitted</th>
+        <td>
+        {$user_info.form_submitted}
+        </td>
+      </tr>
+      {if $user_info.w9pdf != ''}
+      <tr class="odd">
+        <th>W-9 pdf</th>
+        <td>
+        <a href="/user/download.php?user_id={$user_info.user_id}&f={$user_info.w9pdf}" >{$user_info.w9pdf}</a>
+        </td>
+      </tr>
+      {/if}*}
+    </table>
+    </td>
+  </tr>
+  {*
+ {if $login_id == $user_info.user_id}
+  <tr>
+    <td colspan="2" align="left" >
+      <table border="0" cellspacing="1" cellpadding="4" align="left">
+        <tr>
+          <th valign="top" >Upload W-9 pdf</th>
+          <td align="left">
+            <div id="files_list" ></div>
+<iframe id="upload_target" name="upload_target" src="#" style="width:0;height:0;border:0px solid #fff;"></iframe>
+<form action="/user/upload.php" method="post" enctype="multipart/form-data" target="upload_target" id="uploadform"  name="uploadform" >
+  <div>
+    <p id="f1_upload_process" align="left">Loading...<br /><img src="/image/loader.gif" /><br/></p>
+    <p id="f1_upload_form" align="left"><br />
+      <label>
+          <input name="myfile" type="file" size="30" id="my_file_element" /><strong>[Max: {$maxsize}]</strong>
+      </label>
+    </p>
+  </div>
+</form>
+<form action="/user/removefile.php" method="post" target="upload_target" id="removeform"  name="removeform">
+<input type="hidden" name="filename" id="filename" value="" />
+</form>
+<script language="javascript">
+{literal}
+var multi_selector = new MultiSelector( $( 'files_list' ), $('uploadform'), $('f1_upload_form'),  $('f1_upload_process'), $('removeform'), 1);
+multi_selector.addElement($( 'my_file_element' ));
+stopUpload = function(success, filename, prefix){
+      var result = '';
+      multi_selector.stopUpload(success, filename, prefix);
+      return true;   
+}
+{/literal}
+{if $user_info.w9pdf !=''}
+multi_selector.addListRow(multi_selector.current_element, '{$user_info.w9pdf}', '');
+{/if}
+</script>
+           </td>
+        </tr>
+      </table>
+      </td>
+  </tr>
+  {/if}*}
+</table>

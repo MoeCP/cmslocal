@@ -1,0 +1,204 @@
+{include file="themes/$theme/header.html"}
+
+{if $feedback ne ''}
+<script language="JavaScript">
+<!--
+alert('{$feedback}');
+//-->
+</script>
+{/if}
+{literal}
+<script language="JavaScript" type="text/javascript">
+function check_recall( article_id, status )
+{
+   var f = document.campaign_keyword_list;
+   f.article_id.value = article_id;
+   f.operation.value = 'recall';
+   f.old_status.value = status;
+   f.submit();
+}
+</script>
+{/literal}
+<div id="page-box1">
+  <h2>{if $login_role neq 'client'}Articles List{else}My Articles{/if}</h2>
+  <div id="campaign-search" >
+  <strong>Enter in the campaign name or keywords to narrow your search results</strong>
+  <div id="campaign-search-box" >
+  <form name="f_assign_keyword_return" action="/article/article_keyword_list.php" method="get">
+  <input type="hidden" name="campaign_id" value="{$smarty.get.campaign_id}" />
+  <table border="0" cellspacing="1" cellpadding="4">
+  <tr>
+    <td nowrap>Topic</td>
+    <td><input type="text" name="keyword" id="search_keyword" value="{$smarty.get.keyword}"></td>
+{*    <td><select name="show_keyword_type" onchange="this.form.submit();">{html_options options=$show_keyword_type selected=$smarty.get.show_keyword_type}</select></td>*}
+    {if $login_role == 'client'}
+    <td nowrap>Campaigns:</td>
+    <td nowrap><select name="campaign_id" onchange="this.form.submit();">{html_options options=$campaigns selected=$smarty.get.campaign_id}</select></td>
+    {/if}
+    <td nowrap>Article Type</td>
+    <td><select name="article_type"><option value="">[choose]</option>{html_options options=$article_type selected=$smarty.get.article_type}</select></td>
+    <td nowrap>Article Status</td>
+    <td><select name="article_status"><option value="">[choose]</option>{html_options options=$article_status selected=$smarty.get.article_status}</select></td>	
+    <td nowrap>Show:</td>
+    <td nowrap><select name="perPage" onchange="this.form.submit();" nowrap>{html_options options=$g_pager_perPage selected=$smarty.get.perPage}</select> row(s)</td>
+    <td><input type="image" src="/images/button-search.gif" value="submit"></td>
+    <td nowrap>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+    <td width="20%">&nbsp;</td>
+  </tr>
+  </table>
+  </form>
+  
+  </div>
+  </div>
+  
+</div>
+
+<div class="tablepadding"> 
+  <div class="pagingpaddingleft" >
+    <table align="center" width="100%" border="0" cellspacing="0" cellpadding="0" >
+      <tr><td class="table-left table-paging-left" width="20" height="37" >&nbsp;</td><td class="table-bottom">{$pager} (Total Page:{$total}) (Total Count:{$count})</td><td class="table-right table-paging-right" width="21">&nbsp;</td></tr>
+    </table>
+  </div>
+<form action="/article/article_keyword_list.php" name="campaign_keyword_list" method="post" >
+<table id="table-1" cellspacing="0" cellpadding="0" align="center" class="sortableTable">
+  <input type="hidden" name="keyword_id" />
+  <input type="hidden" name="article_id" />
+  <input type="hidden" name="operation" value=""  />
+  <input type="hidden" name="old_status" value=""  />
+  <input type="hidden" name="query_string" value="{$query_string}"  />
+  <input type="hidden" name="form_refresh" value="N" />
+  <thead>
+  <tr class="sortableTab">
+    <td nowrap class="columnHeadInactiveBlack table-left-2">No.</td>
+    <td nowrap class="columnHeadInactiveBlack">Article Number</td>
+    <td nowrap class="columnHeadInactiveBlack">Topic</td>
+    <td nowrap class="columnHeadInactiveBlack">Status</td>
+    <td nowrap class="columnHeadInactiveBlack">Noflow Status</td>
+    <td nowrap class="columnHeadInactiveBlack">Article Type</td>
+    <td nowrap class="columnHeadInactiveBlack">Campaign Name</td>
+    {if $login_role neq 'copy writer' && $login_role neq 'client'}
+    <td nowrap class="columnHeadInactiveBlack">Copywriter</td>
+    {/if}
+    {if $login_role neq 'client'}
+    <td nowrap class="columnHeadInactiveBlack">Editor</td>
+    {/if}
+    {*<td nowrap class="columnHeadInactiveBlack">Topics</td>*}
+    <td nowrap class="columnHeadInactiveBlack">Start Date</td>
+    {if $login_role != 'editor'}
+    <td nowrap class="columnHeadInactiveBlack">Due Date</td>
+    {/if}
+    <td nowrap class="columnHeadInactiveBlack">Date Assigned</td>
+    {if $login_permission >= 3 || $login_permission == 1}
+    <td nowrap class="columnHeadInactiveBlack">{if $login_permission>=4}Cost{else}Pay Rate{/if}</td>
+    {/if}
+    <td nowrap class="columnHeadInactiveBlack table-right-2">Actions</td>
+  </tr>
+  </thead>
+  {foreach from=$result item=item name="loop"}
+  <tr class="{if $login_role eq 'copy writer' &&  $item.article_status eq 2}rejected{elseif $smarty.foreach.loop.iteration % 2 eq 0}even{else}odd{/if}">
+    {eval var= $startNo+$smarty.foreach.loop.iteration assign='rowNumber'}
+    <td class="table-left-2">{$rowNumber}</td>
+    <td>{$item.article_number}</td>    
+    <td>
+    {if  $login_permission eq 1 &&  $item.article_status neq '0' && $item.article_status neq ''}
+      <a href="/article/article_review.php?article_id={$item.article_id}"  onMouseOver="return overlib('<table width=500><tr><td nowrap>Keyword Instructions</td><td >{$item.keyword_description|nl2br|strip|escape:html}</td></tr></table>');" onMouseOut="return nd();">{$item.keyword}</a>
+    {else}
+      <a href="javascript:void(0)" onMouseOver="return overlib('<table width=500><tr><td nowrap>Keyword Instructions</td><td >{$item.keyword_description|nl2br|strip|escape:html}</td></tr></table>');" onMouseOut="return nd();">{$item.keyword}</a>
+    {/if}
+    </td>
+    <td>{$article_status[$item.article_status]}</td>
+    <td>{$noflow_status[$item.noflow_status]}</td>
+    <td>{$article_type[$item.article_type]}</td>
+    <td>{$item.campaign_name|truncate:20:"..."}</td>
+    {if $login_role neq 'copy writer' && $login_role neq 'client'}
+    <td><a href="mailto:{$item.uc_email}">{$item.uc_name}</a></td>
+    {/if}
+    {if $login_role neq 'client'}
+    <td><a href="mailto:{$item.ue_email}">{$item.ue_name}</a></td>
+    {/if}
+    {*<td>{$keyword_categorys[$item.keyword_category]}</td>*}
+    <td>{$item.date_start|date_format:"%m-%d-%Y"}</td>
+    {if $login_role != 'editor'}
+    <td>{$item.date_end|date_format:"%m-%d-%Y"}</td>
+    {/if}
+    <td>{if $item.date_assigned == '0000-00-00 00:00:00'}n/a{else}{$item.date_assigned|date_format:"%m-%d-%Y"}{/if}</td>
+    {if $login_permission >= 3 || $login_permission == 1}
+    <td>{if $login_permission>=4}{$item.cost_for_article}{else}{$item.cost_per_article}{/if}</td>
+    {/if}
+    <td align="right" nowrap class="table-right-2">
+    {if  $login_permission eq 1 &&  $item.article_status == '1' }
+	      <input type="button" class="button" value="Recall" onclick="check_recall({$item.article_id}, '{$item.article_status}')" />
+	      <input type="button" class="button" value="Review" onclick="window.open('/article/article_review.php?article_id={$item.article_id}&from=article_list&{$query_string}');" />
+    {/if}
+      {* 2=>3 *}
+    {if $login_role eq 'copy writer' || $login_permission gt 3}
+      {if ($item.article_status eq 0 || $item.article_status eq '99') && ($item.creation_role eq $login_role || $item.copy_writer_id eq $login_op_id) || $item.article_status eq 2 || $login_permission gt 3}
+      {if $item.current_version_number eq '1.0' && $login_permission eq 1 && $item.article_status eq 0 && (($item.creation_role eq $login_role && $item.creator eq $login_op_id) || $item.copy_writer_id eq $login_op_id) && ($item.title eq '' && $item.body eq  '')}
+      <input type="button" class="button" value="Add Article" onclick="javasript:window.location='/article/article_set.php?article_id={$item.article_id}&keyword_id={$item.keyword_id}&{$query_string}';" />
+      {else}
+	    <input type="button" class="button" value="Update" onclick="javasript:window.location='/article/article_set.php?article_id={$item.article_id}&keyword_id={$item.keyword_id}&from=article_list&{$query_string}';" />
+      {/if}
+      {/if}
+	  {else}
+		{if ($item.article_status eq 0 && $item.creator eq $login_op_id && $item.creation_role eq $login_role) || ($login_role eq 'client' && $item.article_status eq 4) || (($item.article_status eq '1gc' || $item.article_status eq 3 || $item.article_status eq '1gd') && $login_role neq 'client')}
+	    <input type="button" class="button" value="Approval AND Comments" onclick="javasript:window.location='/article/approve_article.php?article_id={$item.article_id}&keyword_id={$item.keyword_id}&fmp={if $smarty.get.article_status=='1gc'}1gc{else}article_list{/if}&{$query_string}';" />
+		{/if}
+    {if $login_role eq 'editor' && ($item.article_status eq '2' || $item.article_status eq '4' || $item.article_status eq '99')}
+      <input type="button" class="button" value="Re-Edit" onclick="javasript:window.location='/article/approve_article.php?article_id={$item.article_id}&keyword_id={$item.keyword_id}&{$query_string}';" />
+     {/if}
+	  {/if}
+    {if $login_role neq 'client'}
+     <input type="button" class="button" value="Comment" onclick="javasript:window.location='/article/article_comment_list.php?article_id={$item.article_id}&{$query_string}';" />
+     {/if}    
+     {*{if $item.current_version_number eq '1.0' && $login_permission eq 1 && $item.article_status eq 0 && (($item.creation_role eq $login_role && $item.creator eq $login_op_id) || $item.copy_writer_id eq $login_op_id) && ($item.title eq '' && $item.body eq  '')}
+      <input type="button" class="button" value="Add Article" onclick="javasript:window.location='/article/article_set.php?article_id={$item.article_id}&keyword_id={$item.keyword_id}&{$query_string}';" />
+     {/if}
+      <!-- <input type="submit" class="button" value="Delete" onclick="return deleteSubmit('campaign_keyword_list', 'keyword_id', '{$item.keyword_id}', 'D', 'This Campaign Keyword')" /> //-->
+      {if $login_role eq 'copy writer' || $login_permission gte 3}
+        {if (($item.article_status eq 0 || $item.article_status eq 2) && (($item.creation_role eq $login_role && $item.creator eq $login_op_id) || ($item.copy_writer_id eq $login_op_id && ($item.current_version_number >= '1.0' && $item.title neq '' || ($item.current_version_number > '1.0' && $item.title eq ''))))) || $login_permission gt 3}
+          <input type="button" class="button" value="Update" onclick="javasript:window.location='/article/article_set.php?article_id={$item.article_id}&keyword_id={$item.keyword_id}&{$query_string}';" />
+        {/if}
+      {else}
+        {if ($item.article_status eq 0 && $item.creator eq $login_op_id && $item.creation_role eq $login_role) || ($login_role eq 'client' && $item.article_status eq 4) || (($item.article_status eq 1 || $item.article_status eq 3) && $login_role neq 'client')}
+            <input type="button" class="button" value="Review Article" onclick="javasript:window.location='/article/approve_article.php?article_id={$item.article_id}&keyword_id={$item.keyword_id}&{$query_string}';" />
+        {/if}
+      {/if}
+      {if  $login_permission eq 1 &&  $item.article_status == '1' }
+        <input type="button" class="button" value="Recall" onclick="check_recall({$item.article_id}, '{$item.article_status}')" />
+        <input type="button" class="button" value="Review" onclick="openLink('/article/article_review.php?article_id={$item.article_id}&{$query_string}')" />
+      {/if}
+       <input type="button" class="button" value="Comment" onclick="javasript:window.location='/article/article_comment_list.php?article_id={$item.article_id}&{$query_string}';" />*}
+      </td>
+  </tr>
+  {/foreach}
+</table>
+</form>
+<div class="pagingpaddingleft" >
+  <table align="center" width="100%" border="0" cellspacing="0" cellpadding="0" >
+    <tr><td class="table-left table-paging-left" width="20" height="37" >&nbsp;</td><td class="table-bottom">{$pager} (Total Page:{$total}) (Total Count:{$count})</td><td class="table-right table-paging-right" width="21">&nbsp;</td></tr>
+  </table>
+</div><br />
+</div>
+<script type="text/javascript">
+//<![CDATA[
+var st = new SortableTable(document.getElementById("table-1"),
+  [ "Number", "CaseInsensitiveString", "CaseInsensitiveString",  "CaseInsensitiveString", "CaseInsensitiveString", "CaseInsensitiveString", 
+  {if $login_role neq 'copy writer'} "CaseInsensitiveString", {/if} "CaseInsensitiveString", "CaseInsensitiveString", "Date", "Date", "None"]);
+
+{literal}
+
+st.onsort = function () {
+  var rows = st.tBody.rows;
+  var l = rows.length;
+  for (var i = 0; i < l; i++) {
+    removeClassName(rows[i], i % 2 ? "odd" : "even");
+    addClassName(rows[i], i % 2 ? "even" : "odd");
+  }
+};
+
+st.asyncSort(0);
+{/literal}
+//]]>
+</script>
+
+{include file="themes/$theme/footer.html"}

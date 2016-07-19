@@ -1,0 +1,29 @@
+<div class="page-box1-class">
+<h2>User Notes&nbsp;&nbsp;&nbsp;&nbsp;<input type="button" class="button" value="Add Note" onclick="showNoteDialog(0)" /></h2>
+</div>
+<table id="table-2" cellspacing="0" align="center" cellpadding="0" class="sortableTable" >
+  <tr>
+    <th class="table-left-corner">&nbsp;&nbsp;&nbsp;&nbsp;</th>
+    <td nowrap class="columnHeadInactiveBlack table-left-2">Number</td>
+    <td nowrap class="columnHeadInactiveBlack">Category</td>
+    <td nowrap class="columnHeadInactiveBlack">Subject</td>
+    <td nowrap class="columnHeadInactiveBlack">Note</td>
+    <td nowrap class="columnHeadInactiveBlack">Creator</td>
+    <td nowrap class="columnHeadInactiveBlack">Created Date</td>
+    <td nowrap class="columnHeadInactiveBlack table-right-2">&nbsp;</td>
+    <th class="table-right-corner">&nbsp;&nbsp;&nbsp;&nbsp;</th>
+  </tr>
+  {foreach from=$notes item=item name="loop"}
+  <tr class="{if $smarty.foreach.loop.iteration % 2 eq 0}even{else}odd{/if}">
+    <td class="table-left" >&nbsp;</td>
+    <td class="table-left-2">{$smarty.foreach.loop.iteration}</td>
+    <td>{$ucategories[$item.category_id]}</td>
+    <td>{$item.title}</td>
+    <td>{$item.notes|nl2br}</td>
+    <td>{$item.creator}</td>
+    <td>{$item.created|date_format:"%m-%d-%Y"}</td>
+    <td align="right" nowrap  class="table-right-2"><input type="button" class="button" value="update" onclick="showNoteDialog({$item.note_id})" /> </td>
+    <td class="table-right" >&nbsp;</td>
+  </tr>
+  {/foreach}
+</table>

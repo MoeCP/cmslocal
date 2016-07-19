@@ -1,0 +1,151 @@
+{include file="themes/$theme/header.html"}
+
+{if $feedback ne ''}
+<script language="JavaScript">
+<!--
+alert('{$feedback}');
+//-->
+</script>
+{/if}
+<div style="display:none" id="report_result" ></div>
+<div id="page-box1">
+  <h2>{if $archived == 1}Archived {/if}Client Campaigns</h2>
+  <div id="campaign-search" >
+      <div id="campaign-search-box" >
+        <form name="f_assign_keyword_return" action="/client_campaign/client_list.php" method="get">
+        <table border="0" cellspacing="1" cellpadding="4">
+          <tr>
+            <td nowrap>Campaign Search (by campaign name or company name)</td>
+            <td><input type="text" name="keyword" id="search_keyword"></td>
+            <td   nowrap>Campaign Status:</td>
+            <td><select name="archived">{html_options options=$archived_status selected=$smarty.get.archived}</select></td>
+            <td   nowrap>Client Status:</td>
+            <td><select name="status">{html_options options=$total_status selected=$smarty.get.status|default:'A'}</select></td>
+            {if $user_permission_int > 3}
+            <td   nowrap>Client Agency:</td>
+            <td><select name="agency">{html_options options=$all_agency selected=$smarty.get.agency}</select></td>
+            {/if}
+            <td ><input type="image" src="/images/button-search.gif" value="submit" /></td>
+            <td nowrap>&nbsp; </td>
+            <td width="70%">&nbsp;</td>
+          </tr>
+          </form>
+        </table>
+        </form>
+      </div>
+  </div>
+</div>
+<div class="tablepadding"> 
+<table id="table-1" cellspacing="0" cellpadding="0" align="center" class="sortableTable">
+  <thead>
+  <tr class="sortableTab">
+    <th class="table-left-corner">&nbsp;&nbsp;&nbsp;&nbsp;</th>
+    <td nowrap class="columnHeadInactiveBlack table-left-2">Company Name</td>
+{* modified by snug xu 2007-05-29 9:55 - STARTED*}
+{if $is_show}
+	<td nowrap class="columnHeadInactiveBlack">Total spend so far</td>
+{/if}
+{* modified by snug xu 2007-05-29 9:55 - FINISHED
+{*    <td nowrap class="columnHeadInactiveBlack">Total Google Clean Articles</td>
+    <td nowrap class="columnHeadInactiveBlack">Total Current Articles</td>*}
+    <td nowrap class="columnHeadInactiveBlack">Total Campaigns in All Reports</td>
+    <td nowrap class="columnHeadInactiveBlack">Total Keywords</td>
+    <td nowrap class="columnHeadInactiveBlack">% assigned</td>
+    <td nowrap class="columnHeadInactiveBlack">% submitted</td>
+    <td nowrap class="columnHeadInactiveBlack">% Editor approved</td>
+    <td nowrap class="columnHeadInactiveBlack">% client Approved</td>
+    <td nowrap class="columnHeadInactiveBlack">Due Date</td>
+    {if $archived == 1}
+    <td nowrap class="columnHeadInactiveBlack">Completed Date</td>
+    {else}
+    <td nowrap class="columnHeadInactiveBlack">Days Past Due</td>
+    {/if}
+    <td nowrap class="columnHeadInactiveBlack table-right-2">Action</td>
+    <th class="table-right-corner">&nbsp;&nbsp;&nbsp;</th>
+  </tr>
+  </thead>
+  {foreach from=$result item=item name="loop"}
+  <tr id="tr{$item.client_id}" class="{if $smarty.foreach.loop.iteration % 2 eq 0}even{else}odd{/if}">
+    <td class="table-left" >&nbsp;</td>
+    <td class="table-left-2">{*<a href="/client_campaign/list.php?client_id={$item.client_id}&company_name={$item.company_name}&archived={$archived}"  target="_blank">{$item.company_name}</a>*}
+    <a href="/client_campaign/campaign_list.php?client_id={$item.client_id}&archived=-1"  target="_blank">{$item.company_name}</a></td>
+{* modified by snug xu 2007-05-29 9:55 - STARTED*}
+{if $is_show}
+	<td>{$item.total_count}</td>
+{/if}
+{* modified by snug xu 2007-05-29 9:55 - FINISHED*}
+{* 	<td>{$item.total_gc_articles}</td>
+	<td>{$item.total_completed_articles}</td>*}
+  <td nowrap id="td{$item.client_id}" >
+    {$item.total_camp}
+    {if $item.total_camp > 0}
+     <a href="javascript:void(0)" id="ahref{$item.client_id}" onclick="appendRsToObj($('tr{$item.client_id}'),this,{if $item.total_camp > $campaign_limit}{$campaign_limit}{else}{$item.total_camp}{/if}, '/client_campaign/client_campaign_list.php?client_id={$item.client_id}{$query_string}', 'report_result');return false;" >View Campaigns</a>
+     {/if}
+     {if $item.total_camp > $campaign_limit}
+     <a href="/client_campaign/campaign_list.php?client_id={$item.client_id}{$query_string}" target="_blank" title="Show All" ><span class="total-text">[more]</span></a>
+     {/if}
+  </td>
+	<td>{$item.total|default:0}</td>
+	<td ><div {if $item.old_assigned}class="greenclass"{/if}>{$item.pct_total_assign|default:"0%"}({$item.total_assign|default:0})</div></td>
+	<td ><div {if $item.old_submitted}class="yellowclass"{/if}>{$item.pct_total_submit|default:"0%"}({$item.total_submit|default:0})</div></td>
+	<td ><div {if $item.old_approved}class="redclass"{/if}>{$item.pct_total_editor_approval|default:"0%"}({$item.total_editor_approval|default:0})</div></td>
+	<td>{$item.pct_total_client_approval|default:"0%"}({$item.total_client_approval|default:0})</td>
+	<td></td>
+	<td></td>
+  <td align="right" nowrap class="table-right-2"><select name="campaign_id[]" id="campaign_id{$item.client_id}"  onchange="javascript:window.location='/client_campaign/keyword_list.php?archived={$archived}&campaign_id='+this.options[this.selectedIndex].value;"><option value="">[drop down list of current campaign]</option>{html_options options=$campaigns[$item.client_id]}</select></td>
+  <td class="table-right" >&nbsp;</td>
+  </tr>
+  {/foreach}
+</table>
+<div class="pagingpaddingleft" >
+  <table align="center" width="100%" border="0" cellspacing="0" cellpadding="0" >
+    <tr><td class="table-left table-paging-left" width="20" height="37" >&nbsp;</td><td class="table-bottom">{$pager} (Total Page:{$total})(Total Count:{$count})</td><td class="table-right table-paging-right" width="21">&nbsp;</td></tr>
+  </table>
+</div>
+</div>
+<form name="f_archive_form" id="f_archive_form" action="/client_campaign/client_list.php" method="post">
+<input type="hidden" name="status" id="status" value="" />
+<input type="hidden" name="campaign_id" id="campaign_id" value="" />
+<input type="hidden" name="total_row" id="total_row" value="" />
+<input type="hidden" name="client_id" id="client_id" value="" />
+<input type="hidden" name="query_string" id="query_string" value="{$query_string}" />
+</form>
+<div id="postresult" ></div>
+<script type="text/javascript">
+//<![CDATA[
+{literal}
+var st = new SortableTable(document.getElementById("table-1"),
+  ["None", "CaseInsensitiveString", "Number", "Number", "None"]);
+
+st.onsort = function () {
+  var rows = st.tBody.rows;
+  var l = rows.length;
+  for (var i = 0; i < l; i++) {
+    removeClassName(rows[i], i % 2 ? "odd" : "even");
+    addClassName(rows[i], i % 2 ? "even" : "odd");
+  }
+};
+
+st.asyncSort(0);
+
+function formsubmit(status, cid, completed,  total, client_id)
+{
+    var form = $('f_archive_form');
+    form.status.value = status;
+    form.campaign_id.value = cid;
+    form.client_id.value = client_id;
+    form.total_row.value = total;
+    if (completed == 0)
+    {
+        if (!confirm('This campaign is not completed. Are you sure set it as archived?'))
+        {
+            return false;
+        }
+    }
+    archiveCampaign('postresult', 'f_archive_form');
+}
+{/literal}
+//]]>
+</script>
+
+{include file="themes/$theme/footer.html"}

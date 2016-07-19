@@ -1,0 +1,56 @@
+<div class="title-top-box" id="navWorkExperience" >Work Experience(optional)</div>
+<div class="form-item" id="divWorkExperience" >
+  <div class="title-desc-box"><strong>Please provide any employment experience that showcases your specialties and skills. This section is optional but helps the team with determining what categories best fit your background. Simply select the job category and provide us with the company name, your title, and the amount of time you worked there. You can include additional jobs by selecting the add button.</strong></div>
+<form action="" method="post"  name="f_candidate_wp">
+<input type="hidden" name="candidate_id" value="{$cid}"/>
+<input type="hidden" name="opt_index" value="2" />
+<br>
+<table border="0" cellspacing="1" cellpadding="4" align="center" width="100%">  
+  <tr>
+    <td class="bodyBold" colspan="2">Basic Information</td>
+    <td align="right"  colspan="3" class="requiredHint">Required Information</td>
+  </tr>
+  <tr>
+    <td class="blackLine" colspan="5"><img src="/image/misc/s.gif"></td>
+  </tr>
+  <tr>
+    <td colspan="5">
+    <table>
+  <tr>
+    <td><input type="button"  class="button" value="+" onclick="addRow('experiencerow', {$total}, 'tr')" /></td>
+    <td align="left" >Job</td>
+    <td align="left" >Company</td>
+    <td align="left" >Title</td>
+    <td align="left" >Experience</td>
+  </tr>
+  {if $info.experience}
+  {foreach from=$info.experience.job item=item key=key}
+  <tr {if $key == 0}id="experiencerow"{/if}>
+    <td>{if $key == 0}<span></span>{else}<input type="button"  class="button" value="-" onclick="jQuery(this).parent().parent().remove();currentrow--" />{/if}</td>
+    <td><select name="experience[job][]">{html_options options=$categories selected=$item}</select></td>
+    <td><input type="text" name="experience[company][]" value="{$info.experience.company[$key]}" size="60" /></td>
+    <td><input type="text" name="experience[title][]" value="{$info.experience.title[$key]}" size="50" /></td>
+    <td><select name="experience[year][]">{html_options options=$experience selected=$info.experience.year[$key]}</select></td>
+  </tr>
+  {/foreach}
+  {else}
+  <tr id="experiencerow">
+    <td><span></span></td>
+    <td><select name="experience[job][]">{html_options options=$categories}</select></td>
+    <td><input type="text" name="experience[company][]" value="" size="60" /></td>
+    <td><input type="text" name="experience[title][]" value="" size="50" /></td>
+    <td><select name="experience[year][]">{html_options options=$experience}</select></td>
+  </tr>
+  {/if}
+      </table>
+    </td>
+  </tr>
+  <tr>
+    <td class="blackLine" colspan="5"><img src="/image/misc/s.gif"></td>
+  </tr>
+  <tr>
+    <td colspan="5" >&nbsp;Having trouble submitting the form? Send email to hr@copypress.com &nbsp;<input type="button" value="Next" class="button" onclick="check_f_candidate_wp()" /></td>
+  </tr>
+</table>
+</form>
+</div>

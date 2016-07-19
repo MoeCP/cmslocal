@@ -1,0 +1,98 @@
+{include file="themes/$theme/header.html"}
+
+{if $feedback ne ''}
+<script language="JavaScript">
+<!--
+alert('{$feedback}');
+//-->
+</script>
+{/if}
+
+<table border="0" cellspacing="1" cellpadding="4">
+  <tr>
+    <td colspan="8" class="moduleTitle">Articles List</td>
+  </tr>
+  <tr><td colspan="9" nowrap><table class="helpTable" width="100%" cellspacing="0" cellpadding="4">
+      <tr><td>You can enter the "campaign name","keyword","article content" etc. into the keyword input to search the relevant article's information</td></tr></table></td></tr>
+  <form name="f_assign_keyword_return" action="/article/article_list.php" method="get">
+  <tr>
+    <td class="requiredInput" nowrap>Keyword</td>
+    <td><input type="text" name="keyword" id="search_keyword"></td>
+    <td class="requiredInput" nowrap>Article Type</td>
+    <td><select name="article_type"><option value="">[choose]</option>{html_options options=$article_type selected=$smarty.get.article_type}</select></td>
+    <td><input type="submit" value="Search" class="moduleButton"></td>
+    <td nowrap>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+    <td width="60%">&nbsp;</td>
+  </tr>
+  </form>
+</table><br>
+
+<table id="table-1" cellspacing="0" cellpadding="4" align="center" class="sortableTable" width="99%">
+  <form action="/article/article_list.php" name="article_list" method="post" />
+  <input type="hidden" name="keyword_id" />
+  <input type="hidden" name="article_id" />
+  <input type="hidden" name="form_refresh" value="N" />
+  <thead>
+  <tr class="sortableTab">
+	<td nowrap class="columnHeadInactiveBlack">No.</td>
+    <td nowrap class="columnHeadInactiveBlack">Keyword</td>
+    <td nowrap class="columnHeadInactiveBlack">Article Number</td>
+    <td nowrap class="columnHeadInactiveBlack">Campaign Name</td>
+    <td nowrap class="columnHeadInactiveBlack">Copywriter</td>
+    <td nowrap class="columnHeadInactiveBlack">Article Status</td>
+    <td nowrap class="columnHeadInactiveBlack">Date Start</td>
+    <td nowrap class="columnHeadInactiveBlack">Date End</td>
+    <td nowrap class="columnHeadInactiveBlack">Version</td>
+    <td nowrap class="columnHeadInactiveBlack">&nbsp;</td>
+  </tr>
+  </thead>
+  {foreach from=$result item=item name="loop"}
+  <tr class="{if $smarty.foreach.loop.iteration % 2 eq 0}even{else}odd{/if}">
+    <td>{$smarty.foreach.loop.iteration}</td>
+    <td>{if $login_role neq 'copy writer'}<a href="article_comment_list.php?article_id={$item.article_id}"  target="_blank">{$item.keyword}</a>{else}{$item.keyword}{/if}</td>
+    <td>{$item.article_number}</td>
+    <td>{$item.campaign_name|truncate:20:"..."}</td>
+    <td>{$item.copywriter}</td>
+    <td>{$article_statuses[$item.article_status]}</td>
+    <td>{$item.date_start|date_format:"%m-%d-%Y"}</td>
+    <td>{$item.date_end|date_format:"%m-%d-%Y"}</td>
+    <td>{$item.current_version_number}</td>
+    <td align="right" nowrap>
+      {* 2=>3 *}
+      {if $login_role eq 'copy writer' || $login_permission gt 3}{if ($item.article_status eq 0 && $item.creation_role eq $login_role) || $item.article_status eq 2 || $login_permission gt 3}
+	  <input type="button" class="button" value="Update" onclick="javasript:window.location='/article/article_set.php?article_id={$item.article_id}&keyword_id={$item.keyword_id}';" />{/if}
+	  {else}
+		{if ($item.article_status eq 0 && $item.creator eq $login_op_id && $item.creation_role eq $login_role) || ($login_role eq 'client' && $item.article_status eq 4) || (($item.article_status eq 1 || $item.article_status eq 3) && $login_role neq 'client')}
+	    <input type="button" class="button" value="Approval AND Comments" onclick="javasript:window.location='/article/approve_article.php?article_id={$item.article_id}&keyword_id={$item.keyword_id}';" />
+		{/if}
+	  {/if}
+	  </td>
+  </tr>
+  {/foreach}
+  </form>
+</table>
+<table align="center">
+  <tr><td>{$pager} (Total Page:{$total})</td></tr>
+</table>
+
+<script type="text/javascript">
+//<![CDATA[
+{literal}
+var st = new SortableTable(document.getElementById("table-1"),
+  ["Number", "CaseInsensitiveString", "CaseInsensitiveString", "CaseInsensitiveString", "CaseInsensitiveString", "CaseInsensitiveString", "Date", "Date", "Number", "None"]);
+
+st.onsort = function () {
+  var rows = st.tBody.rows;
+  var l = rows.length;
+  for (var i = 0; i < l; i++) {
+    removeClassName(rows[i], i % 2 ? "odd" : "even");
+    addClassName(rows[i], i % 2 ? "even" : "odd");
+  }
+};
+
+st.asyncSort(0);
+{/literal}
+//]]>
+</script>
+
+{include file="themes/$theme/footer.html"}

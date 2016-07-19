@@ -1,0 +1,7 @@
+
+Deprecated: Assigning the return value of new by reference is deprecated in /var/www/vhosts/copypress.com/subdomains/common/adodb/adodb.inc.php on line 889
+
+Deprecated: Assigning the return value of new by reference is deprecated in /var/www/vhosts/copypress.com/subdomains/common/adodb/adodb.inc.php on line 1914
+
+Deprecated: Assigning the return value of new by reference is deprecated in /var/www/vhosts/copypress.com/subdomains/common/adodb/adodb.inc.php on line 1986
+cronjob startcronjob over

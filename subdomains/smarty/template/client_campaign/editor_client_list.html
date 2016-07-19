@@ -1,0 +1,77 @@
+{include file="themes/$theme/header.html"}
+
+{if $feedback ne ''}
+<script language="JavaScript">
+<!--
+alert('{$feedback}');
+//-->
+</script>
+{/if}
+<div id="page-box1">
+  <h2>Client List</h2>
+  <div id="campaign-search" >
+    <strong>You can enter the "client user name","company name","city" etc. into the keyword input to search the relevant client's information. Drop down list of current campaign as below, choose one option will go to that specific campaign<br /></strong>
+     <div id="campaign-search-box" >
+<form name="f_assign_keyword_return" action="/client/client_list.php" method="get">
+<table border="0" cellspacing="1" cellpadding="4"> 
+<tr>
+  <td nowrap>Client Keyword</td>
+  <td><input type="text" name="keyword" id="search_keyword"></td>
+  <td><input type="image" src="/images/button-search.gif" value="submit" /></td>
+  <td nowrap>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+  <td width="70%">&nbsp;</td>
+</tr>
+</table>
+</form>
+    </div>
+  </div>
+</div>
+
+<div class="tablepadding"> 
+<table id="table-1" cellspacing="0" cellpadding="0" align="center" class="sortableTable">
+  <thead>
+  <tr class="sortableTab">
+    <th class="table-left-corner">&nbsp;&nbsp;&nbsp;&nbsp;</th>
+    <td nowrap class="columnHeadInactiveBlack table-left-2">Company Name</td>
+    <td nowrap class="columnHeadInactiveBlack">Total current articles</td>
+    <td nowrap class="columnHeadInactiveBlack table-right-2" >&nbsp;</td>
+    <th class="table-right-corner">&nbsp;&nbsp;&nbsp;</th>
+  </tr>
+  </thead>
+  {foreach from=$result item=item name="loop"}
+  <tr class="{if $smarty.foreach.loop.iteration % 2 eq 0}even{else}odd{/if}">
+    <td class="table-left" >&nbsp;</td>
+    <td class="table-left-2"><a href="/client_campaign/ed_cp_campaign_list.php?client_id={$item.client_id}&company_name={$item.company_name}">{$item.company_name}</a></td>
+    <td>{$item.total_completed_articles}</td>
+    <td align="right" nowrap  class="table-right-2"><select name="campaign_id[]" id="campaign_id{$item.client_id}"  onchange="javascript:window.location='/article/article_keyword_list.php?campaign_id='+this.options[this.selectedIndex].value;"><option value="">[drop down list of current campaign]</option>{html_options options=$item.id_name_campaign}</select></td>
+    <td class="table-right" >&nbsp;</td>
+  </tr>
+  {/foreach}
+</table>
+<div class="pagingpaddingleft" >
+  <table align="center" width="100%" border="0" cellspacing="0" cellpadding="0" >
+    <tr><td class="table-left table-paging-left" width="20" height="37" >&nbsp;</td><td class="table-bottom">{$pager} (Total Page:{$total})(Total Count:{$count})</td><td class="table-right table-paging-right" width="21">&nbsp;</td></tr>
+  </table>
+</div>
+</div>
+<script type="text/javascript">
+//<![CDATA[
+{literal}
+var st = new SortableTable(document.getElementById("table-1"),
+  [ "None", "CaseInsensitiveString", "Number", "Number", "None"]);
+
+st.onsort = function () {
+  var rows = st.tBody.rows;
+  var l = rows.length;
+  for (var i = 0; i < l; i++) {
+    removeClassName(rows[i], i % 2 ? "odd" : "even");
+    addClassName(rows[i], i % 2 ? "even" : "odd");
+  }
+};
+
+st.asyncSort(0);
+{/literal}
+//]]>
+</script>
+
+{include file="themes/$theme/footer.html"}

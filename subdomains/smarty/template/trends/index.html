@@ -1,0 +1,61 @@
+{include file="themes/$theme/header_jump.html"}
+
+{if $feedback ne ''}
+<script language="JavaScript">
+<!--
+alert('{$feedback}');
+//-->
+</script>
+{/if}
+<div id="page-box1">
+  {*<h2>Trends</h2>*}
+  <div id="campaign-search" >
+    <div id="campaign-search-box" >
+  <form name="f_trend_search_return" id="f_trend_search_return" action="/trends/index.php" method="get" onsubmit="return false;">
+  <table border="0" cellspacing="1" cellpadding="4">
+  <tr>
+    <td><input type="text" name="keyword" id="search_keyword" size="60" title="Enter Keyword" class="search-input" value="" /></td>
+    <td><input type="image" src="/images/button-search.gif" value="submit" onclick="ajaxSubmit('/trends/results.php', 'f_trend_search_return', 'trendsdivresult')" /></td>
+  </tr>
+  </table>
+  </form>
+    </div>
+  </div>
+</div>
+<div class="tablepadding" id="trendsdivresult" >
+  <table border="0" cellspacing="1" cellpadding="4" width="100%" class="divTrends">
+  {foreach from=$results item=item name="loop" key=key}
+    {if $key%2 == 0}<tr>{/if}
+      <td width="50%" valign="top" class="tdTrends">
+        <div class="divTrends" >
+          <div class="divTrendLabel">{$item.label}</div>
+          <div class="divTrendResults" >
+          {foreach from=$item.rs item=subitem name="subloop" key=subkey}
+          <div class="divTrendResult">
+          <table width="100%" {if $subkey%2==0}class="grayrow"{/if}>
+          <tr  class="divTrendResultlink">
+            <td width="70%">
+            {if $subitem.link != ''}<a href="{$subitem.link}" target="_blank">{$subitem.title}</a>{else}{$subitem.title}{/if}
+            </td>
+            <td>{$subitem.pubDate}</td>
+          </tr>
+          <tr class="divTrendResultContent">
+            <td colspan="2">{$subitem.content}</td>
+          </tr>
+          </table>
+          </div>
+          <div>&nbsp;</div>
+          {/foreach}
+          </div>
+        </div>
+        {if $item.more != ''}
+        <div class="divTrendReadMore" >
+          <a href="{$item.more}" target="_blank">More Results</a>
+        </div>
+        {/if}
+      </td>
+    {if $key%2 == 1}</tr>{/if}
+    {/foreach}
+  </table>
+</div>
+{include file="themes/$theme/footer_jump.html"}

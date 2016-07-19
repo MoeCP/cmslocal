@@ -1,0 +1,17 @@
+{include file="themes/$theme/header.html"}
+<center><div style="color:red">{$feedback}</div></center>
+
+<form action="" method="post">
+	<input type="hidden" name="keyword_id" value="{$keyword_id}">
+	<input type="hidden" name="campaign_id" value="{$campaign_id}">
+	<input type="hidden" name="copy_writer_id" value="{$copy_writer_id}">
+	<input type="hidden" name="editor_id" value="{$editor_id}">
+<table width="90%">
+<tr>
+<td align="right">Notes</td><td><textarea name="notes" cols="100" rows="20">{$notes}</textarea></td>
+</tr>
+<tr>
+<td></td><td><input type="submit" value="Submit"></td>
+</tr>
+</table>
+</form>

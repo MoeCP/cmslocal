@@ -1,0 +1,93 @@
+{include file="themes/$theme/header.html"}
+
+{if $feedback ne ''}
+<script language="JavaScript">
+<!--
+alert('{$feedback}');
+//-->
+</script>
+{/if}
+<div id="page-box1">
+  <h2>Articles Version History List</h2>
+  <div id="campaign-search" >
+      <!--<strong>You can enter the "campaign name","keyword","article content" etc. into the keyword input to search the relevant article's information</strong>-->
+      <div id="campaign-search-box" >
+      <form name="f_assign_keyword_return" action="/article/article_history_list.php" method="get">
+      <table border="0" cellspacing="1" cellpadding="4">
+        <tr>
+          <td nowrap>Keyword</td>
+          <td><input type="text" name="keyword" id="search_keyword"></td>
+          <td><input type="image" src="/images/button-search.gif" value="submit"></td>
+          <td nowrap>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+          <td width="70%">&nbsp;</td>
+        </tr>
+      </table>
+      </form>
+    </div>
+  </div>
+</div>
+
+<div class="tablepadding"> 
+<table id="table-1" cellspacing="0" cellpadding="4" class="sortableTable" width="100%">
+  <form action="/article/article_history_list.php" name="article_list" method="post" />
+  <input type="hidden" name="keyword_id" />
+  <input type="hidden" name="article_id" />
+  <input type="hidden" name="form_refresh" value="N" />
+  <thead>
+  <tr class="sortableTab">
+    <th class="table-left-corner">&nbsp;&nbsp;&nbsp;&nbsp;</th>
+    <td nowrap class="columnHeadInactiveBlack table-left-2">No.</td>
+    <td nowrap class="columnHeadInactiveBlack">Keyword</td>
+    <td nowrap class="columnHeadInactiveBlack">Campaign Name</td>
+    <td nowrap class="columnHeadInactiveBlack">Creator</td>
+    <td nowrap class="columnHeadInactiveBlack">Role</td>
+    <td nowrap class="columnHeadInactiveBlack">Start Date</td>
+    <td nowrap class="columnHeadInactiveBlack">Due Date</td>
+    <td nowrap class="columnHeadInactiveBlack table-right-2">Version</td>
+    <th class="table-right-corner">&nbsp;&nbsp;&nbsp;</th>
+  </tr>
+  </thead>
+  {foreach from=$result item=item name="loop"}
+  <tr class="{if $smarty.foreach.loop.iteration % 2 eq 0}even{else}odd{/if}">
+    <td class="table-left" >&nbsp;</td>
+    {eval var= $startNo+$smarty.foreach.loop.iteration assign='rowNumber'}
+    <td class="table-left-2">{$rowNumber}</td>
+    <td><a href="article_comment_list.php?article_id={$item.article_id}"  target="_blank">{$item.keyword}</a></td>
+    <td>{$item.campaign_name|truncate:20:"..."}</td>
+    <td>{$item.creator}</td>
+    <td>{$item.creation_role}</td>
+    <td>{$item.date_start|date_format:"%m-%d-%Y"}</td>
+    <td>{$item.date_end|date_format:"%m-%d-%Y"}</td>
+    <td class="table-right-2">{$item.version_number}</td>
+    <td class="table-right" >&nbsp;</td>
+  </tr>
+  {/foreach}
+  </form>
+</table>
+<div class="pagingpaddingleft" >
+  <table align="center" width="100%" border="0" cellspacing="0" cellpadding="0" >
+    <tr><td class="table-left table-paging-left" width="20" height="37" >&nbsp;</td><td class="table-bottom">{$pager}  (Total Page:{$total})(Total Count:{$count})</td><td class="table-right table-paging-right" width="21">&nbsp;</td></tr>
+  </table>
+</div>
+</div>
+<script type="text/javascript">
+//<![CDATA[
+{literal}
+var st = new SortableTable(document.getElementById("table-1"),
+  ["None", "Number", "CaseInsensitiveString", "CaseInsensitiveString", "CaseInsensitiveString", "CaseInsensitiveString", "Date", "Date", "Number"]);
+
+st.onsort = function () {
+  var rows = st.tBody.rows;
+  var l = rows.length;
+  for (var i = 0; i < l; i++) {
+    removeClassName(rows[i], i % 2 ? "odd" : "even");
+    addClassName(rows[i], i % 2 ? "even" : "odd");
+  }
+};
+
+st.asyncSort(0);
+{/literal}
+//]]>
+</script>
+
+{include file="themes/$theme/footer.html"}

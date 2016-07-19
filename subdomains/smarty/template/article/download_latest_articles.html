@@ -1,0 +1,110 @@
+{include file="themes/$theme/header_jump.html"}
+{if $feedback ne ''}
+<script language="JavaScript">
+<!--
+alert("{$feedback}");
+//-->
+</script>
+{/if}
+{literal}
+<style type="text/css">
+.disabled_input { border-right: #000033 0px solid; border-top: #000033 0px solid; font-size: 12px; border-left: #000033 0px solid; border-bottom: #000033 0px solid; background:#ffffff}
+</style>
+<script language="JavaScript">
+<!--
+function formSubmit()
+{
+  var form = document.getElementById('f_article');
+  if (form.topic.checked || form.title.checked || form.mk.checked || form.md.checked || form.body.checked )
+  {
+    form.submit();
+  } else {
+    alert("Please pick one option at least");
+    return false;
+  }
+}
+//-->
+</script>
+{/literal}
+<div id="page-box1">
+  <h2>Download Latest Articles Options</h2>
+  <div id="campaign-search" >
+    <strong>Please pick download options for XML items</strong>
+  </div>
+  <div class="form-item" >
+<form action="/article/create_xml.php" method="get" name="f_article" id="f_article" >
+<input type="hidden" name="url_part" id="url_part" value="client">
+{if $campaign_id > 0}
+<input type="hidden" name="campaign_id" id="campaign_id" value="{$campaign_id}">
+{/if}
+<input type="hidden" name="is_rich" id="is_rich" value="0">
+<input type="hidden" name="aa_start" id="aa_start" value="{$aa_start}">
+<table border="0" cellspacing="1" cellpadding="4" align="center" width="100%" >   
+  <tr>
+    <td ><input type="checkbox" name="title" id="title" value="1" checked /><label>Title</label></td>
+  </tr>
+  <tr>
+    <td ><input type="checkbox" name="mk" id="mk" value="1" checked /><label>Meta Keyword</label></td>
+  </tr>
+  <tr>
+    <td ><input type="checkbox" name="md" id="md" value="1" checked /><label>Meta Description</label></td>
+  </tr>
+  <tr>
+    <td ><input type="checkbox" name="mid" id="mid" value="1" checked /><label>Mapping-ID</label></td>
+  </tr>
+  <tr>
+    <td ><input type="checkbox" name="rich_body" id="rich_body" value="1" checked /><label>Rich Body</label></td>
+  </tr>
+  <tr>
+    <td ><input type="checkbox" name="text_body" id="text_body" value="1" /><label>Text Body</label></td>
+  </tr>
+  <tr>
+    <td ><input type="checkbox" name="ht" id="ht" value="1" checked /><label>Html Title</label></td>
+  </tr>
+  {if $login_role != 'client'}
+  <tr>
+    <td ><input type="checkbox" name="author" id="author" value="1"  /><label>Copywriter</label></td>
+  </tr>  
+  {/if}
+  <tr>
+    <td ><input type="checkbox" name="topic" id="topic" value="1" checked/><label>Topic</label></td>
+  </tr>
+  <tr>
+    <td ><input type="checkbox" name="optional1" id="optional1" value="1" /><label>Optional Field 1</label></td>
+  </tr>
+  <tr>
+    <td ><input type="checkbox" name="optional2" id="optional2" value="1" /><label>Optional Field 2</label></td>
+  </tr>
+  <tr>
+    <td ><input type="checkbox" name="optional3" id="optional3" value="1" /><label>Optional Field 3</label></td>
+  </tr>
+  <tr>
+    <td ><input type="checkbox" name="optional4" id="optional4" value="1" /><label>Optional Field 4</label></td>
+  </tr>
+  <tr>
+    <td ><input type="checkbox" name="optional5" id="optional5" value="1" /><label>Optional Field 5</label></td>
+  </tr>
+  <tr>
+    <td ><input type="checkbox" name="optional6" id="optional6" value="1" /><label>Optional Field 6</label></td>
+  </tr>
+  <tr>
+    <td ><input type="checkbox" name="optional7" id="optional7" value="1" /><label>Optional Field 7</label></td>
+  </tr>
+  <tr>
+    <td ><input type="checkbox" name="optional8" id="optional8" value="1" /><label>Optional Field 8</label></td>
+  </tr>
+  <tr>
+    <td ><input type="checkbox" name="optional9" id="optional9" value="1" /><label>Optional Field 9</label></td>
+  </tr>
+  <tr>
+    <td ><input type="checkbox" name="optional10" id="optional10" value="1" /><label>Optional Field 10</label></td>
+  </tr>
+  <tr>
+    <td align="center" ><input type="button" class="button" name="button" id="button" value="Submit" onclick="javascript:formSubmit();" /></td>
+  </tr>
+</table>
+ </form>
+  </div>
+</div>
+
+{include file="themes/$theme/footer_jump.html"}

@@ -1,0 +1,27 @@
+&nbsp;{foreach from=$users item=item name="loop"}
+<tr>
+  <td class="table-left" >&nbsp;</td>
+  <td class="table-left-2" {if $role == 'copy writer'}colspan="5"{else}colspan="6"{/if}>&nbsp;</td>
+  <td nowrap >{$item.campaign_name}</td>
+  {if $role == 'copy writer'}
+  <td>{if $item.total > 0}<a href="/article/articles.php?copy_writer_id={$user_id}&campaign_id={$item.campaign_id}"  >{$item.total}</a>{else}0{/if}</td>
+  <td>{$item.pct_total_submit|default:'0%'} ({$item.total_submit}) </td>
+  {else}
+  <td>{if $item.total > 0}<a href="/article/articles.php?editor_id={$user_id}&campaign_id={$item.campaign_id}"  >{$item.total}</a>{else}0{/if}</td>
+  <td>{$item.pct_total_pending_approval} ({$item.total_pending_approval})</td>
+  {/if}
+  <td>{$item.pct_total_editor_approval} ({$item.total_editor_approval})</td>
+  <td>{$item.pct_total_client_approval} ({$item.total_client_approval})</td>
+  <td></td>
+  <td align="right" nowrap class="table-right-2">
+      <input type="button" class="button" value="Editorial Notes" onclick="openWindow('/client_campaign/campaign_notes.php?campaign_id={$item.campaign_id}', 'height=485,width=550,status=no,toolbar=no,menubar=no,location=no,resizable=no,scrollbars=yes');" />
+      <input type="button" class="button" value="Update" onclick="openLink('/client_campaign/client_campaign_set.php?campaign_id={$item.campaign_id}');"/>
+  </td>
+  <td class="table-right" >&nbsp;</td>
+</tr>
+{/foreach}
+{if $adodb_log}
+<tr>
+  <td colspan="12" ><center><pre>{$adodb_log}</pre></center></td>
+</tr>
+{/if}

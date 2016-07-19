@@ -1,0 +1,129 @@
+{include file="themes/$theme/header.html"}
+
+{if $feedback ne ''}
+<script language="JavaScript">
+<!--
+alert('{$feedback}');
+//-->
+</script>
+{/if}
+<div id="page-box1">
+  <h2>Edit Request Report</h2>
+  <div id="campaign-search" >
+    <strong></strong>
+    <div id="campaign-search-box" >
+<form name="f_assign_keyword_return" id="f_assign_keyword_return" action="/article/edit_request_report.php" method="get">
+<table border="0" cellspacing="1" cellpadding="4">
+<tr>
+	<td nowrap>Copywriter</td>
+	<td><select name="copy_writer_id"><option value="">[choose]</option>{html_options options=$all_copy_writer selected=$smarty.get.copy_writer_id}</select></td>
+  <td>Editor</td>
+	<td><select name="editor_id"><option value="">[choose]</option>{html_options options=$all_editor selected=$smarty.get.editor_id}</select></td>
+  <td nowrap>Campaign</td>
+	<td nowrap><select name="campaign_id"><option value="">[choose]</option>{html_options options=$all_campaigns selected=$smarty.get.campaign_id}</select></td>
+  <td nowrap>Show</td>
+	<td nowrap>
+	 <select name="perPage" onchange="this.form.submit();">{html_options options=$g_pager_perPage selected=$smarty.get.perPage}</select> row(s)&nbsp;&nbsp;&nbsp;
+  </td>
+  <td><input type="image" src="/images/button-search.gif" value="submit"></td>
+</tr>
+</table><br>
+</form>
+    </div>
+  </div>
+</div>
+<div class="tablepadding"> 
+<table id="table-1" cellspacing="0" cellpadding="0" align="center" class="sortableTable" >
+  <thead>
+  <tr class="sortableTab">
+    <th class="table-left-corner">&nbsp;&nbsp;&nbsp;&nbsp;</th>
+    <td nowrap class="columnHeadInactiveBlack table-left-2">Number</td>
+    <td nowrap class="columnHeadInactiveBlack">Keyword</td>
+    <td nowrap class="columnHeadInactiveBlack">Edit Request/Client Rejected</td>
+    <td nowrap class="columnHeadInactiveBlack">Status</td>
+    <td nowrap class="columnHeadInactiveBlack">Company Name</td>
+    <td nowrap class="columnHeadInactiveBlack">Campaign Name</td>
+    <td nowrap class="columnHeadInactiveBlack">Copywriter</td>
+    <td nowrap class="columnHeadInactiveBlack">Editor</td>
+    <td nowrap class="columnHeadInactiveBlack">Start Date</td>
+    {if $login_role != 'editor'}
+    <td nowrap class="columnHeadInactiveBlack">Due Date</td>
+    {/if}
+    <td nowrap class="columnHeadInactiveBlack">Days Overdue</td>
+    <td nowrap class="columnHeadInactiveBlack table-right-2">&nbsp;</td>
+    <th class="table-right-corner">&nbsp;&nbsp;&nbsp;</th>
+  </tr>
+  </thead>
+  <tbody>
+  {foreach from=$result item=item name="loop"}
+  <tr class="{if $smarty.foreach.loop.iteration % 2 eq 0}even{else}odd{/if}">
+    <td class="table-left" >&nbsp;</td>
+    {eval var= $startNo+$smarty.foreach.loop.iteration assign='rowNumber'}
+    <td class="table-left-2">{$rowNumber}</td>
+    <td>
+    {if $login_permission == 2}
+	    {$item.keyword}
+    {else}
+	    <a href="/article/approve_article.php?article_id={$item.article_id}&keyword_id={$item.keyword_id}&campaign_id={$item.campaign_id}">{$item.keyword}</a>
+    {/if}
+    </td>
+    <td>{$item.rejected}</td>
+    <td>
+      {$article_status[$item.article_status]}
+    </td>
+    <td>{$item.company_name|truncate:20:"..."}</td>
+    <td>{if $user_permission_int >= 3}<a href="{if $user_permission_int==3}/article/article_list.php?campaign_id={$item.campaign_id}{else}/client_campaign/keyword_list.php?campaign_id={$item.campaign_id}{/if}" >{$item.campaign_name|truncate:20:"..."}</a>{else}{$item.campaign_name}{/if}</td>
+    <td>{if $login_role eq 'agency'}{$item.uc_name}{else}<a href="javascript:openWindow('/user/user_detail_info.php?user_id={$item.copy_writer_id}', 'newwindow{$item.copy_writer_id}', 'height=300,width=200,status=no,toolbar=no,menubar=no,location=no,resizable=yes,scrollbars=yes');">{$item.uc_name}</a>{/if}</td>
+    <td>{if $login_role eq 'agency'}{$item.ue_name}{else}<a href="javascript:openWindow('/user/user_detail_info.php?user_id={$item.editor_id}', 'newwindow{$item.editor_id}', 'height=300,width=200,status=no,toolbar=no,menubar=no,location=no,resizable=yes,scrollbars=yes');">{$item.ue_name}</a>{/if}</td>
+    <td>{$item.date_start|date_format:"%m-%d-%Y"}</td>
+    {if $login_role != 'editor'}
+    <td>{$item.date_end|date_format:"%m-%d-%Y"}</td>
+    {/if}
+    <td>{if $item.overdue > 0}{$item.overdue}{/if}</td>
+    <td align="left" nowrap class="table-right-2">
+	      <input type="button" class="button" value="Edit" onclick="javasript:window.location='/article/approve_article.php?article_id={$item.article_id}&keyword_id={$item.keyword_id}&fmp=edit_request';" />
+    </td>
+    <td class="table-right" >&nbsp;</td>
+  </tr>
+  {/foreach}
+  </tbody>
+</table>
+<div class="pagingpaddingleft" >
+  <table align="center" width="100%" border="0" cellspacing="0" cellpadding="0" >
+    <tr><td class="table-left table-paging-left" width="20" height="37" >&nbsp;</td><td class="table-bottom">{$pager} (Total Page:{$total})(Total Count:{$count})</td><td class="table-right table-paging-right" width="21">&nbsp;</td></tr>
+  </table>
+</div>
+</div>
+<form name="f_article_list" id="f_article_list" action="/article/article_report.php" method="post">
+  <input id="operation" name="operation" value="" type="hidden" />
+  <input id="keyword_id" name="keyword_id" value="" type="hidden" />
+  <input id="overdue" name="overdue" value="" type="hidden" />
+</form>
+<script type="text/javascript">
+//<![CDATA[
+
+var st = new SortableTable(document.getElementById("table-1"),
+  ["None", {if $is_pay_adjust != 1}'None',{/if}"Number", "CaseInsensitiveString", "CaseInsensitiveString", "CaseInsensitiveString", "CaseInsensitiveString", "CaseInsensitiveString", "CaseInsensitiveString", "Date", "Date", "None"]);
+{literal}
+st.onsort = function () {
+  var rows = st.tBody.rows;
+  var l = rows.length;
+  for (var i = 0; i < l; i++) {
+    removeClassName(rows[i], i % 2 ? "odd" : "even");
+    addClassName(rows[i], i % 2 ? "even" : "odd");
+  }
+};
+st.asyncSort(0);
+function sendReminder(keyword_id, overdue, opt)
+{
+    var f = document.f_article_list;
+    f.operation.value = opt;
+    f.keyword_id.value = keyword_id;
+    f.overdue.value = overdue;
+    f.submit();
+}
+{/literal}
+//]]>
+</script>
+
+{include file="themes/$theme/footer.html"}

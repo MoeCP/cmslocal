@@ -1,0 +1,37 @@
+{include file="themes/$theme/header.html"}
+{if $feedback ne ''}
+<script language="JavaScript">
+<!--
+alert("{$feedback}");
+//-->
+</script>
+{/if}
+<center><div style="color:red">{$feedback}</div></center>
+<div id="page-box1">
+  <h2>Contact Form</h2>
+  <div id="campaign-search" >
+    Please use this form to order a new campaign or submit any questions or concerns regarding a particular existing campaign. We will respond to your inquiry within one business day.
+  </div><br />
+  <div class="form-item" >
+<form action="" method="post">
+<table width="90%">
+{if $campaigns && $role == 'client'}
+<tr>
+  <td width="15%" align="right">Campaign</td>
+  <td>{html_options options=$campaigns selected=$campaign_id name="campaign_id" }{*<img src="/image/select.gif" alt="Select" title="Select" LANGUAGE=javascript onclick='return window.open("/client_campaign/client_campaign_quick_add.php","add_campaign","width=600,height=450,resizable=1,scrollbars=1");' align="absmiddle" style='cursor:hand;cursor:pointer'>*}</td>
+</tr>
+{/if}
+<tr>
+  <td width="15%" align="right" class="requiredInput">Subject</td><td width="85%"><input style="width:460px;" type="text" value="{$subject}" name="subject"></td>
+</tr>
+<tr>
+  <td align="right" class="requiredInput">Message</td><td><textarea name="content" cols="70" rows="20">{$content}</textarea></td>
+</tr>
+<tr>
+  <td></td><td><input type="submit" class="button" value="Submit"></td>
+</tr>
+</table>
+</form>
+  </div>
+</div>
+{include file="themes/$theme/footer.html"}

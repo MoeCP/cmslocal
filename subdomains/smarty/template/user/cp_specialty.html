@@ -1,0 +1,94 @@
+{include file="themes/$theme/header.html"}
+
+{if $feedback ne ''}
+<script language="JavaScript">
+<!--
+alert('{$feedback}');
+//-->
+</script>
+{/if}
+<script language="JavaScript">
+{literal}
+function cp_search() {
+$("category_search").submit();
+}
+{/literal}
+</script>
+<div id="page-box1">
+  <h2>Copywriting Specialties</h2>
+  <div id="campaign-search" >
+    <strong>You can search copywriter by different categories&nbsp;</strong>
+    <div id="campaign-search-box" >
+  <form name="category_search" id="category_search" action="" method="get">
+  <table border="0" cellspacing="1" cellpadding="4">
+  <tr>
+    <td nowrap>Copywriter Interests</td>
+    <td><select name="cp_category" id="cp_category" onchange="javascript:cp_search()" >
+    {html_options options=$cp_interests selected=$cat_selected}
+    </select></td>
+    <td nowrap>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+  <td>Show: </td>
+  <td nowrap><select name="perPage" onchange="javascript:cp_search()">{html_options options=$g_pager_perPage selected=$smarty.get.perPage}</select> row(s)&nbsp;&nbsp;&nbsp;</td>
+  <td width="70%" >&nbsp;</td>
+</tr>
+  </table>
+  </form>    
+    </div>
+  </div>
+</div>
+<div class="tablepadding"> 
+<table id="table-1" cellspacing="0" cellpadding="0" align="center" class="sortableTable">
+  <thead>
+  <tr class="sortableTab">
+    <th class="table-left-corner">&nbsp;&nbsp;&nbsp;&nbsp;</th>
+    <td nowrap class="columnHeadInactiveBlack table-left-2">#</td>
+	<td nowrap class="columnHeadInactiveBlack">Copywriter</td>
+    <td nowrap class="columnHeadInactiveBlack">Copywriter Name</td>
+    <td nowrap class="columnHeadInactiveBlack">Gender</td>
+    <td nowrap class="columnHeadInactiveBlack">Level</td>
+    <td nowrap class="columnHeadInactiveBlack">Email</td>
+    <td nowrap class="columnHeadInactiveBlack table-right-2">Category</td>
+    <th class="table-right-corner">&nbsp;&nbsp;&nbsp;&nbsp;</th>
+  </tr>
+  </thead>
+  {foreach from=$result item=item name="loop"}
+  <tr class="{if $smarty.foreach.loop.iteration % 2 eq 0}even{else}odd{/if}">
+       <td class="table-left" >&nbsp;</td>
+       <td class="table-left-2">{$smarty.foreach.loop.iteration}</td>
+      <td>{$item.user_name}</td>
+      <td>{$item.first_name}&nbsp;{ $item.last_name}</td>
+      <td>{$item.sex}</td>
+      <td><a href="javascript::void(0)" onMouseOver="return overlib('<table width=200><tr><td >Description:<br />{$item.description|nl2br|strip|escape:'html'}</td></tr></table>');" onMouseOut="return nd();">{$g_user_levels[$item.level]}</a></td>
+      <td>{$item.email}</td>
+      <td class="table-right-2">{$item.category}</td>
+      <td class="table-right" >&nbsp;</td>
+  </tr>
+  {/foreach}
+</table>
+<div class="pagingpaddingleft" >
+  <table align="center" width="100%" border="0" cellspacing="0" cellpadding="0" >
+    <tr><td class="table-left table-paging-left" width="20" height="37" >&nbsp;</td><td class="table-bottom">{$pager} (Total Page:{$total})(Total Count:{$count})</td><td class="table-right table-paging-right" width="21">&nbsp;</td></tr>
+  </table>
+</div>
+</div>
+<script type="text/javascript">
+//<![CDATA[
+{literal}
+var st = new SortableTable(document.getElementById("table-1"),
+  ["None", "Number", "CaseInsensitiveString", "CaseInsensitiveString", "CaseInsensitiveString", "CaseInsensitiveString", "CaseInsensitiveString","CaseInsensitiveString"]);
+
+st.onsort = function () {
+  var rows = st.tBody.rows;
+  var l = rows.length;
+  for (var i = 0; i < l; i++) {
+    removeClassName(rows[i], i % 2 ? "odd" : "even");
+    addClassName(rows[i], i % 2 ? "even" : "odd");
+  }
+};
+
+st.asyncSort(0);
+{/literal}
+//]]>
+</script>
+
+{include file="themes/$theme/footer.html"}

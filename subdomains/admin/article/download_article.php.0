@@ -1,0 +1,79 @@
+<?php 
+ob_start();
+header("Expires: Mon, 26 Jul 1997 05:00:00 GMT"); 
+header("Cache-Control: no-cache, must-revalidate"); 
+header("Pragma: no-cache"); 
+
+//header("Content-Type: text/html");
+header("Cache-Control: no-store, no-cache");
+//header('Content-Disposition: attachment; filename= '.$article_info['keyword'].$suffix);
+header("Pragma: no-cache");
+
+require_once('../pre.php');//加载配置信息
+require_once CMS_INC_ROOT.'/Client.class.php';
+if ((!user_is_loggedin() || User::getPermission() < 5) && !client_is_loggedin()) { // 4=>5
+    header("Location: http://".$_SERVER['HTTP_HOST'].$logout_folder."/logout.php");
+    exit;
+}
+require_once CMS_INC_ROOT.'/Article.class.php';
+//require_once CMS_INC_ROOT.'/Campaign.class.php';
+
+/*
+    no copy and anti leech version
+    and all *.doc files are stored in a none http dir
+*/
+ 
+$article_id = $_GET['article_id'];
+if (trim($article_id) == '') {
+    echo "<script>alert('Please choose an article');window.close();</script>";
+    exit;
+}
+
+$article_info = Article::getInfo($article_id, false);
+$all_copy_writer = User::getAllUsers($mode = 'id_name_only', $user_type = 'copy writer', false);
+
+$mode = $_GET['mode'];
+$suffix = ($mode == 'html') ? '.html' : ($mode== 'text' ? '.txt' : '.doc');
+$allowd_modes = array('html', 'text', 'doc');
+if (!in_array($mode, $allowd_modes)) {
+    echo "<script>alert('Mode error, Please try again');window.close();</script>";
+    exit;
+}
+
+if (client_is_loggedin()) {
+    $p = array();
+    $p['article_id'] = array(trim($article_id) => trim($article_id));
+    Article::setDownLoadTime($p);
+}
+
+if ($mode == 'doc') {
+    header('Content-Type: application/msword');
+} else {
+    header("Content-Type: text/" . $mode);
+}
+//header("Cache-Control: no-store, no-cache");
+$filename = preg_replace( '#\s+#', '_', trim($article_info['keyword']) );
+//windows valid file name,
+$reg_str = array('/\//', '/\\\/', '/\*/', '/\?/', '/\:/', '/\"/', '/\</', '/\>/', '/\|/');
+$filename = preg_replace( $reg_str, '_', $filename ) . $suffix;
+
+header('Content-Disposition: attachment; filename='. $filename  );
+
+$author = $all_copy_writer[$article_info['copy_writer_id']];
+if (in_array($mode, $allowd_modes)) {
+    $article_info['richtext_body'] = html_entity_decode($article_info['richtext_body'], ENT_COMPAT, 'UTF-8');
+    if (empty($article_info['body'])) $article_info['body'] = stripslashes(change_richtxt_to_paintxt($article_info['richtext_body'], ENT_QUOTES));
+    $smarty->assign('article_info', $article_info);
+    if ($mode == 'doc') {
+        $smarty->display('article/article_doc.html');
+    } elseif ($mode == 'html') {
+        $smarty->display('article/article_html.html');
+    } else {
+        $smarty->display('article/article_text.html');
+    }
+    ob_end_flush();
+    exit();
+} else {
+    die("incorrect file extentions.");
+}
+?>

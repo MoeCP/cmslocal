@@ -1,0 +1,89 @@
+{include file="themes/$theme/header.html"}
+
+{if $feedback ne ''}
+<script language="JavaScript">
+<!--
+alert("{$feedback}");
+//-->
+</script>
+{/if}
+
+{literal}
+<script language="JavaScript">
+<!--
+function esign()
+{
+  var f = document.f_esign;
+
+  return true;
+}
+//-->
+</script>
+{/literal}
+<div id="page-box1">
+  <h2>Default EchoSign Documents Settings</h2>
+  <div class="form-item" >
+<br>
+<form action="" method="post"  name="f_esign" {if $js_check eq true} onsubmit="return check_f_email_template()"{/if}>
+<table border="0" cellspacing="1" cellpadding="4" align="center" width="100%">
+  <input type="hidden" name="gtitle" id="gtitle" value="{$config.gtitle}" />
+  <input type="hidden" name="config_id" value="{$config.config_id}" />
+  <tr>
+    <td class="bodyBold" nowrap>Basic Information</td>
+    <td align="right" class="requiredHint">Required Information</td>
+  </tr>
+  <tr>
+    <td class="blackLine" colspan="2"><img src="/image/misc/s.gif"></td>
+  </tr>
+  <tr>
+    <td class="requiredInput">Title</td>
+    <td><input type="text" name="gtitle" id="gtitle" size="40" value="{$config.gtitle}"/></td>
+  </tr>
+  <tr>
+    <td class="requiredInput">Documents
+    </td>
+    <td align="left">
+      <div class="sendLibrarySelector" >
+      <table cellspacing="0" cellpadding="0" border="0">
+      {foreach from=$libs item=items name='loop' key=k}
+      <tr class="shelf" >
+        <th colspan="3" >
+        {if $k == 'PERSONAL'}My Documents {elseif $k == 'SHARED'}Shared Documents{elseif $k == 'GLOBAL'}EchoSign Documents {/if}
+        </th>
+      </tr>
+      <tr>
+        <th class="checkbox">&nbsp;</th>
+        <th class="name">Name</th>
+        <th class="modified">Last Modified</th>
+      </tr>
+      {foreach from=$items item=item}
+      <tr>
+          <td class="checkbox">
+            <input type="checkbox" value="{$item.name}" name="docs[]" id="{$item.documentKey}" {if $item.checked=='1'}checked{/if}>
+          </td>
+          <td class="name">
+            <label for="{$item.documentKey}">{$item.name}</label>
+          </td>
+          <td class="modified" nowrap>
+            {$item.modifiedDate|date_format:'%D %H:%M:%S'}
+          </td>
+        </tr>
+      {/foreach}
+      {/foreach}
+      </table>
+      </div>
+    </td>
+  </tr>
+  <tr>
+    <td class="blackLine" colspan="2"><img src="/image/misc/s.gif"></td>
+  </tr>
+  <tr>
+    <td>&nbsp;</td>
+    <td><input type="submit" value="Submit" class="button">&nbsp;<input type="reset" value="reset" class="button"></td>
+  </tr>
+</table>
+</form>
+<br>
+  </div>
+</div>
+{include file="themes/$theme/footer.html"}

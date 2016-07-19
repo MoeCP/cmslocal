@@ -1,0 +1,176 @@
+{include file="themes/$theme/header.html"}
+
+{if $feedback ne ''}
+<script language="JavaScript">
+<!--
+alert('{$feedback}');
+//-->
+</script>
+{/if}
+<div id="page-box1">
+  <h2>Campaign Orders</h2>
+  {if $login_role != 'client'}
+  <div id="campaign-search" >
+  <div id="campaign-search-box" >
+  <form name="f_assign_keyword_return" action="/client_campaign/order_list.php" method="get">
+  <table border="0" cellspacing="1" cellpadding="4">
+  <tr>
+    <td nowrap>client</td>
+    <td>{html_options name="client_id" options=$clients selected=$smarty.get.client_id}</td>
+    <td><input type="image" src="/images/button-search.gif" value="submit" /></td>
+    <td nowrap>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+    <td width="70%">&nbsp;</td>
+  </tr>
+  </table>
+  </form>
+  </div>
+  </div>
+  {/if}
+</div>
+<div class="tablepadding"> 
+<table id="table-1" cellspacing="0" cellpadding="0" align="center" class="sortableTable">
+  <thead>
+  <tr class="sortableTab">
+    <th class="table-left-corner">&nbsp;&nbsp;&nbsp;&nbsp;</th>
+      <td nowrap class="columnHeadInactiveBlack table-left-2">Client Name</td>
+    <td nowrap class="columnHeadInactiveBlack">Campaign Name</td>
+    <td nowrap class="columnHeadInactiveBlack">Category</td>
+    <td nowrap class="columnHeadInactiveBlack">Content Type</td>
+    <td nowrap class="columnHeadInactiveBlack">Order Date</td>
+    <td nowrap class="columnHeadInactiveBlack">Start Date</td>
+    <td nowrap class="columnHeadInactiveBlack">Due Date</td>
+    <td nowrap class="columnHeadInactiveBlack">Created Date</td>
+    <td nowrap class="columnHeadInactiveBlack">Creator</td>
+    <td nowrap class="columnHeadInactiveBlack table-right-2">&nbsp;</td>
+    <th class="table-right-corner">&nbsp;&nbsp;&nbsp;</th>
+  </tr>
+  </thead>
+  {foreach from=$result item=item name="loop"}
+  <tr class="{if $smarty.foreach.loop.iteration % 2 eq 0}even{else}odd{/if}">
+    <td class="table-left" >&nbsp;</td>
+    <td class="table-left-2">{$item.client_name}</td>
+    <td>{$item.campaign_name}</td>
+    <td>{$item.category}</td>
+    <td>{$item.content_type}</td>
+    <td>{$item.order_date|date_format:"%m-%d-%Y"}</td>
+    <td>{$item.date_start|date_format:"%m-%d-%Y"}</td>
+    <td>{$item.date_end|date_format:"%m-%d-%Y"}</td>
+    {if $item.campaign_id}
+    <td>{$item.date_created|date_format:"%m-%d-%Y"}</td>
+    <td>{$item.creator}</td>
+    {else}
+    <td></td>
+    <td></td>
+    {/if}
+    <td align="right" nowrap class="table-right-2">
+    {if $login_permission  == 5 && $item.is_confirm == 1 && $item.status==7 && $item.pay_status > 0 && $item.pay_status < 10}
+     <input type="button" class="button" value="Mark as Paid" onclick="window.location.href='/client_campaign/vieworder.php?order_id={$item.order_campaign_id}&is_pay=1'" />
+    {/if}
+    {if !$item.campaign_id}
+      {if $login_permission >=4}
+        {if $item.status == 10 && $login_permission  == 5}
+          <input type="button" class="button" value="Force adjust" onclick="window.location.href='/client_campaign/vieworder.php?order_id={$item.order_campaign_id}&fadjust=1'" />
+        {/if}
+        {if $item.status == 0 && $item.is_confirm == 1 && $login_permission  == 5}
+          <input type="button" class="button" value="Confirm" onclick="window.location.href='/client_campaign/order_campaign_set.php?order_campaign_id={$item.order_campaign_id}&is_confirm={$item.is_confirm}';" />
+        {elseif $item.is_confirm == 0 || $item.status >= 7}
+          <input type="button" class="button" value="Create Campaign" onclick="createCampaign('{$item.order_campaign_id}')" />
+        {/if}
+        {if $item.keyword_id == '' && $item.download_file != ''}
+          <input type="button" class="button" value="Field Mapping" onclick="window.location.href='/client_campaign/fieldmapping.php?order_id={$item.order_campaign_id}'" />
+        {/if}
+      {elseif $login_role == 'client'}
+        {if $item.is_confirm == 1 &&  $item.status== 4}
+          <input type="button" class="button" value="Confirm" onclick="window.location.href='/client_campaign/vieworder.php?order_id={$item.order_campaign_id}&is_confirm={$item.is_confirm}';" />
+        {elseif $item.is_confirm == 1 && $item.status == 0}
+          <input type="button" class="button" value="Cancel" onclick="window.location.href='/client_campaign/vieworder.php?order_id={$item.order_campaign_id}&is_confirm=1';" />
+        {elseif $item.is_confirm == 0}
+          <input type="button" class="button" value="Update" onclick="window.location.href='/client_campaign/order_campaign_set.php?order_campaign_id={$item.order_campaign_id}';" />
+        {/if}
+        {if ($item.is_confirm == 0 || $item.is_confirm == 1 && $item.status >= 4) && $item.monthly_recurrent neq 1}
+          <input type="button" class="button" value="Replicate Order" onclick="window.location.href = '/client_campaign/order_campaign_set.php?parent_id={$item.order_campaign_id}';" />
+        {/if}
+      {/if}
+      <input type="button" class="button" value="Comments" onclick="openWindow('/client_campaign/ajax_comment_add.php?order_id={$item.order_campaign_id}','height=400,width=600,status=no,toolbar=no,menubar=no,location=no,resizable=yes,scrollbars=yes');" />
+    {/if}
+    {if $item.campaign_id}
+       Campaign Created
+       {if $login_permission == 5}
+	      <input type="button" class="button" value="Add Keywords" onclick="window.open('/client_campaign/keyword_add.php?campaign_id={$item.campaign_id}');" />
+        {if $item.parent_campaign_id> 0 && $item.is_import_kw == 0}
+	      <input type="button" class="button" value="Replicate Keywords" onclick="window.open('/client_campaign/keyword_add.php?campaign_id={$item.campaign_id}&pid={$item.parent_campaign_id}');" />
+        {/if}
+        {if $item.parent_id == 0 && $item.monthly_recurrent neq 1}
+        <input type="button" class="button" value="Replicate Campaign" onclick="doCopyOrder('{$item.order_campaign_id}')" />
+        {/if}
+       {/if}
+    {/if}
+    <input type="button" class="button" value="View" onclick="window.location.href='/client_campaign/vieworder.php?order_id={$item.order_campaign_id}';" />
+    </td>
+    <td class="table-right" >&nbsp;</td>
+  </tr>
+  {/foreach}
+
+</table>
+<div class="pagingpaddingleft" >
+  <table align="center" width="100%" border="0" cellspacing="0" cellpadding="0" >
+    <tr><td class="table-left table-paging-left" width="20" height="37" >&nbsp;</td><td class="table-bottom">{$pager} (Total Page:{$total})(Total Count:{$count})</td><td class="table-right table-paging-right" width="21">&nbsp;</td></tr>
+  </table>
+</div>
+</div>
+<form name="fcopyorder" id="fcopyorder"  action="" >
+  <input type="hidden" name="order_campaign_id" id="order_campaign_id" />
+  <input type="hidden" name="form_refresh" id="form_refresh" value="N" />
+</form>
+<div id="div-active-values" style="display:none;" ></div>
+<script type="text/javascript">
+//<![CDATA[
+{literal}
+var st = new SortableTable(document.getElementById("table-1"),
+  ["None", "CaseInsensitiveString", "CaseInsensitiveString", "Number", "Number", "Date", "Date", "None"]);
+
+st.onsort = function () {
+  var rows = st.tBody.rows;
+  var l = rows.length;
+  for (var i = 0; i < l; i++) {
+    removeClassName(rows[i], i % 2 ? "odd" : "even");
+    addClassName(rows[i], i % 2 ? "even" : "odd");
+  }
+};
+
+st.asyncSort(0);
+
+function doCopyOrder(order_id)
+{
+    if (confirm('Are you sure replicate campaign from this order?'))
+    {
+    
+      var  f = document.fcopyorder;
+      f.form_refresh.value = 'o';
+      f.order_campaign_id.value = order_id;
+      ajaxSubmit('/client_campaign/order_list.php', 'fcopyorder', 'div-active-values', 'post', {onComplete: redirectCreateCampaign});
+      return false;
+  }
+}
+
+function redirectCreateCampaign(response)
+{
+  var data = response.responseText;
+  var arr = data.evalJSON();
+  if (arr.order_id > 0) {
+    createCampaign(arr.order_id);
+  } else {
+    alert(arr.feedback);
+    ajaxdone();
+  }
+  return true;
+}
+function createCampaign(order_id)
+{
+    window.location.href="/client_campaign/client_campaign_add.php?order_campaign_id=" + order_id;
+}
+{/literal}
+//]]>
+</script>
+
+{include file="themes/$theme/footer.html"}

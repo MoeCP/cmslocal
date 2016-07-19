@@ -1,0 +1,192 @@
+{include file="themes/$theme/header.html"}
+
+{if $feedback ne ''}
+<script language="JavaScript">
+<!--
+alert("{$feedback}");
+//-->
+</script>
+{/if}
+
+{literal}
+<script language="JavaScript">
+<!--
+function check_f_client()
+{
+  var f = document.f_client;
+
+  if (f.user_name.value.length == 0) {
+    alert('Please enter user name');
+    f.user_name.focus();
+    return false;
+  }
+
+  if (f.client_id.value.length == 0)
+  {
+	  if (f.user_pw.value.length == 0) {
+		alert('Please enter user password');
+		f.user_pw.focus();
+		return false;
+	  }
+	  if (f.user_pwnew.value.length == 0) {
+		alert('Please enter confirm password');
+		f.user_pwnew.focus();
+		return false;
+	  }
+  }
+
+  if (f.user_pw.value != f.user_pwnew.value)
+  {
+	alert('Password mismatch, Please check your input and enter the password again');
+    f.user_pw.focus();
+    return false;
+  }
+
+  if (f.company_name.value.length == 0) {
+    alert('Please enter client company name');
+    f.company_name.focus();
+    return false;
+  }
+  if (f.city.value.length == 0) {
+    alert('Please enter City');
+    f.city.focus();
+    return false;
+  }
+  if (f.state.value.length == 0) {
+    alert('Please enter state');
+    f.state.focus();
+    return false;
+  }
+  if (f.zip.value.length == 0) {
+    alert('Please enter zip');
+    f.zip.focus();
+    return false;
+  }
+
+  if (!isEmail(f.email.value)) {
+    alert('Invalid email address');
+    f.email.focus();
+    return false;
+  }
+
+  return true;
+}
+//-->
+</script>
+{/literal}
+
+
+<br><table border="0" cellspacing="1" cellpadding="4" align="center" width="100%">
+  <form action="" method="post"  name="f_client" {if $js_check eq true} onsubmit="return check_f_client()"{/if}>
+  <input type="hidden" name="client_id" value="{$client_info.client_id}">
+  <tr>
+    <td class="moduleTitle" colspan=2>Client's Information setting</td>
+  </tr>
+  <tr>
+    <td colspan="20" ><table class="helpTable" width="100%">
+      <tr><td valign="top">&nbsp;&#8226;&nbsp;</td><td>Please enter the client's required information.</td></tr>
+    </table><br></td>
+  </tr>
+  <tr>
+    <td class="bodyBold">Basic Information</td>
+    <td align="right" class="requiredHint">Required Information</td>
+  </tr>
+  <tr>
+    <td class="blackLine" colspan="2"><img src="/image/misc/s.gif"></td>
+  </tr>
+  <tr>
+    <td class="requiredInput">User Name</td>
+    <td><input name="user_name" type="text" id="user_name" value="{$client_info.user_name}" onchange="javascript:this.value=Trim(this.value)"></td>
+  </tr>
+  <tr>
+    <td class="requiredInput">Password</td>
+    <td><input name="user_pw" type="password" id="user_pw" value="{$client_info.user_pw}" /></td>
+  </tr>
+  <tr>
+    <td class="requiredInput" nowrap>Confirm Password</td>
+    <td><input name="user_pwnew" type="password" id="user_pwnew" value="{$client_info.user_pw}" /></td>
+  </tr>
+  <tr>
+    <td class="requiredInput">Company Name</td>
+    <td><input name="company_name" type="text" id="company_name" value="{$client_info.company_name}" onchange="javascript:this.value=Trim(this.value)"></td>
+  </tr>
+  <tr>
+    <td class="dataLabel">Company Address</td>
+    <td><textarea name="company_address" cols="50" rows="4" id="company_address">{$client_info.company_address}</textarea></td>
+  </tr>
+  <tr>
+    <td class="requiredInput">Country</td>
+    <td><select name="country"><option value="United States of America">United States of America</option>{if $client_info.country neq ''}{html_options values=$country output=$country selected=$client_info.country}{else}{html_options values=$country output=$country selected='United States of America'}{/if}</select></td>
+  </tr>
+  <tr>
+    <td class="requiredInput">City</td>
+    <td><input name="city" type="text" id="city" value="{$client_info.city}" onchange="javascript:this.value=Trim(this.value)"></td>
+  </tr>
+  <tr>
+    <td class="requiredInput">State</td>
+    <td><input name="state" type="text" id="state" value="{$client_info.state}" onchange="javascript:this.value=Trim(this.value)"></td>
+  </tr>
+  <tr>
+    <td class="requiredInput">Zip</td>
+    <td><input name="zip" type="text" id="zip" value="{$client_info.zip}" onchange="javascript:this.value=Trim(this.value)"/></td>
+  </tr>
+  <tr>
+    <td class="requiredInput">Email</td>
+    <td><input name="email" type="text" id="email" value="{$client_info.email}" onchange="javascript:this.value=Trim(this.value)" size="20" /></td>
+  </tr>
+  <tr>
+    <td class="dataLabel">Company Url</td>
+    <td><input name="company_url" type="text" id="company_url" value="{$client_info.company_url}" onchange="javascript:this.value=Trim(this.value)" size="20" /></td>
+  </tr>
+  <tr>
+    <td class="dataLabel">Company Phone Number</td>
+    <td><input name="company_phone" type="text" id="company_phone" value="{$client_info.company_phone}" onchange="javascript:this.value=Trim(this.value)"></td>
+  </tr>
+  <tr>
+    <td class="dataLabel">Company Fax</td>
+    <td><input name="company_fax" type="text" id="company_fax" value="{$client_info.company_fax}" onchange="javascript:this.value=Trim(this.value)"></td>
+  </tr>
+  <tr>
+    <td class="dataLabel">Billing Email</td>
+    <td><input name="bill_email" type="text" id="bill_email" value="{$client_info.bill_email}" onchange="javascript:this.value=Trim(this.value)" size="20"></td>
+  </tr>
+  <tr>
+    <td class="dataLabel">Billing Office Phone</td>
+    <td><input name="bill_office_phone" type="text" id="bill_office_phone" value="{$client_info.bill_office_phone}" onchange="javascript:this.value=Trim(this.value)"></td>
+  </tr>
+  <tr>
+    <td class="dataLabel">Billing Cell Phone</td>
+    <td><input name="bill_cell_phone" type="text" id="bill_cell_phone" value="{$client_info.bill_cell_phone}" onchange="javascript:this.value=Trim(this.value)"></td>
+  </tr>
+  <tr>
+    <td class="dataLabel">Billing Fax</td>
+    <td><input name="bill_cell_phone" type="text" id="bill_cell_phone" value="{$client_info.bill_cell_phone}" onchange="javascript:this.value=Trim(this.value)"></td>
+  </tr>
+  <tr>
+    <td class="dataLabel">Technical Email</td>
+    <td><input type="text" name="technical_email" id="technical_email" size="20" value="{$client_info.technical_email}" /></td>
+  </tr>
+  <tr>
+    <td class="dataLabel">Technical Office Phone</td>
+    <td><input name="technical_office_phone" type="text" id="technical_office_phone" value="{$client_info.technical_office_phone}" onchange="javascript:this.value=Trim(this.value)"></td>
+  </tr>
+  <tr>
+    <td class="dataLabel">Technical Cell Phone</td>
+    <td><input name="technical_cell_phone" type="text" id="technical_cell_phone" value="{$client_info.technical_cell_phone}" onchange="javascript:this.value=Trim(this.value)"></td>
+  </tr>
+  <tr>
+    <td class="dataLabel">Payment History</td>
+    <td><textarea name="payment_history" cols="50" rows="4" id="payment_history">{$client_info.payment_history}</textarea></td>
+  </tr>
+  <tr>
+    <td class="blackLine" colspan=2><img src="/image/misc/s.gif"></td>
+  </tr>
+
+  <tr>
+    <td>&nbsp;</td>
+    <td><input type="submit" value="Submit" class="button">&nbsp;<input type="reset" value="reset" class="button"></td>
+  </tr>
+  </form>
+</table>
+
+{include file="themes/$theme/footer.html"}

@@ -1,0 +1,49 @@
+<html xmlns:v="urn:schemas-microsoft-com:vml"
+xmlns:o="urn:schemas-microsoft-com:office:office"
+xmlns:w="urn:schemas-microsoft-com:office:word"
+xmlns="http://www.w3.org/TR/REC-html40">
+
+<head>
+<meta http-equiv=Content-Type content="text/html; charset=utf-8">
+<meta name=ProgId content=Word.Document>
+<meta name=Generator content="Microsoft Word 11">
+<meta name=Originator content="Microsoft Word 11">
+</head>
+<body><div><span><strong>Article Title:</strong> </span><span>{$article_info.title}</span></div><br />
+{*<div><span><strong>Keyword: </strong></span><span>{$article_info.keyword}</span></div><br />
+<div><span><strong>Submit Date: </strong></span><span>{if $article_info.article_status == '0' || $article_info.article_status== ''}n/a{else}{$article_info.cp_updated|date_format:"%m-%d-%Y"}{/if}</span></div><br />
+{if $article_info.tags}
+<div><span><strong>Tags: </strong></span><span>{$article_info.tags}</span></div><br />
+{/if}
+{if $article_info.mapping_id|strip != ''}
+    <div><span><strong>Mapping-ID: </strong></span><span>{$article_info.mapping_id}</span></div><br />
+{/if}
+{if $article_info.optional1|strip != ''}
+    <div><span><strong>Optional Field 1: </strong></span><span>{$article_info.optional1}</span></div><br />
+{/if}
+{if $article_info.optional2|strip != ''}
+    <div><span><strong>Optional Field 2: </strong></span><span>{$article_info.optional2}</span></div><br />
+{/if}
+{if $article_info.optional3|strip != ''}
+    <div><span><strong>Optional Field 3: </strong></span><span>{$article_info.optional3}</span></div><br />
+{/if}
+{if $article_info.optional4|strip != ''}
+    <div><span><strong>Optional Field 4: </strong></span><span>{$article_info.optional4}</span></div><br />
+{/if}*}
+{*{if $author != ''}
+<div><span><strong>Copywriter: </strong></span><span>{$article_info.author}</span></div><br />
+{/if}*}
+<div><span><strong>Article Content: </strong></span><br /><span>{if $article_info.richtext_body != ''}{$article_info.richtext_body}{else}{$article_info.body|nl2br}{/if}</span></div><br />
+{if $article_info.template eq '2'}
+{if $article_info.small_image|strip != ''}<div><span><strong>Small Image: </strong></span><span>{$article_info.small_image}</span></div><br />{/if}
+{if $article_info.large_image|strip != ''}<div><span><strong>Large Image: </strong></span><span>{$article_info.large_image}</span></div><br />{/if}
+{if $article_info.image_credit|strip != ''}<div><span><strong>Image Credit: </strong></span><span>{$article_info.image_credit}</span></div><br />{/if}
+{if $article_info.image_caption|strip != ''}<div><span><strong>Image Caption: </strong></span><span>{$article_info.image_caption}</span></div><br />{/if}
+{if $article_info.blurb|strip != ''}<div><span><strong>Blurb: </strong></span><span>{$article_info.blurb|nl2br}</span></div><br />{/if}
+{if $article_info.meta_description|strip != ''}<div><span><strong>Meta description: </strong></span><span>{$article_info.meta_description}</span></div><br />{/if}
+{if $article_info.category_id|strip != ''}<div><span><strong>Category: </strong></span><span>{$article_info.category_id}</span></div><br />{/if}
+{/if}
+{if $article_info.show_cp_bio eq '1'}
+<div><span><strong>Author Bio: </strong></span><br /><span>{$article_info.cp_bio}</span></div>
+{/if}
+</body></html>

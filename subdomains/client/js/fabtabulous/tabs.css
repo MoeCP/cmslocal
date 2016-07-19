@@ -1,0 +1,52 @@
+#banner {
+	background-color: #fff;
+	height: 40px;
+}
+
+.panel {
+	clear: both;
+	display: none;
+	background-color: #fff;
+	padding: 1em;
+	border: 1px solid #000;
+}
+
+fieldset {
+	padding: 2em;
+}
+
+.panel.active-tab-body {
+	display: block;
+}
+
+#tabs {
+	top: 55px;
+	height: 20px;
+	list-style: none;
+}
+
+#tabs li {
+	float: left;
+}
+
+#tabs a {
+	float: left;
+	padding: 9px 8px;
+	border-top: 1px solid #000;
+	border-left: 1px solid #000;
+	border-right: 1px solid #000;
+	margin-left: 3px;
+	background-color: #DCDCDC;
+	text-decoration: none;
+	color: #000;
+	font-weight:bold;
+	font-size:9pt;
+	padding-top: 4px;
+}
+
+#tabs a.active-tab {
+	background-color: #fff;
+	/*padding-top: 3px;*/
+	padding-top: 6px;
+	color: #000;
+}

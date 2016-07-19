@@ -1,0 +1,42 @@
+{if $result}
+&nbsp;{foreach from=$result item=item name="loop"}<tr{*class="{if $smarty.foreach.loop.iteration % 2 eq 0}even{else}odd{/if}"*}>
+  <td class="table-left" height="30">&nbsp;</td>
+  <td class="table-left-2" {if $is_show}colspan="2"{/if}>&nbsp;</td>
+  {if $is_home == 1}<td class="table-left-2"></td>{/if}
+	<td nowrap>{if $item.campaign_type == 2}<a href="/client_campaign/image_keyword_list.php?campaign_id={$item.campaign_id}" >{$item.campaign_name}</a>{else}<a href="/client_campaign/keyword_list.php?campaign_id={$item.campaign_id}" >{$item.campaign_name}{/if}</td>
+	<td>{$item.total}</td>
+	<td ><div {if $item.old_assigned}class="greenclass"{/if}>{$item.pct_total_assign|default:"0%"}({$item.total_assign})</div></td>
+	<td ><div {if $item.old_submitted}class="yellowclass"{/if}>{$item.pct_total_submit|default:"0%"}({$item.total_submit})</div></td>
+	<td ><div {if $item.old_approved}class="redclass"{/if}>{$item.pct_total_editor_approval|default:"0%"}({$item.total_editor_approval})</div></td>
+	<td>{$item.pct_total_client_approval|default:"0%"}({$item.total_client_approval})</td>
+  {if $is_home == 1}
+  <td>{$item.today_submit|default:0}</td>
+  <td class="table-right-2">{$item.month_client_approval|default:0}</td>
+  {else}
+  <td>{$item.date_end}</td>
+  {if $item.archived == 1}
+  <td>{$item.completed_date}</td>
+  {else}
+	<td>{if $item.total_assign > $item.total_client_approval && $item.past_days > 0}{$item.past_days}{/if}</td>
+  {/if}
+  <td align="right" nowrap class="table-right-2">
+      <span id="spanaction{$item.campaign_id}" >
+      {if $item.archived == 1}
+      <strong>Archived</strong>
+      {else}
+      <input type="button" class="button" value="Archive" onclick="formsubmit(1, {$item.campaign_id},{if ($item.total_assign==$item.total_client_approval)}1{else}0{/if}, {$total}, {$client_id})"/>
+      {/if}
+      </span>
+      <input type="button" class="button" value="Editorial Notes" onclick="openWindow('/client_campaign/campaign_notes.php?campaign_id={$item.campaign_id}', 'height=485,width=550,status=no,toolbar=no,menubar=no,location=no,resizable=no,scrollbars=yes');"/>
+      <input type="button" class="button" value="Update" onclick="openLink('/client_campaign/client_campaign_set.php?campaign_id={$item.campaign_id}');"/>
+  </td>
+  {/if}
+  <td class="table-right" >&nbsp;</td>
+</tr>
+{/foreach}
+{/if}
+{if $adodb_log}
+<tr>
+  <td colspan="12" ><center><pre>{$adodb_log}</pre></center></td>
+</tr>
+{/if}

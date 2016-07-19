@@ -1,0 +1,72 @@
+{include file="themes/$theme/header_jump.html"}
+{literal}
+<script type="text/javascript">
+function addSubject() {
+    var subject = document.getElementById("sub");
+    var choice = subject.options[subject.selectedIndex].text;
+    var content = document.getElementById("note").value;
+    if (subject.selectedIndex != 0)
+    {
+        if(content != '') {
+            document.getElementById("note").value = content + "\n" + choice;
+        }
+        else 
+            document.getElementById("note").value = choice;
+   }
+}
+</script>
+{/literal}
+<style>
+{literal}
+.divTextarea {
+  height:100px;
+}
+{/literal}
+</style>
+<div id="page-box1">
+  <h2>Editorial Notes For Campaign</h2>
+  <div id="campaign-search" >
+    {if $creator_role == 'admin' || $creator_role == 'project manager' || $creator_role == 'editor'}
+    <strong>Please enter Editorial Notes.</strong>
+    {/if}
+  </div>
+  <div class="form-item" >
+<form action="" method="post" id="formNotes" name="formNotes">
+{if $creator_role == 'admin' || $creator_role == 'project manager' || $creator_role == 'editor'}
+	<input type="hidden" name="campaign_id" id="campaign_id" value="{$campaign_id}" />
+	<input type="hidden" name="creator" id="creator" value="{$creator}" />
+	<input type="hidden" name="operation" id="operation" value="append" />
+	<input type="hidden" name="creator_role" id="creator_role" value="{$creator_role}" />
+{/if}
+<table width="90%" align="center" >  
+{if $notes != ''}
+  <tr class="sortableTab"><th ><div class="divMain" >&nbsp;&nbsp;&nbsp;&nbsp;Editorial Notes&nbsp;[<a href="javascript:void(0);" onclick="{literal}if (confirm('delete all notes for this campaign?')){document.getElementById('operation').value='delete';document.getElementById('formNotes').submit(); }{/literal}" style="color:red;" >&nbsp;delete all notes</a>]:</div></th></tr>
+  <tr><td><div class="divContent" >{$notes}</div></td></tr>
+{else}
+  {if $creator_role == 'copy writer' }
+  <tr><td><div class="divMain" >There are no notes</div></td></tr>
+  {/if}
+{/if}
+{if $creator_role == 'admin' || $creator_role == 'project manager' || $creator_role == 'editor'}
+<tr class="sortableTab">
+  <th>
+    <div class="divMain" >&nbsp;&nbsp;&nbsp;&nbsp;Append Notes:</div>
+ </th>
+</tr>
+<tr>
+<td><textarea name="note" id="note"  cols="100" rows="10" class="divTextarea" ></textarea></td>
+</tr>
+<tr>
+  <td><input type="submit" class="button" value="save" onclick="document.getElementById('operation').value='append';" >
+  <input type="submit" class="button" value="save & email notes" onclick="document.getElementById('operation').value='email';" >
+  <select id="sub" name="sub" onchange="addSubject()">{html_options options=$subject}</select>
+</tr> 
+<input type="hidden" id="subject" name="subject" value="">
+<th></th>
+<tr><td><center><div style="color:red">{$feedback}</div></center></td></tr>
+{/if}
+</table>
+</form>
+  </div>
+</div>
+{include file="themes/$theme/footer_jump.html"}

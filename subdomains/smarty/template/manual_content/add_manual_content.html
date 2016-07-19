@@ -1,0 +1,123 @@
+{include file="themes/$theme/header.html"}
+<link rel="stylesheet" type="text/css" href="spell_checker/spell_checker/css/spell_checker.css">
+{if $feedback ne ''}
+<script language="JavaScript">
+<!--
+alert("{$feedback}");
+//-->
+</script>
+{/if}
+
+<script language="JavaScript">
+{literal}
+<!--
+
+tinyMCE.init({
+mode : "exact",
+theme : "advanced",
+elements : "full_text",
+relative_urls : false,
+remove_script_host : false,
+theme_advanced_toolbar_location : "top",
+theme_advanced_toolbar_align : "left",
+plugins : "spellchecker,searchreplace,charcount",
+theme_advanced_buttons1 : "bold,italic,underline, separator,forecolor ,separator,search,replace,separator, code, separator,spellchecker,charcount",
+theme_advanced_buttons1_add_before: "undo,redo,separator,hr,link,unlink,separator, formatselect, bullist,numlist,outdent,indent,justifyleft,justifycenter,justifyright",
+theme_advanced_buttons2 :"",
+theme_advanced_buttons3 : "",
+directionality: "ltr",
+force_br_newlines : "false",
+force_p_newlines : "true",
+debug : false,
+cleanup : true,
+cleanup_on_startup : false,
+safari_warning : false
+});
+//-->
+{/literal}
+</script>
+
+{literal}
+<script language="JavaScript">
+<!--
+function checkContent()
+{
+    var f = document.add_manual_content;
+    tinyMCE.triggerSave(false,false);
+    if (f.title.value.length == 0) {
+        alert("Please enter content's title!");
+        f.title.focus();
+        return false;
+    } else if (f.category.value.length == 0) {
+        alert("Please select a category!");
+        f.body.focus();
+        return false;
+    } else if (f.full_text.value.length == 0 ) {
+        alert("please enter main text!");
+        f.full_text.focus();
+        return false;    
+    }
+    var state = document.getElementById("state");
+    if (state.checked == true) {
+        state.value = 1;
+    } else state.value = 0;
+    //tinyMCE.updateContent('add_manual_content');
+    f.submit();
+}
+//-->
+</script>
+{/literal}
+
+<div id="page-box1">
+  <h2>Manual Content Setting</h2>
+  <div id="campaign-search" >
+    <strong>Please enter the manual content required information.</strong>
+  </div>
+  <div class="form-item" >
+<br><table border="0" cellspacing="1" cellpadding="4" align="center" width="100%">
+  <form action="" method="post"  name="add_manual_content" id="add_manual_content" >
+  <input type="hidden" name="content_id" value="{$content.content_id}">
+  <input type="hidden" name="created_by" value="{$content.created_by}">
+  <input type="hidden" name="created" value="{$content.created}">
+  <tr>
+    <td class="bodyBold">Basic Information</td>
+    <td align="right" class="requiredHint">Required Information</td>
+  </tr>
+  <tr>
+    <td class="blackLine" colspan=2><img src="/image/misc/s.gif"></td>
+  </tr>
+  <tr>
+    <td class="requiredInput">Title *</td>
+    <td><input id="title" name="title" type="text" size="60" value="{$content.title}" /></td>
+  </tr>
+  <tr>
+    <td class="requiredInput">Category *</td>
+    <td>
+      <select name="category" id="category">
+      {html_options options=$categories selected=$content.category}
+      </select>
+    </td>
+  </tr>
+  <tr>
+    <td class="requiredInput" valign="top">Main Text *</td>
+    <td>
+    <textarea name="full_text" id="full_text" style="width: 700px; height: 400px;" >{if $content.full_text == ''}{$content.full_text|nl2br}{else}{$content.full_text}{/if}</textarea>
+    </td>
+  </tr>
+  <tr>
+    <td class="requiredInput">Publish</td>
+    <td><input name="state" type="checkbox" id="state" {$checked}/></td>
+  </tr>
+  <tr>
+    <td class="blackLine" colspan=2><img src="/image/misc/s.gif"></td>
+  </tr>
+  <tr>
+    <td>&nbsp;</td>
+    <td><input type="button" value="Submit" class="button" onclick="checkContent()">&nbsp;<input type="reset" value="reset" class="button"></td>
+  </tr>
+  </form>
+</table>
+<br>
+  </div>
+</div>
+{include file="themes/$theme/footer.html"}

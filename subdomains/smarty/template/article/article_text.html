@@ -1,0 +1,27 @@
+Article title: {$article_info.title|cat:"\r\n"}
+Keyword: {$article_info.keyword|cat:"\r\n"}
+Submit Date: {if $article_info.article_status == '0' || $article_info.article_status == ''}n/a{else}{$article_info.cp_updated|date_format:"%m-%d-%Y"|cat:"\r\n"}{/if}
+{if $article_info.tags|strip != ''}Tags: {$article_info.tags|cat:"\r\n"}{/if}
+{if $article_info.mapping_id|strip != ''}Mapping-ID: {$article_info.mapping_id|cat:"\r\n"}{/if}
+{if $article_info.optional1|strip != ''}Optional Field 1: {$article_info.optional1|cat:"\r\n"}{/if}
+{if $article_info.optional2|strip != ''}Optional Field 2: {$article_info.optional2|cat:"\r\n"}{/if}
+{if $article_info.optional3|strip != ''}Optional Field 3: {$article_info.optional3|cat:"\r\n"}{/if}
+{if $article_info.optional4|strip != ''}Optional Field 4: {$article_info.optional4|cat:"\r\n"}{/if}
+{if $article_info.optional5|strip != ''}Optional Field 5: {$article_info.optional5|cat:"\r\n"}{/if}
+{if $article_info.optional6|strip != ''}Optional Field 6: {$article_info.optional6|cat:"\r\n"}{/if}
+{if $article_info.optional7|strip != ''}Optional Field 7: {$article_info.optional7|cat:"\r\n"}{/if}
+{if $article_info.optional8|strip != ''}Optional Field 8: {$article_info.optional8|cat:"\r\n"}{/if}
+{if $article_info.optional9|strip != ''}Optional Field 9: {$article_info.optional9|cat:"\r\n"}{/if}
+{if $article_info.optional10|strip != ''}Optional Field 10: {$article_info.optional10|cat:"\r\n"}{/if}
+{*{if $author != ''}Copywriter: {$author|cat:"\r\n"}{/if}*}
+{if $article_info.template  eq '2'}
+{if $article_info.small_image|strip != ''}Small Image: {$article_info.small_image|cat:"\r\n"}{/if}
+{if $article_info.large_image|strip != ''}Large Image: {$article_info.large_image|cat:"\r\n"}{/if}
+{if $article_info.image_credit|strip != ''}Image Credit: {$article_info.image_credit|cat:"\r\n"}{/if}
+{if $article_info.image_caption|strip != ''}Image Caption: {$article_info.image_caption|cat:"\r\n"}{/if}
+{if $article_info.blurb|strip != ''}Blurb: {$article_info.blurb|cat:"\r\n"}{/if}
+{if $article_info.meta_description|strip != ''}Meta description: {$article_info.meta_description|cat:"\r\n"}{/if}
+{if $article_info.category_id|strip != ''}Category: {$article_info.category_id|cat:"\r\n"}{/if}
+{/if}
+Article content: {"\r\n"}
+{$article_info.body|cat:"\r\n"}

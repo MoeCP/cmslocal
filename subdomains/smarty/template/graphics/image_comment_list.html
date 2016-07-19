@@ -1,0 +1,197 @@
+{include file="themes/$theme/header.html"}
+
+
+{if $feedback ne ''}
+<script language="JavaScript">
+<!--
+alert("{$feedback}");
+//-->
+</script>
+{/if}
+<div id="page-box1">
+  <h2>Image comments</h2>
+  {*if $user_permission_int > 0 && $versions}
+  <div id="campaign-search" >
+   <div id="campaign-search-box" >
+    <input type="hidden" name="image_id" id="image_id" value="{$image_info.image_id}" />
+    <input type="hidden" name="keyword_id" id="keyword_id" value="{$image_info.keyword_id}" />
+    <input type="hidden" name="campaign_id" id="campaign_id" value="{$image_info.campaign_id}" />
+    <table border="0" cellspacing="1" cellpadding="4">
+      <tr>
+        <td>Image History Verstion</td>
+        <td><select name="version_history_id" onchange="versionChange(this.value)" >{html_options options=$versions selected=$smarty.get.version_history_id}</select></td>
+      </tr>
+    </table>
+    </div>
+  </div>
+  {/if*}
+  <div class="view-item" >
+<br><table border="0" cellspacing="1" cellpadding="4" align="center" width="95%">
+  <tr>
+    <td class="bodyBold" colspan="4"> Image Status Timestamps</td>
+  </tr>
+  {if $image_info.image_status!='0' }
+  <tr>
+    <td class="requiredInput">Copywriter Submit Date</td>
+    <td>{$image_info.cp_updated|date_format:"%m-%d-%Y %H:%M:%S"}{if $posted_by.submitted.opt_id > 0} by {$posted_by.submitted.opt_name}{/if}</td>
+  </tr>
+  {/if}
+  <tr>
+    <td class="requiredInput">Editor Approve Date</td>
+    <td>{if $image_info.approval_date != '0000-00-00 00:00:00' && $image_info.approval_date > 0&& $image_info.approval_date != '' }{$image_info.approval_date|date_format:"%m-%d-%Y %H:%M:%S"} {if $posted_by.approved.opt_id > 0} by {$posted_by.approved.opt_name}{/if}{elseif $image_info.client_approval_date != '0000-00-00 00:00:00' && $image_info.client_approval_date > 0&& $image_info.client_approval_date != '' }{$image_info.client_approval_date|date_format:"%m-%d-%Y %H:%M:%S"} {if $posted_by.client_approved.opt_id > 0} by {$posted_by.client_approved.opt_name}{/if}{/if}</td>
+    <td class="requiredInput">Client Approve Date</td>
+    <td>{if $image_info.client_approval_date != '0000-00-00 00:00:00' && $image_info.client_approval_date > 0&& $image_info.client_approval_date != '' }{$image_info.client_approval_date|date_format:"%m-%d-%Y %H:%M:%S"}{if $posted_by.client_approved.opt_id > 0} by {if ($login_role == 'editor' || $login_role == 'copy writer') && $posted_by.client_approved.opt_type == 1}Client{else}{$posted_by.client_approved.opt_name}{/if}{/if}{/if}</td>
+  </tr>
+  <tr>
+    <td class="blackLine" colspan="4"><img src="/image/misc/s.gif"></td>
+  </tr>
+  <tr>
+    <td class="bodyBold" colspan="4">Current Image Version Information</td>
+  </tr>
+  <tr>
+    <td class="requiredInput">Campaign Name</td>
+    <td>{$image_info.campaign_name}</td>
+    <td class="requiredInput">Image Keywords</td>
+    <td>{$image_info.keyword}</td>
+  </tr>
+  {foreach from=$optional_fields key=key item=item name='loop'}
+  {if $smarty.foreach.loop.iteration%2 eq 1}
+  <tr>
+  {/if}
+  <td class="requiredInput">{$item.label}</td>
+  <td>{$image_info[$key]|html_entity_decode}</td>
+  {if $smarty.foreach.loop.iteration%2 eq 0 || $smarty.foreach.loop.iteration == $total_optional}
+   </tr>
+  {/if}
+  {/foreach}
+  <tr>
+    <td class="requiredInput">Start Date</td>
+    <td>{$image_info.date_start|date_format:"%m-%d-%Y"}</td>
+    <td class="requiredInput">Due Date</td>
+    <td>{$image_info.date_end|date_format:"%m-%d-%Y"}</td>
+  </tr>
+  <tr>
+    <td class="requiredInput">Date Created</td>
+    <td>{$image_info.creation_date|date_format:"%m-%d-%Y %H:%M:%S"}</td>
+    <td class="requiredInput">Image Title</td>
+    <td>{$image_info.title}</td>
+  </tr>
+  {foreach from=$custom_fields key=key item=item name='loop'}
+  {if $smarty.foreach.loop.iteration%2 eq 1}
+  <tr>
+  {/if}
+  <td class="requiredInput">{$item.label}</td>
+  <td>{$image_info[$key]}</td>
+  {if $smarty.foreach.loop.iteration%2 eq 0 || $smarty.foreach.loop.iteration == $total_custom}
+   </tr>
+  {/if}
+  {/foreach}
+  <tr>
+    <td class="requiredInput">Mapping-ID</td>
+    <td>{$image_info.mapping_id|html_entity_decode}</td>
+  </tr>
+  {if $image_info.image_name}
+  <tr>
+    <td class="requiredInput">Image</td><td colspan="3">If you can't see the image as following, please click <a  href="/graphics/image_download.php?image_id={$image_info.image_id}" target="_blank" >here</a> to download</td>
+  </tr>
+  <tr>
+    <td colspan="4"><img src="{$image_info.image_name}" width="100%" alt="{$image_info.title}"/></td>
+  </tr>
+ {else}
+  <tr><td class="requiredInput">Image</td><td>No Image</td></tr>
+  {/if}
+  <tr>
+    <td class="blackLine" colspan="4"><img src="/image/misc/s.gif"></td>
+  </tr>
+</table>
+<br /><br />
+{if  $image_info.image_status  neq '99'}
+<div id="article-coments" >
+{if $comment_count neq 0}
+<table border="0" cellspacing="0" cellpadding="0" width="85%" class="comments-info" >
+  <tr class="comments-head" >
+    <td class="comments-head-left">&nbsp;</td>
+    <td  colspan="8" ><span class="comments-header">Current Images Comments Information</span></td>
+    <td class="comments-head-right">&nbsp;</td>
+  </tr>
+  <tr>
+    <td colspan="10" >
+  {foreach from=$image_info.comment item=item name="loop"}
+     <table cellspacing="0" cellpadding="10" bordercolor="#999999" border="1" width="100%">
+   <tr>
+    <td>
+    <table cellspacing="0" width="100%">
+  <tr>
+    <td></td>
+    <td align="right" class="comments-label">Role: &nbsp;</td>
+    <td>{$item.creation_role}</td>
+    <td align="right" class="comments-label">Creator: &nbsp;</td>
+    {if $login_role neq 'client' || $login_role eq 'client' && $item.creation_role neq 'editor' and $item.creation_role neq 'copy writer'}
+    <td>{if $item.creation_role eq 'client'}{$item.ccreator}{else}{$item.creator}{/if}</td>
+    {else}
+    <td>{$item.creation_role}</td>
+    {/if}
+    <td align="right" class="comments-label">Comment Date: &nbsp; </td>
+    <td>{$item.creation_date|date_format:"%m-%d-%Y %H:%M:%S"}</td>
+    <td align="right" class="comments-label">Version: &nbsp;</td>
+    <td>{$item.version_number}</td>
+    <td></td>
+  </tr>
+  <tr>
+    <td></td>
+    <td colspan="10" >{$item.comment|nl2br}</td>
+    <td></td>
+  </tr>
+    </table>
+     </td>
+   </tr>
+    </table>
+  {/foreach}
+    </td>
+  </tr>
+</table>
+{/if}
+</div>
+<form action="" method="post" id="f_comments"  name="f_comments" >
+<table border="0" cellspacing="1" cellpadding="4" align="center" width="95%">
+  <tr>
+    <td class="requiredInput">Add Image comment</td>
+    <td><textarea name="comment" style="width: 700px; height: 160px;" id="comment"></textarea></td>
+  </tr>
+  <tr>
+    <td></td>
+    <td><input type="button" value="Add Comment" class="button" onclick="commentSubmit()" /></td>
+  </tr>
+</table>
+</form>
+{/if}
+  </div>
+</div>
+
+{literal}
+<script language="JavaScript">
+function commentSubmit()
+{
+    var f = document.f_comments;
+    if (f.comment.value == '')
+    {
+        alert("Please input comment for this image");
+        return false;
+    }
+    else 
+    {
+        f.submit();
+    }
+}
+
+function versionChange(history_id)
+{
+    if (history_id > 0){
+        window.location.href="/graphics/image_version_history.php?version_history_id=" + history_id;
+    } else{
+        window.location.href = "/graphics/image_comment_list.php?image_id="+ $('image_id').value;
+    }
+}
+</script>
+{/literal}
+{include file="themes/$theme/footer.html"}

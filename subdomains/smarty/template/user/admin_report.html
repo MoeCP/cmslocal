@@ -1,0 +1,50 @@
+<div style="display:none" id="report_result" ></div>
+<table id="table-1" cellspacing="0" cellpadding="0" align="center" class="sortableTable">
+  <thead>
+  <tr class="sortableTab">
+    <th class="table-left-corner">&nbsp;&nbsp;&nbsp;&nbsp;</th>
+    <td nowrap class="columnHeadInactiveBlack table-left-2">Company Name</td>
+    <td nowrap class="columnHeadInactiveBlack">Project Manager</td>
+    <td nowrap class="columnHeadInactiveBlack">Total Campaigns in All Reports</td>
+    <td nowrap class="columnHeadInactiveBlack">Total Keywords</td>
+    <td nowrap class="columnHeadInactiveBlack">% assigned</td>
+    <td nowrap class="columnHeadInactiveBlack">% submitted</td>
+    <td nowrap class="columnHeadInactiveBlack">% Editor approved</td>
+    <td nowrap class="columnHeadInactiveBlack">% client Approved</td>
+    <td nowrap class="columnHeadInactiveBlack">Submitted Today</td>
+    <td nowrap class="columnHeadInactiveBlack table-right-2">Client Approved(Month)</td>
+    <th class="table-right-corner">&nbsp;&nbsp;&nbsp;</th>
+  </tr>
+  </thead>
+  {foreach from=$result item=item name="loop"}
+  <tr id="tr{$item.client_id}" class="{if $smarty.foreach.loop.iteration % 2 eq 0}even{else}odd{/if}">
+    <td class="table-left" >&nbsp;</td>
+    <td class="table-left-2"><a href="/client_campaign/campaign_list.php?client_id={$item.client_id}&is_home=1&month={$month}&archived=-1"  target="_blank">{$item.company_name}</a></td>
+  <td>{$item.project_manager}</td>
+  <td nowrap >
+    {if $item.total_camp > $campaign_limit}
+    <a href="/client_campaign/campaign_list.php?client_id={$item.client_id}&archived={$archived}&is_home=1&month={$month}" target="_blank" title="Show All" ><span class="total-text">{$item.total_camp}</span></a>
+    {else}
+    {$item.total_camp}
+    {/if}
+    {if $item.total_camp > 0}
+     <a href="javascript:void(0)" onclick="appendRsToObj($('tr{$item.client_id}'),this,{if $item.total_camp > $campaign_limit}{$campaign_limit}{else}{$item.total_camp}{/if}, '/client_campaign/client_campaign_list.php?client_id={$item.client_id}&archived={$archived}&is_home=1&month={$month}{$query_string}', 'report_result');return false;" >View Campaigns</a>
+     {/if}
+  </td>
+	<td>{$item.total|default:0}</td>
+	<td ><div {if $item.old_assigned}class="greenclass"{/if}>{$item.pct_total_assign|default:"0%"}({$item.total_assign|default:0})</div></td>
+	<td ><div {if $item.old_submitted}class="yellowclass"{/if}>{$item.pct_total_submit|default:"0%"}({$item.total_submit|default:0})</div></td>
+	<td ><div {if $item.old_approved}class="redclass"{/if}>{$item.pct_total_editor_approval|default:"0%"}({$item.total_editor_approval|default:0})</div></td>
+	<td>{$item.pct_total_client_approval|default:"0%"}({$item.total_client_approval|default:0})</td>
+	<td>{$item.today_submit|default:0}</td>
+	<td class="table-right-2">{$item.month_client_approval|default:0}</td>
+  <td class="table-right" >&nbsp;</td>
+  </tr>
+  {/foreach}
+  <tr>
+  <td class="table-left" >&nbsp;</td>
+  <td align="left" width="100%" class="contentLabel table-right-2 table-left-2" colspan="10" >If you would like more information, please click <a href="/client_campaign/client_list.php">here</a></td>
+  <td class="table-right" >&nbsp;</td>
+  </tr>
+</table>
+<center><pre>{$adodb_log}{php}//print_r($_POST);{/php}</pre></center>

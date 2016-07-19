@@ -1,0 +1,232 @@
+{include file="themes/$theme/header.html"}
+
+
+{if $feedback ne ''}
+<script language="JavaScript">
+<!--
+alert("{$feedback}");
+//-->
+</script>
+{/if}
+<div id="page-box1">
+  <h2>Article comments</h2>
+  {if $user_permission_int > 0 && $versions}
+  <div id="campaign-search" >
+   <div id="campaign-search-box" >
+    <input type="hidden" name="article_id" id="article_id" value="{$article_info.article_id}" />
+    <input type="hidden" name="keyword_id" id="keyword_id" value="{$article_info.keyword_id}" />
+    <input type="hidden" name="campaign_id" id="campaign_id" value="{$article_info.campaign_id}" />
+    <table border="0" cellspacing="1" cellpadding="4">
+      <tr>
+        <td>Article History Verstion</td>
+        <td><select name="version_history_id" onchange="versionChange(this.value)" >{html_options options=$versions selected=$smarty.get.version_history_id}</select></td>
+      </tr>
+    </table>
+    </div>
+  </div>
+  {/if}
+  <div class="view-item" >
+<br><table border="0" cellspacing="1" cellpadding="4" align="center" width="95%">
+  <tr>
+    <td class="bodyBold" colspan="4"> Article Status Timestamps</td>
+  </tr>
+  {if $article_info.article_status!='0' }
+  <tr>
+    <td class="requiredInput">Copywriter Submit Date</td>
+    <td>{$article_info.cp_updated|date_format:"%m-%d-%Y %H:%M:%S"}{if $posted_by.submitted.opt_id > 0} by {$posted_by.submitted.opt_name}{/if}</td>
+  </tr>
+  {/if}
+  <tr>
+    <td class="requiredInput">Editor Approve Date</td>
+    <td>{if $article_info.approval_date != '0000-00-00 00:00:00' && $article_info.approval_date > 0&& $article_info.approval_date != '' }{$article_info.approval_date|date_format:"%m-%d-%Y %H:%M:%S"} {if $posted_by.approved.opt_id > 0} by {$posted_by.approved.opt_name}{/if}{elseif $article_info.client_approval_date != '0000-00-00 00:00:00' && $article_info.client_approval_date > 0&& $article_info.client_approval_date != '' }{$article_info.client_approval_date|date_format:"%m-%d-%Y %H:%M:%S"} {if $posted_by.client_approved.opt_id > 0} by {$posted_by.client_approved.opt_name}{/if}{/if}</td>
+    <td class="requiredInput">Client Approve Date</td>
+    <td>{if $article_info.client_approval_date != '0000-00-00 00:00:00' && $article_info.client_approval_date > 0&& $article_info.client_approval_date != '' }{$article_info.client_approval_date|date_format:"%m-%d-%Y %H:%M:%S"}{if $posted_by.client_approved.opt_id > 0} by {if ($login_role == 'editor' || $login_role == 'copy writer') && $posted_by.client_approved.opt_type == 1}Client{else}{$posted_by.client_approved.opt_name}{/if}{/if}{/if}</td>
+  </tr>
+  <tr>
+    <td class="blackLine" colspan="4"><img src="/image/misc/s.gif"></td>
+  </tr>
+  <tr>
+    <td class="bodyBold" colspan="4">Current Article Version Information</td>
+  </tr>
+  <tr>
+    <td class="requiredInput">Campaign Name</td>
+    <td>{$article_info.campaign_name}</td>
+    <td class="requiredInput">Article Keywords</td>
+    <td>{$article_info.keyword}</td>
+  </tr>
+  {foreach from=$optional_fields key=key item=item name='loop'}
+  {if $smarty.foreach.loop.iteration%2 eq 1}
+  <tr>
+  {/if}
+  <td class="requiredInput">{$item.label}</td>
+  <td>{$article_info[$key]|html_entity_decode}</td>
+  {if $smarty.foreach.loop.iteration%2 eq 0 || $smarty.foreach.loop.iteration == $total_optional}
+   </tr>
+  {/if}
+  {/foreach}
+  <tr>
+    <td class="requiredInput">Start Date</td>
+    <td>{$article_info.date_start|date_format:"%m-%d-%Y"}</td>
+    <td class="requiredInput">Due Date</td>
+    <td>{$article_info.date_end|date_format:"%m-%d-%Y"}</td>
+  </tr>
+  {if $article_info.tags}
+  <tr>
+    <td class="requiredInput">Tags</td>
+    <td colspan="3" >{$article_info.tags}</td>
+  </tr>
+  {/if}
+  <tr>
+    <td class="requiredInput">Date Created</td>
+    <td>{$article_info.creation_date|date_format:"%m-%d-%Y %H:%M:%S"}</td>
+    <td class="requiredInput">Article Title</td>
+    <td>{$article_info.title}</td>
+  </tr>
+  {foreach from=$custom_fields key=key item=item name='loop'}
+  {if $smarty.foreach.loop.iteration%2 eq 1}
+  <tr>
+  {/if}
+  <td class="requiredInput">{$item.label}</td>
+  <td>{$article_info[$key]}</td>
+  {if $smarty.foreach.loop.iteration%2 eq 0 || $smarty.foreach.loop.iteration == $total_custom}
+   </tr>
+  {/if}
+  {/foreach}
+  <tr>
+    <td class="requiredInput">Mapping-ID</td>
+    <td>{$article_info.mapping_id}</td>
+  </tr>
+  <tr>
+    <td class="requiredInput">Article Content</td>
+    <td colspan="3">{if $article_info.richtext_body eq ''}{$article_info.body|nl2br}{else}{$article_info.richtext_body}{/if}</td>
+  </tr>
+  <tr>
+    <td class="blackLine" colspan="4"><img src="/image/misc/s.gif"></td>
+  </tr>
+</table>
+<br /><br />
+{if  $article_info.article_status  neq '99'}
+{if $article_info.body neq ''}
+{if $login_role eq "admin" || $login_role eq "editor" && ($article_info.article_status neq '0' && $article_info.article_status neq '1')}
+<link href='/js/rating/jquery.rating.css' type="text/css" rel="stylesheet"/>
+<script type="text/javascript" src="/js/jquery-1.6.1.min.js"></script>
+<script type="text/javascript" src="/js/rating/jquery.rating.js"></script>
+<script type="text/javascript" src="/js/rating/jquery.rating.function.js"></script>
+  <div class="form-item">
+  <table cellspacing="0" cellpadding="5" border="0" width="70%">
+      <tbody><tr>
+      <td align="right" class="form-label"><strong>Rate the Article</strong></td>
+      <td align="left">        
+        {*{if $ranking neq '' && $ranking neq 0 }
+          <input type="hidden"  name="ranking" id="ranking" value="{$ranking}" />
+          <input type="hidden"  name="ranking_id" id="ranking_id" value="{$ranking_id}" />
+          <input type="button" name="modify_ranking" id="modify_ranking" value="Update Rating" onclick="javascript:window.location.href='/client_campaign/article_ranking.php?ranking_id={$ranking_id}&user_id={$article_info.copy_writer_id}&campaign_id={$article_info.campaign_id}&article_id={$article_info.article_id}&keyword_id={$article_info.keyword_id}&frm=article_comment_list'"/>
+          &nbsp;&nbsp;&nbsp;&nbsp;Score: &nbsp;{$ranking}
+        {else}
+          <input type="button" name="add_ranking" id="add_ranking" value="Add Rating"  onclick = "javascript:window.location.href='/client_campaign/article_ranking.php?user_id={$article_info.copy_writer_id}&campaign_id={$article_info.campaign_id}&article_id={$article_info.article_id}&keyword_id={$article_info.keyword_id}&frm=article_comment_list'"/>
+	     {/if}*}
+       <form method="post" id="score_form">
+       <input type="hidden"  name="score_id" id="score_id" value="{$info.score_id}" />
+       <input type="hidden"  name="user_id" id="user_id" value="{$article_info.copy_writer_id}" />
+       <input type="hidden"  name="keyword_id" id="keyword_id" value="{$article_info.keyword_id}" />
+       <input type="hidden"  name="campaign_id" id="campaign_id" value="{$article_info.campaign_id}" />
+      {foreach from=$rankings item=v}
+      <input type="radio" name="score" class="star" value="{$v}"  {if $info.score == $v}checked{/if}  />
+      {/foreach} &nbsp;&nbsp;&nbsp;&nbsp;<a href="http://community.copypress.com/copypress-writers-guide/for-editors-how-to-complete-an-assignment/" target="_blank">What is this?</a>
+      <input type="button" name="save_ranking" id="save_ranking" value="save" onclick="if (jQuery('input[name=\'score\']:checked').val() > 0) jQuery('#score_form').submit(); else alert('Please specify the ranking');"/>
+      </form>
+       </td>
+      </tr>
+    </tbody></table>    
+  </div>
+{/if}
+{/if}
+<div id="article-coments" >
+{if $comment_count neq 0}
+<table border="0" cellspacing="0" cellpadding="0" width="85%" class="comments-info" >
+  <tr class="comments-head" >
+    <td class="comments-head-left">&nbsp;</td>
+    <td  colspan="8" ><span class="comments-header">Current Articles Comments Information</span></td>
+    <td class="comments-head-right">&nbsp;</td>
+  </tr>
+  <tr>
+    <td colspan="10" >
+  {foreach from=$article_info.comment item=item name="loop"}
+     <table cellspacing="0" cellpadding="10" bordercolor="#999999" border="1" width="100%">
+   <tr>
+    <td>
+    <table cellspacing="0" width="100%">
+  <tr>
+    <td></td>
+    <td align="right" class="comments-label">Role: &nbsp;</td>
+    <td>{$item.creation_role}</td>
+    <td align="right" class="comments-label">Creator: &nbsp;</td>
+    {if $login_role neq 'client' || $login_role eq 'client' && $item.creation_role neq 'editor' and $item.creation_role neq 'copy writer'}
+    <td>{if $item.creation_role eq 'client'}{if $item.creation_user_id}{$item.ccreator}{else}n/a{/if}{else}{$item.creator}{/if}</td>
+    {else}
+    <td>{$item.creation_role}</td>
+    {/if}
+    <td align="right" class="comments-label">Comment Date: &nbsp; </td>
+    <td>{$item.creation_date|date_format:"%m-%d-%Y %H:%M:%S"}</td>
+    <td align="right" class="comments-label">Version: &nbsp;</td>
+    <td>{$item.version_number}</td>
+    <td></td>
+  </tr>
+  <tr>
+    <td></td>
+    <td colspan="10" >{$item.comment|nl2br}</td>
+    <td></td>
+  </tr>
+    </table>
+     </td>
+   </tr>
+    </table>
+  {/foreach}
+    </td>
+  </tr>
+</table>
+{/if}
+</div>
+<form action="" method="post" id="f_comments"  name="f_comments" >
+<table border="0" cellspacing="1" cellpadding="4" align="center" width="95%">
+  <tr>
+    <td class="requiredInput">Add Article comment</td>
+    <td><textarea name="comment" style="width: 700px; height: 160px;" id="comment"></textarea></td>
+  </tr>
+  <tr>
+    <td></td>
+    <td><input type="button" value="Add Comment" class="button" onclick="commentSubmit()" /></td>
+  </tr>
+</table>
+</form>
+{/if}
+  </div>
+</div>
+
+{literal}
+<script language="JavaScript">
+function commentSubmit()
+{
+    var f = document.f_comments;
+    if (f.comment.value == '')
+    {
+        alert("Please input comment for this article");
+        return false;
+    }
+    else 
+    {
+        f.submit();
+    }
+}
+
+function versionChange(history_id)
+{
+    if (history_id > 0){
+        window.location.href="/article/article_version_history.php?version_history_id=" + history_id;
+    } else{
+        window.location.href = "/article/article_comment_list.php?article_id="+ $('article_id').value;
+    }
+}
+</script>
+{/literal}
+{include file="themes/$theme/footer.html"}

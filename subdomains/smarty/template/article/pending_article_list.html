@@ -1,0 +1,161 @@
+{include file="themes/$theme/header.html"}
+
+{if $feedback ne ''}
+<script language="JavaScript">
+<!--
+alert('{$feedback}');
+//-->
+</script>
+{/if}
+
+{literal}
+<script language="JavaScript">
+<!--
+var f_common = "document.f_pending_article_list.";
+var f = document.f_pending_article_list;
+function check_f_pending_article_list(result_count) {
+  var is_checked;
+  var f = document.f_pending_article_list;
+
+  for (i = 1; i <= result_count; i++) {
+    var is_update_id = 'isUpdate_' + i;
+    if (document.getElementById(is_update_id).checked)
+    {
+      is_checked = true;
+    }
+  }
+
+  if (!is_checked)
+  {
+    alert("Please choose one article.");  
+    return false;
+  }
+
+  return true;
+}
+
+//-->
+</script>
+{/literal}
+<div id="page-box1">
+  <div id="campaign-actions" >
+  <div id="campaign-actions-label"> Articles Awaiting Approval</div>
+  {if $login_role eq 'client' && $campaign_id neq ''}
+  <ul id="campaign-nav">
+    <li><a href="/article/download_article_list.php?campaign_id={$campaign_id}" target="_blank"><img alt="Download Article" src="/images/button-download-article.gif" /></a></li>
+  </ul>
+  {/if}
+  </div>
+  <div id="campaign-search" >
+    <strong>Enter in the campaign name or keywords to narrow your search results</strong>
+    <div id="campaign-search-box" >
+    <form name="f_assign_keyword_return" action="/article/pending_article_list.php" method="get">
+    <table border="0" cellspacing="1" cellpadding="4">
+      <tr>
+        <td  nowrap>Keyword</td>
+        <td><input type="text" name="keyword" id="search_keyword" value="{$smarty.get.keyword}"></td>
+        {if $login_role == 'client'}
+        <td  nowrap>Campaigns:</td>
+        <td nowrap><select name="campaign_id" onchange="this.form.submit();">{html_options options=$campaigns selected=$smarty.get.campaign_id}</select></td>
+        {/if}
+        <td  nowrap>Show:</td>
+        <td nowrap><select name="perPage" onchange="this.form.submit();">{html_options options=$g_pager_perPage selected=$smarty.get.perPage}</select> row(s)</td>
+        <td><input type="image" src="/images/button-search.gif" value="submit" /></td>
+        <td nowrap>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+        <td width="50%">&nbsp;</td>
+      </tr>
+    </table>
+    </form>
+    </div>
+  </div>
+</div>
+<div class="tablepadding"> 
+<br />
+<div class="pagingpaddingleft" >
+  <table align="center" width="100%" border="0" cellspacing="0" cellpadding="0" >
+    <tr><td class="table-bottom">{$pager} (Total Page:{$total})(Total Count:{$count})</td><td class="table-right table-paging-right" width="21">&nbsp;</td></tr>
+  </table>
+</div>
+<form action="/article/pending_article_list.php" name="f_pending_article_list" method="post"  {if $js_check eq true}onSubmit="return check_f_pending_article_list('{$result_count}')"{/if} />
+<table id="table-1" cellspacing="0" cellpadding="0" class="sortableTable">
+  <thead>
+  <tr class="sortableTab">
+  {if $result}
+	<td nowrap class="columnHeadInactiveBlack table-left-2"><input type="checkbox" name="Select_All" title="Select All" onClick="javascript:checkAll('isUpdate[]', event)" /></td>
+  {/if}
+    <td nowrap class="columnHeadInactiveBlack">No.</td>
+    <td nowrap class="columnHeadInactiveBlack">Topic</td>
+    <td nowrap class="columnHeadInactiveBlack">Campaign Name</td>
+    {if $login_role neq 'client'}
+    <td nowrap class="columnHeadInactiveBlack">Copywriter</td>
+    <td nowrap class="columnHeadInactiveBlack">Editor</td>
+    {/if}
+    <td nowrap class="columnHeadInactiveBlack">Start Date</td>
+    <td nowrap class="columnHeadInactiveBlack">Due Date</td>
+    <td nowrap class="columnHeadInactiveBlack">Article Number</td>
+    <td nowrap class="columnHeadInactiveBlack">Status</td>
+    <td nowrap class="columnHeadInactiveBlack">Noflow Status</td>
+    <td nowrap class="columnHeadInactiveBlack table-right-2">Action</td>
+  </tr>
+  </thead>
+  {foreach from=$result item=item name="loop"}
+  <tr class="{if $smarty.foreach.loop.iteration % 2 eq 0}even{else}odd{/if}">
+    <input type="hidden" name="article_id[]" id="article_id_{$smarty.foreach.loop.iteration}" value="{$item.article_id}" />
+	<td class="table-left-2" align="center"><input type="checkbox" name="isUpdate[]" id="isUpdate_{$smarty.foreach.loop.iteration}" value="{$smarty.foreach.loop.iteration}" onclick="javascript:checkItem('Select_All', f_common, event)" /></td>
+    {eval var= $startNo+$smarty.foreach.loop.iteration assign='rowNumber'}
+    <td>{$rowNumber}</td>
+    <td><a href="javascript:void(0)" onclick="showArticleDialog('{$item.article_id}', '{$item.keyword_id}', '{$campaign_id}')" >{$item.keyword}</a></td>
+    {*<td><a title="{$item.campaign_name}" href="#" >{$item.campaign_name|truncate:20:"..."}</a></td>*}
+    <td>{$item.campaign_name}</td>
+    {if $login_role neq 'client'}
+    <td>{$item.copywriter}</td>
+    <td>{$item.editor}</td>
+    {/if}
+    <td>{$item.date_start|date_format:"%m-%d-%Y"}</td>
+    <td>{$item.date_end|date_format:"%m-%d-%Y"}</td>
+    <td>{$item.article_number}</td>
+	<td>{$article_status[$item.article_status]}</td>	
+	<td>{$noflow_status[$item.noflow_status]}</td>	
+    <td align="center" nowrap class="table-right-2">
+	    <input type="button" class="button" value="Review Article" onclick="javasript:window.location='/article/approve_article.php?keyword_id={$item.keyword_id}&article_id={$item.article_id}&campaign_id={$campaign_id}&fmp=pending_article_list';" />
+    </td>
+  </tr>
+  {/foreach}
+</table>
+<div class="pagingpaddingleft" >
+  <table align="center" width="100%" border="0" cellspacing="0" cellpadding="0" >
+    <tr><td class="table-bottom">{$pager} (Total Page:{$total})(Total Count:{$count})</td><td class="table-right table-paging-right" width="21">&nbsp;</td></tr>
+  </table>
+</div><br />
+{if $result}
+<table align="center">
+  <tr><td align="center" ><input type="submit" class="button" value="Approval all pending articles" /></td></tr>
+</table>
+{/if}
+</form>
+</div>
+<script type="text/javascript">
+//<![CDATA[
+{literal}
+var st = new SortableTable(document.getElementById("table-1"),
+  [null, "None", "Number", "CaseInsensitiveString", "CaseInsensitiveString", "CaseInsensitiveString", "CaseInsensitiveString", "Date", "Date", "CaseInsensitiveString", "CaseInsensitiveString", "None"]);
+function showArticleDialog(aid, kid, cid) {
+  var url = '/article/ajax_approve_article.php?article_id=' + aid + '&keyword_id=' + kid + '&campaing_id=' + cid+ '&fmp=pending_article_list';
+  showWindowDialog(url, 900, 450, "Approve article");
+}
+
+st.onsort = function () {
+  var rows = st.tBody.rows;
+  var l = rows.length;
+  for (var i = 0; i < l; i++) {
+    removeClassName(rows[i], i % 2 ? "odd" : "even");
+    addClassName(rows[i], i % 2 ? "even" : "odd");
+  }
+};
+
+st.asyncSort(2);
+{/literal}
+//]]>
+</script>
+
+{include file="themes/$theme/footer.html"}

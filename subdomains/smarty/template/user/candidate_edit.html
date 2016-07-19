@@ -1,0 +1,134 @@
+{include file="themes/$theme/header_jqjump.html"}
+<script type="text/javascript" src="/js/jquery-1.6.1.min.js"></script>
+<script language="JavaScript">
+{if $feedback neq ''}
+alert("{$feedback}");
+{/if}
+{literal}
+</script>
+{/literal}
+<div id="page-box1" >
+  <table>
+    <tr>
+      <td align="left"><h2>Candidate Form</h2></td>
+    </tr>
+    <tr><td colspan="2" >
+      <div id="campaign-search" ><strong>Thank you for your interest in freelance writing and editing opportunities with CopyPress, a division of BlueGlass Interactive Inc. Our freelance team is made up of the brightest and best talent in the industry. Every author and editor at CopyPress understands the value of quality content, teamwork and community. A basic understanding and passion for these things is required. If you've never created quality content, don't value teamwork, prefer not to interact with others or can't tell us the difference between an adjective and noun, this isn't the company for you.<br /><br />Think you have what it takes to join the CopyPress team? Complete the application provided. If selected, we will be in contact with you.</strong> <br /><br /></div>
+   </td></tr>
+  </table>
+  <ul class="tabs">
+    <li class="active"><a href="#divBasic">Basic</a></li>
+    {*<li><a href="#writing_experience">Writing Experience<br /></a></li>*}
+  </ul>
+  <div style="display: block;" class="tab_container" >
+  <div id="divBasic" class="tab_content">
+  <h2>Basic Information<br /></h2>
+<form action="" method="post"  name="f_candidate" {if $js_check eq true} onsubmit="return check_f_candidate()"{/if}>
+<input type="hidden" name="candidate_id" id="candidate_id" value="{$cid}" />
+<input type="hidden" name="user_id" id="user_id" value="{$user_id}" />
+<input type="hidden" name="opt_index" value="0" />
+<table border="0" cellspacing="1" cellpadding="4" align="left">  
+  <tr>
+    <td class="tdStyle" ><span class="spanlabel">*</span>First Name</td>
+    <td class="tdStyle" ><span class="spanlabel">*</span>Last Name</td>
+  </tr>
+  <tr>
+    <td class="tdStyle" ><input name="first_name" type="text" id="first_name" value="{$info.first_name}" onchange="javascript:this.value=Trim(this.value)" /></td>
+    <td  class="tdStyle"><input name="last_name" type="text" id="last_name" value="{$info.last_name}" onchange="javascript:this.value=Trim(this.value)" /></td>
+  </tr>
+  <tr>
+    <td class="tdStyle" ><span class="spanlabel">*</span>Email Address</td>
+    <td class="tdStyle" >Country</td>
+
+  </tr>
+  <tr>
+    <td class="tdStyle"><input name="email" type="text" id="email" value="{$info.email}" onchange="javascript:this.value=Trim(this.value)" /></td>
+    <td class="tdStyle"><select name="country" id="country" ><option value="">[choose]</option>{html_options values=$country output=$country selected=$info.country}</select></td>
+  </tr>
+  <tr>
+    <td class="tdStyle" >City</td>
+    <td class="tdStyle" >State</td>
+  </tr>
+  <tr>
+    <td class="tdStyle" ><input name="city" type="text" id="city" value="{$info.city}" onchange="javascript:this.value=Trim(this.value)" size="20" /></td>
+    <td class="tdStyle"><select name="state" id="state" ><option value="">[choose]</option>{html_options options=$states selected=$info.state}</select></td>
+  </tr>
+  <tr>
+    <td class="tdStyle" >Zip</td>
+    <td class="tdStyle" >Address</td>
+  </tr>
+  <tr>
+    <td class="tdStyle" ><input name="zip" type="text" id="zip" value="{$info.zip}" onchange="javascript:this.value=Trim(this.value)" size="20" /></td>
+    <td class="tdStyle"><textarea name="address" id="address" cols="30" >{$info.address}</textarea></td>
+  </tr>
+  <tr>
+    <td class="tdStyle" >Birthday</td>
+    <td class="tdStyle" ></td>
+  </tr>
+  <tr>
+    <td class="tdStyle" >
+        <input name="dob" type="text" id="dob" readonly value="{$info.dob}" />
+        <input type="button" value="..." id="btn_dob" class="button" />
+        {literal}
+        <script type="text/javascript">
+        Calendar.setup({
+          inputField  : "dob",
+          ifFormat  : "%Y-%m-%d",
+          showsTime   : false,
+          button    : "btn_dob",
+          singleClick : true,
+          date:{/literal}"{$info.dob}",
+          step    : 1,
+          range     : [1900, {$this_year}{literal}]
+         });
+         </script>
+        {/literal}
+    </td>
+    <td class="tdStyle"></td>
+  </tr>
+ <tr>
+    <td class="tdStyle" nowrap colspan="2" ><span class="spanlabel">*</span>Gender<input type="radio" name="sex" value="male" {if $info.sex eq "male"}checked{/if}>male
+      <input type="radio" name="sex" value="female" {if $info.sex eq "female"}checked{/if}>female</td>
+    <td></td>
+  </tr>
+  <tr>
+    <td class="tdStyle" colspan="2" ><span class="spanlabel">*</span><label for="work_in_us" >CopyPress is currently only hiring writers located in the United States, United Kingdom, Canada, and Australia. Are you a citizen of one of these countries?</label><input type="checkbox" name="work_in_us" id="work_in_us" value="1" {if $info.work_in_us == 1}checked{/if}/>Yes</td>
+  </tr>
+  <tr>
+    <td class="tdStyle" nowrap colspan="2" ><span class="spanlabel">*</span><label for="what_team" >Which editorial team are you applying for? <select name="cpermission" id="cpermission" ><option value="">[Select]</option>{html_options options=$cpermissions selected=$info.cpermission}</select></td>
+  </tr>
+  {*<tr>
+    <td class="tdStyle" nowrap colspan="2" ><span class="spanlabel">*</span><label for="clocation" >Are you a citizen of one of these countries?</label><select name="clocation" id="clocation" ><option value="">[choose]</option>{html_options values=$locations output=$locations selected=$info.clocation}</select></td>
+  </tr>*}
+  <tr>
+    <td class="tdStyle" nowrap colspan="2" ><span class="spanlabel">*</span><label for="work_in_us" >What is your first language?</label><select name="first_language" id="first_language" >{html_options options=$first_languages selected=$info.first_language}</select></td>
+  </tr>
+  <tr>
+    {*<td class="tdStyle" nowrap colspan="2">Weekly Productivity<select name="productivity" id="productivity" >{html_options options=$productivity selected=$info.productivity}</select></td>*}
+    <td class="tdStyle" nowrap colspan="2">Weekly Hours<select name="weekly_hours" id="weekly_hours" >{html_options options=$weekly_hours selected=$info.weekly_hours}</select></td>
+  </tr>
+  <tr>
+    <td class="tdStyle" nowrap colspan="2" ><label for="pay_pref" >Preferred Method of Payment</label><select name="pay_pref" id="pay_pref" onchange="changePayPref(jQuery(this).val())">{html_options options=$payment_preference selected=$info.pay_pref}</select></td>
+  </tr>
+  <tr id="tr_paypal_email" {if $info.pay_pref <> 3}style="display:none;"{/if}>
+    <td  class="tdStyle" nowrap colspan="2" ><label for="paypal_email" >Paypal Email Address</label><input name="paypal_email" type="text" id="paypal_email" value="{$info.paypal_email}" onchange="javascript:this.value=Trim(this.value)"></td>
+    <td></td>
+  </tr>
+  <tr>
+    <td colspan="2" >&nbsp;Having trouble submitting the form? Send email to hr@copypress.com&nbsp;&nbsp;<input type="submit" value="Save" class="button">&nbsp;</td>
+  </tr>
+</table>
+</form>
+</div>
+{*{include file="user/candidate_education.html"}
+{include file="user/candidate_work_experience.html"}
+{include file="user/candidate_writing.html"}
+{include file="user/candidate_specialties.html"}*}
+{*{include file="user/candidate_writing_experience.html"}
+{include file="user/candidate_writingsample.html"}
+{include file="user/candidate_test.html"}*}
+</div>
+<div id="ajaxresult" ></div>
+</div>
+{include file="themes/$theme/footer_jump.html"}
+<script type="text/javascript" src="/js/candidate.js"></script>

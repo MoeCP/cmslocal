@@ -1,0 +1,12 @@
+user_id,user_name,first_name,last_name,email,address,status,user_type,Digital Media,Type 1,Type 2,Type 3,total,pay_words_total,pay_count_article,pay_amount,payment_preference,payment_status
+1523,MCaldarelliEdit,Mary,Caldarelli,caldarelli@aol.com,11 Michaux Dr,Active,1,0,1500,0,0,1676,1676,0,$16.76,Direct Deposit,Not Paid
+1317,CarolineCEditor,Caroline,Campbell,ccampbell@steelcast.com,,Inactive,1,0,300,0,0,300,300,0,$3,,Not Paid
+1501,DKindervaterEdit,David,Kindervater,davidkindervater@gmail.com,PO Box 371,Active,1,0,1500,0,0,1500,1500,0,$15,Paypal,Not Paid
+1527,CMorrisEditor,Caroline,Morris,carolinemm3@gmail.com,5830 Memorial Hwy #1214,Active,1,0,5000,0,0,5000,5000,0,$50,Direct Deposit,Not Paid
+1516,JoyNelsonEditor,Joy,Nelson,jen2345_24@hotmail.com,21254 40th way s PO box 98008,Active,1,0,5000,0,0,5000,5000,0,$50,Paypal,Not Paid
+1500,ARadesEditor,Alicia,Rades,aliciarades@yahoo.com,W11136 Cty Rd D,Active,1,0,4000,0,0,9000,9000,0,$90,Direct Deposit,Not Paid
+1503,MRichardsonEdit,Marissa,Richardson,mricha14@gmail.com,10685-B Hazelhurst Dr. 16149,Active,1,0,3500,0,0,3500,3500,0,$35,Paypal,Not Paid
+1517,CRodmanEditor,Cassandra,Rodman,ajkeene.rn@gmail.com,1885 Shore Drive South 225,Active,1,0,1000,0,0,1000,1000,0,$10,Direct Deposit,Not Paid
+1521,KSandrikEditor,Kellie,Sandrik,kellie@ndreport.com,114 Ashby Street,Active,1,0,1500,0,0,2194,2194,0,$21.94,Paypal,Not Paid
+883,ericthuesen,Eric,Thuesen,bigtallturtle@yahoo.com,14726-D Perthshire,Active,1,0,6500,0,0,26013,26013,0,$260.13,Direct Deposit,Not Paid
+1513,AWithersEditor,Ashley,Withers,withers.ashley@gmail.com,146 13th ave NE,Active,1,0,5000,0,0,5000,5000,0,$50,Direct Deposit,Not Paid

@@ -1,0 +1,10 @@
+body{
+     font:normal small verdana, sans-serif;
+     padding:20px;
+     margin:0;
+     background-color: #fff;
+     color: #000;
+}
+legend{font:bold medium verdana, sans-serif;color:blue;}
+fieldset{float:left;}
+fieldset p{margin:10px;}

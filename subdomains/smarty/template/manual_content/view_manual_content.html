@@ -1,0 +1,54 @@
+{include file="themes/$theme/header.html"}
+<link rel="stylesheet" type="text/css" href="spell_checker/spell_checker/css/spell_checker.css">
+{if $feedback ne ''}
+<script language="JavaScript">
+<!--
+alert("{$feedback}");
+//-->
+</script>
+{/if}
+<div id="page-box1">
+  <h2>View Manual Content</h2>
+  <div class="view-item" >
+<br><table border="0" cellspacing="1" cellpadding="4" align="center" width="100%">
+  <form action="" method="post"  name="add_manual_content" id="add_manual_content" >
+  <input type="hidden" name="content_id" value="{$content.content_id}">
+  <input type="hidden" name="created_by" value="{$content.created_by}">
+  <input type="hidden" name="created" value="{$content.created}">
+  <tr>
+    <td class="moduleTitle" colspan="2"></td>
+  </tr>
+  <tr>
+    <td class="bodyBold" colspan="2">Basic Information</td>
+  </tr>
+  <tr>
+    <td class="blackLine" colspan="2"><img src="/image/misc/s.gif"></td>
+  </tr>
+  <tr>
+    <td class="requiredInput" >Title:</td>
+    <td>{$content.title}</td>
+  </tr>
+  <tr>
+    <td class="requiredInput">Category:</td>
+    <td>{$category.pref_value}</td>
+  </tr>
+    <tr>
+    <td class="requiredInput">Publish:</td>
+    <td>{$content.publish}</td>
+  </tr>
+  <tr>
+    <td class="requiredInput" valign="top">Main Text:</td>
+    <td>
+    {$content.full_text|nl2br}
+    </td>
+  </tr>
+
+  <tr>
+    <td class="blackLine" colspan=2><img src="/image/misc/s.gif"></td>
+  </tr>
+  </form>
+</table>
+<br>
+  </div>
+</div>
+{include file="themes/$theme/footer.html"}

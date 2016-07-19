@@ -1,0 +1,87 @@
+{include file="themes/$theme/header.html"}
+<link href="/js/swfupload/css/default.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="/js/swfupload/swfupload.js"></script>
+<script type="text/javascript" src="/js/swfupload/fileprogress.js"></script>
+<script type="text/javascript" src="/js/swfupload/handlers.js"></script>
+{literal}
+<script type="text/javascript">
+  var swfu;
+
+  window.onload = function () {
+    swfu = new SWFUpload({
+      // Backend settings
+      upload_url: "/client_campaign/import.php",
+      file_post_name: "keywords_file",
+
+      // Flash file settings
+      file_size_limit : "10 MB",
+      file_types : "*.csv",			// or you could use something like: "*.doc;*.wpd;*.pdf",
+      file_types_description : "only allow csv file",
+      file_upload_limit : "0",
+      file_queue_limit : "1",
+
+      // Event handler settings
+      swfupload_loaded_handler : swfUploadLoaded,
+      
+      file_dialog_start_handler: fileDialogStart,
+      file_queued_handler : fileQueued,
+      file_queue_error_handler : fileQueueError,
+      file_dialog_complete_handler : fileDialogComplete,
+      
+      //upload_start_handler : uploadStart,	// I could do some client/JavaScript validation here, but I don't need to.
+      upload_progress_handler : uploadProgress,
+      upload_error_handler : uploadError,
+      upload_success_handler : uploadSuccess,
+      upload_complete_handler : uploadComplete,
+
+      // Button Settings
+      button_image_url : "/js/swfupload/XPButtonUploadText_61x22.png",
+      button_placeholder_id : "spanButtonPlaceholder",
+      button_width: 61,
+      button_height: 22,
+      
+      // Flash Settings
+      flash_url : "/js/swfupload/swfupload.swf",
+
+      custom_settings : {
+        progress_target : "fsUploadProgress",
+        upload_successful : false
+      },
+      
+      // Debug settings
+      debug: false
+    });
+
+  };
+</script>
+{/literal}
+<br>
+<div id="show_result_status" ></div>
+<div id="page-box1">
+  <h2>Import Keywords from file</h2>
+<div class="form-item" >
+<form id="form1" action="/client_campaign/import.php" enctype="multipart/form-data" method="post">
+  <table border="0" cellspacing="1" cellpadding="4" align="center" width="100%">
+    <tr>
+      <td>
+      <div>
+        <div>
+          <input type="text" id="txtFileName" disabled="true" style="border: solid 1px; background-color: #FFFFFF;" />
+          <span id="spanButtonPlaceholder"></span>
+          (10 MB max)
+        </div>
+        <div class="flash" id="fsUploadProgress">
+        </div>
+        <input type="hidden" name="hidFileID" id="hidFileID" value="" />
+      </div>
+        </td>
+      </tr>
+      <tr>
+        <td><input type="submit" value="Submit" id="btnSubmit" class="button" /></td>
+      </tr>
+  </table>
+</form>
+</div>
+</div>
+{include file="themes/$theme/footer.html"}
+

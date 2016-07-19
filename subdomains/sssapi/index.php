@@ -1,0 +1,40 @@
+<?php
+require_once 'pre.php';
+
+require_once CMS_INC_ROOT . '/data_logs.class.php';
+require_once CMS_INC_ROOT . '/xml_parser.php';
+require_once CMS_INC_ROOT . '/client_user.class.php';
+require_once CMS_INC_ROOT . '/campaign_keyword.class.php';
+require_once CMS_INC_ROOT . '/Campaign.class.php';
+require_once CMS_INC_ROOT . '/article_action.class.php';
+require_once CMS_INC_ROOT . '/Category.class.php';
+$p = $_REQUEST;
+$oLog = new DataLog;
+
+$xml = $oLog->dataDispose($p);
+$api = new ClientUser;
+$parser = new XMLParser;
+$oKeyword = new CampaignKeyword;
+
+$arr = $parser->parse($xml);
+if (!empty($arr)) {
+    $api_info = $api->apiCheck($parser->apisignature, $parser->apikey);
+    if (!empty($api_info)) {
+        echo $parser->dataDispose($oKeyword, $api_info);
+        if (!isset($parser->fuzzytitle)) {
+            $arr = array();
+            $arr['sssreply'] = $parser->sssreply;
+            $arr['parsed'] =date("Y-m-d H:i:s");
+            $arr['log_id'] = $oLog->log_id;
+            $oLog->store($arr);
+        }
+        $feedback = null;
+    } else {
+        $feedback = 'Invalid api signature or api key, please to check';
+    }
+} else {
+    $feedback = 'Error xml, please check your post format';
+}
+
+if (!empty($feedback)) echo $parser->generateXML(array(array('memo' => $feedback)));
+?>

@@ -1,0 +1,58 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<title>WSC Submit Data</title>
+	<script type="text/javascript">
+		//<!--
+		//rss
+		if(/^\s*$/.test("<#relaxedDomain#>") == false){
+			document.domain = "<#relaxedDomain#>";
+		}
+		//~rss
+
+		/*~var cls = '<#hide#>' == 'c';*/
+		
+		
+		function doload(){   
+			var frm = document.forms[1];
+			if (frm.close_type.value == "cancel" /*~ || cls*/){
+				if(parent && parent.endSpellCheckCallbackInvoker){
+					parent.endSpellCheckCallbackInvoker("cancel",document.forms[0].txt_ctrl.value,null);
+				}
+				parent.close();
+				return;
+			};
+
+
+			if (parent.opener && parent.opener.parent) {
+				var f_src = document.forms[0];
+				if(parent && parent.endSpellCheckCallbackInvoker){
+					parent.endSpellCheckCallbackInvoker("finish",f_src.txt_ctrl.value,f_src.msg_body.value);
+				}
+			}
+			//document.forms[1].submit();
+			parent.close();
+			return;
+	
+		}
+	// -->
+	</script>
+	</head>
+	<body onLoad="doload()" bgcolor="#ffffff">
+		<form action="">
+			<input type="hidden" name="msg_body" value="<#text#>" />
+			<input type="hidden" name="txt_ctrl" value="<#txt_ctrl#>" />
+		</form>
+		<form method="post" action="<#spell_script#>">
+			<!--~<input type="hidden" name="hide" value="<#hide#>" />-->
+			<input type="hidden" name="cmd" value="eos" />
+			<input type="hidden" name="customerid" value="<#customerid#>" />
+			<input type="hidden" name="cust_dic_ids" value="<#cust_dic_ids#>" />
+			<input type="hidden" name="sessionid"  value="<#sessionid#>" />
+			<input type="hidden" name="ssrv_host" value="<#ssrv_host#>" />
+			<input type="hidden" name="owner_prefix" value="parent.opener" />
+			<input type="hidden" name="close_type" value="<#close_type#>" /><!--#-->
+		</form>
+	</body>
+</html>
+<!-- <#achk_ver#> -->	

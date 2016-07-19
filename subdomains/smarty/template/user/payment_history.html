@@ -1,0 +1,63 @@
+{include file="themes/$theme/header.html"}
+{if $feedback ne ''}
+<script language="JavaScript">
+<!--
+alert('{$feedback}');
+//-->
+</script>
+{/if}
+<div id="page-box1">
+  <h2>Payment History</h2>
+</div>
+<div class="tablepadding"> 
+<table id="table-1" cellspacing="0" align="center" cellpadding="0" class="sortableTable">
+  <thead>
+  <tr class="sortableTab">
+    <th class="table-left-corner" rowspan="2">&nbsp;&nbsp;&nbsp;&nbsp;</th>
+    <td nowrap class="columnHeadInactiveBlack table-left-2" rowspan="2">#</td>
+    <td nowrap class="columnHeadInactiveBlack" rowspan="2">Month/Year</td>
+    <td nowrap class="columnHeadInactiveBlack" colspan="{$total_type}" align="center">Total Client Approved Words</td>
+    <td nowrap class="columnHeadInactiveBlack" rowspan="2">Pay Words Total</td>
+    <td nowrap class="columnHeadInactiveBlack" rowspan="2">Pay Amount</td>
+    <td nowrap class="columnHeadInactiveBlack table-right-2" rowspan="2"></td>
+    <th class="table-right-corner" rowspan="2">&nbsp;&nbsp;&nbsp;&nbsp;</th>
+  </tr>
+  <tr class="sortableTab">
+    {foreach from=$g_article_types item=item key=key name="loop2"}
+    <td class="columnHeadInactiveBlack">{$item}</td>
+    {/foreach}
+  </tr>
+  </thead>
+  {foreach from=$result item=item name="loop"}
+  <tr class="{if $smarty.foreach.loop.iteration % 2 eq 0}even{else}odd{/if}">
+    <td class="table-left" >&nbsp;</td>
+    <td class="table-left-2">{$smarty.foreach.loop.iteration}</td>
+    <td >{$item.month_format}</td>
+    {foreach from=$g_article_types item=item2 key=key name="loop2"}
+    <td>{if $item.types.$key.total}{$item.types.$key.total}{else}0{/if}</td>
+    {/foreach}
+    <td>{if $item.total > 0}<a href="/client_campaign/payment_log.php?month={$item.month}" style="color:red;" >{$item.total}</a>{else}{$item.total}{/if}</td>
+    <td>${$item.payment}</td>
+    <td class="table-right-2"><input type="button" class="button" value="view invoice" onclick="window.open('/client_campaign/view_invoice.php?month={$item.month}', 'view_invoice',  'status=yes, width=900, height=400,  left=50,  top=50, scrollbars=yes, resizable=yes');"></td>
+    <td class="table-right" >&nbsp;</td>
+  </tr>
+  {/foreach}
+  <tr>
+    <td class="table-left" >&nbsp;</td>
+    <td colspan="2" class="table-left-2">Total</td>
+    {foreach from=$g_article_types item=item2 key=key name="loop2"}
+    <td  style="color:red;" >{if $stats.types.$key.total}{$stats.types.$key.total}{else}0{/if}</td>
+    {/foreach}
+    <td  style="color:red;" >{$stats.total}</td>
+    <td>${$stats.payment}</td>
+    <td class="table-right-2" >&nbsp;</td>
+    <td class="table-right" >&nbsp;</td>
+  </tr>
+</table>
+<div class="pagingpaddingleft" >
+  <table align="center" width="100%" border="0" cellspacing="0" cellpadding="0" >
+    <tr><td class="table-left table-paging-left" width="20" height="37" >&nbsp;</td><td class="table-bottom">{$pager} (Total Page:{$total})(Total Count:{$count})</td><td class="table-right table-paging-right" width="21">&nbsp;</td></tr>
+  </table>
+</div>
+</div>
+{include file="themes/$theme/footer.html"}

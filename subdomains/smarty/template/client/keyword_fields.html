@@ -1,0 +1,91 @@
+{include file="themes/$theme/header.html"}
+
+{if $feedback ne ''}
+<script language="JavaScript">
+<!--
+alert("{$feedback}");
+//-->
+</script>
+{/if}
+
+{literal}
+<script language="JavaScript">
+<!--
+function check_f_fields()
+{
+   var checkElements = document.getElementsByName('is_checked[]');  
+   
+   var total  = checkElements.length;
+   var checkValue = '';
+   for (var i=0; i< total; i++)
+   {
+        if (checkElements[i].checked) {
+          checkValue = checkElements[i].value;
+          var label = document.getElementsByName('clabel[' + checkValue+']')[0];
+          if (label.value == '' ) {
+              alert('Please specify the label for '+ checkValue);
+              label.focus();
+              return false;
+          }
+        }
+   }
+   return true;
+}
+function checkAllCustomField()
+{
+    var e = $('all_is_required');
+    for (i=1;i<=5 ;i++ ) {
+      document.getElementsByName("is_required[custom_field"+ i +"]")[0].checked = e.checked;
+    }
+}
+
+//-->
+</script>
+{/literal}
+
+<div id="page-box1">
+  <h2>{$clientName}'s Keyword Custom Fields Settings</h2>
+  <div class="form-item" >
+<br>
+<form action="" method="post"  name="f_client" {if $js_check eq true} onsubmit="return check_f_fields()"{/if}>
+<input type="hidden" name="ctable" value="{$table}" />
+<input type="hidden" name="client_id" value="{$client_id}">
+<table id="table-1" cellspacing="0" cellpadding="0" align="center" class="sortableTable">
+<thead>
+<tr class="sortableTab">
+  <th class="table-left-corner">&nbsp;&nbsp;&nbsp;&nbsp;</th>
+  <td nowrap class="columnHeadInactiveBlack table-left-2"><input type="checkbox" onclick="javascript:checkAll('is_checked[]')" title="Select All" name="Select_All" /></td>
+  <td nowrap class="columnHeadInactiveBlack">Field</td>
+  <td nowrap class="columnHeadInactiveBlack">Label</td>
+  <td nowrap class="columnHeadInactiveBlack table-right-2">Description</td>
+ {* <td nowrap class="columnHeadInactiveBlack table-right-2">Edit Role</td>*}
+  <td nowrap class="columnHeadInactiveBlack table-right-2">Required?</td>
+  <th class="table-right-corner">&nbsp;&nbsp;&nbsp;</th>
+</tr>
+</thead>
+{foreach from=$fields item=item name="loop"}
+<input type="hidden" name="field_id[{$item}]" value="{$result[$item].field_id}" />
+<input type="hidden" name="edit_role[{$item}]" value="{$result[$item].edit_role}" />
+<tr class="{if $smarty.foreach.loop.iteration % 2 eq 0}even{else}odd{/if}">
+  <td class="table-left" >&nbsp;</td>
+  <td class="table-left-2"><input type="checkbox" name="is_checked[]" value="{$item}" {if $result[$item].field_id && $result[$item].status}checked{/if} /></td>
+  <td>{$item}</td>
+  <td><input type="text" name="clabel[{$item}]" value="{$result[$item].clabel}" /></td>
+  <td  class="table-right-2"><input type="text" name="description[{$item}]" value="{$result[$item].description}" /></td>
+  {*<td  class="table-right-2">{html_radios name='edit_role['|cat:$item|cat:']' options=$roles
+       selected=$result[$item].edit_role separator='&nbsp;'}</td>*}
+  <td align="right" nowrap class="table-right-2">{if $result[$item].is_show_required}<input type="checkbox" name="is_required[{$item}]" value="{$result[$item].is_required}" {if $result[$item].is_required }checked{/if}/>Yes{/if}</td>
+  <td class="table-right" >&nbsp;</td>
+</tr>
+{/foreach}
+<tr><td class="table-left" >&nbsp;</td><td class="table-left-2 table-right-2" colspan="5" ><input type="checkbox" name="all_is_required" id="all_is_required" value="1"  onclick="checkAllCustomField()"  checked />Are custom fields required?</td><td class="table-right" >&nbsp;</td></tr>
+</table>
+<table width="100%" >
+<tr>
+<td align="center" ><input type="submit" value="Submit" class="button" /></td>
+</tr>
+</table>
+</form>
+  </div>
+</div>
+{include file="themes/$theme/footer.html"}

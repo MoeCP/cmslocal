@@ -1,0 +1,254 @@
+{include file="themes/$theme/header_jump.html"}
+{literal}
+<script language="JavaScript">
+check_f_client = function()
+{
+  var f = document.f_client;
+
+  if (f.client_id.value.length == 0)
+  {
+	  if (f.user_pw.value.length == 0) {
+		alert('Please enter user password');
+		f.user_pw.focus();
+		return false;
+	  }
+	  if (f.user_pwnew.value.length == 0) {
+		alert('Please enter confirm password');
+		f.user_pwnew.focus();
+		return false;
+	  }
+  }
+
+  if (f.user_pw.value != f.user_pwnew.value)
+  {
+	alert('Password mismatch, Please check your input and enter the password again');
+    f.user_pw.focus();
+    return false;
+  }
+
+  if (f.company_name.value.length == 0) {
+    alert('Please enter client company name');
+    f.company_name.focus();
+    return false;
+  }
+  if (f.city.value.length == 0) {
+    alert('Please enter City');
+    f.city.focus();
+    return false;
+  }
+  if (f.state.value.length == 0) {
+    alert('Please enter state');
+    f.state.focus();
+    return false;
+  }
+  if (f.zip.value.length == 0) {
+    alert('Please enter zip');
+    f.zip.focus();
+    return false;
+  }
+
+  if (!isEmail(f.email.value)) {
+    alert('Invalid email address');
+    f.email.focus();
+    return false;
+  }
+
+  if (f.project_manager_id.value.length == 0) {
+    alert('Please provide a project manager');
+    f.project_manager_id.focus();
+    return false;
+  }
+{/literal}
+{if $user_permission_int <> 2}
+{literal}
+  if (f.referrer_type.value == '')
+  {
+      alert('Please specify the referrer type');
+      f.referrer_type.focus();
+      return false;
+  }
+
+  if (f.referrer_type.value == 2 && f.referrer_name.value == '')
+  {
+      alert('Please specify the referrer name');
+      f.referrer_name.focus();
+      return false;
+  }
+{/literal}
+{/if}
+{literal}
+
+  return true;
+}
+</script>
+{/literal}
+<div id="page-box1">
+  <h2>Client's Information setting</h2>
+  <div id="campaign-search" >
+    <strong>Please enter the client's required information.</strong>
+  </div>
+  <div class="form-item" >
+<form action="/client/ajax_client_set.php" method="post"  name="f_client" {if $js_check eq true} onsubmit="return check_f_client()"{/if}>
+<table border="0" cellspacing="1" cellpadding="4" align="center" width="100%">
+  
+  <input type="hidden" name="client_id" value="{$client_info.client_id}">
+  <input type="hidden" name="creation_user" value="{$client_info.creation_user}">
+  <input type="hidden" name="creation_role" value="{$client_info.creation_role}">
+  {if $user_permission_int == 2 && $client_info.client_id > 0}
+  <input type="hidden" name="referrer_type" value="{$client_info.referrer_type|default:1}">
+  <input type="hidden" name="referrer_name" value="{$client_info.referrer_name}">
+  <input type="hidden" name="referrer_tracking" value="{$client_info.referrer_tracking}">
+  {/if}
+  {if $login_role == 'client'}<input type="hidden" name="project_manager_id" value="{$client_info.project_manager_id}" />{/if}
+  <tr>
+    <td class="bodyBold">Basic Information</td>
+    <td align="right" class="requiredHint">Required Information</td>
+  </tr>
+  <tr>
+    <td class="blackLine" colspan=2><img src="/image/misc/s.gif"></td>
+  </tr>
+  <tr>
+    <td class="requiredInput">User Name&nbsp;</td>
+    <td>
+    {if $login_role!='client'}
+    <input name="user_name" type="text" id="user_name" value="{$client_info.user_name}" onchange="javascript:this.value=Trim(this.value)" />
+    {else}
+    {$client_info.user_name}
+    <input name="user_name" type="hidden" id="user_name" value="{$client_info.user_name}" onchange="javascript:this.value=Trim(this.value)" />
+    {/if}
+    </td>
+  </tr>
+  <tr>
+    <td class="requiredInput">Password</td>
+    <td><input name="user_pw" type="password" id="user_pw" value="{$client_info.user_pw}" /></td>
+  </tr>
+  <tr>
+    <td class="requiredInput" nowrap>Confirm Password</td>
+    <td><input name="user_pwnew" type="password" id="user_pwnew" value="{$client_info.user_pw}" /></td>
+  </tr>
+  <tr>
+    <td class="requiredInput">Company Name</td>
+    <td><input name="company_name" type="text" id="company_name" value="{$client_info.company_name}" onchange="javascript:this.value=Trim(this.value)"></td>
+  </tr>
+  <tr>
+    <td class="dataLabel">Company Address</td>
+    <td><textarea name="company_address" cols="25" rows="4" id="company_address">{$client_info.company_address}</textarea></td>
+  </tr>
+  <tr>
+    <td class="requiredInput">Country</td>
+    <td><select name="country"><option value="United States of America">United States of America</option>{if $client_info.country neq ''}{html_options values=$country output=$country selected=$client_info.country}{else}{html_options values=$country output=$country selected='United States of America'}{/if}</select></td>
+  </tr>
+  <tr>
+    <td class="requiredInput">City</td>
+    <td><input name="city" type="text" id="city" value="{$client_info.city}" onchange="javascript:this.value=Trim(this.value)"></td>
+  </tr>
+  <tr>
+    <td class="requiredInput">State</td>
+    <td><input name="state" type="text" id="state" value="{$client_info.state}" onchange="javascript:this.value=Trim(this.value)"></td>
+  </tr>
+  <tr>
+    <td class="requiredInput">Zip</td>
+    <td><input name="zip" type="text" id="zip" value="{$client_info.zip}" onchange="javascript:this.value=Trim(this.value)"/></td>
+  </tr>
+  <tr>
+    <td class="requiredInput">Email</td>
+    <td><input name="email" type="text" id="email" value="{$client_info.email}" onchange="javascript:this.value=Trim(this.value)" size="20" /></td>
+  </tr>
+  <tr>
+    <td class="dataLabel">Company Url</td>
+    <td><input name="company_url" type="text" id="company_url" value="{$client_info.company_url}" onchange="javascript:this.value=Trim(this.value)" size="20" /></td>
+  </tr>
+  {if $login_role == 'admin'}
+  <tr>
+    <td class="dataLabel">Contact Name</td>
+    <td><input name="contact_name" type="text" id="contact_name" value="{$client_info.contact_name}" onchange="javascript:this.value=Trim(this.value)" size="20" /></td>
+  </tr>
+  {/if}
+  <tr>
+    <td class="dataLabel">Company Phone Number</td>
+    <td><input name="company_phone" type="text" id="company_phone" value="{$client_info.company_phone}" onchange="javascript:this.value=Trim(this.value)"></td>
+  </tr>
+ {* <tr>
+    <td class="dataLabel">Company Fax</td>
+    <td><input name="company_fax" type="text" id="company_fax" value="{$client_info.company_fax}" onchange="javascript:this.value=Trim(this.value)"></td>
+  </tr>*}
+  <tr>
+    <td class="dataLabel">Billing Email</td>
+    <td><input name="bill_email" type="text" id="bill_email" value="{$client_info.bill_email}" onchange="javascript:this.value=Trim(this.value)" size="20"></td>
+  </tr>
+  <tr>
+    <td class="dataLabel">Billing Phone</td>
+    <td><input name="bill_office_phone" type="text" id="bill_office_phone" value="{$client_info.bill_office_phone}" onchange="javascript:this.value=Trim(this.value)"></td>
+  </tr>
+{*  <tr>
+    <td class="dataLabel">Billing Cell Phone</td>
+    <td><input name="bill_cell_phone" type="text" id="bill_cell_phone" value="{$client_info.bill_cell_phone}" onchange="javascript:this.value=Trim(this.value)"></td>
+  </tr>
+  <tr>
+    <td class="dataLabel">Billing Fax</td>
+    <td><input name="bill_cell_phone" type="text" id="bill_cell_phone" value="{$client_info.bill_cell_phone}" onchange="javascript:this.value=Trim(this.value)"></td>
+  </tr>*}
+  <tr>
+    <td class="dataLabel">Technical Email</td>
+    <td><input type="text" name="technical_email" id="technical_email" size="20" value="{$client_info.technical_email}" /></td>
+  </tr>
+  <tr>
+    <td class="dataLabel">Technical Phone</td>
+    <td><input name="technical_office_phone" type="text" id="technical_office_phone" value="{$client_info.technical_office_phone}" onchange="javascript:this.value=Trim(this.value)"></td>
+  </tr>
+{*  <tr>
+    <td class="dataLabel">Technical Cell Phone</td>
+    <td><input name="technical_cell_phone" type="text" id="technical_cell_phone" value="{$client_info.technical_cell_phone}" onchange="javascript:this.value=Trim(this.value)"></td>
+  </tr>
+  <tr>
+    <td class="dataLabel">Payment History</td>
+    <td><textarea name="payment_history" cols="25" rows="4" id="payment_history">{$client_info.payment_history}</textarea></td>
+  </tr>*}
+  {if $login_role != 'client' && ($user_permission_int >=5 || $user_permission_int == 2)}
+  <tr>
+    <td class="requiredInput">Project Manager</td>
+    <td>
+    {if $user_permission_int >=5 || $user_permission_int == 2}
+      <select name="project_manager_id"><option value="">[choose]</option>{html_options options=$all_pm selected=$client_info.project_manager_id}</select>
+    {else}
+       {$all_pm[$client_info.project_manager_id]}
+       <input type="hidden" value="{$client_info.project_manager_id}" name="project_manager_id" />
+    {/if}
+   </td>
+  </tr>
+  {if $user_permission_int >= 5}
+  <tr>
+    <td class="dataLabel">Agency</td>
+    <td>
+    <select name="agency_id"><option value="0">[choose]</option>{html_options options=$agencies selected=$client_info.agency_id}</select>
+    </td>
+  </tr>
+  {/if}
+  {/if}
+  {if $user_permission_int <> 2}
+  <tr>
+    <td class="requiredInput">Referrer Type</td>
+    <td><select name="referrer_type"><option value="">[choose]</option>{html_options options=$referrer_types selected=$client_info.referrer_type}</select></td>
+  </tr>
+  <tr>
+    <td class="requiredInput">Referrer Name</td>
+    <td><input name="referrer_name" type="text" id="referrer_name" value="{$client_info.referrer_name}" onchange="javascript:this.value=Trim(this.value)"></td>
+  </tr>
+  <tr>
+    <td class="dataLabel">Referrer Tracking</td>
+    <td><input name="referrer_tracking" type="text" id="referrer_tracking" value="{$client_info.referrer_tracking}" onchange="javascript:this.value=Trim(this.value)"></td>
+  </tr>
+  {/if}
+  <tr>
+    <td class="blackLine" colspan="2"><img src="/image/misc/s.gif"></td>
+  </tr>
+
+  <tr>
+    <td>&nbsp;</td>
+    <td><input type="submit" value="Submit" class="button">&nbsp;<input type="reset" value="reset" class="button"></td>
+  </tr>
+</table>
+</form>
+  </div>
+</div>
+{include file="themes/$theme/footer_jump.html"}

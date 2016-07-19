@@ -1,0 +1,25 @@
+{include file="themes/$theme/header.html"}
+{php}
+     echo "
+<style>
+<!--
+.satheading{font:bold medium verdana, sans-serif;}
+legend{font:bold medium verdana, sans-serif;color:#fff;}
+fieldset{float:left;margin-left:10px;}
+fieldset p{margin:10px;}
+//-->
+</style>
+     ";
+     echo "<div style=\"padding:20px;\">";
+     global $_POST;
+     $url = $_POST["url"];
+     $keyphrase = $_POST["keyphrase"];
+     if ( isset($url) ){
+          $url = str_replace("http://", "", $url);
+          $url = str_replace("https://", "", $url);
+          DisplayResults();
+     }
+     DisplayForm();
+     echo "</div>";
+{/php}
+{include file="themes/$theme/footer.html"}

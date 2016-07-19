@@ -1,0 +1,134 @@
+{include file="themes/$theme/header.html"}
+<link type="text/css" rel="StyleSheet" href="/js/fabtabulous/tabs.css" />
+<link href="/js/prototype-window/themes/default.css" rel="stylesheet" type="text/css"/> 
+<link href="/js/prototype-window/themes/mac_os_x.css" rel="stylesheet" type="text/css"/> 
+{if $user_info.role == 'editor' || $user_info.role == 'copy writer'}
+<script type="text/javascript" src="/js/nanjia/NanJia.js"></script>
+<script type="text/javascript" src="/js/nanjia/Ajax.js"></script>
+<script type="text/javascript" src="/js/nanjia/Array.js"></script>
+<script type="text/javascript" src="/js/nanjia/String.js"></script>
+<script type="text/javascript" src="/js/nanjia/Calendar.js"></script>
+<script type="text/javascript" src="/js/nanjia/Event.js"></script>
+<script type="text/javascript" src="/js/nanjia/File.js"></script>
+<script type="text/javascript" src="/js/calendar.js"></script>
+<link rel="stylesheet" type="text/css" href="/js/calendar.css">
+{/if}
+<script type="text/javascript" src="/js/multifile.js"></script>
+<div id="page-box1">
+  <div class="view-item" >
+  <div class="tablepadding"> 
+<div id="container">
+  <div id="banner">&nbsp;</div>
+  <div id="mainmenu">
+    <ul id="tabs">
+      <li>
+        <a class="" href="#profile">Profile</a>
+      </li>
+      {if $user_info.role == 'copy writer'  || $user_info.role == 'editor' || $user_info.candidate_id > 0}
+      <li>
+        <a class="" href="#candidates">Candidate Information</a>
+      </li>
+      {/if}
+      {if $user_info.role == 'copy writer' && $login_role == 'admin'}
+      <li>
+        <a class="" href="#performance">Performance</a>
+      </li>
+      {/if}
+      {if $user_info.role == 'editor' || $user_info.role == 'copy writer'}
+      <li>
+        <a class="" href="#education">Specialities</a>
+      </li>
+      <li>
+        <a class="" href="#availability">Availability</a>
+      </li>      
+      <li>
+        <a class="" href="#paymenthistory">Payment History</a>
+      </li>
+        {if $login_role == 'admin'}
+      <li>
+        <a class="" href="#notes">Notes</a>
+      </li>
+        {/if}
+      {/if}
+      {if $egroups}
+      <li>
+        <a class="" href="#esign">Contracts</a>
+      </li>
+      {/if}
+    </ul>
+  </div>
+  <div class="panel" id="profile">
+    {include file="user/profile_tab.html"}
+  </div>
+  {if $user_info.role == 'copy writer'  || $user_info.role == 'editor' || $user_info.candidate_id > 0}
+  <div class="panel" id="candidates">
+   {include file="user/candidate_tab.html"}
+  </div>
+  {/if}
+  {if $user_info.role == 'copy writer' && $login_role == 'admin'}
+  <div class="panel" id="performance">
+  {include file="user/perf_tab.html"}
+  </div>
+  {/if}
+  {if $user_info.role == 'editor' || $user_info.role == 'copy writer'}
+  <div class="panel" id="availability">
+  {include file="user/available_tab.html"}
+  </div>
+  <div class="panel" id="education">
+  {include file="user/education_tab.html"}
+  </div>
+  <div class="panel" id="paymenthistory">
+  {include file="user/payment_history_tab.html"}
+  </div>
+    {if $login_role == 'admin'}
+  <div class="panel" id="notes">
+  {include file="user/note_tab.html"}
+  </div>
+    {/if}
+   {/if}
+   {if $egroups}
+   <div class="panel" id="esign">
+   {include file="user/esign_tab.html"}
+   </div>
+   {/if}
+</div>
+  </div> 
+  </div>
+</div>
+
+<script type="text/javascript" src="/js/fabtabulous/fabtabulous.js"></script>
+{include file="themes/$theme/footer.html"}
+<script type="text/javascript">
+{literal}
+var user_id = '{/literal}{$user_info.user_id}{literal}';
+function showNoteDialog(note_id) {
+  if (note_id > 0)
+  {
+      var url = '/user/ajax_note_set.php?note_id=' + note_id + '&user_id=' + user_id;
+      var title = 'Edit User Note Info';
+  } 
+  else
+  {
+      var url = '/user/ajax_note_add.php?user_id='+user_id;
+      var title = 'Add User Note Info';
+  }
+  url += '&f=detail';
+  showWindowDialog(url, 600, 500, title);
+}
+function showUserDialog() {
+  var url = '/user/ajax_user_set.php?user_id=' + user_id + '&f=detail';
+  showWindowDialog(url, 600, 500, "Edit User Info.");
+}
+{/literal}
+{if $user_info.role == 'editor' || $user_info.role == 'copy writer'}
+{literal}
+function EventHandle() {
+    return new Content.Cal.Event();
+}
+
+date = new Date();
+ca = new NanJia.Calendar(EventHandle, user_id);
+ca.Current();
+{/literal}
+{/if}
+</script>

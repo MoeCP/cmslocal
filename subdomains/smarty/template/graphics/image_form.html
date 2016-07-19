@@ -1,0 +1,230 @@
+{include file="themes/$theme/header.html"}
+
+<link rel="stylesheet" type="text/css" href="spell_checker/spell_checker/css/spell_checker.css">
+<script src="spell_checker/spell_checker/cpaint/cpaint2.inc.compressed.js" type="text/javascript"></script>
+<!-- You can use either one of the files below, but the compressed one
+     will be faster and a lot smaller to download -->
+<script src="spell_checker/spell_checker/js/spell_checker_compressed.js" type="text/javascript"></script>
+<!--<script src="js/spell_checker.js" type="text/javascript"></script>-->
+
+{if $feedback ne ''}
+<script language="JavaScript">
+<!--
+alert("{$feedback}");
+//-->
+</script>
+{/if}
+
+{literal}
+<style type="text/css">
+.disabled_input { border-right: #000033 0px solid; border-top: #000033 0px solid; font-size: 12px; border-left: #000033 0px solid; border-bottom: #000033 0px solid; background:#ffffff}
+</style>
+{/literal}
+
+<script language="JavaScript">
+<!--
+{literal}
+
+function check_f_image(action)
+{
+  var f = document.f_image;
+  if (f.title.value.length == 0) {
+    alert('Please provide title of the article');
+    f.title.focus();
+    return false;
+  }
+  if (f.image.value.length == 0) {
+    alert('Please provide image');
+    f.title.focus();
+    return false;
+  }
+  f.action.value = action;
+  f.image_status.value = '1';
+
+  return true;
+}
+
+{/literal}
+//-->
+</script>
+<div id="div_test" ></div>
+<div class="loadingajax" style="display:none;z-index:1000" id="show_result"  align="center" valign="center" >Loading...</div>
+<div id="page-box1">
+  <h2>Upload a new image according to keyword</h2>
+  <div id="campaign-search" >
+    <strong>Please remember to upload your image before submitting</strong>
+  </div>
+  <div class="pageposition" >
+  <table width="100%"  class="formClass" ><tr><td valign="top">
+<form action="#" method="post" name="f_image" id="f_image" {if $js_check eq true} onsubmit="return check_f_image('submit');"{/if} enctype="multipart/form-data" >
+<input type="hidden" name="client_id" id="client_id" value="{$keyword_info.client_id}" />
+<input type="hidden" name="campaign_id" id="campaign_id" value="{$keyword_info.campaign_id}" />
+<input type="hidden" name="current_version_number" id="current_version_number" value="{$keyword_info.current_version_number}" />
+<input type="hidden" name="keyword_id" id="keyword_id" value="{$keyword_info.keyword_id}">
+<input type="hidden" name="image_id" id="image_id"  value="{$keyword_info.image_id}">
+{*<input type="hidden" name="image_name" id="image_name"  value="{$keyword_info.image_name}">*}
+<input type="hidden" name="image_status" id="image_status" value="{$keyword_info.image_status}">
+<input type="hidden" name="action" id="action" value="submit" />  
+  <div class="form-item">
+  <table cellspacing="0" cellpadding="5" border="0" width="80%">
+      <tbody><tr>
+      <td align="right" class="form-label"><strong>Image Title</strong></td>
+      <td align="left"><input type="text" name="title" id="title" size="100" value="{$keyword_info.title}" /></td>
+      </tr>
+    </tbody></table> 
+  </div>
+  <div class="form-item">
+  <table cellspacing="0" cellpadding="5" border="0" width="80%">
+      <tbody><tr>
+      <td align="right" class="form-label"><strong>Upload Image</strong></td>
+      <td align="left"><input type="file" name="image" size="30" /></td>
+      </tr>
+      {if $keyword_info.image_name}
+      <tr><td colspan="2" >If you can't see the image as following, please click <a  href="/graphics/image_download.php?image_id={$image_info.image_id}" target="_blank" >here</a> to download</td></tr>
+      <tr><td colspan="2" ><img src="{$keyword_info.image_name}"  style="float: left; margin-right: 10px;" id="thumbnail" width="100%" alt="{$keyword_info.title}" /></td></tr>
+      {/if}
+    </tbody></table> 
+  </div> 
+  {if $keyword_info.image_status neq '5'  && $keyword_info.image_status neq '6' }
+  <div id="form-buttons">
+  <table cellspacing="0" cellpadding="5" border="0" width="100%">
+    <tr>
+      <td align="left" >
+      {if $keyword_info.image_status neq '99'}
+        <input type="submit" value="Submit" class="button" />
+      {/if}
+      </td>
+    </tr>
+  </table>
+  </div>
+  {/if}
+</form>
+  </td><td valign="top" >
+<table cellspacing="0" cellpadding="0" border="0" width="283" class="info-table" valign="top" >
+  <tbody><tr>
+    <td height="41" background="/images/info-table-top.gif" align="center">Image Information </td>
+  </tr>
+  <tr>
+    <td><table class="article-info">
+      
+      <tbody><tr class="even" >
+        <td >Campaign Name</td>
+        <td>{$keyword_info.campaign_name}</td>
+      </tr>
+      <tr class="odd">
+        <td >Campaign Keywords</td>
+        <td >{$keyword_info.keyword}</td>
+      </tr>
+      <tr class="even">
+        <td>Start Date</td>
+        <td>{$keyword_info.date_start|date_format:"%m-%d-%Y"}</td>
+      </tr>
+      <tr class="odd">
+        <td >Due Date</td>
+        <td >{$keyword_info.date_end|date_format:"%m-%d-%Y"}</td>
+      </tr>
+      <tr class="even">
+        <td>No. of Words</td>
+        <td>{if $keyword_info.max_word == '0'}No limit{else}{$keyword_info.max_word}{/if}</td>
+      </tr>
+      {foreach from=$optional_fields item=item key=key name="loop"}
+      <tr class="{if $smarty.foreach.loop.iteration % 2 eq 0}even{else}odd{/if}">
+        <td>{$item.label}</td>
+        <td>{$keyword_info[$key]|html_entity_decode}</td>
+      </tr>
+      {/foreach}
+      <tr class="odd">
+        <td>Image Type</td>
+        <td>{$image_type[$keyword_info.image_type]}</td>
+      </tr>
+      {if $login_role neq 'client'}
+      <tr class="even">
+        <td >Editor</td>
+        <td >{$keyword_info.ue_name}</td>
+      </tr>
+      <tr class="odd">
+        <td>Copywriter</td>
+        <td>{$keyword_info.uc_name}</td>
+      </tr>
+        {if $login_role eq 'admin'}
+      <tr class="even">
+        <td >Mapping-ID</td>
+        <td >{$keyword_info.mapping_id|html_entity_decode}</td>
+      </tr>
+        {/if}
+      {/if}
+    </tbody></table>
+    </td>
+  </tr>
+  <tr>
+    <td><img alt="" src="/images/info-table-bottom.gif"></td>
+  </tr>
+</tbody></table>
+    <div class="small-note" >
+      <div>Keyword Instructions:</div>
+      <div>
+      {if $keyword_info.keyword_description!='' }
+      <div class="divContent" >
+      <b>Note From {$keyword_info.pm_name}:</b><br />
+      {$keyword_info.keyword_description|html_entity_decode}
+      </div>
+      {/if}
+       <a href="javascript:void(0);" onclick="openWindow('/client_campaign/campaign_style_guide.php?campaign_id={$keyword_info.campaign_id}', 'height=500,width=600,status=no,toolbar=no,menubar=no,location=no,resizable=yes,scrollbars=yes');"  >Content Production Style Guide</a><br />
+        <a href="javascript:void(0);" onclick="openWindow('/client_campaign/campaign_notes.php?campaign_id={$keyword_info.campaign_id}', 'height=400,width=550,status=no,toolbar=no,menubar=no,location=no,resizable=yes,scrollbars=yes');"  >Editorial notes</a></div>
+      {*{if $notes.notes !='' }
+       <div class="requiredInput2" nowrap>Editor Notes</div>
+       <div style="height:80px;width:450px;overflow:auto;text-align:left;">
+        <b>Note From {$notes.user_name}:</b><br />{$notes.notes}
+       </div>
+      {/if}*}
+    </div>
+  </td></tr></table>
+  </div>
+<div id="article-coments" >
+{if $comment_count neq 0}
+<table border="0" cellspacing="0" cellpadding="0" width="85%" class="comments-info" >
+  <tr class="comments-head" >
+    <td class="comments-head-left">&nbsp;</td>
+    <td  colspan="8" ><span class="comments-header">Current Images Comments Information</span></td>
+    <td class="comments-head-right">&nbsp;</td>
+  </tr>
+  <tr>
+    <td colspan="10" >
+  {foreach from=$keyword_info.comment item=item name="loop"}
+     <table cellspacing="0" cellpadding="10" bordercolor="#999999" border="1" width="100%">
+   <tr>
+    <td>
+    <table cellspacing="0" width="100%">
+  <tr>
+    <td></td>
+    <td align="right" class="comments-label">Role: &nbsp;</td>
+    <td>{$item.creation_role}</td>
+    <td align="right" class="comments-label">Creator: &nbsp;</td>
+    {if $login_role neq 'client' || $login_role eq 'client' && $item.creation_role neq 'editor' and $item.creation_role neq 'copy writer'}
+    <td>{$item.creator}</td>
+    {else}
+    <td>{$item.creation_role}</td>
+    {/if}
+    <td align="right" class="comments-label">Comment Date: &nbsp; </td>
+    <td>{$item.creation_date|date_format:"%m-%d-%Y %H:%M:%S"}</td>
+    <td align="right" class="comments-label">Version: &nbsp;</td>
+    <td>{$item.version_number}</td>
+    <td></td>
+  </tr>
+  <tr>
+    <td></td>
+    <td colspan="10" >{$item.comment|nl2br}</td>
+    <td></td>
+  </tr>
+    </table>
+     </td>
+   </tr>
+    </table>
+  {/foreach}
+    </td>
+  </tr>
+</table>
+{/if}
+</div>
+</div>
+{include file="themes/$theme/footer.html"}

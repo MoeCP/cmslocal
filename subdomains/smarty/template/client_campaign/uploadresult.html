@@ -1,0 +1,62 @@
+{include file="themes/$theme/header.html"}
+
+{if $feedback ne ''}
+<script language="JavaScript">
+<!--
+alert("{$feedback}");
+//-->
+</script>
+{/if}
+
+<div id="page-box1">
+  <h2>Content Details(Optional)</h2>
+  <div id="campaign-search" >
+    <strong>Sepcifies for each article - keywords, focus topic, title, intended URL, example URLs, links/words to include, etc</strong>
+  </div>
+  <div class="form-item" >
+<br><table border="0" cellspacing="1" cellpadding="4" align="center" width="100%">
+  <tr>
+    <td class="bodyBold"><h3>Step 3: Import Process Completed</h3></td>
+  </tr>
+  <tr>
+    <td class="bodyBold" colspan="2" >Below are the results of the Import process</td>
+  </tr>
+  <tr>
+    <td class="blackLine" colspan="2"><img src="/image/misc/s.gif"></td>
+  </tr>
+  <tr>
+    <td>
+    <table id="table-1" cellspacing="0" cellpadding="0" align="center" class="sortableTable">
+    <tr class="sortableTab">
+      <th class="table-left-corner">&nbsp;&nbsp;&nbsp;&nbsp;</th>
+      <th class="table-left-2">&nbsp;&nbsp;&nbsp;&nbsp;</th>
+      {foreach from=$info.fields item=value key=key}    
+      <th class="columnHeadInactiveBlack" >{$value}</th>
+      {/foreach}
+      <th class="table-right-2">&nbsp;&nbsp;&nbsp;&nbsp;</th>
+      <th class="table-right-corner">&nbsp;&nbsp;&nbsp;</th>
+    </tr>
+    {foreach from=$info.optional1 item=value key=key}
+    <tr>
+      <td class="table-left" >&nbsp;</td>
+      <td class="table-left-2" >&nbsp;</td>
+      {foreach from=$info.fields item=v key=k} 
+      <td>{$info[$k].$key}</td>
+      {/foreach}
+      <td class="table-right-2" >&nbsp;</td>
+      <td class="table-right" >&nbsp;</td>
+    </tr>
+    {/foreach}
+    </table>
+    </td>
+  </tr>
+  <tr>
+    <td class="blackLine" colspan="2"><img src="/image/misc/s.gif"></td>
+  </tr>
+  <tr>
+    <td align="right" ><input type="button" value="Back" onclick="window.location.href='/client_campaign/fieldmapping.php?order_id={$info.order_id}'" class="button" />&nbsp;<input type="button" value="Finish" onclick="window.location.href='/client_campaign/order_list.php'" class="button" />&nbsp;</td>
+  </tr>
+</table>
+  </div>
+</div>
+{include file="themes/$theme/footer.html"}

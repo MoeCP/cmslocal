@@ -1,0 +1,278 @@
+{include file="themes/$theme/header.html"}
+
+{if $feedback ne ''}
+<script language="JavaScript">
+<!--
+alert("{$feedback}");
+//-->
+</script>
+{/if}
+
+<div id="page-box1">
+  <h2>{$title}</h2>
+<form action="" method="post" name="f_payment" id="f_payment" >
+<input type="hidden"  name="order_id" id="order_id" value="{$info.order_campaign_id}" />
+<input type="hidden"  name="payment_id" id="payment_id" value="{$priceinfo.payment_id}" />
+<input type="hidden"  name="operation" id="operation" value="N" />
+<div class="form-item"> 
+<table border="0" cellspacing="1" cellpadding="4" align="center" width="100%">
+  <tr>
+    <td class="bodyBold">Basic Information</td>
+    <td align="right" class="requiredHint" colspan="3" >Required Information</td>
+  </tr>
+  <tr>
+    <td class="blackLine" colspan=4><img src="/image/misc/s.gif"></td>
+  </tr>
+  <tr>
+    <td class="requiredInput">Order ID</td>
+    <td colspan="3">{$info.order_campaign_id}</td>
+  </tr>
+  {if $client_is_loggedin != 1}
+  <tr>
+    <td class="requiredInput">Client</td>
+    <td colspan="3">{$all_client[$info.client_id]}</td>
+  </tr>
+  {/if}
+  <tr>
+    <td class="requiredInput">Campaign Name</td>
+    <td>{$info.campaign_name}</td>
+   {if $priceinfo}
+    <td class="requiredInput">Subtotal</td>
+    <td>${$priceinfo.subtotal}</td>
+   {/if}
+  </tr>
+  <tr>
+    <td class="requiredInput">Category</td>
+    <td>{$category[$info.category_id]}</td>
+     {if $priceinfo}
+      <td class="requiredInput">Discount</td>
+      <td>${$priceinfo.discount}</td>
+     {/if}
+  </tr>
+  
+  <tr>
+    <td class="dataLabel">Domain</td>
+    <td>{if $info.source > 0}{$domains[$info.source]}{else}n/a{/if}</td>
+   {if $priceinfo}
+    <td class="requiredInput">Fees</td>
+    <td>${$priceinfo.fees}</td>
+   {/if}
+  </tr>
+  <tr>
+    <td class="requiredInput">Content Type</td>
+    <td>{if $info.article_type > -1}{$article_types[$info.article_type]}{else}n/a{/if}</td>
+   {if $priceinfo}
+    <td class="requiredInput">Total</td>
+    <td>${$priceinfo.total}</td>
+   {/if}
+  </tr>
+  <tr>
+    <td class="requiredInput">Content Qty</td>
+    <td>{$info.qty}</td>
+  {if ($client_is_loggedin == 0  || $info.status == 10) && $priceinfo.account}
+    <td class="requiredInput">Merchant Account</td>
+    <td>{$priceinfo.account}</td>
+  {/if}
+  </tr>
+  <tr>
+    <td class="dataLabel">Min Number of Word</td>
+    <td>{$info.min_word}</td>
+  {if ($client_is_loggedin == 0  || $info.status == 10)&& $priceinfo.trans_num}
+    <td class="requiredInput">Transaction Number</td>
+    <td>{$priceinfo.trans_num}</td>
+  {/if}
+  </tr>
+  <tr>
+    <td class="requiredInput">Max Number of Word</td>
+    <td>{$info.max_word}</td>
+  {if ($client_is_loggedin == 0  || $info.status == 10) && $priceinfo.trans_num}
+    <td class="requiredInput">Transaction Post Date</td>
+    <td>{$priceinfo.trans_date}</td>
+  {/if}
+  </tr>
+  <tr>
+    <td class="requiredInput">Start Date</td>
+    <td colspan="3">{$info.date_start}</td>
+  </tr>
+  <tr>
+    <td class="requiredInput">Due Date</td>
+    <td colspan="3">{$info.date_end}</td>
+  </tr>
+  <tr>
+    <td class="dataLabel">Target Audience</td>
+    <td colspan="3">{$info.target_audience|nl2br}</td>
+  </tr>
+  <tr>
+    <td class="dataLabel">Article Tone</td>
+    <td colspan="3">{if $info.article_tone > 0}{$tones[$info.article_tone]}{else}n/a{/if}</td>
+  </tr>
+  {if $info.is_mentioned == 1}
+  <tr>
+    <td class="dataLabel">Business Name</td>
+    <td colspan="3">{$info.biz_name}</td>
+  </tr>
+  {/if}
+  <tr>
+    <td class="dataLabel">Highlight Particular Things in Content</td>
+    <td colspan="3">{$info.highlight_desc|html_entity_decode}</td>
+  </tr>
+  <tr>
+    <td class="dataLabel">Particular Description for Article</td>
+    <td colspan="3">{$info.particular_desc|html_entity_decode}</td>
+  </tr>
+  <tr>
+    <td class="dataLabel">Do you want an image inserted into each content piece? </td>
+    <td colspan="3">{if $info.is_insert_img == 1}Yes{else}No{/if}</td>
+  </tr>
+  <tr>
+    <td class="requiredInput">Content Instructions</td>
+    <td colspan="3">{$info.keyword_instructions|html_entity_decode}</td>
+  </tr>
+  <tr>
+    <td class="dataLabel">Additional Style Guide</td>
+    <td colspan="3">{$info.campaign_requirement|html_entity_decode}</td>
+  </tr>
+  <tr>
+    <td class="dataLabel">Content Sample</td>
+    <td colspan="3">{$info.sample_content|html_entity_decode}</td>
+  </tr>
+  <tr>
+    <td class="dataLabel">Special Instructions</td>
+    <td colspan="3">{$info.special_instructions|html_entity_decode}</td>
+  </tr>
+  {if $keywords != ''}
+  <tr>
+    <td class="requiredInput">Content Details:</td>
+  </tr>
+  <tr>
+    <td colspan="4" align="center" >
+  
+    
+    <table id="table-1" cellspacing="0" cellpadding="0" align="center" class="sortableTable">
+    <tr class="sortableTab">
+      <th class="table-left-corner">&nbsp;&nbsp;&nbsp;&nbsp;</th>
+      <th class="table-left-2">&nbsp;&nbsp;&nbsp;&nbsp;</th>
+      {foreach from=$keywords.fields item=value key=key}    
+      <th class="columnHeadInactiveBlack" >{$value}</th>
+      {/foreach}
+      <th class="table-right-2">&nbsp;&nbsp;&nbsp;&nbsp;</th>
+      <th class="table-right-corner">&nbsp;&nbsp;&nbsp;</th>
+    </tr>
+    {foreach from=$keywords.optional1 item=value key=key}
+    <tr>
+      <td class="table-left" >&nbsp;</td>
+      <td class="table-left-2" >&nbsp;</td>
+      {foreach from=$keywords.fields item=v key=k} 
+      <td>{$keywords[$k].$key}</td>
+      {/foreach}
+      <td class="table-right-2" >&nbsp;</td>
+      <td class="table-right" >&nbsp;</td>
+    </tr>
+    {/foreach}
+    </table>
+    </td>
+  </tr>
+  {/if}
+  {if $client_is_loggedin == 0 &&(($is_pay && $info.status == 7) || ($fadjust==1 && $info.status == 10))}
+   <tr>
+    <td class="requiredInput">Merchant Account</td>
+    <td colspan="3"><select id="account" name="account" selected="{$priceinfo.account}"><option value="0" >[choose]</option>{html_options values=$accounts output=$accounts selected=$priceinfo.account}</select></td>
+   </tr>
+   <tr>
+    <td class="requiredInput">Transaction Number</td>
+    <td colspan="3"><input name="trans_num" id="trans_num" value="{$priceinfo.trans_num}" /></td>
+  </tr>
+   <tr>
+    <td class="requiredInput">Transaction Posting Date</td>
+    <td colspan="3">
+      <input name="trans_date" id="trans_date" size="10" maxlength="10"  value="{$priceinfo.trans_date|default:$smarty.now|date_format:"%Y-%m-%d"}" />
+      <input type="button" class="button" id="btn_cal_trans_date" value="...">
+      <script type="text/javascript">
+      Calendar.setup({ldelim}
+          inputField  : "trans_date",
+          ifFormat    : "%Y-%m-%d",
+          showsTime   : false,
+          button      : "btn_cal_trans_date",
+          singleClick : true,
+          step        : 1,
+          range       : [1990, 2030]
+      {rdelim});
+      </script>
+    </td>
+  </tr>
+  {/if}
+  <tr>
+    <td class="blackLine" colspan="4"><img src="/image/misc/s.gif"></td>
+  </tr>
+  
+  <tr>
+    <td align="right" colspan="4" >
+    {if $is_pay || $is_confirm || $fadjust}
+      {if $client_is_loggedin == 0}
+      {if $is_pay && $info.status == 7}
+      <input type="button" value="Mark as Paid" class="button" onclick="check_f_payment('paid');" />&nbsp;
+      {elseif $info.status==10 && $fadjust == 1}
+      <input type="button" value="Save" class="button" onclick="check_f_payment('save');" />&nbsp;
+      {/if}
+      <input type="button" value="Back" class="button" onclick="window.location.href='/client_campaign/order_list.php'" />&nbsp;
+      {elseif $client_is_loggedin == 1 && $is_confirm == 1}
+      {if $info.status==0}
+      <input type="button" value="Cancel" class="button" onclick="check_f_payment('deny')" />&nbsp;
+      {/if}
+      <input type="button" value="Back" class="button" onclick="window.location.href='/client_campaign/order_list.php'" />&nbsp;
+      {if $info.status == 4}
+      <input type="button" value="Deny" class="button" onclick="check_f_payment('deny')" />&nbsp;
+      <input type="button" value="Pay by NetSuite" class="button" onclick="check_f_payment('confirm')" />&nbsp;
+      {/if}
+      {/if}
+   {else}
+      <input type="button" value="Back" class="button" onclick="window.location.href='/client_campaign/order_list.php'" />&nbsp;
+    {/if}
+    </td>
+  </tr>
+  {if $info.status == 4 && $client_is_loggedin == 1 && $is_confirm == 1}
+  <tr>
+    <td align="right"  colspan="4" ><a href="#" onclick="check_f_payment('checkout')" ><img src="https://www.paypal.com/en_US/i/btn/btn_xpressCheckout.gif" align="right" style="margin-right:7px;"> </a></td>
+  </tr>
+  {/if}
+  {*
+  {if $info.status == 4 && $client_is_loggedin == 1 && $is_confirm == 1}
+  <tr>
+    <td align="left"  colspan="2" >You must be logged into <a href="https://{if $environment=='sandbox'}developer{else}www{/if}.paypal.com" id="PayPalDeveloperCentralLink"  target="_blank">Paypal Central</a> </td>
+  </tr>
+  {/if}*}
+  {if $info.status == 4 && $client_is_loggedin == 1 && $is_confirm == 1}
+  <tr>
+    <td colspan="4" align="right">Campaign will not begin on your order until payment has been processed</td>
+  </tr>
+  {/if}
+</table>
+</div>
+</div>
+</form>
+{literal}
+<script language="JavaScript">
+function check_f_payment(opt){
+  var form = document.f_payment;
+  form.operation.value = opt;
+  if (opt == 'paid' || opt == 'save'){
+    if (form.account.value == '') {
+      alert('Please speciy the Merchant Account');
+      return false;
+    }
+
+    if (form.trans_num.value == '') {
+      alert('Please speciy the Transaction Number');
+      return false;
+    }
+
+    if (form.trans_date.value == ''){
+      alert('Please speciy the Transaction Posting Date');
+      return false;
+    }
+  }
+  form.submit();
+}
+</script>
+{/literal}
+{include file="themes/$theme/footer.html"}

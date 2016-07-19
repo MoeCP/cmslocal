@@ -1,0 +1,3804 @@
+<?php
+require_once CMS_INC_ROOT.'/Article.class.php';
+require_once CMS_INC_ROOT.'/UserCalendar.class.php';
+/*
+* @global  string $conn
+* @global  string $feadback
+* @author  Leo.Liu  <leo.liuxl@gmail.com>
+* @copyright Copyright &copy; 2006
+* @access  public
+*/
+class Campaign {
+
+    /**
+     * Add an client's campaign information
+     *
+     * @param array $p the value was submited by form
+     *
+     * @return boolean or an int
+     */
+    function add($p = array())
+    {
+        global $conn, $feedback;
+        //global $g_tag;
+
+        // added by snug xu 2006-11-24 15:30 - START
+        // let agency user add new client compaign
+        if (User::getPermission() < 4 && User::getPermission() != 2) { // 3=>4
+            $feedback = "Have not the permission add one campaign";
+            return false;
+        }
+        // added by snug xu 2006-11-24 15:30 - END
+
+        $client_id = addslashes(htmlspecialchars(trim($p['client_id'])));
+        if ($client_id == '') {
+            $feedback = "Please Choose a client";
+            return false;
+        }
+
+        // added by snug xu 2008-01-10 10:56 - STARTED
+        // check category 
+        $category_id = addslashes(htmlspecialchars(trim($p['category_id'])));
+        if ($category_id == 0) {
+            $feedback = "Please Choose a category";
+            return false;
+        }
+        // added by snug xu 2008-01-10 10:56 - END
+
+        $campaign_name = addslashes(htmlspecialchars(trim($p['campaign_name'])));
+        if ($campaign_name == '') {
+            $feedback = "Please enter the name of the campaign";
+            return false;
+        }
+        $total_budget = addslashes(htmlspecialchars(trim($p['total_budget'])));
+        if ($total_budget == '') {
+            $feedback = "Please provide total budget of the campaign";//请填写first name.
+            return false;
+        }
+        if (!is_numeric(trim($total_budget))) {
+            $feedback = "Total budget of the campaign must be a integer";//请填写first name.
+            return false;
+        }
+        $cost_per_article = addslashes(htmlspecialchars(trim($p['cost_per_article'])));
+        if ($cost_per_article == '') {
+            $feedback = "Please provide cost per article";
+            return false;
+        }
+        if (!is_numeric(trim($cost_per_article))) {
+            $feedback = "Cost per article must be a integer";//请填写first name.
+            return false;
+        }
+
+        /*
+        $campaign_site_url = addslashes(htmlspecialchars(trim($p['campaign_site_url'])));
+        if ($campaign_site_url == '') {
+            $feedback = "Please enter the campaign site url";
+            return false;
+        }
+        */
+
+        $date_start = addslashes(htmlspecialchars(trim($p['date_start'])));
+        if ($date_start == '') {
+            $feedback = "Please provide the start date of the campaign";
+            return false;
+        }
+        $date_end = addslashes(htmlspecialchars(trim($p['date_end'])));
+        if ($date_end == '') {
+            $feedback = "Please provide the Due Date of the campaign";
+            return false;
+        }
+
+        if (strtotime($date_end) < strtotime($date_start)) {
+            $feedback = 'Incorrect date,Please try again';
+            return false;
+        }
+        $monthly_recurrent = addslashes(htmlspecialchars(trim($p['monthly_recurrent'])));
+        if ($monthly_recurrent == '') {
+            $monthly_recurrent = 0;
+        } else {
+            $monthly_recurrent = 1;
+        }
+        /*
+        $q = "SELECT COUNT(*) AS count FROM client_campaigns WHERE campaign_name = '".$campaign_name."'";
+        $rs = &$conn->Execute($q);
+        $count = 0;
+        if ($rs) {
+            $count = $rs->fields['count'];
+            $rs->Close();
+        }
+        if ($count > 0) {
+            $feedback = "The client's campaign name already registered, please type another name.";//用户名重复
+            return false;
+        }
+        */
+        $conn->StartTrans();
+        $campaign_id = $conn->GenID('seq_client_campaigns_campaign_id');
+
+        $q = "INSERT INTO client_campaigns ( `campaign_id`, `client_id`, `campaign_name`, `category_id`,".
+                                           " `total_budget`,`cost_per_article`, `campaign_site_url`,".
+                                           " `date_start`, `date_end`, `campaign_requirement`, `date_created`,". 
+                                           " `creation_user_id`, `monthly_recurrent`, `title_param`, `meta_param`) ".
+             "VALUES ('".$campaign_id."', ".
+                     "'".$client_id."', ".
+                     "'".$campaign_name."', ".
+                     "'".trim($p['category_id'])."', ".
+                     "'".$total_budget."', ".
+                     "'".$cost_per_article."', ".
+                     "'".addslashes(htmlspecialchars(trim($p['campaign_site_url'])))."', ".
+                     "'".$date_start."', ".
+                     "'".$date_end."', ".
+                     "'".addslashes(htmlspecialchars(trim($p['campaign_requirement'])))."', ".
+                     "'".date('Y-m-d H:i:s', time())."', ".
+                     "'".User::getID()."', ".
+                     "'".$monthly_recurrent."',".
+                     "" . addslashes(htmlspecialchars(trim($p['title_param']))) .  "," . 
+                     "" . addslashes(htmlspecialchars(trim($p['meta_param']))) . ")";
+        $conn->Execute($q);
+
+        $ok = $conn->CompleteTrans();
+
+        if ($ok) {
+            $feedback = 'Success';
+            self::sendAnnouceMail($p);
+            return true;
+        } else {
+            $feedback = 'Failure, Please try again';
+            return false;
+        }
+
+    }//end add()
+
+    function sendAnnouceMail($campaign_info)
+    {
+        global $conn, $mailer_param;
+        $cat_res = Category::getInfo($campaign_info['category_id']);
+        
+        $campaign_cat = $cat_res['category'];
+        $pm_infos = User::getInfo(User::getID(), "u.status != 'D'");
+        if (!empty($pm_infos)) {
+            $mailer_param['from'] = $pm_infos['email'];
+            $mailer_param['reply_to'] = $pm_infos['email'];
+        }
+
+        //$campaign_info = Campaign::getInfo($_GET['campaign_id']);
+     
+        $mail_to_arr = array('Content' => 'content@secondstepsearch.com');
+
+        //$mail_to_arr = array('Leo' => 'leo.liuxl@gmail.com', 'Tony' => 'listerine@gmail.com');//name => email
+
+        $subject = "A New Campaign Has Been Created";
+        foreach ($mail_to_arr AS $ku => $vu) {
+            $body = "<style type=\"text/css\">
+                    <!--
+                    * {font-family: \"Arial\"; font-size: 14px; letter-spacing: 1px}
+                    TABLE.oTable {border-width: 0px; border-style: outset; border-collapse: collapse; width:300px;}
+                    TABLE.oTable TD {padding: 4px; border: 1px solid \#000000;}
+                    .oDataLabel {background-color: \#ffcc00; text-align: right; font-weight: bold; width: 30%}
+                    .oDataField { background-color: \#ffffcc;}
+                    -->
+                    </style>";
+
+            $body .= "Dear &nbsp;".$ku."<br><br>";
+
+            $body .= "A new campaign has been created. Please log into the admin to review the notes for this campaign. The Campaign name is ".$campaign_info['campaign_name']." begin assigning articles to your writing team and notify me once all assignments for this campaign have been sent out.<br><br>";
+
+            $body .= "Details:";
+            $body .= "<table class=oTable>";
+            $body .= "<tr><td class=oDataLabel nowrap>Campaign Name</td><td class=oDataField>".$campaign_info['campaign_name']."</td></tr>".
+                     "<tr><td class=oDataLabel nowrap>Campaign Category</td><td class=oDataField>".$campaign_cat."</td></tr>".
+                     "<tr><td class=oDataLabel nowrap>Campaign Site Url</td><td class=oDataField>".$campaign_info['campaign_site_url']."</td></tr>".
+                     "<tr><td class=oDataLabel nowrap>Start Date</td><td class=oDataField>".$campaign_info['date_start']."</td></tr>".
+                     "<tr><td class=oDataLabel nowrap>Due Date</td><td class=oDataField>".$campaign_info['date_end']."</td></tr>".
+                     "<tr><td class=oDataLabel nowrap>Campaign Requirement</td><td class=oDataField>".$campaign_info['campaign_requirement']."</td></tr>".
+                     "<tr><td class=oDataLabel nowrap>Creator</td><td class=oDataField>".$pm_infos['first_name']."</td></tr>";
+
+            $body .= "</table><br>";
+
+            $body .= "<br><br>Best Regards,<br>";
+            $body .= "<br><br>SecondStepSearch<br>";
+            $body .= "<br>&copy;Copyright 2006 SecondStepSearch. All Rights Reserved. ";
+            //$address = "leo.liuxl@gmail.com";
+            $address = $vu;
+            if (!send_smtp_mail($address, $subject, $body, $mailer_param)) {
+                //return false;
+                //do nothing;
+            } else {
+                //return true;
+                //do nothing;
+            }
+        }
+
+        return true;
+    }// end sendAnnouceMail()
+
+    /**
+     * Get campaign's info by $campaign_id
+     *
+     * @param int $campaign_id
+     *
+     * @return boolean or an array containing all fields in tbl.client_campaigns
+     */
+    function getInfo($campaign_id)
+    {
+        global $conn, $feedback;
+        $campaign_id = addslashes(htmlspecialchars(trim($campaign_id)));
+        if ($campaign_id == '') {
+            $feedback = "Please Choose a campaign";
+            return false;
+        }
+        //modify by Liu Shufen 9:40 2007-11-15
+        if (is_array($campaign_id)) {
+            $campaign_id = implode(",", array_values($campaign_id));
+        }
+        $q = "SELECT cc.*, cl.user_name, cl.company_name FROM client_campaigns AS cc ".
+             "LEFT JOIN `client` AS cl ON (cl.client_id = cc.client_id) ".
+             "WHERE cc.campaign_id IN ( ". $campaign_id ." ) ";
+        $rs = &$conn->Execute($q);
+
+        if ($rs) {
+            $ret = false;
+            if ($rs->fields['campaign_id'] != 0) {
+                $ret = $rs->fields; // return an array
+            }
+
+            $rs->Close();
+            return $ret;
+        }
+
+        return false; // return false if client does not exist
+    }//end getInfo()
+
+     /**
+     * Set client's campaign info
+     *
+     *
+     * @param array $p
+     *
+     * @return boolean  if success return ture, else return false;
+     */
+    function setInfo($p = array())
+    {
+        global $conn, $feedback;
+        //global $g_tag;
+
+        // added by snug xu 2006-11-24 19:51
+        // let agency have right to modified her/his campaign
+        if (User::getPermission() < 4 && User::getPermission() != 2) { // 3=>4
+            $feedback = "Have not the permission add one campaign";
+            return false;
+        }
+        $campaign_id = addslashes(htmlspecialchars(trim($p['campaign_id'])));
+        if ($campaign_id == '') {
+            $feedback = "Please Choose a client's campaign";
+            return false;
+        }
+        $client_id = addslashes(htmlspecialchars(trim($p['client_id'])));
+        if ($client_id == '') {
+            $feedback = "Please Choose a client";
+            return false;
+        }
+        // added by snug xu 2008-01-10 10:56 - STARTED
+        // check category 
+        $category_id = addslashes(htmlspecialchars(trim($p['category_id'])));
+        if ($category_id == 0) {
+            $feedback = "Please Choose a category";
+            return false;
+        }
+        // added by snug xu 2008-01-10 10:56 - END
+        $campaign_name = addslashes(htmlspecialchars(trim($p['campaign_name'])));
+        if ($campaign_name == '') {
+            $feedback = "Please enter the name of the campaign";
+            return false;
+        }
+        $total_budget = addslashes(htmlspecialchars(trim($p['total_budget'])));
+        if ($total_budget == '') {
+            $feedback = "Please provide total budget of the campaign";//请填写first name.
+            return false;
+        }
+        if (!is_numeric(trim($total_budget))) {
+            $feedback = "Total budget of the campaign must be a integer";//请填写first name.
+            return false;
+        }
+        $cost_per_article = addslashes(htmlspecialchars(trim($p['cost_per_article'])));
+        if ($cost_per_article == '') {
+            $feedback = "Please provide cost per article";
+            return false;
+        }
+        if (!is_numeric(trim($cost_per_article))) {
+            $feedback = "Cost per article must be a integer";//请填写first name.
+            return false;
+        }
+
+        /*
+        $campaign_site_url = addslashes(htmlspecialchars(trim($p['campaign_site_url'])));
+        if ($campaign_site_url == '') {
+            $feedback = "Please enter the campaign site url";
+            return false;
+        }
+        */
+
+        $date_start = addslashes(htmlspecialchars(trim($p['date_start'])));
+        if ($date_start == '') {
+            $feedback = "Please provide the Start Date of the campaign";
+            return false;
+        }
+        $date_end = addslashes(htmlspecialchars(trim($p['date_end'])));
+        if ($date_end == '') {
+            $feedback = "Please provide the Due Date of the campaign";
+            return false;
+        }
+
+        if (strtotime($date_end) < strtotime($date_start)) {
+            $feedback = 'Incorrect date,Please try again';
+            return false;
+        }
+        /*
+        $q = "SELECT COUNT(*) AS count FROM client_campaigns ".
+             "WHERE campaign_name = '".$campaign_name."' AND client_id != '".$client_id."'";
+        $rs = &$conn->Execute($q);
+        $count = 0;
+        if ($rs) {
+            $count = $rs->fields['count'];
+            $rs->Close();
+        }
+        if ($count > 0) {
+            $feedback = "The client's user name already registered, please enter another name.";//用户名重复
+            return false;
+        }
+        */
+        $campaign_info = self::getInfo($campaign_id);
+        if ($campaign_info['monthly_recurrent'] == 2) {
+            $monthly_recurrent = 2;
+        } else {
+            $monthly_recurrent = addslashes(htmlspecialchars(trim($p['monthly_recurrent'])));
+            if ($monthly_recurrent == '') {
+                $monthly_recurrent = 0;
+            } else {
+                $monthly_recurrent = 1;
+            }
+        }
+        $sql = "UPDATE client_campaigns ".
+                       "SET campaign_name = '".$campaign_name."', ".
+                           //"user_pw = '".$pass."', ".
+                           "total_budget = '".$total_budget."', ".
+                           "campaign_site_url = '".addslashes(htmlspecialchars(trim($p['campaign_site_url'])))."', ".
+                           "meta_param = ".addslashes(htmlspecialchars(trim($p['meta_param']))).", ".
+                           "title_param = ".addslashes(htmlspecialchars(trim($p['title_param']))).", ".
+                           "cost_per_article = '".$cost_per_article."', ".
+                           "date_start = '".$date_start."', ".
+                           "date_end = '".$date_end."', ".
+                           "category_id = '".$category_id."', ".
+                           "monthly_recurrent = '".$monthly_recurrent."', ".
+                           "campaign_requirement = '".addslashes(htmlspecialchars(trim($p['campaign_requirement'])))."' ".
+                       "WHERE campaign_id = '".$campaign_id."' ";
+        $conn->Execute($sql);
+        if ($conn->Affected_Rows() == 1) {
+            $feedback = 'Success';
+            return true;
+        } else {
+            $feedback = 'Failure, Please try again';
+            return false;
+        }
+        
+    }//end setInfo()
+
+    /**
+     * get all user and user's information
+     *
+     * @param array $mode
+     *
+     * @return array
+     */
+    function getAllClients($mode = 'all_infos')
+    {
+        global $conn;
+
+        if ($mode == 'all_infos') {
+            $q = "SELECT * FROM `client` WHERE status != 'D' ORDER BY client_id";
+            $rs = &$conn->Execute($q);
+            if ($rs) {
+                $client = array();
+                while (!$rs->EOF) {
+                    $client[] = $rs->fields;
+                    $rs->MoveNext();
+                }
+                $rs->Close();
+                return $client;
+            }
+            return null;
+        } else {
+            $rs = &$conn->Execute("SELECT client_id, user_name FROM `client` WHERE status != 'D' ORDER BY user_name ASC");
+            if ($rs) {
+                $client = array();
+                while (!$rs->EOF) {
+                    $client[$rs->fields['client_id']] = $rs->fields['user_name'];
+                    $rs->MoveNext();
+                }
+                $rs->Close();
+                return $client;
+            }
+            return null;
+        }
+    }// end getAllClients()
+
+    /**
+     * get all campaign and campaign's information
+     *
+     * @param array $mode
+     *
+     * @return array
+     */
+    function getAllCampaigns($mode = 'all_infos', $client_id = '')
+    {
+        global $conn;
+
+        require_once CMS_INC_ROOT.'/Client.class.php';
+        $q = "WHERE 1 ";
+        if (client_is_loggedin()) {
+            $q .= "AND client_id = '".Client::getID()."' ";
+        } else {
+            if ($client_id != '') {
+                $q .= "AND client_id = '".addslashes(htmlspecialchars(trim($client_id)))."' ";
+            }
+        }
+        if ($mode == 'all_infos') {
+            $q = "SELECT * FROM client_campaigns ".$q." ORDER BY campaign_id ASC";
+            $rs = &$conn->Execute($q);
+            if ($rs) {
+                $campaigns = array();
+                while (!$rs->EOF) {
+                    $campaigns[] = $rs->fields;
+                    $rs->MoveNext();
+                }
+                $rs->Close();
+                return $campaigns;
+            }
+            return null;
+        } else {
+            $rs = &$conn->Execute("SELECT campaign_id, campaign_name ".
+                                  "FROM client_campaigns ".$q." ORDER BY campaign_id ASC");
+            if ($rs) {
+                $campaigns = array();
+                while (!$rs->EOF) {
+                    $campaigns[$rs->fields['campaign_id']] = $rs->fields['campaign_name'];
+                    $rs->MoveNext();
+                }
+                $rs->Close();
+                return $campaigns;
+            }
+            return null;
+        }
+    }// end getAllCampaigns()
+
+	/**
+	 * Created time 14:27 2006-9-25
+	 * Funtion Description: copywriter uncompleted assignment report
+	 * @author Snug Xu <xuxiannuan@gmail.com>
+	 * @param array $p
+	 * @return array copywriter uncompleted assignment info
+	 */
+	function unfinishedAssignmentReport($p=array())
+	{
+		global $conn, $feedback;
+		global $g_pager_params;
+
+		foreach ($p as $k => $value)
+		{
+			$p[$k] = addslashes(htmlspecialchars(trim($value)));
+		}
+		if (strlen($p['month']) == 0)
+		{
+			$p['month'] = time();
+		}
+		$start_time = date("Y-m", $p['month']) . "-01 00:00:00";
+		$end_time  = date("Y-m", strtotime("+1 month", $p['month'])) . "-01 00:00:00";
+		$users = User::getCopywritersFromKeywordAssignmentByAssignTime($start_time, $end_time);
+		$conditions = array(
+									'start_time'=>$start_time, 
+									'end_time'=>$end_time
+								);
+		foreach ($users as $user_id => $user)
+		{
+			$conditions['copy_writer'] = $user_id;
+			if (self::isCopyWriterStartWorkingByMonth($conditions))
+			{
+				unset($users[$k]);
+			}
+			else
+			{
+				self::getCampaignInfoByCopyWriterId($conditions, $users);
+			}
+		}
+		return $users;
+	}// END unfinishedAssignmentReport();
+
+	/**
+	 * Function Description: check whether copywriter started to work or not between start time and end time
+	 * Created Time: 15:37 2006-9-25
+	 * @authoer Snug Xu <xuxiannuan@gmail.com>
+	 * @param array $p: datetime $p['start_time'], datetime $p['end_time'], int $p['copy_writer '] copy writer id
+	 * @param array $users
+	 */
+	function getCampaignInfoByCopyWriterId($p, &$users)
+	{
+		global $conn, $feedback;
+		foreach ($p as $k => $value)
+		{
+			$p[$k] = addslashes(htmlspecialchars(trim($value)));
+		}
+		$sql = "SELECT count( * ) as `num`, `cc`.`campaign_id`, `ck`.`copy_writer_id`, `cc`.`campaign_name` 
+		FROM `client_campaigns` AS `cc`, `campaign_keyword` AS `ck`
+		WHERE `cc`.`campaign_id` = `ck`.`campaign_id`
+		AND `ck`.`copy_writer_id` = '{$p['copy_writer']}' 
+		AND (`ck`.`date_assigned`>='{$p['start_time']}' AND `ck`.`date_assigned`<='{$p['end_time']}')
+		GROUP BY `ck`.`copy_writer_id`, `cc`.`campaign_id`";
+		$users[$p['copy_writer']]['total'] = 0;
+		$rs = &$conn->Execute($sql);
+		if ($rs)
+		{
+			while (!$rs->EOF)
+			{
+				$num = $rs->fields['num'];
+				if ($num>0)
+				{
+					$users[$p['copy_writer']][$rs->fields['campaign_id']] = $rs->fields;
+					$users[$p['copy_writer']]['total'] += $num;
+				}
+			}
+			$rs->close();
+		}
+	}
+
+	/**
+	 * Function Description: check whether copywriter started to work or not between start time and end time
+	 * Created Time: 15:37 2006-9-25
+	 * @authoer Snug Xu <xuxiannuan@gmail.com>
+	 * @param array $p: datetime $p['start_time'], datetime $p['end_time'], int $p['copy_writer '] copy writer id
+	 * @return bool if copy write started to work return true, else return false
+	 */
+	function isCopyWriterStartWorkingByMonth($p)
+	{
+		global $conn, $feedback;
+		
+		foreach ($p as $k => $value)
+		{
+			$p[$k] = addslashes(htmlspecialchars(trim($value)));
+		}
+		$sql = "SELECT count( * ) as `num`
+		FROM `articles` AS `ar`, `campaign_keyword` AS `ck`
+		WHERE `ar`.`keyword_id` = `ck`.`keyword_id`
+		AND `ar`.`article_status` > '0'
+		AND `ck`.`copy_writer_id` = '{$p['copy_writer']}' 
+		AND (`ck`.`date_assigned`>='{$p['start_time']}' AND `ck`.`date_assigned`<='{$p['end_time']}')
+		GROUP BY `ck`.`copy_writer_id`";
+
+		$rs = &$conn->Execute($sql);
+
+		if ($rs)
+		{
+			if (!$rs->EOF)
+			{
+				$num = $rs->fields['num'];
+				if ($num > 0)
+				{
+					return true;
+				}
+			}
+			$rs->Close();
+		}
+		return false;
+	}
+
+
+    /**
+     * Search Client Campaign info.,
+     *
+     * @param array $p  the form submited value.
+     * 
+     * @return array
+     * @access public
+     */
+    function search($p = array() )
+    {
+        global $conn, $feedback;
+
+        global $g_pager_params;
+
+        $q = "WHERE 1 ";
+
+        // added by snug xu 2006-11-24 15:52 - START
+        // if the role of user is agency, only show user's own client campaign
+        if (User::getRole() == 'agency')
+        {
+            $q .= " AND cc.creation_user_id='" . User::getID() . "'";
+        }
+        // added by snug xu 2006-11-24 15:52 - END
+
+        $campaign_id = addslashes(htmlspecialchars(trim($p['campaign_id'])));
+        if ($campaign_id != '') {
+            $q .= "AND cc.campaign_id = '".$campaign_id."' ";
+        }
+
+        $client_id = addslashes(htmlspecialchars(trim($p['client_id'])));
+        if ($client_id != '') {
+            $q .= "AND cc.client_id = '".$client_id."' ";
+        }
+
+        $campaign_name = addslashes(htmlspecialchars(trim($p['campaign_name'])));
+        if ($campaign_name != '') {
+            $q .= "AND cc.campaign_name LIKE '%".$campaign_name."%' ";
+        }
+        $date_start = addslashes(htmlspecialchars(trim($p['date_start'])));
+        if ($date_start != '') {
+            $q .= "AND cc.date_start >= '".$date_start."' ";
+        }
+        $date_end = addslashes(htmlspecialchars(trim($p['date_end'])));
+        if ($date_end != '') {
+            $q .= "AND cc.date_end <= '".$date_end."' ";
+        }
+        $campaign_requirement = addslashes(htmlspecialchars(trim($p['campaign_requirement'])));
+        if ($campaign_requirement != '') {
+            $q .= "AND cc.campaign_requirement LIKE '%".$campaign_requirement."%' ";
+        }
+
+        //$q .= "AND (cc.permission < '".User::getPermission()."' OR cc.user_id = '".User::getID()."') ";
+        if (trim($p['keyword']) != '') {
+            require_once CMS_INC_ROOT.'/Search.class.php';
+            $search = new Search($p['keyword'], "AND"); // use AND operator
+            if ($search->getError() != '') {
+                //do nothing
+                $feedback = $search->getError();
+            } else {
+                $q .= "AND ".$search->getLikeCondition("CONCAT(`cl`.`user_name`, `cl`.`company_name`, `cl`.`company_address`, `cl`.`city`, `cl`.`state`, `cl`.`zip`, `cl`.`company_phone`, `cl`.`email`, `cc`.`campaign_name`, `cc`.`campaign_requirement`)")." ";
+            }
+        }
+        $q .= "AND cl.client_id = cc.client_id ";
+
+        require_once CMS_INC_ROOT.'/Client.class.php';
+        if (client_is_loggedin()) {
+            $q .= "AND cc.client_id = '".Client::getID()."' ";
+        }
+
+        if (User::getPermission() == 1) {
+            $q .= "AND cc.campaign_id IN (SELECT campaign_id FROM campaign_keyword WHERE copy_writer_id = '".User::getID()."' GROUP BY campaign_id) ";
+        }
+
+        $rs = &$conn->Execute("SELECT COUNT(cc.campaign_id) AS count FROM client_campaigns AS cc, `client` AS cl " . $q);
+        if ($rs) {
+            $count = $rs->fields['count'];
+            $rs->Close();
+        }
+
+        if ($count == 0 || !isset($count)) {
+            //$feedback = "Couldn\'t find any information,Please try again";//找不到相关的信息，请重新设置搜索条件
+            return false;
+        }
+
+        $perpage = 50;
+        if (trim($_GET['perPage']) > 0) {
+            $perpage = $_GET['perPage'];
+        }
+
+        require_once 'Pager/Pager.php';
+        $params = array(
+            'perPage'    => $perpage,
+            'totalItems'   => $count
+        );
+        $pager = &Pager::factory(array_merge($g_pager_params, $params));
+
+        $q = "SELECT cc.*, cl.*, csg.style_id, ". 
+             // added by snug xu 2007-05-28 13:15 - STARTED
+             // get total glean clean article 
+              "COUNT( ar.article_id) as total_gc, " . 
+             // added by snug xu 2007-05-28 13:15 - FINISHED
+             " u.user_name AS project_manager, re.extension_id ".  
+             "FROM client_campaigns AS cc " .
+             // added by snug xu 2007-05-28 13:11 - STARTED
+             // added by snug xu 2007-06-04 18:18 - STARTED
+             "LEFT JOIN `campaign_style_guide` AS csg ON (csg.campaign_id=cc.campaign_id) " .
+             // added by snug xu 2007-06-04 18:18 - FINISHED
+             // get total glean clean article 
+             "LEFT JOIN campaign_keyword AS ck ON (ck.campaign_id=cc.campaign_id) " .
+             "LEFT JOIN articles AS ar ON (ck.keyword_id=ar.keyword_id AND ar.article_status = '1gc' )  " .
+             // added by snug xu 2007-05-28 13:11 - FINISHED
+             "LEFT JOIN `request_extension` AS re ON (re.campaign_id=cc.campaign_id),".
+             " `client` AS cl " . 
+             "LEFT JOIN `users` AS u ON (u.user_id = cl.project_manager_id) ".
+             $q . 
+             // added by snug xu 2007-05-28 13:59 - STARTED
+             // get total glean clean article 
+             " GROUP BY cc.campaign_id ";
+             // added by snug xu 2007-05-28 13:59 - FINISHED
+
+        list($from, $to) = $pager->getOffsetByPageId();
+        $rs = &$conn->SelectLimit($q, $params['perPage'], ($from - 1));
+        if ($rs) {
+            $result = array();
+            $i = 0;
+            while (!$rs->EOF) {
+                $result[$i] = $rs->fields;
+                $rs->MoveNext();
+                $i ++;
+            }
+            $rs->Close();
+        }
+        /**start: modified by snug 10:56 2006-8-2***/
+        if (!empty($result)) {
+            foreach ($result as $kr => $vr) 
+			{
+                $clause_from = ' LEFT JOIN campaign_keyword AS ck ON (ar.keyword_id = ck.keyword_id) ';
+				$clause_where= " AND  ck.campaign_id = {$vr['campaign_id']} ";
+				if (User::getPermission() == 1)
+				{
+					$clause_where .= " AND ck.copy_writer_id=". User::getID() . " ";
+					$key_count = self::countArticleBySubWhere( 'all', 2 , $clause_from, $clause_where );
+				}
+				else
+				{
+					$key_count = self::countKeywordByCampaignID($vr['campaign_id']);
+//					if(client_is_loggedin())
+//					{
+//						$key_count = self::countArticleBySubWhere( 'all', 1 , $clause_from, $clause_where );
+//					}
+				}
+                if ($key_count > 0) {
+					if( client_is_loggedin() )
+					{
+						$clause_from .= "LEFT JOIN client_campaigns AS cc ON (cc.campaign_id=ck.campaign_id) ";
+						$clause_where .= "AND cc.client_id = '".Client::getID()."' ";
+						$article_count = self::countArticleBySubWhere('4|5',  2 , $clause_from, $clause_where );
+					}
+					else
+					{
+						$article_count = self::countArticleBySubWhere('0',  0 , $clause_from, $clause_where );
+					}
+                    $result[$kr]['progress'] = ($article_count / $key_count) * 100;
+                } else {
+                	$result[$kr]['progress'] = 0;
+                }
+            }
+        }/**end**/
+        return array('pager'  => $pager->links,
+                     'total'  => $pager->numPages(),
+                     'result' => $result);
+
+    }//end search()
+
+    /**
+     * delete one campaign
+     *
+     * @param int    $user_id
+     * @param string $status
+     *
+     * @return boolean
+     */
+    function setStatus($campaign_id, $status)
+    {
+        global $conn, $feedback;
+
+        // added by snug xu 2006-11-24 18:08
+        // if role of user is agency, let this user to set campaign as 'D'
+        if (User::getRole() != 'admin' && User::getRole() != 'agency') {
+            $feedback = "Have not the permission to delete one campaign";
+            return false;
+        }
+        /*
+        $q = "UPDATE client_campaigns ".
+             "SET status = '".$status."' ".
+             "WHERE campaign_id = '".$campaign_id."' ";
+        */
+        $campaign_id = addslashes(trim($campaign_id));
+        if ($campaign_id == '') {
+            $feedback = "Please choose one campaign";
+            return false;
+        }
+        /*
+        articles
+        articles_version_history
+        campaign_keyword
+        client_campaigns
+        client
+        comments_on_articles
+        cp_campaign_article_summary
+        user_payment_history
+        */
+
+        $q = "SELECT keyword_id FROM campaign_keyword ".
+             "WHERE campaign_id = '".$campaign_id."'";
+        $rs = $conn->Execute($q);
+        $keywords = array();
+        if ($rs) 
+        {
+            while (!$rs->EOF) 
+            {
+                $keywords[] = $rs->fields['keyword_id'];
+                $rs->MoveNext();
+            }
+            $rs->Close();
+        }
+
+        $conn->StartTrans();
+        if (empty($keywords)) {
+            //do nothing;
+        } else {
+            $keyword_ids_str = implode(',', array_values($keywords));
+            $q = "SELECT COUNT(article_id) AS count FROM articles ".
+                 "WHERE keyword_id IN (".$keyword_ids_str.")";
+            $rs = $conn->Execute($q);
+            if ($rs) {
+                $article_count = $rs->fields['count'];
+                $rs->Close();
+            }
+            if ($article_count > 0) {
+                $q = "DELETE FROM comments_on_articles ".
+                     "WHERE article_id IN (SELECT article_id FROM articles ".
+                                          "WHERE keyword_id IN (".$keyword_ids_str."))";
+                $conn->Execute($q);
+            }
+            $q = "DELETE FROM articles_version_history ".
+                 "WHERE keyword_id IN (".$keyword_ids_str.") ";
+            $conn->Execute($q);
+
+            $q = "DELETE FROM articles ".
+                 "WHERE keyword_id IN (".$keyword_ids_str.") ";
+            $conn->Execute($q);
+
+            $q = "DELETE FROM user_payment_history ".
+                 "WHERE keyword_id IN (".$keyword_ids_str.") ";
+            $conn->Execute($q);
+        }
+
+        $q = "DELETE FROM campaign_keyword WHERE campaign_id = '".$campaign_id."' ";
+        $conn->Execute($q);
+        $q = "DELETE FROM cp_campaign_article_summary WHERE campaign_id = '".$campaign_id."' ";
+        $conn->Execute($q);
+        $q = "DELETE FROM client_campaigns WHERE campaign_id = '".$campaign_id."' ";
+        $conn->Execute($q);
+        $ok = $conn->CompleteTrans();
+
+        if ($ok) {
+            $feedback = 'Success';
+            return $user_id;
+        } else {
+            $feedback = 'Failure, Please try again';
+            return false;
+        }
+    }//end setStatus()
+
+    function deleteKeywordByKeywordIdScope($start, $end = 0)
+    {
+        global $feedback, $conn;
+        $conditions = array();
+        if ($start > $end)
+        {
+            return false;
+        }
+        if ($start > 0)
+        {
+            $conditions[] = "keyword_id >= {$start}";
+        }
+        if ($end > 0)
+        {
+            $conditions[] = "keyword_id <= {$end}";
+        }
+        if (empty($conditions))
+        {
+            return false;
+        }
+
+        $conn->StartTrans();
+        $qw = 'WHERE ' . implode(" AND ", $conditions);
+        $q = "SELECT COUNT(article_id) AS count FROM articles ".
+             $qw;
+//        $rs = $conn->Execute($q);
+        if ($rs) {
+            $article_count = $rs->fields['count'];
+            $rs->Close();
+        }
+        if ($article_count > 0) {
+            $q = "DELETE FROM comments_on_articles ".
+                 "WHERE article_id IN (SELECT article_id FROM articles ".
+                                      $qw;
+//            $conn->Execute($q);
+        }
+        $q = "DELETE FROM articles_version_history ".
+             $qw;
+//        $conn->Execute($q);
+
+        $q = "DELETE FROM articles ".
+             $qw;
+//        $conn->Execute($q);
+
+        $q = "DELETE FROM user_payment_history ".
+             $qw;
+//        $conn->Execute($q);
+        $q = "DELETE FROM campaign_keyword " . $qw;
+//        $conn->Execute($q);
+        $ok = $conn->CompleteTrans();
+        return true;
+    }
+
+    function deleteKeywordByCampaignID($campaign_id)
+    {
+        global $conn, $feedback;
+
+        $campaign_id = addslashes(trim($campaign_id));
+        if ($campaign_id == '') {
+            $feedback = "Please choose one campaign";
+            return false;
+        }
+
+        $q = "SELECT keyword_id FROM campaign_keyword ".
+             "WHERE campaign_id = '".$campaign_id."'";
+        $rs = $conn->Execute($q);
+        $keywords = array();
+        if ($rs) 
+        {
+            while (!$rs->EOF) 
+            {
+                $keywords[] = $rs->fields['keyword_id'];
+                $rs->MoveNext();
+            }
+            $rs->Close();
+        }
+
+        $conn->StartTrans();
+        if (empty($keywords)) {
+            //do nothing;
+        } else {
+            $keyword_ids_str = implode(',', array_values($keywords));
+            $q = "SELECT COUNT(article_id) AS count FROM articles ".
+                 "WHERE keyword_id IN (".$keyword_ids_str.")";
+            $rs = $conn->Execute($q);
+            if ($rs) {
+                $article_count = $rs->fields['count'];
+                $rs->Close();
+            }
+            if ($article_count > 0) {
+                $q = "DELETE FROM comments_on_articles ".
+                     "WHERE article_id IN (SELECT article_id FROM articles ".
+                                          "WHERE keyword_id IN (".$keyword_ids_str."))";
+                $conn->Execute($q);
+            }
+            $q = "DELETE FROM articles_version_history ".
+                 "WHERE keyword_id IN (".$keyword_ids_str.") ";
+            $conn->Execute($q);
+
+            $q = "DELETE FROM articles ".
+                 "WHERE keyword_id IN (".$keyword_ids_str.") ";
+            $conn->Execute($q);
+
+            $q = "DELETE FROM user_payment_history ".
+                 "WHERE keyword_id IN (".$keyword_ids_str.") ";
+            $conn->Execute($q);
+        }
+
+        $q = "DELETE FROM campaign_keyword WHERE campaign_id = '".$campaign_id."' ";
+        $conn->Execute($q);
+//        $q = "DELETE FROM cp_campaign_article_summary WHERE campaign_id = '".$campaign_id."' ";
+//        $conn->Execute($q);
+//        $q = "DELETE FROM client_campaigns WHERE campaign_id = '".$campaign_id."' ";
+//        $conn->Execute($q);
+        $ok = $conn->CompleteTrans();
+
+        if ($ok) {
+            $feedback = 'Success';
+            return $user_id;
+        } else {
+            $feedback = 'Failure, Please try again';
+            return false;
+        }
+    }
+
+    /**
+     * Delete a keyword and correlative infomation
+     *
+     * @param keyword_id    $keyword_id
+     * @param char    $status
+     *
+     * @return boolean
+     */
+    function setKeywordStatus($keyword_id, $status)
+    {
+        global $conn, $feedback;
+
+        if (User::getPermission() < 4) { // 3=>4
+            $feedback = "Have not the permission to delete one keyword";
+            return false;
+        }
+        $keyword_id = addslashes(trim($keyword_id));
+        if ($keyword_id == '') {
+            $feedback = "Please choose one article";
+            return false;
+        }
+        $q = "SELECT article_id FROM articles WHERE keyword_id = '".$keyword_id."'";
+        $rs = $conn->Execute($q);
+        $article_id = 0;
+        if ($rs) {
+            $article_id = $rs->fields['article_id'];
+            $rs->Close();
+        }
+
+        $conn->StartTrans();
+        if ($article_id > 0) {
+            $q = "DELETE FROM comments_on_articles ".
+                 "WHERE article_id = '".$article_id."' ";
+            $conn->Execute($q);
+        }
+        $q = "DELETE FROM articles_version_history WHERE keyword_id = '".$keyword_id."' ";
+        $conn->Execute($q);
+        $q = "DELETE FROM articles WHERE keyword_id = '".$keyword_id."' ";
+        $conn->Execute($q);
+        $q = "DELETE FROM campaign_keyword WHERE keyword_id = '".$keyword_id."' ";
+        $conn->Execute($q);
+        //$ok = $conn->CompleteTrans();
+        /*
+        $q = "UPDATE campaign_keyword ".
+             "SET status = '".$status."' ".
+             "WHERE keyword_id = '".$keyword_id."' ";
+        */
+
+        $ok = $conn->CompleteTrans();
+
+        if ($ok) {
+            $feedback = 'Success';
+            return $user_id;
+        } else {
+            $feedback = 'Failure, Please try again';
+            return false;
+        }
+    }//end setStatus()
+
+    /**
+     * Add an client's campaign keyword information
+     *
+     * @param array $p the value was submited by form
+     *
+     * @return boolean or an int
+     */
+    function addKeyword($p = array())
+    {
+        global $conn, $feedback;
+		//Start:Added By Snug 10:50 2006-8-25
+		/****如果当前的keyword已经存在，将这个keyword放在这个数组中****/
+		$duplicated_keywords = array();
+		//Ended Added
+        //global $g_tag;
+
+        // added by snug xu 2006-11-24 15:30 - START
+        // let agency user add new client compaign
+        if (User::getPermission() < 4 && User::getPermission() != 2) { // 3=>4
+            $feedback = "Have not the permission add one campaign";
+            return false;
+        }
+        // added by snug xu 2006-11-24 15:30 - END
+
+        $new_keywords = array();
+
+        $campaign_id = addslashes(htmlspecialchars(trim($p['campaign_id'])));
+        if ($campaign_id == '') {
+            $feedback = "Please Choose a campaign";
+            return false;
+        }
+        $keyword = addslashes(htmlspecialchars(trim($p['keyword'])));
+        if ($keyword == '') {
+            $feedback = "Please enter the name of the campaign";
+            return false;
+        }
+        $keywords = explode("\n", $keyword);
+
+        $mapping_id = addslashes(htmlspecialchars(trim($p['mapping_id'])));
+        if ($mapping_id != '') {
+            $mappings = explode("\n", $mapping_id);
+            $is_not_macth  = false;
+            $klen = count($keywords);
+            $mlen = count($mappings);
+            if ($klen != $mlen) {
+                $is_not_macth = true;
+            } else {
+                foreach ($keywords as $k => $v) {
+                    if (!empty($v) && empty($mappings[$k])) {
+                        $is_not_macth = true;
+                    }
+                }
+            }
+            if ($is_not_macth) {
+                $feedback = 'Each keyword must have one mapping ID';
+                return false;
+            }
+        } else {
+            $mappings = array();
+        }
+        
+        $article_type = addslashes(htmlspecialchars(trim($p['article_type'])));
+        if ($article_type == '') {
+            $feedback = "Please provide article type";
+            return false;
+        }
+        if (isset($p['keyword_status']))
+        {
+            $keyword_status = addslashes(htmlspecialchars(trim($p['keyword_status'])));
+        }
+        else
+        {
+            $keyword_status = -1;
+        }
+
+        $copy_writer_id = addslashes(htmlspecialchars(trim($p['copy_writer_id'])));
+        $editor_id = addslashes(htmlspecialchars(trim($p['editor_id'])));
+        if ($copy_writer_id != '' || $editor_id != '') {
+            if ($copy_writer_id == '') {
+                $copy_writer_id = 0;
+            }
+            if ($editor_id == '') {
+                $feedback = 'Please provide an editor';
+                return false;
+            }
+        } else {
+            $copy_writer_id = 0;
+            $editor_id = 0;
+        }
+
+        $pref_table = 'campaign_keyword';
+        $pref_field = 'keyword_category';
+        $pref_value = addslashes(htmlspecialchars(trim($p['keyword_category'])));
+        $q = "SELECT pref_id FROM preference ".
+             "WHERE pref_table = '".$pref_table."' AND pref_field = '".$pref_field."' AND pref_value = '".$pref_value."'";
+        $rs = $conn->Execute($q);
+        $pref_id = 0;
+        if ($rs) {
+            $pref_id = $rs->fields['pref_id'];
+            $rs->Close();
+        }
+
+        //generate article number
+        $campaign_info = self::getInfo($campaign_id);
+        if (empty($campaign_info)) {
+            $feedback = "An error keyword,please try again";
+            return false;
+        }
+        $company_name = strtoupper($campaign_info['company_name']);
+        $numbers = explode(" ", $company_name);//we can use preg_split()
+        $article_number = "";
+        foreach ($numbers as $k => $v) {
+            $article_number .= substr($v, 0, 1);
+        }
+        // added by nancy xu 2009-12-16 11:18
+        if (isset($p['date_start']) && !empty($p['date_start'])) {
+            $date_start = $p['date_start'];
+        } else {
+            $date_start = $campaign_info['date_start'];
+        }
+        if (isset($p['date_end']) && !empty($p['date_end'])) {
+            $date_end = $p['date_end'];
+        } else {
+            $date_end = $campaign_info['date_end'];
+        }
+        // end
+        $date_created = date('Y-m-d H:i:s', time());
+        if ($copy_writer_id > 0) $date_assigned = $date_created;
+        else $date_assigned = '0000-00-00 00:00:00';
+        $conn->StartTrans();
+        if ($pref_id > 0) {
+            //do nothing;
+        } else {
+            $pref_id = $conn->GenID('seq_preference_pref_id');
+            $q = "INSERT INTO preference (pref_id, pref_table, pref_field, pref_value) ".
+                 "VALUES ('".$pref_id."', '".$pref_table."', '".$pref_field."', '".$pref_value."')";
+            $conn->Execute($q);
+        }
+        $keyword_ids = array();
+        foreach ($keywords as $k => $v) {
+            if ($v != '') {
+                $q = "SELECT COUNT(*) AS count FROM campaign_keyword ".
+                     "WHERE keyword = '".$v."' AND campaign_id = '".$campaign_id."' AND article_type = '".$article_type."' AND `keyword_category` = ".$pref_id;
+                $rs = $conn->Execute($q);
+                $count = 0;
+                if ($rs) {
+                    $count = $rs->fields['count'];
+                    $rs->Close();
+                }
+                if ($count > 0) {
+					$duplicated_keywords[] = $v;
+                    // modified by nancy xu 2009-12-03 15:49
+                    // when keyword are duplicated, the keyword still store to our system 
+                    // continue;
+                    // end
+                }
+
+                $keyword_id = $conn->GenID('seq_campaign_keyword_keyword_id');
+                $keyword_ids[] = $keyword_id;
+                $new_keywords[$keyword_id] = stripslashes($v);
+                if (!empty($mappings)) {
+                    $mapping_id = addslashes(htmlspecialchars(trim($mappings[$k])));
+                } else {
+                    $mapping_id = '';
+                }
+                $q = "INSERT INTO campaign_keyword  (`keyword_id`, `campaign_id`, copy_writer_id, editor_id, ".
+                "`date_assigned`, `keyword`, `article_type`, `keyword_description`, `date_start`, `date_end`, ".
+                "`creation_user_id`, `creation_role`, `date_created`, `keyword_status`, `mapping_id`, `keyword_category`) ".
+                     "VALUES ('".$keyword_id."', ".
+                             "'".$campaign_id."', ".
+                             "'".$copy_writer_id."', ".
+                             "'".$editor_id."', ".
+							 "'".$date_assigned."', ".
+                             "'".ucwords(strtolower($v))."', ".
+                             "'".$article_type."', ".
+                             "'".addslashes(htmlspecialchars(trim($p['keyword_description'])))."', ".
+                             "'".$date_start."', ".
+                             "'".$date_end."', ".
+                             "'".User::getID()."', ".
+                             "'".User::getRole()."', ".
+                             "'".$date_created."', ".
+                             "'".$keyword_status."', ".
+                             "'". $mapping_id ."', ".
+                             "'". $pref_id . "')";
+                $conn->Execute($q);
+
+                $article_id = $conn->GenID('seq_articles_article_id');
+                $q = "INSERT INTO articles (`article_id`, `article_number`, `keyword_id`, `creation_user_id`, `creation_role`, ".
+                                           "`creation_date`, `language`, `title`, `body`, ".
+                                           "`article_status`, `current_version_number`) ".
+                     "VALUES ('".$article_id."', ".
+                             "'".$article_number."-".($article_type+1)."-".$campaign_id."-".$keyword_id."', ".
+                             "'".$keyword_id."', ".
+                             "'".User::getID()."', ".
+                             "'".User::getRole()."', ".
+                             "'".date('Y-m-d H:i:s', time())."', ".
+                             "'', ".
+                             "'', ".
+                             "'', ".
+                             "'0', ".
+                             "'1.0')";
+                $conn->Execute($q);
+
+            }
+        }
+        $ok = $conn->CompleteTrans();
+
+        if ($ok) {
+			if (count($duplicated_keywords))
+			{
+				$feedback = 'Duplicated keywords:\n  ' . implode('\n  ' , $duplicated_keywords);
+				$feedback = preg_replace("/[\f\n\r\v]/", " ", $feedback);
+			}
+			else
+			{
+				$feedback = 'Success';
+			}
+             if (!empty($keyword_ids) && (!empty($copy_writer_id) &&  !empty($editor_id))) {
+                if (!empty($copy_writer_id)) $copy_writer_keywords = $new_keywords;
+                $editor_keywords = $new_keywords;
+                self::sendAssignKeywordMail($copy_writer_id, $editor_id, $campaign_info['date_end'], $copy_writer_keywords, $editor_keywords);
+             }
+            return true;
+        } else {
+            $feedback = 'Failure, Please try again';
+            return false;
+        }
+
+    }//end addKeyword()
+
+    /**
+     * Set an client's campaign keyword information
+     *
+     * @param array $p the value was submited by form
+     *
+     * @return boolean or an int
+     */
+    function setKeyword($p = array())
+    {
+        global $conn, $feedback;
+        //global $g_tag;
+
+        if (User::getPermission() < 4) { // 3=>4
+            $feedback = "Have not the permission add one campaign";
+            return false;
+        }
+        /*
+        $campaign_id = addslashes(htmlspecialchars(trim($p['campaign_id'])));
+        if ($campaign_id == '') {
+            $feedback = "Please Choose a campaign";
+            return false;
+        }
+        */
+        $keyword_id = addslashes(htmlspecialchars(trim($p['keyword_id'])));
+        if ($keyword_id == '') {
+            $feedback = "Please Choose a campaign";
+            return false;
+        }
+        $keyword = addslashes(htmlspecialchars(trim($p['keyword'])));
+        if ($keyword == '') {
+            $feedback = "Please enter the name of the campaign";
+            return false;
+        }
+
+        $article_type = addslashes(htmlspecialchars(trim($p['article_type'])));
+        if ($article_type == '') {
+            $feedback = "Please provide keyword article type";
+            return false;
+        }
+
+        $date_start = addslashes(htmlspecialchars(trim($p['date_start'])));
+        if ($date_start == '') {
+            $feedback = "Please provide the start date  of the campaign keyword";
+            return false;
+        }
+        $date_end = addslashes(htmlspecialchars(trim($p['date_end'])));
+        if ($date_end == '') {
+            $feedback = "Please provide the Due Date of the campaign keyword";
+            return false;
+        }
+
+        if (strtotime($date_end) < strtotime($date_start)) {
+            $feedback = 'Incorrect date,Please try again';
+            return false;
+        }
+
+        $keyword_description = addslashes(htmlspecialchars(trim($p['keyword_description'])));
+        if ($keyword_description != '') {
+            $qu = "keyword_description = '".$keyword_description."', ";
+        }
+        $mapping_id = addslashes(htmlspecialchars(trim($p['mapping_id'])));
+        /*
+        $q = "SELECT COUNT(*) AS count FROM client_campaigns WHERE campaign_name = '".$campaign_name."'";
+        $rs = &$conn->Execute($q);
+        $count = 0;
+        if ($rs) {
+            $count = $rs->fields['count'];
+            $rs->Close();
+        }
+        if ($count > 0) {
+            $feedback = "The client's campaign name already registered, please type another name.";//用户名重复
+            return false;
+        }
+        */
+        $pref_table  = 'campaign_keyword';
+        $pref_field   = 'keyword_category';
+        $pref_value = addslashes(htmlspecialchars(trim($p['keyword_category'])));
+        $q = "SELECT pref_id FROM preference ".
+             "WHERE pref_table = '".$pref_table."' AND pref_field = '".$pref_field."' AND pref_value = '".$pref_value."'";
+        $rs = $conn->Execute($q);
+        $pref_id = 0;
+        if ($rs) {
+            $pref_id = $rs->fields['pref_id'];
+            $rs->Close();
+        }
+
+        /*********strip duplicated check added by nancy xu 2010-01-13 11:00****************
+        $q = "SELECT COUNT(*) AS count FROM campaign_keyword ".
+             "WHERE keyword_id != '".$keyword_id."' AND keyword = '".$keyword."' AND article_type = '".$article_type."' ";
+        $rs = $conn->Execute($q);
+        $count = 0;
+        if ($rs) {
+            $count = $rs->fields['count'];
+            $rs->Close();
+        }
+        if ($count > 0) {
+            $feedback = 'Have the same keyword in this campagin,Please try again';
+            return false;
+        }*************************************************/
+
+        $q = "SELECT article_number FROM articles ".
+             "WHERE keyword_id = '".$keyword_id."'";
+        $rs = $conn->Execute($q);
+        if ($rs) {
+            $article_number = $rs->fields['article_number'];
+            $rs->Close();
+        }
+
+        $article_number_arr = explode('-', $article_number);
+        //print_r($article_number_arr);
+        if ($article_number_arr[1] != ($article_type + 1)) {
+            $article_number_arr[1] = $article_type + 1;
+            $article_number = implode('-', $article_number_arr);
+            $set_article_number = true;
+            unset($article_number_arr);
+            //echo $article_number;
+        }
+
+        $conn->StartTrans();
+        if ($pref_id > 0) {
+            //do nothing;
+        } else {
+            $pref_id = $conn->GenID('seq_preference_pref_id');
+            $q = "INSERT INTO preference (pref_id, pref_table, pref_field, pref_value) ".
+                 "VALUES ('".$pref_id."', '".$pref_table."', '".$pref_field."', '".$pref_value."')";
+            $conn->Execute($q);
+        }
+        $conn->Execute("UPDATE campaign_keyword ".
+                       "SET keyword = '".ucwords(strtolower($keyword))."', ".
+                           "article_type = '".$article_type."', ".
+                           "mapping_id = '".$mapping_id."', ".
+                           "creation_user_id = '".User::getID()."', ".
+                           "creation_role = '".User::getRole()."', ".
+                           "date_created = '".date('Y-m-d H:i:s', time())."', ".
+                           "date_start = '".$date_start."', ".
+                           "date_end = '".$date_end."', ".
+                           "keyword_category = '".$pref_id."' ".
+                       "WHERE keyword_id = '".$keyword_id."' ");
+
+        if ($set_article_number == true) {
+            $conn->Execute("UPDATE articles ".
+                           "SET article_number = '".$article_number."' ".
+                           "WHERE keyword_id = '".$keyword_id."' ");
+        }
+        $ok = $conn->CompleteTrans();
+
+        if ($ok) {
+            $feedback = 'Success';
+            return true;
+        } else {
+            $feedback = 'Failure, Please try again';
+            return false;
+        }
+
+    }//end setKeyword()
+
+    /**
+     * Search Client Campaign info.,
+     *
+     * @param array $p  the form submited value.
+     * 
+     * @return array
+     * @access public
+     */
+    function searchKeyword($p = array(), $show_kd_groupby_topic = false)
+    {
+        global $conn, $feedback;
+
+        global $g_pager_params;
+         
+        $show_cb = false;
+
+        $q = "";
+        // added by snug xu 2006-11-24 20:34
+        // if login user is agency, it is not allowed that he/she see the other keyword
+        if (User::getRole() == 'agency' )
+        {
+            $q .= "\n AND cl.creation_user = '" . User::getID() . "'";
+        }
+
+        $campaign_id = addslashes(htmlspecialchars(trim($p['campaign_id'])));
+        if ($campaign_id != '') {
+            $q .= "\nAND ck.campaign_id IN ( ".$campaign_id." ) ";
+        }
+        $keyword_id = addslashes(htmlspecialchars(trim($p['keyword_id'])));
+        if ($keyword_id != '') {
+            $q .= "\nAND ck.keyword_id = '".$keyword_id."' ";
+        }
+
+        $copy_writer_id = addslashes(htmlspecialchars(trim($p['copy_writer_id'])));
+        if ($copy_writer_id != '') {
+            $q .= "\nAND ck.copy_writer_id = '".$copy_writer_id."' ";
+        }
+        $editor_id = addslashes(htmlspecialchars(trim($p['editor_id'])));
+        if ($editor_id != '') {
+            $q .= "\nAND ck.editor_id = '".$editor_id."' ";
+        }
+        $creation_user_id = addslashes(htmlspecialchars(trim($p['creation_user_id'])));
+        if ($creation_user_id != '') {
+            $q .= "\nAND ck.creation_user_id = '".$creation_user_id."' ";
+        }
+        /*
+        $keyword = addslashes(htmlspecialchars(trim($p['keyword'])));
+        if ($keyword != '') {
+            $q .= "AND ck.keyword LIKE '%".$keyword."%' ";
+        }
+        */
+
+        $article_type = addslashes(htmlspecialchars(trim($p['article_type'])));
+        if ($article_type != '') {
+            $q .= "\nAND ck.article_type = '".$article_type."' ";
+        }
+        $keyword_category = addslashes(htmlspecialchars(trim($p['keyword_category'])));
+        if ($keyword_category != '') {
+            $q .= "\nAND ck.keyword_category = '".$keyword_category."' ";
+        }
+        $date_start = addslashes(htmlspecialchars(trim($p['date_start'])));
+        if ($date_start != '') {
+            $q .= "\nAND ck.date_start >= '".$date_start."' ";
+        }
+        $date_end = addslashes(htmlspecialchars(trim($p['date_end'])));
+        if ($date_end != '') {
+            $q .= "\nAND ck.date_end <= '".$date_end."' ";
+        }
+
+        $keyword_description = addslashes(htmlspecialchars(trim($p['keyword_description'])));
+        if ($keyword_description != '') {
+            $q .= "\nAND cc.keyword_description LIKE '%".$keyword_description."%' ";
+        }
+        
+        $article_status = $p['article_status'];
+        if (is_array($article_status) && !empty($article_status))
+        {
+            $q .= "\nAND ar.article_status IN ('". implode("', '", $article_status)."') ";
+        }
+        else
+        {
+            $article_status = addslashes(htmlspecialchars(trim($article_status)));
+            if ($article_status != '') {
+                if ($article_status == -1) {
+                    $q .= "\nAND ck.copy_writer_id = '0' ";
+                } else {
+                    $q .= "\nAND ar.article_status = '".$article_status."' ";
+                }
+            }
+        }
+		//START: ADDED By Snug 16:02 2006-8-17
+		$is_today = addslashes(htmlspecialchars(trim($p['is_today'])));
+		if ($is_today ==1 ) 
+		{
+			$q .= "\n AND DATEDIFF( ar.approval_date, CURDATE( ) ) =0";
+        }
+		//END ADDED
+        
+		//Start: Added By Snug 22:41 2006-08-13
+		$is_pay_adjust = addslashes(htmlspecialchars(trim($p['is_pay_adjust'])));
+        $sql_left  = "\nLEFT JOIN article_action AS aa ON aa.article_id = ar.article_id ";
+        $sql_left .= "\nLEFT JOIN article_payment_log AS apl ON (apl.article_id = ar.article_id AND ck.copy_writer_id = apl.user_id) ";
+        $sqls = array(
+            'where' => '', 
+            'left' => $sql_left
+         );
+        if ($is_pay_adjust == 1) 
+		{
+			$current_month = mysql_escape_string(htmlspecialchars(trim($p['month'])));
+            // modified by snug 2007-05-13 10:35
+			if( strlen($current_month) == 0 )
+			{
+				$now		   = time();
+				$current_month = date("Ym");
+			}
+			else
+			{
+				$now = changeTimeFormatToTimestamp($current_month);
+			}
+            $param['now']     = $now;
+            $param['user_id'] = $p['copy_writer_id'];
+            $param['forced_adjust'] = isset($p['forced_adjust']) ? $p['forced_adjust'] : 0;
+            $forced_adjust =  $param['forced_adjust'];
+            $param['include_google_clean'] = isset($p['include_google_clean']) ? $p['include_google_clean'] : 0;
+            $include_google_clean =  $param['include_google_clean'];
+            $param['include_editor_approval'] = isset($p['include_editor_approval']) ? $p['include_editor_approval'] : 0;
+            $include_editor_approval =  $param['include_editor_approval'];
+            $param['show_current_month'] = $p['show_current_month'];
+            $param['type']     = 'keyword-adjust';
+            $sqls = User::getCPAccountingConditionOrSql($param);
+            if (!empty($sqls['where'])) $sqls['where'] = ' AND  ' . $sqls['where'];
+
+            $next_month = date("Ym",strtotime('+1 month', $now));
+            $show_current_month = mysql_escape_string(htmlspecialchars(trim($p['show_current_month'])));
+		}
+		//End Added
+
+        //$q .= "AND (cc.permission < '".User::getPermission()."' OR cc.user_id = '".User::getID()."') ";
+        if (trim($p['keyword']) != '') {
+            require_once CMS_INC_ROOT.'/Search.class.php';
+            $search = new Search($p['keyword'], "AND"); // use AND operator
+            if ($search->getError() != '') {
+                //do nothing
+                $feedback = $search->getError();
+            } else {
+                //$q .= "AND ".$search->getLikeCondition("CONCAT(cl.user_name, cl.company_name, cl.company_address, cl.city, cl.state, cl.zip, cl.company_phone, cl.email, cc.campaign_name, cc.campaign_requirement, ck.keyword, ck.keyword_description, uc.user_name, ue.user_name, cu.user_name)")." ";
+                $q .= "\nAND ".$search->getLikeCondition("CONCAT(cl.user_name, cl.company_name, cl.company_address, cl.city, cl.state, cl.zip, cl.company_phone, cl.email, cc.campaign_name, cc.campaign_requirement, ck.keyword, ck.keyword_description)")." ";
+            }
+        }
+        //$q .= "AND cl.client_id = cc.client_id ";
+        require_once CMS_INC_ROOT.'/Client.class.php';
+        if (client_is_loggedin()) {
+            $q .= "\nAND cc.client_id = '".Client::getID()."' ";
+        }
+        
+        $where = "\nWHERE 1 {$sqls['where']} {$q}";
+        
+		$query = "\nSELECT COUNT(DISTINCT ck.keyword_id) AS count ".
+                "\nFROM campaign_keyword AS ck ".
+                "\nLEFT JOIN articles AS ar ON (ar.keyword_id = ck.keyword_id) ".
+                $sqls['left'] . 
+                "\nLEFT JOIN users AS uc ON (ck.copy_writer_id = uc.user_id) ".
+                "\nLEFT JOIN users AS ue ON (ck.editor_id = ue.user_id) ".
+                "\nLEFT JOIN users AS cu ON (ck.creation_user_id = cu.user_id) ".
+                "\nLEFT JOIN client_campaigns AS cc ON (cc.campaign_id = ck.campaign_id) ".
+                "\nLEFT JOIN `client` AS cl ON (cl.client_id = cc.client_id) ".
+                $where;
+        $rs = &$conn->Execute($query);
+        if ($rs) {
+            $count = $rs->fields['count'];
+            $rs->Close();
+        }
+
+        if ($count == 0 || !isset($count)) {
+            //$feedback = "Couldn\'t find any information,Please try again";//找不到相关的信息，请重新设置搜索条件
+            return false;
+        }
+
+        $perpage = 50;
+        if (trim($_GET['perPage']) > 0) {
+            $perpage = $_GET['perPage'];
+        }
+
+        require_once 'Pager/Pager.php';
+        $params = array(
+            'perPage'    => $perpage,
+            'totalItems' => $count
+        );
+        $pager = &Pager::factory(array_merge($g_pager_params, $params));
+
+        if ($show_kd_groupby_topic == true) {
+
+        }
+
+        $cp_users = User::getCpPaymentHistory(array(), false);
+
+        $q = "SELECT DISTINCT `ck`.`keyword_id`, `ck`.`campaign_id`, `cc`.`campaign_name`, `ck`.`copy_writer_id`, ". 
+            "`ck`.`editor_id`, `ck`.`keyword`, `ck`.`article_type`, `ck`.`keyword_description`, " . 
+            "`ck`.`date_start`, `ck`.`date_end`, `ck`.`creation_user_id`, `ck`.`creation_role`, " .
+            "`ck`.`keyword_category`, `ck`.`status`, `ck`.`cost_per_article`, `ck`.`is_sent`,`ar`.`cp_updated`, " . 
+            "ar.article_id, ar.article_number, ar.approval_date, MAX(aa.created_time) as google_approved_time , " . 
+            "ar.target_pay_month, ar.is_canceled, apl.log_id, apl.month as apl_month, apl.paid_time, ar.curr_dl_time, " .
+            "ar.article_status, ar.checking_url,  cl.user_name, cl.company_name, cc.campaign_name, ar.total_words as word_count , " . 
+            "CONCAT(uc.first_name, ' ', uc.last_name) AS uc_name , CONCAT(ue.first_name, ' ', ue.last_name) AS ue_name , cu.user_name AS cu_name, ar.body, ar.richtext_body  \n" . 
+             "FROM campaign_keyword AS ck \n".
+             "LEFT JOIN articles AS ar ON (ar.keyword_id = ck.keyword_id) ".
+             $sqls['left'] .
+             "\nLEFT JOIN users AS uc ON (ck.copy_writer_id = uc.user_id) \n".
+             "LEFT JOIN users AS ue ON (ck.editor_id = ue.user_id) ".
+             "LEFT JOIN users AS cu ON (ck.creation_user_id = cu.user_id) \n".
+             "LEFT JOIN client_campaigns AS cc ON (cc.campaign_id = ck.campaign_id) \n".
+             "LEFT JOIN `client` AS cl ON (cl.client_id = cc.client_id)".
+             $where;
+        $q .= "\nGROUP BY ar.article_id";
+        $q .= "\nORDER BY google_approved_time";
+        list($from, $to) = $pager->getOffsetByPageId();
+        $rs = &$conn->SelectLimit($q, $params['perPage'], ($from - 1));
+        if ($rs) {
+            $result = array();
+            $kb = array();
+            $i = 0;
+            while (!$rs->EOF) {
+                $result[$i] = $rs->fields;
+                // added by snug xu 2007-03-14 9:09  - STARTED
+                if (strcasecmp($rs->fields['article_status'], '1gc') == 0 || $rs->fields['article_status'] == '3') {
+                    $show_cb = true;
+                }
+                // added by snug xu 2007-03-14 9:09  - FINISHED
+                // added by snug xu 2007-02-25 11:48 - FINISHED
+				//Start: Added By Snug  23:10 2006-08-13
+				/****决定是否显示move to next pay period按纽*****/
+				if( $is_pay_adjust==1 )
+				{
+					$google_approved_time = $rs->fields['google_approved_time'];
+                    $article_status = $rs->fields['article_status'];
+					if (strlen($google_approved_time) == 0) 
+					{
+						$google_approved_time = $rs->fields['approval_date'];
+					}
+					$target_pay_month = $rs->fields['target_pay_month'];
+					$paid_time = $rs->fields['paid_time'];
+					$date_end = $rs->fields['date_end'];
+                    $google_clean_ym = date( "Ym", strtotime($google_approved_time));
+                    $date_end_ym      = date("Ym", strtotime($date_end));
+					if ($forced_adjust == 1 && $google_clean_ym == $current_month && ($target_pay_month=='0'||$target_pay_month==''))
+                    {
+                        if ($include_google_clean && $article_status == '1gc' || $include_editor_approval && $article_status == '4' )
+                        {
+                            $result[$i]['pay_this_month'] = true;
+                        }
+                        else
+                        {
+                            $result[$i]['pay_this_month'] = false;
+                        }
+                    }
+					if((($google_clean_ym == $current_month && ($target_pay_month=='0'||$target_pay_month=='')) || $target_pay_month == $current_month) && ($paid_time=='' || $paid_time=='0000-00-00 00:00:00'))
+					{
+						$result[$i]['is_show_adjust_button'] = true;
+					}
+					else
+					{
+						$result[$i]['is_show_adjust_button'] = false;
+					}
+                    if ($forced_adjust == 1 && ($include_google_clean && $article_status == '1gc' || $include_editor_approval && $article_status == '4') && $show_current_month == 1 )
+                    {
+                        if (($google_clean_ym == $next_month && $target_pay_month != $current_month && !$target_pay_month || $target_pay_month == $next_month))
+                        {
+                            $result[$i]['add_to_this_month_button'] = true;
+                        }
+                        else
+                        {
+                            $result[$i]['add_to_this_month_button'] = false;
+                        }
+                    }
+					else if (($google_clean_ym == $next_month && $target_pay_month != $current_month && !$target_pay_month || $target_pay_month == $next_month ) && $show_current_month == 1)
+					{
+						$result[$i]['add_to_this_month_button'] = true;
+					}
+					else
+					{
+                        $result[$i]['add_to_this_month_button'] = false;
+					}
+				} else {
+                    // added by snug xu 2007-03-07 16:41 - STARTED
+                    // set target pay month and get payment flow status from cp_payment_history
+                    if ($result[$i]['target_pay_month'] == 0 && $result[$i]['google_approved_time'] > 0) {
+                    	$result[$i]['target_pay_month'] = date("Ym", strtotime($result[$i]['google_approved_time']));
+                    }
+                    $cp_month  = $result[$i]['target_pay_month'];
+                    $cp_id        = $result[$i]['copy_writer_id'];
+                    $cp_user     = $cp_users[$cp_id][$cp_month];
+                    $result[$i]['payment_flow_status'] = $cp_user['payment_flow_status'];
+                    // added by snug xu 2007-03-07 16:41 - FINISHED
+				}
+				//End Added
+				if ($show_kd_groupby_topic == true) {
+                    if ($rs->fields['keyword_description'] != '') {
+                        $kb[$rs->fields['keyword_id']] = $rs->fields['keyword_description'];
+                    }
+                }
+                $rs->MoveNext();
+                $i ++;
+            }
+            $rs->Close();
+        }
+		//Start:Added By Snug 23:02 2006-08-15
+		/***get notes by keyword_id***/
+		require_once CMS_INC_ROOT.'/Notes.class.php';
+		foreach( $result as $k => $v )
+		{
+			$keyword_id = $v['keyword_id'];
+            if ($keyword_id > 0) {
+    			$note = Notes::getNotesInfoByKeywordID($keyword_id);
+                $result[$k]['note_id']=$note['note_id'];
+                $result[$k]['notes']=$note['notes'];        	
+            }
+		}
+		//END ADDED
+
+        if ($show_kd_groupby_topic == true) {
+            return array('pager'  => $pager->links,
+                         'total'  => $pager->numPages(),
+                         'kb'     => $kb,
+                         'result' => $result);
+        }
+
+        return array('pager'  => $pager->links,
+                     'total'  => $pager->numPages(),
+                     'result' => $result,
+                     'show_cb' => $show_cb
+                     );
+
+    }//end search()
+	
+
+    /**
+     * Get client's info by $client_id
+     *
+     * @param int $client_id
+     *
+     * @return boolean or an array containing all fields in tbl.client
+     */
+    function getKeywordInfo($keyword_id)
+    {
+        global $conn, $feedback;
+        $keyword_id = addslashes(htmlspecialchars(trim($keyword_id)));
+        if ($keyword_id == '') {
+            $feedback = "Please Choose a campaign keyword";
+            return false;
+        }
+
+        $q = "SELECT ck.*, cc.campaign_name, cc.meta_param, cc.title_param, cl.user_name, cl.company_name, csg.style_id, uc.user_name AS uc_name, ue.user_name AS ue_name, cu.user_name AS pm_name ".
+             "FROM campaign_keyword AS ck ".
+             "LEFT JOIN users AS uc ON (ck.copy_writer_id = uc.user_id) ".
+             "LEFT JOIN users AS ue ON (ck.editor_id = ue.user_id) ".
+             "LEFT JOIN users AS cu ON (ck.creation_user_id = cu.user_id) ".
+             "LEFT JOIN client_campaigns AS cc ON (ck.campaign_id = cc.campaign_id) ".
+             "LEFT JOIN campaign_style_guide AS csg ON (csg.campaign_id = cc.campaign_id) ".
+             "LEFT JOIN `client` AS cl ON (cl.client_id = cc.client_id) ".
+             "WHERE ck.keyword_id = '".$keyword_id."'";
+        $rs = &$conn->Execute($q);
+
+        if ($rs) {
+            $ret = false;
+            if ($rs->fields['keyword_id'] != 0) {
+                $ret = $rs->fields; // return an array
+            }
+            $rs->Close();
+            return $ret;
+        }
+
+        return false; // return false if client does not exist
+    }//end getKeywordInfo()
+
+    function assignKeyword($p = array())
+    {
+        global $conn, $feedback;
+        $editor_keywords = $copy_writer_keywords = array();
+        $keyword_id = addslashes(htmlspecialchars(trim($p['keyword_id'])));
+        if ($keyword_id == '') 
+		{
+            $feedback = "Please Choose a campaign keyword";
+            return false;
+        }
+		else
+		{
+			$clause_where = " AND ar.keyword_id = {$keyword_id} ";
+			$count = self::countArticleBySubWhere( '5|6', 2, '', $clause_where );
+			if($count>0)
+			{
+				$feedback = "This  is a compeleted article. You can't reassign to other person";
+				return false;
+			}
+		}
+        $is_forced     = addslashes(htmlspecialchars(trim($p['is_forced'])));
+        $copy_writer_id = addslashes(htmlspecialchars(trim($p['copy_writer_id'])));
+        if ($copy_writer_id == '') {
+            $feedback = "Please provides a copywriter";
+            return false;
+        }
+        $editor_id = addslashes(htmlspecialchars(trim($p['editor_id'])));
+        if ($editor_id == '') {
+            $feedback = "Please provides an editor";
+            return false;
+        }
+
+        $date_start = addslashes(htmlspecialchars(trim($p['date_start'])));
+        if ($date_start == '') {
+            $feedback = "Please provide the start date of the campaign keyword";
+            return false;
+        }
+        $date_end = addslashes(htmlspecialchars(trim($p['date_end'])));
+        if ($date_end == '') {
+            $feedback = "Please provide the Due Date of the campaign keyword";
+            return false;
+        }
+        if (strtotime($date_end) < strtotime($date_start)) {
+            $feedback = 'Incorrect date,Please try again';
+            return false;
+        }
+        $article_type = addslashes(htmlspecialchars(trim($p['article_type'])));
+        if ($article_type == '') {
+            $feedback = "Please provide keyword article type";
+            return false;
+        }
+		
+        // added by snug xu 2007-03-06 14:13 - STARTED
+        // get keyword and its article information by keyword_id
+        // set keyword status as writing after reassignment
+        $old_info = Article::getInfoByKeywordID($keyword_id);
+        if ($old_info['article_status'] == '5') {
+            $feedback = 'The article has completed!';
+        	return false;
+        }
+
+        if ($copy_writer_id != $old_info['copy_writer_id'] || $editor_id != $old_info['editor_id']) {
+            // added by snug xu 2007-12-26 20:19 - started
+            if (!isset($p['is_forced_not_free']) || empty($p['is_forced_not_free']))
+            {
+                $param = array(
+                    'user_id' => $copy_writer_id,
+                    'is_free' => 0,
+                    '>=' => array('c_date' => $date_start),
+                    '<=' => array('c_date' => $date_end),
+                );
+                $dates = UserCalendar::getListByParam($param);
+                if (!empty($dates))
+                {
+                    $feedback = 'The copywriter is not free in ' . implode(', ', $dates) . ".\\n please try again";
+                    return false;
+                }
+                // added by nancy xu 2010-01-18 14:06
+                if ($editor_id > 0) {
+                    $param['user_id'] = $editor_id;
+                    $dates = UserCalendar::getListByParam($param);
+                    if (!empty($dates))
+                    {
+                        $feedback = 'The editor is not free in ' . implode(', ', $dates) . ".\\n please try again";
+                        return false;
+                    }
+                }
+                // end
+            }
+            // end
+
+            $is_reassigned = true;
+            // modified by snug xu 2007-03-13 14:13 - STARTED
+            // get keywords that articles.is_sent = 0 and 
+            // cp_payment_history.payment_flow_status is 'cpc' or 'paid'
+            $allow_status = array('1gc', '3', '4');
+            if (in_array($old_info['article_status'], $allow_status)) {
+                $month = $old_info['target_pay_month'];
+                if ($month <= 0) {
+                    $month = date("Ym", strtotime($old_info['google_approved_time']));
+                }
+                // get all cp payment report for check each keyword payment status
+                $email_keywords = array();
+                $pay_report = User::getCpPaymentHistory(array('user_id'=>$old_info['copy_writer_id'], 'month'=>$month), false); 
+                // get payment flow status
+                $payment_status = $pay_report[$old_info['copy_writer_id']][$month]['payment_flow_status'];
+                if ($payment_status == 'cpc' || $payment_status == 'paid') {
+                   // modified by snug xu 2007-05-11 - STARTED
+                   // if $is_foreced = true and new copy wirter is not equal to raw copy writer, 
+                   // collect the abnormal reassignment keywords 
+                   if ($is_forced || $copy_writer_id == $old_info['copy_writer_id']) {
+                      if ($copy_writer_id != $old_info['copy_writer_id'] && $old_info['is_sent'] == 0)
+                        $email_keywords[$old_info['editor_id']][$old_info['copy_writer_id']][] = $old_info;
+                   } else {
+                       $is_reassigned = false;
+                       // added by snug xu 2007-05-11 13:59 - FINISHED
+                       if ($payment_status == 'cpc') {
+                            $feedback = "One article has been confirmed by copy writer.\\n";
+                            $feedback .= "You can reassign those articles forcedly.(please click forced assign checkbox).";
+                       } else if ($payment_status == 'paid') {
+                            $feedback = "One article has been paid by Infinitenine.\\n";
+                            $feedback .= "You can reassign those articles forcedly.(please click forced assign checkbox).";
+                       }
+                       // added by snug xu 2007-05-11 13:59 - started
+                   }
+                }
+            }
+            
+            // added by snug xu 2007-03-13 13:05 - FINISHED
+            if ($is_reassigned) {
+                
+                if ($old_info['article_id'] > 0) {
+                    // added nancy xu 2008-01-27 16:11 - STARTED
+                    $p['article_id'] = $old_info['article_id'];
+                    self::eRaseArticleInfo($p);
+                    // added nancy xu 2008-01-27 16:11 - END
+                    if ($old_info['copy_writer_id'] != $copy_writer_id) { //modified by leo.
+                        $ret = Article::setArticleStatus($old_info['article_id'], 0, $old_info['article_status'], $copy_writer_id);
+                        $copy_writer_keywords[$keyword_id] = $old_info['keyword'];
+                        $editor_keywords[$keyword_id] = $old_info['keyword'];
+                        if ($old_info['is_sent'] == 1)
+                            $qu .= " is_sent=0, ";
+                    } else if ($old_info['is_sent'] == 0 && count($email_keywords)) {
+                        // set is_sent as 1
+                        $qu .= " is_sent=1, ";
+                    }
+                     if ($old_info['copy_writer_id'] == $copy_writer_id && $old_info['editor_id'] != $editor_id) { //modified by nancy.
+                        $editor_keywords[$keyword_id] = $old_info['keyword'];
+                     }
+                }
+                if ($keyword_id > 0)
+                {
+                    $conn->Execute("UPDATE campaign_keyword ".
+                    "SET copy_writer_id = '".$copy_writer_id."', ". $qu . 
+                       "editor_id = '".$editor_id."', ".
+                       "article_type = '".$article_type."', ".
+                       "date_start = '".$date_start."', ".
+                       "date_end = '".$date_end."', ".
+                       "`date_assigned` = NOW()".
+                       " WHERE keyword_id = '".$keyword_id."' ");
+                }
+            }
+            $affected_rows = $conn->Affected_Rows();
+                
+            if ($affected_rows == 1) {
+                if (count($copy_writer_keywords) || count($editor_keywords)) {
+                    // sent email to cp and editor
+                    self::sendAssignKeywordMail($copy_writer_id, $editor_id, $date_end, $copy_writer_keywords, $editor_keywords);
+                }
+                if (count($email_keywords)) {
+                    // send email to tara and tony
+                    self::sendAccountingChangeEmail($email_keywords, $copy_writer_id, $editor_id);
+                }
+                $feedback = 'Success';
+                return true;
+            } else {
+                if ($is_reassigned)
+            	    $feedback = 'Failure, Please try again';
+                return false;
+            }
+        }
+        $feedback = 'Success';
+        return true;
+        // modified by snug xu 2007-03-13 14:13 - FINISHED 
+    }//end assignKeyword()
+    
+    // added by nancy xu 2008-01-27 14:28 - STARTED    
+    function eRaseArticleInfo($p = array())
+    {
+        global $conn, $feedback, $handle;
+        
+        $action_info = array();
+        //global $g_tag;
+        // if togle $p['is_reserve_content'], reserve the article content, else erase the article conetent
+        $is_reserve_content = isset($p['is_reserve_content']) ? $p['is_reserve_content'] : 0;
+
+        $article_id = addslashes(htmlspecialchars(trim($p['article_id'])));
+        if ($article_id == '') {
+            $feedback = "Please Choose a article";
+            return false;
+        }
+
+        if (empty($is_reserve_content))
+        {
+            $ar_qu = "language = '', ";
+            $ar_qu .= "title = '', ";
+            $ar_qu .= "html_title = '', ";
+            $ar_qu .= "body = '', ";
+            $ar_qu .= "richtext_body = '' ";
+            $sql = "UPDATE articles SET ";
+            $sql .= $ar_qu;
+            $sql .= "WHERE article_id = '{$article_id}'";
+            $conn->Execute($sql);
+        }
+        return true;
+    }
+    // added by nancy xu 2008-01-27 14:28 - END
+
+    /**
+    * Batch assign keyword to editor and copywriters
+    *
+    * We can change article type,editor,copywriter that they are opposite the keyword 
+    *
+    * @param array $p 
+    * @return boolean if success return true，else return false
+    */
+    function batchAssignKeyword($p = array()) 
+    {
+        global $conn, $feedback;
+        $is_forced = trim($p['is_forced']);
+        if (empty($p['keyword_id'])) 
+		{
+            $feedback = "Please choose one keyword.";
+            return false;
+        }
+		else
+		{
+			$keywords = implode("','", $p['keyword_id'] );
+			$keywords = trim($keywords, "','" );
+			$clause_where = " AND ar.keyword_id IN ('". $keywords. "')";
+			$count = self::countArticleBySubWhere( '5|6', 2, '', $clause_where );
+			if($count >0 )
+			{
+				$feedback = "You choose the completed articles. Please to check.";
+				return false;
+			}
+		}
+        $qu = "";
+        $copy_writer_id = addslashes(htmlspecialchars(trim($p['copy_writer_id'])));
+        $no_date_end = $no_date_start = $no_cp = $no_editor = false;
+        if ($copy_writer_id != '') {
+            $qu .= "copy_writer_id = '".$copy_writer_id."', ";
+        } else {
+            $no_cp = true;
+        }
+        $editor_id = addslashes(htmlspecialchars(trim($p['editor_id'])));
+        if ($editor_id != '') {
+            $qu .= "editor_id = '".$editor_id."', ";
+        } else {
+            $no_editor = true;
+        }
+
+        if (empty($editor_id) && empty($copy_writer_id)) {
+            $feedback = 'Please choose a copywriter or a editor for keyword';
+            return false;
+        }
+        
+        $article_type = addslashes(htmlspecialchars(trim($p['article_type'])));
+        if ($article_type != '') {
+            $qu .= "article_type = '".$article_type."', ";
+        }
+        
+        $date_start = addslashes(htmlspecialchars(trim($p['date_start'])));
+        $date_end = addslashes(htmlspecialchars(trim($p['date_end'])));
+
+        if (!empty($date_end) && !empty($date_start) && strtotime($date_end) < strtotime($date_start)) {
+            $feedback = 'Incorrect date,Please try again';
+            return false;
+        }
+
+        if (!empty($date_start)) {
+            $qu .= "date_end = '".$date_end."', ";
+        } else {
+            $no_date_start = true;
+        }
+        if (!empty($date_start)) {
+            $qu .= "date_start = '".$date_start."', ";
+        } else {
+            $no_date_end = true;
+        }
+
+		$keyword_description = addslashes(htmlspecialchars(trim($p['keyword_description'])));
+		if ($keyword_description != '') {
+			if (trim($p['new_or_append']) == 'Append') {
+				$qu .= "keyword_description = CONCAT(`keyword_description`, '".$keyword_description."'), ";
+			} elseif (trim($p['new_or_append']) == 'New') {
+				$qu .= "keyword_description = '".$keyword_description."', ";
+			} else {
+				//do nothing;
+			}
+		}
+
+		$notes = mysql_escape_string(htmlspecialchars(trim($p['notes'])));
+		if( strlen( $notes ) )
+		{
+			if (trim($p['new_or_append']) == 'Append') 
+			{
+				$en .= "notes = CONCAT_WS('\n', `notes`, '".$notes."'), ";
+			}
+			elseif (trim($p['new_or_append']) == 'New') 
+			{
+				$en .= "notes = '".$notes."', ";
+			} 
+			else
+			{
+				//do nothing;
+			}
+		}
+		$campaign_id = mysql_escape_string(htmlspecialchars(trim($p['campaign_id'])));
+		if( $campaign_id>0 )
+		{
+			$en .= "campaign_id={$campaign_id}, ";
+		}
+		else
+		{
+			$feedback = 'There is no campaign';
+			return false;
+		}
+        if (empty($p['keyword_id'])) {
+            $feedback = 'Please provide at least one keyword';
+            return false;
+        }
+        		    
+        if (!isset($p['is_forced_not_free']) || empty($p['is_forced_not_free']))
+        {
+            $param = array(
+                'user_id' => $copy_writer_id,
+                'is_free' => 0,
+                '>=' => array('c_date' => $date_start),
+                '<=' => array('c_date' => $date_end),
+            );
+            $dates = UserCalendar::getListByParam($param);
+            if (!empty($dates))
+            {
+                $feedback = 'The copywriter is not free in ' . implode(', ', $dates) . ".\\n please try again";
+                return false;
+            }
+            // added by nancy xu 2010-01-18 13:53
+            // check whether editor is free or not
+            if ($editor_id > 0) {
+                $param['user_id'] = $editor_id;
+                $dates = UserCalendar::getListByParam($param);
+                if (!empty($dates))
+                {
+                    $feedback = 'The editor is not free in ' . implode(', ', $dates) . ".\\n please try again";
+                    return false;
+                }
+            }
+            // end
+        }
+
+        // get all cp payment report for check each keyword payment status
+        $email_keywords = array();
+        $pay_report = User::getCpPaymentHistory(array(), false); 
+
+        $date_assignment = date('Y-m-d H:i:s', time());
+        $copy_writer_keywords = array();
+        $editor_ids = $cp_ids = $campaign_ids = $keyword_ids = $editor_keywords = array();
+        foreach ($p['keyword_id'] AS $k => $v) {
+			$keyword_id = mysql_escape_string(htmlspecialchars(trim($p['keyword_id'][$k])));
+            $is_reassigned = true;
+            // get keyword and its article information by keyword_id
+            // set keyword status as writing after reassignment
+            $old_info = Article::getInfoByKeywordID($keyword_id);
+            $campaign_id = $old_info['campaign_id'];
+            
+            if ($no_cp) $copy_writer_id = $old_info['copy_writer_id'];
+            if ($no_editor) $editor_id = $old_info['editor_id'];
+            if ($no_date_end) $date_end = $old_info['date_end'];
+            if ($no_date_start) $date_start = $old_info['date_start'];
+            if (!empty($copy_writer_id) && $copy_writer_id != $old_info['copy_writer_id']  
+                || !empty($editor_id) && $editor_id != $old_info['editor_id']) {
+                if (!isset($date_ends[$date_end])) $date_ends[$date_end] = array();
+                if (!isset($campaign_ids[$campaign_id])) $campaign_ids[$campaign_id] = array();
+                // get keywords that articles.is_sent = 0 
+                // and cp_payment_history.payment_flow_status is 'cpc' or 'paid'
+               $allow_status = array('1gc', '3', '4');
+                if (in_array($old_info['article_status'], $allow_status)) {
+                    $month = $old_info['target_pay_month'];
+                    if ($month <= 0) {
+                        $month = date("Ym", strtotime($old_info['google_approved_time']));
+                    }
+                    $payment_status = $pay_report[$old_info['copy_writer_id']][$month]['payment_flow_status'];
+                    if ($payment_status == 'cpc' || $payment_status == 'paid') {
+                       // if $is_foreced = true and new copy wirter is not equal to raw copy writer, 
+                       // collect the abnormal reassignment keywords 
+                       if ($is_forced || $copy_writer_id == $old_info['copy_writer_id']) {
+                          if ($copy_writer_id != $old_info['copy_writer_id'] && $old_info['is_sent'] == 0)
+                              $email_keywords[$old_info['editor_id']][$old_info['copy_writer_id']][] = $old_info;
+                       } else {
+                           $is_reassigned = false;
+                           unset($p['keyword_id'][$k]);
+                           $article_id = $old_info['article_id'];
+                           if ($payment_status == 'cpc') {
+                               $cpc_articles[$article_id] = $old_info['keyword'];
+                           } else if ($payment_status == 'paid') {
+                               $paid_articles[$article_id] = $old_info['keyword'];
+                           }
+                       }
+                    }
+                }
+                if ($is_reassigned) {
+                    if ($old_info['article_id']) {
+                        $p['article_id'] = $old_info['article_id'];
+                        self::eRaseArticleInfo($p);
+                        if ($old_info['copy_writer_id'] != $copy_writer_id) { //modified by leo.
+                            $copy_writer_keywords[$campaign_id][$date_end][$keyword_id] = $old_info['keyword'];
+                            $editor_keywords[$campaign_id][$editor_id][$date_end][$copy_writer_id][$keyword_id] = $old_info['keyword'];
+                            $editor_ids[] = $editor_id;
+                            $cp_ids[]      = $copy_writer_id;
+                            $campaign_ids[$campaign_id][$date_end] = $date_end;
+                            $ret = Article::setArticleStatus($old_info['article_id'], 0, $old_info['article_status'], $copy_writer_id);
+                            if ($old_info['is_sent'] == 1)
+                                $qu .= " is_sent=0, ";
+                        } else if ($old_info['is_sent'] == 0 && count($email_keywords)) {
+                            $qu .= " is_sent=1, ";
+                        }
+                        // modified by nancy.
+                        if ($old_info['copy_writer_id'] == $copy_writer_id && $old_info['editor_id'] != $editor_id) { 
+                            $editor_keywords[$campaign_id][$editor_id][$date_end][$copy_writer_id][$keyword_id] = $old_info['keyword'];
+                            $campaign_ids[$campaign_id][$date_end] = $date_end;
+                            $cp_ids[] = $copy_writer_id;
+                        }
+                    }               
+                    $conn->Execute("UPDATE campaign_keyword ".
+                               // "SET copy_writer_id = '".$copy_writer_id."', ".
+                                "SET " . 
+                                $qu .
+                                "`date_assigned` = '".$date_assignment."' ".
+                                "WHERE keyword_id = '".$keyword_id."' ");
+
+                    $note_id = mysql_escape_string(htmlspecialchars(trim($p['note_id'][$k])));
+                    if( strlen( $notes ) )
+                    {
+                        if( $note_id > 0)
+                        {
+                            $query = "UPDATE editor_notes ".
+                                    "SET copy_writer_id='{$copy_writer_id}', ".
+                                    $en . 
+                                    "editor_id='{$editor_id}', ".
+                                    "keyword_id='{$keyword_id}' ".
+                                    "WHERE note_id='{$note_id}'";
+                        }
+                        else
+                        {
+                            $query = "INSERT INTO editor_notes (notes, keyword_id, campaign_id, copy_writer_id, editor_id)".
+                            " VALUES ('{$notes}', '{$keyword_id}', '{$campaign_id}', '{$copy_writer_id}', '{$editor_id}') ";
+                        }
+                        $conn->Execute( $query );
+                    }
+                }
+            } else {
+            	unset($p['keyword_id'][$k]);
+            }
+        }
+        if (count($copy_writer_keywords) || count($editor_keywords)) {
+            if (!$no_editor)  $editor_ids = array($editor_id);
+            if (!$no_cp) $cp_ids = array($copy_writer_id);
+            self::sendBatchAssignKeywordMail($copy_writer_id, $editor_ids, $cp_ids, $campaign_ids, $copy_writer_keywords, $editor_keywords);
+        }
+        if (count($email_keywords)) {
+        	// send email to tara and tony
+            self::sendAccountingChangeEmail($email_keywords, $copy_writer_id, $editor_id);
+        }
+
+        $feedback = "Success";
+        // get feedback
+        if (isset($cpc_articles) && count($cpc_articles))
+        {
+            $feedback .= "\\n";
+            $feedback .= "One or more article(s) have been confirmed by copy writer.\\n";
+            $feedback .= "You can reassign those articles forcedly.(please click forced assign checkbox).";
+        }
+        if (isset($paid_articles) && count($paid_articles))
+        {
+            $feedback .= "\\n";
+            $feedback .= "One or more article(s) have been paid by Infinitenine.\\n";
+            $feedback .= "You can reassign those articles forcedly.(please click forced assign checkbox).";
+        }
+        return true;
+    }//end batchAssignKeyword()
+
+    /**
+    * Batch assign keyword to editor and copywriters
+    *
+    * We can change article type,editor,copywriter that they are opposite the keyword 
+    *
+    * @param array $p 
+    * @return boolean if success return true，else return false
+    */
+    function batchApprovalKeyword($p = array()) 
+    {
+        global $conn, $feedback;
+        $is_forced = trim($p['is_forced']);
+        $qu = '';
+        if (empty($p['keyword_id'])) 
+		{
+            $feedback = "Please choose one keyword.";
+            return false;
+        }
+		else
+		{
+			$keywords = implode("','", $p['keyword_id'] );
+			$keywords = trim($keywords, "'," );
+			$clause_where = " AND ar.keyword_id IN ('". $keywords. "')";
+			$count = self::countArticleBySubWhere( '5|6', 2, '', $clause_where );
+			if($count>0)
+			{
+				$feedback = "You choose the completed articles. Please to check.";
+				return false;
+			}
+            $qu .= " AND keyword_id IN ('". $keywords. "')";
+		}
+        $sql = 'UPDATE `campaign_keyword` SET `keyword_status` = 1 ';
+        $sql .= 'WHERE 1 ' . "\n";
+        $sql .= $qu;
+        $ret = $conn->Execute($sql);
+        return true;
+    }//end batchApprovalKeyword()
+
+    
+    // added by snug xu 2007-03-13 14:26 - STARTED
+    /**
+     * @param $keywords: keywords info
+     * @param $cp : new copy writer id
+     * @param $editor : new editor id 
+     * @return boolean
+     */
+    function sendAccountingChangeEmail($keywords, $cp, $editor) 
+    {
+        global $conn, $mailer_param;
+
+        if (trim($cp) == '') {
+            return false;
+        }
+
+        if (empty($keywords)) {
+            return false;
+        }
+
+        if (empty($editor)) {
+            return false;
+        }
+
+        $event_id = 12;
+        $hint       = "Article(s) have been reassigned";
+        $ret = User::sendAdjustKeywordsEmail($event_id, $hint, $keywords, $editor, $cp);
+        return $ret;
+    }
+    // added by snug xu 2007-03-13 14:26 - FINISHED
+
+    function sendBatchAssignKeywordMail($copy_writer_id, $editor_ids, $cp_ids, $campaign_ids, $copy_writer_keywords, $editor_keywords)
+    {
+        global $conn, $mailer_param;
+        $editor_infos = $cp_infos = $keyword_ids = array();
+        if (empty($copy_writer_keywords) && empty($editor_keywords)) {
+            return false;
+        }        
+        $cp_ids[] = $copy_writer_id;
+        $cp_ids = array_unique($cp_ids);
+        $editor_ids = array_unique($editor_ids);
+        $editor_infos = User::getUserByIds($editor_ids, "status != 'D'");
+        $cp_infos = User::getUserByIds($cp_ids, "status != 'D'");
+        if (empty($cp_infos) && empty($editor_infos)) {
+            return false;
+        }
+        // modified by snug xu 2007-05-28 14:02 - STARTED
+        $q  = "SELECT DISTINCTROW cc.campaign_id, cc.campaign_name, cc.client_id, cl.company_name ";
+        $q .= "FROM client_campaigns AS cc  ";
+        $q .= "LEFT JOIN `client` AS cl  ON (cc.client_id=cl.client_id) ";
+        $q .= "WHERE cc.campaign_id IN (".implode(",", array_keys($campaign_ids)).")";
+        $campaigns = &$conn->GetAll($q);
+        
+        $cp_str = $editor_str = '';
+        if (count($campaigns)) {
+            foreach ($campaigns as $k => $value) 
+            {
+                $campaign_id = $value['campaign_id'];
+                if ($campaign_id > 0) {
+                    $keyword_list_str = "<br />Campaign Name: {$value['campaign_name']}<br />";
+                    $keyword_list_str .= "Client Name: {$value['company_name']}<br />";
+                    $cp_str .= $keyword_list_str;
+                    foreach ($campaign_ids[$campaign_id] as $date_end) {
+                        $keyword_str = '<br />Deadline: ' . $date_end . '<br />';
+                        $cp_str .= $keyword_str;
+                        $editor_str = $keyword_str;
+                        foreach ($editor_keywords[$campaign_id] as $editor_id => $rows) {
+                            if (!isset($editor_infos[$editor_id]['editor_str'])) {
+                                $editor_infos[$editor_id]['editor_str'] = $keyword_list_str;
+                            }
+                            if (isset($rows[$date_end])) {
+                                $e_tmp_keywords  = $rows[$date_end];
+                                foreach ($e_tmp_keywords as $cp_id => $items) {
+                                    $cp_info = $cp_infos[$cp_id];
+                                    $editor_str .= 'Copywriter: '. $cp_info['first_name'] . '<br />';
+                                    $editor_str .= 'Keyword List:<br />';
+                                    $editor_str .= implode("<br />", $items) . '<br />';
+                                    $editor_infos[$editor_id]['editor_str'] .= $editor_str;
+                                    $editor_str = '';
+                                }
+                                $editor_infos[$editor_id]['editor_str'] .= $editor_str;
+                            }
+                        }
+                        
+                        if (isset($copy_writer_keywords[$campaign_id][$date_end])) {
+                            $cp_tmp_keywords = $copy_writer_keywords[$campaign_id][$date_end];
+                            $cp_str .= 'Keyword List:<br />';
+                            $cp_str .= implode("<br />", $cp_tmp_keywords);
+                        }
+                    }
+                    
+                    // $keyword_list_str .= "Keyword List:<br>";
+                }
+            }
+        }
+        if (empty($copy_writer_keywords)) {
+            $cp_str = '';
+        }
+        // modified by snug xu 2007-05-28 14:02 - FINISHED
+
+        $subject = "New Assignment";
+        $main_body .= "We've got another hot assignment for you, so roll up your sleeves and get ready to write! Please log into the CMS for all the essential project details. <br><br>".
+                          "All work must be entered directly into the CMS from this point. You have the option of creating your work right in the system or working in Word (affording you backup files) and copying and pasting your work into the system.<br><br>".
+                          "Additionally, your keywords are contained in the body of this message should you have any technical difficulties requiring you to temporarily work outside the system. <br><br>".
+                          "Feel free to call on me with any questions. I hope to make this transition as painless as possible for all of us.<br><br>".
+                          "Thanks for your hard work!<br><br>".
+                          "Best,<br><br>" .
+                          "SecondStepSearch<br /><br />";
+        if (!empty($copy_writer_keywords) && isset($cp_infos[$copy_writer_id]) && !empty($cp_infos[$copy_writer_id])) {
+            $cp_info = $cp_infos[$copy_writer_id];
+            $body = "";
+            $body .= "Dear &nbsp;".$cp_info['first_name']."<br><br>". $main_body;
+            $body .= "<br />";
+        
+            $body .= $cp_str;
+            $address = $cp_info['email'];
+            if (!send_smtp_mail($address, $subject, $body, $mailer_param)) {
+                //return false;
+                //do nothing;
+            } else {
+                //return true;
+                //do nothing;
+            }
+        }
+        if (!empty($editor_keywords) && !empty($editor_infos)) {
+            foreach ($editor_infos as $editor_info) {
+                $body = "Dear Second Step Search's Editor:" . $editor_info['first_name'] . "<br><br>".
+                        "You've been assigned articles for editing. Please log into the CMS to check out your deadline information.<br><br>".
+                        "Thanks, <br /><br />".
+                        "SecondStepSearch<br /><br />";
+                $body .= $editor_info['editor_str'];
+                $address = $editor_info['email'];
+                if (!send_smtp_mail($address, $subject, $body, $mailer_param)) {
+                    //return false;
+                    //do nothing;
+                } else {
+                    //return true;
+                    //do nothing;
+                }
+            }
+        }
+    }
+
+    function sendAssignKeywordMail($copy_writer_id, $editor_id, $date_end, $copy_writer_keywords = array(), $editor_keywords = array())
+    {
+        global $conn, $mailer_param;
+        $copy_writers = $keyword_ids = array();
+        if (!empty($copy_writer_keywords) || !empty($editor_keywords)) {
+            if (!empty($editor_keywords)) $keyword_ids += array_keys($editor_keywords);
+        } else {
+            return false;
+        }
+        if (trim($copy_writer_id) == '') {
+            return false;
+        }
+
+        $cp_info = User::getInfo($copy_writer_id, "status != 'D'");
+        //$ed_info = User::getInfo($editor_id);
+        $editor_info = User::getInfo($editor_id, "status != 'D'");
+        if (empty($cp_info) && empty($editor_info)) return true;
+        // modified by snug xu 2007-05-28 14:02 - STARTED
+        $q  = "SELECT DISTINCTROW ck.campaign_id, cc.campaign_name, cc.client_id, cl.company_name ";
+        $q .= "FROM campaign_keyword as ck ";
+        $q .= "LEFT JOIN client_campaigns AS cc  ON (cc.campaign_id=ck.campaign_id) ";
+        $q .= "LEFT JOIN `client` AS cl  ON (cc.client_id=cl.client_id) ";
+        $q .= "WHERE keyword_id IN (".implode(",", $keyword_ids).")";
+        $campaigns = &$conn->GetAll($q);
+        
+        if (count($campaigns)) {
+            foreach ($campaigns as $k => $value) 
+            {
+                $campaign_id = $value['campaign_id'];
+                if ($campaign_id > 0) {
+                    $keyword_list_str .= "<br />Campaign Name: {$value['campaign_name']}<br />";
+                    $keyword_list_str .= "Client Name: {$value['company_name']}<br />";
+                    $keyword_list_str .= "Keyword List:<br>";
+                }
+            }
+        }
+        // modified by snug xu 2007-05-28 14:02 - FINISHED
+
+        $subject = "New Assignment";
+        $main_body .= "We've got another hot assignment for you, so roll up your sleeves and get ready to write! Please log into the CMS for all the essential project details.  <br><br>".
+                          "All work must be entered directly into the CMS from this point. You have the option of creating your work right in the system or working in Word (affording you backup files) and copying and pasting your work into the system.<br><br>".
+                          "Additionally, your keywords are contained in the body of this message should you have any technical difficulties requiring you to temporarily work outside the system. <br><br>".
+                          "Feel free to call on me with any questions. I hope to make this transition as painless as possible for all of us.<br><br>".
+                          "Thanks for your hard work!<br><br>".
+                          "Best,<br><br>".
+                          "SecondStepSearch<br /><br />";
+        if (!empty($copy_writer_keywords) && !empty($cp_info)) {
+            $body = "";
+            $body .= "Dear &nbsp;".$cp_info['first_name']."<br><br>". $main_body;
+            $body .= "<br /><br />Deadline: {$date_end}";
+        
+            $body .= $keyword_list_str . implode("<br />", $copy_writer_keywords);
+            $address = $cp_info['email'];
+            if (!send_smtp_mail($address, $subject, $body, $mailer_param)) {
+                //return false;
+                //do nothing;
+            } else {
+                //return true;
+                //do nothing;
+            }
+        }
+        if (!empty($editor_keywords) && !empty($editor_info)) {
+            $body = "Dear Second Step Search's Editor:" . $editor_info['first_name'] . "<br><br>".
+                    "You've been assigned articles for editing. Please log into the CMS and check<br><br>".
+                    "out your deadline information.<br><br>".
+                    "Thanks,";
+            $body .= "<br /><br />Deadline: {$date_end}";
+            $body .= "<br /><br />Copywriter: {$cp_info['first_name']}";
+            $body .= $keyword_list_str . implode("<br />", $editor_keywords);
+            $address = $editor_info['email'];
+            if (!send_smtp_mail($address, $subject, $body, $mailer_param)) {
+                //return false;
+                //do nothing;
+            } else {
+                //return true;
+                //do nothing;
+            }
+        }
+
+        return true;
+    }// end sendBatchAssignKeywordMail()
+
+    function sendNoteToAllCampaignEditor($campaign_id, $notes)
+    {
+        global $conn, $feedback;
+        if ($campaign_id) {
+            $sql = 'SELECT campaign_name FROM client_campaigns WHERE campaign_id=' . $campaign_id;
+            $arr = &$conn->GetRow($sql);
+            $campaign_name = $arr['campaign_name'];
+            $subject = 'Editor Notes For \'' . $campaign_name . '\' Campaign';
+            $sql = ' SELECT DISTINCT u.first_name, u.last_name, u.email, ck.editor_id  FROM campaign_keyword AS ck LEFT JOIN users AS u ON (ck.editor_id = u.user_id) WHERE ck.campaign_id=' . $campaign_id .  ' AND u.status!=\'D\' ' ;
+            $rs = &$conn->Execute($sql);
+            while (!$rs->EOF) {
+                $email = $rs->fields['email'];
+                $first_name = $rs->fields['first_name'];
+                $body = 'Dear ' . $first_name . ", <br /> " . $notes;
+                send_smtp_mail($email, $subject, $body);
+                $rs->MoveNext();
+            }
+        } else {
+            $feedback = 'Invailed Campaign';
+            return false;
+        }
+    }
+
+
+    function countKeywordByCampaignID($campaign_id)
+    {
+        global $conn, $feedback;
+
+        $campaign_id = addslashes(htmlspecialchars(trim($campaign_id)));
+        if ($campaign_id == '') {
+            $feedback = "Please Choose a campaign";
+            return false;
+        }
+
+        $q = "SELECT COUNT(*) AS count FROM `campaign_keyword` WHERE campaign_id = '".$campaign_id."'";
+        $rs = &$conn->Execute($q);
+        $count = 0;
+        if ($rs) {
+            $count = $rs->fields['count'];
+            $rs->Close();
+            return $count;
+        }
+
+        return $count;
+    }//end countKeywordByID()
+
+	/*add by snug 14:44 2006-07-30
+	 *@param $article_status:'all' means no status restriction;$article_status:'4|5' means mutil status
+	 *@param $is_single_status:0 means neq status; 1 means single status ; 2 means multil status
+	 *@param  $clause_from: decided by user
+	 *@param  $clause_where: decided by user
+	*/
+	function countArticleBySubWhere( $article_status = 'all', $is_single_status=1, $clause_from , $clause_where )
+	{
+		global $conn, $feedback;
+		$where = "WHERE 1=1 ";
+		if ($article_status != 'all')
+		{
+			switch( $is_single_status )
+			{
+				case 0:
+					$where .=" AND ar.article_status != '".$article_status."' ";
+					break;
+				case 1:
+					$where .= "AND ar.article_status = '".$article_status."' ";
+					break;
+				case 2:
+					$where .=" AND ar.article_status REGEXP '".$article_status."' ";
+					break;
+			}
+		}
+		$where = $where . $clause_where;
+		$query = "SELECT COUNT( ar.article_id ) AS count FROM articles AS ar $clause_from $where";
+		$rs = &$conn->Execute($query);
+        $count = 0;
+        if ($rs) {
+            $count = $rs->fields['count'];
+            $rs->Close();
+        }
+		return $count;
+	}//end
+    function countArticleByCampaignID($campaign_id, $article_status = 'all')
+    {
+        global $conn, $feedback;
+
+        $campaign_id = addslashes(htmlspecialchars(trim($campaign_id)));
+        if ($campaign_id == '') {
+            $feedback = "Please Choose a campaign";
+            return false;
+        }
+        if ($article_status != 'all') {
+            $q = "AND ar.article_status = '".$article_status."' ";
+        }
+
+        $q = "SELECT COUNT(ar.article_id) AS count FROM `articles` AS ar ".
+             "LEFT JOIN campaign_keyword AS ck ON (ar.keyword_id = ck.keyword_id) ".
+             "WHERE ck.campaign_id = '".$campaign_id."' ".$q;
+
+        $rs = &$conn->Execute($q);
+        $count = 0;
+        if ($rs) {
+            $count = $rs->fields['count'];
+            $rs->Close();
+            return $count;
+        }
+
+        return $count;
+    }//end countArticleByCampaignID()
+
+
+    //Total Articles in Queue:  //this means still working on
+    //Total Articles delivered: // this means completed to this point 
+    //Articles Pending review:  // this means client needs to login and approve
+    function reportCampaignByRole()
+    {
+        global $conn/*, $feedback*/;
+
+        $total_keyword = 0;
+        $total_article_in_queue = 0;
+        $total_article_deliverd = 0;
+        $total_aritcle_pending = 0;
+
+        $qw = "WHERE 1 ";
+        require_once CMS_INC_ROOT.'/Client.class.php';
+        if (client_is_loggedin()) {
+            $qw .= "AND cc.client_id = '".Client::getID()."' GROUP BY ck.campaign_id ";
+
+            //total keyword
+            $q = "SELECT COUNT(ck.keyword_id) AS count, cc.campaign_id, cc.campaign_name, cc.date_start, cc.date_end  FROM campaign_keyword AS ck ".
+                 "LEFT JOIN client_campaigns AS cc ON (cc.campaign_id = ck.campaign_id) ".$qw;
+            $rs = &$conn->Execute($q);
+			
+            if ($rs) {
+				    $result = array();
+					$total_keyword=0;
+                    $i = 0;
+                    while (!$rs->EOF) {
+                        $result[$rs->fields['campaign_id']] = $rs->fields;
+						$total_keyword += $rs->fields['count'];
+                        $rs->MoveNext();
+                        $i ++;
+                    }
+                   $rs->Close();
+            }
+            // total client approval articles this month
+            $month_start = date("Y-m-01 00:00:00");
+            $month_end = date("Y-m-d H:i:s");
+            $q = "SELECT COUNT(ar.article_id) AS count ".
+                 "FROM articles AS ar ".
+                 "LEFT JOIN campaign_keyword AS ck ON (ck.keyword_id = ar.keyword_id) ".
+                 "LEFT JOIN client_campaigns AS cc ON (cc.campaign_id = ck.campaign_id) ".
+                 "AND (ar.article_status = '5' OR ar.article_status = '6' ) " .
+                "AND (ar.client_approval_date>='{$month_start}' AND ar.client_approval_date<='{$month_end}' ) ".
+                "AND cc.client_id = '".Client::getID() . "'" ;
+            $rs = &$conn->Execute($q);
+            if ($rs) 
+			{
+                $total_month = 0;
+                if (!$rs->EOF) {
+                    $total_month = $rs->fields['count'];
+                }
+                $rs->Close();
+            }
+            // tatal article which article status = 5 and artile status = 6
+            $q = "SELECT COUNT(ar.article_id) AS count, cc.campaign_id ".
+                 "FROM articles AS ar ".
+                 "LEFT JOIN campaign_keyword AS ck ON (ck.keyword_id = ar.keyword_id) ".
+                 "LEFT JOIN client_campaigns AS cc ON (cc.campaign_id = ck.campaign_id) ".
+                 "AND (ar.article_status = '5' OR ar.article_status = '6' ) ".$qw;
+            $rs = &$conn->Execute($q);
+            if ($rs) 
+			{
+				  $total_article_deliverd=0;
+                    $i = 0;
+					while (!$rs->EOF) {
+                        $campaign_id = $rs->fields['campaign_id'];
+                        $count = $rs->fields['count'];
+                        $result[$campaign_id]['total_article_download'] = $count;
+                        $result[$campaign_id]['total_finished'] = $count;
+                        $result[$campaign_id]['percent'] = ($count/$result[$campaign_id]['count'])*100;
+						$total_article_deliverd += $rs->fields['count'];
+                        $rs->MoveNext();
+                        $i ++;
+                    }
+                   $rs->Close();
+            }
+
+            //total article which article status = 4;
+            $q = "SELECT COUNT(ar.article_id) AS count, cc.campaign_id ".
+                 "FROM articles AS ar ".
+                 "LEFT JOIN campaign_keyword AS ck ON (ck.keyword_id = ar.keyword_id) ".
+                 "LEFT JOIN client_campaigns AS cc ON (cc.campaign_id = ck.campaign_id) ".
+                 "AND ar.article_status = '4' ".$qw;
+            $rs = &$conn->Execute($q);
+            if ($rs) {
+					$total_aritcle_pending=0;
+                    $i = 0;
+					while (!$rs->EOF) {
+                        $campaign_id = $rs->fields['campaign_id'];
+                        $count = $rs->fields['count'];
+                        $result[$campaign_id]['total_article_download'] += $count;
+                        $result[$campaign_id]['percent'] = ($result[$campaign_id]['total_article_download']/$result[$campaign_id]['count'])*100;
+						$total_aritcle_pending += $count;
+                        $rs->MoveNext();
+                        $i ++;
+                    }
+                $rs->Close();
+            }
+            if ($total_keyword > 0) {
+			    $percent = ( ($total_aritcle_pending+$total_article_deliverd)*1.0/$total_keyword )*100;
+            } else {
+            	$percent = 0;
+            }
+
+            $total_article_in_queue = $total_keyword - $total_article_deliverd-$total_aritcle_pending;
+            return array('total_keyword'          => $total_keyword,
+                         'total_month' => $total_month,
+                         'total_article_deliverd' => $total_article_deliverd,
+                         'total_article_in_queue' => $total_article_in_queue,
+                         'percent' => $percent,
+                         'total_aritcle_pending'  => $total_aritcle_pending,
+						 'report' => $result );
+        } elseif (user_is_loggedin()) {
+            // added by nancy xu 2010-01-15 11:25
+            $result = array();
+            $result['notifications'] = Notification::getListByParam(array('user_id'=> User::getID()), array('generate_date', 'field_name','campaign_name','notes', 'campaign_id', 'notification_id'), 'campaign_name, generate_date DESC');
+            $result['total_notifications'] = count($result['notifications']);
+            // end
+            if (User::getRole() == 'copy writer') {
+                //do nothing;
+                $now = time();
+                $qw .= "AND ck.copy_writer_id = '".User::getID()."' ";
+                $qw .= "AND ck.keyword_status != 0 ";
+
+                //total keyword
+                $q = "SELECT cc.campaign_id, cc.date_end, u.email as editor, cc.campaign_name, COUNT(ck.keyword_id) AS count FROM campaign_keyword AS ck ".
+                     "LEFT JOIN client_campaigns AS cc ON (cc.campaign_id = ck.campaign_id) ".
+                     "LEFT JOIN users AS u ON (u.user_id = ck.editor_id) ".
+                     $qw.
+                     "GROUP BY cc.campaign_id ORDER BY cc.date_end DESC";
+                $rs = &$conn->Execute($q);
+                if ($rs) {
+                    $i = 0;
+                    while (!$rs->EOF) {
+                        $result['report'][$rs->fields['campaign_id']] = $rs->fields['count'];
+                        $result['campaign'][$rs->fields['campaign_id']] = $rs->fields['campaign_name'];
+                        $result['campaign']['date_end'][$rs->fields['campaign_id']] = $rs->fields['date_end'];
+                        $result['campaign']['editor'][$rs->fields['campaign_id']] = $rs->fields['editor'];
+                        $rs->MoveNext();
+                        $i++;
+                    }
+                    $rs->Close();
+                    if (is_array($result['report'])) {
+                        $result['total_articles'] = array_sum(array_values($result['report']));
+                    } else {
+                        $result['total_articles'] = 0;
+                    }
+                }
+                if (!empty($result['report'])) {
+                    foreach ($result['report'] as $k => $v) {
+                     //$count = 0;
+                     // modifed by snug xu 2007-03-01 14:19 - STARTED
+                     // article stauts is 0 or 2 or 1gd, 
+                     // means articles are not finished
+                     // added by snug xu 2007-06-19 11:58 - STARTED
+                     // get style id
+                    $q = "SELECT style_id FROM campaign_style_guide WHERE campaign_id={$k}";
+                    $rs = &$conn->Execute($q);
+                    if ($rs) {
+                        $result['img_report'][$k]['style_id'] = $rs->fields['style_id'];
+                        $rs->Close();
+                    }
+                     // added by snug xu 2007-06-19 11:58 - FINISHED
+				     $q = "SELECT COUNT(ck.keyword_id) AS count FROM campaign_keyword AS ck  ".
+                     "LEFT JOIN articles AS a ON (a.keyword_id=ck.keyword_id) ".$qw.
+                     "AND ck.campaign_id={$k} AND a.article_status!='0' AND a.article_status!='2' AND a.article_status!='1gd'";
+                     // modifed by snug xu 2007-03-01 14:19 - FINISHED
+                        $rs = &$conn->Execute($q);
+                        if ($rs) {
+                            $result['text_report'][$k] = $rs->fields['count'];
+                            $result['img_report'][$k]['campaign_id'] = $k;
+                            $result['img_report'][$k]['percent'] = ($v == 0) ? 0 :($rs->fields['count']*100/$v);
+                            $rs->Close();
+                        }
+
+                        $q = "SELECT COUNT(ar.article_id) AS count FROM articles AS ar ".
+                             "LEFT JOIN campaign_keyword AS ck ON (ar.keyword_id = ck.keyword_id) ".
+                            $qw . " AND ck.campaign_id = '".$k."' ".
+                             "AND (ar.article_status = 0 OR ar.article_status = 2 OR ar.article_status = '1gd')";
+                        $rs = &$conn->Execute($q);
+                        $result['img_report'][$k]['working_on'] = 0;
+                        if ($rs) {
+                            $result['img_report'][$k]['working_on'] = $rs->fields['count'];
+                            $rs->Close();
+                        }
+                        // added by snug xu 2007-05-18 17:18 - STARTED
+                        // get total rejected article
+                        $q = "SELECT COUNT(ar.article_id) AS count FROM articles AS ar ".
+                             "LEFT JOIN campaign_keyword AS ck ON (ar.keyword_id = ck.keyword_id) ".
+                             $qw . " AND ck.campaign_id = '".$k."' ".
+                             "AND ar.article_status = 2";
+                        $rs = &$conn->Execute($q);
+                        if ($rs) {
+                            $result['img_report'][$k]['total_rejected'] = $rs->fields['count'];
+                            $rs->Close();
+                        }
+                        // added by snug xu 2007-05-18 17:18 - FINISHED
+
+                    }
+                    if (is_array($result['text_report'])) {
+                        $result['total_completed_so_far'] = array_sum(array_values($result['text_report']));
+                    } else {
+                        $result['total_completed_so_far'] = 0;
+                    }
+                }
+
+                $q = "SELECT SUM(completed_in_month) AS count FROM cp_campaign_article_summary ".
+                     "WHERE copy_writer_id = '".User::getID()."'";
+                $rs = &$conn->Execute($q);
+                $result['total_client_approved_so_far'] = 0;
+                if ($rs) {
+                    $result['total_client_approved_so_far'] = $rs->fields['count'];
+                    $rs->Close();
+                }
+
+                 $q = "SELECT COUNT(ck.keyword_id) AS count FROM campaign_keyword AS ck  ".
+                 "LEFT JOIN articles AS a ON (a.keyword_id=ck.keyword_id) ".$qw;
+                 $rs = &$conn->Execute($q);
+                 if ($rs) {
+                    $result['total_assigned_so_far'] = $rs->fields['count'];
+                    $rs->Close();
+                 }
+                if (strlen($result['total_assigned_so_far']) == 0) $result['total_assigned_so_far'] = 0;
+                $result['total_assigned'] = $result['total_articles'] -  $result['total_completed_so_far'];
+            } else if (User::getRole() == 'editor') {
+                //do nothing;
+                $now = time();
+                $qw .= "AND ck.editor_id = '".User::getID()."' ";
+
+                //total keyword
+                $q = "SELECT cc.campaign_id, cc.campaign_name, cc.date_end, u.email AS project_manager , COUNT(ck.keyword_id) AS count " 
+                    ." FROM campaign_keyword AS ck ".
+                     "LEFT JOIN client_campaigns AS cc ON (cc.campaign_id = ck.campaign_id) ".
+                     "LEFT JOIN client AS c ON (c.client_id = cc.client_id) ".
+                     "LEFT JOIN users AS u ON (u.user_id = c.project_manager_id) ".
+                    $qw.
+                     "GROUP BY cc.campaign_id ORDER BY cc.date_end DESC";
+                $rs = &$conn->Execute($q);
+                if ($rs) {
+                    $i = 0;
+                    while (!$rs->EOF) {
+                        $result['report'][$rs->fields['campaign_id']] = $rs->fields['count'];
+                        $result['campaign'][$rs->fields['campaign_id']] = $rs->fields['campaign_name'];
+                        $result['campaign']['pm'][$rs->fields['campaign_id']] = $rs->fields['project_manager'];
+                        $result['campaign']['date_end'][$rs->fields['campaign_id']] = $rs->fields['date_end'];
+                        $rs->MoveNext();
+                        $i ++;
+                    }
+                    $rs->Close();
+                    if (is_array($result['report'])) {
+                        $result['total_articles'] = array_sum(array_values($result['report']));
+                    } else {
+                        $result['total_articles'] = 0;
+                    }
+                }
+                if (!empty($result['report'])) {
+                    foreach ($result['report'] as $k => $v) {
+                        //$count = 0;
+                        $q = "SELECT COUNT(ar.article_id) AS count FROM articles AS ar ".
+                             "LEFT JOIN campaign_keyword AS ck ON (ck.keyword_id = ar.keyword_id) ".
+                             $qw." AND ck.campaign_id = '".$k."' " . 
+                             "AND (ar.article_status = '1gc' OR ar.article_status=3 )";
+                        $rs = &$conn->Execute($q);
+                        if ($rs) {
+                            $result['pending_report'][$k] = $rs->fields['count'];
+                            $result['img_report'][$k]['campaign_id'] = $k;
+                            $result['img_report'][$k]['pending'] = ($v == 0) ? 0 :($rs->fields['count']*100/$v);// 
+                            $result['img_report'][$k]['working_on'] = ($v == 0) ? 0 :$rs->fields['count'];// 
+                            $rs->Close();
+                        }
+                        $q = "SELECT COUNT(ar.article_id) AS count FROM articles AS ar ".
+                             "LEFT JOIN campaign_keyword AS ck ON (ck.keyword_id = ar.keyword_id) ".
+                             $qw." AND ck.campaign_id = '".$k."' " . 
+                             "AND ar.article_status REGEXP '4|5|6' ";
+                        $rs = &$conn->Execute($q);
+                        if ($rs) {
+                            $result['completed_report'][$k] = $rs->fields['count'];
+                            $result['img_report'][$k]['percent'] = ($v == 0) ? 0 :($rs->fields['count']*100/$v);
+                            $rs->Close();
+                        }
+                    }
+                    if (is_array($result['pending_report'])) {
+                        $result['total_pending'] = array_sum(array_values($result['pending_report']));
+                    } else {
+                        $result['total_pending'] = 0;
+                    }
+                    if (is_array($result['completed_report'])) {
+                        $result['total_completed'] = array_sum(array_values($result['completed_report']));
+                    } else {
+                        $result['total_completed'] = 0;
+                    }
+                    $result['total_assigned'] = $result['total_articles'] - $result['total_completed'];
+                }
+                $result['total_client_approved'] = Article::getAllClientApprovedArticle(User::getID(), User::getRole(), date("Ym", (time() - 1296000)), false, true, true);
+                $q = "SELECT COUNT(ar.article_id) AS count FROM articles AS ar ".
+                         "LEFT JOIN campaign_keyword AS ck ON (ck.keyword_id = ar.keyword_id) ".
+                         $qw. "AND ar.article_status REGEXP '5|6' ";
+                $rs = &$conn->Execute($q);
+                if ($rs) {
+                    $result['total_client_approved_so_far'] = $rs->fields['count'];
+                    $rs->Close();
+                }
+                
+                
+            }
+            $role = User::getRole();
+            if ($role == 'copy writer' || $role == 'editor') {
+               $result['1gc_this_month'] = Article::getAllClientApprovedArticle(User::getID(), $role, date("Ym", (time() - 1296000)), false, true, true);
+               if (strlen($result['1gc_this_month']) == 0) $result['1gc_this_month'] = 0;
+               return $result;
+            }
+        }
+
+        return null;
+    }//end reportCampaignByRole()
+
+    function getLastestKeywordGroupByCampaigns($field = 'total_submit', $qw = '', $group_by='ck.campaign_id', $order_by = null)
+    {
+        global $conn;
+        $query  = "SELECT COUNT( ar.article_id )  as " .$field.", ar.title,  u.user_id, " . $group_by . ", cc.campaign_name \n";
+        $query .= "FROM users AS u \n";
+        $query .= "LEFT JOIN campaign_keyword AS ck on (ck.copy_writer_id = u.user_id) \n";
+        $query .= "LEFT JOIN articles AS ar ON (ck.keyword_id = ar.keyword_id) \n";
+        $query .= "LEFT JOIN client_campaigns AS cc ON (ck.campaign_id = cc.campaign_id) \n";
+        $query .= ' WHERE  1 ';
+        $query .= $qw . "\n";
+        $query .= "GROUP BY  ck.copy_writer_id, ".  $group_by ;
+        if (!empty($order_by)) $query .= 'ORDER BY ' . $order_by;
+        $rs = &$conn->Execute($query);
+        if ($rs) {
+            $i = 0;
+            while (!$rs->EOF) {
+                $result[$i] = $rs->fields;
+                $rs->MoveNext();
+                $i++;
+            }
+            $rs->Close();
+        }
+        return $result;
+    }
+
+    /**
+     * @param $result  array
+     * @param $field string
+     * @param $user_field_name string
+     * @param $qw string
+     * @param $group_by string
+     */
+    function getCountGroupByCampaigns($field = 'total_submit', $qw = '', $group_by='ck.campaign_id')
+    {
+        global $conn;
+        $query  = "SELECT COUNT( ar.article_id )  as " .$field.", u.user_id, " . $group_by . ", cc.campaign_name \n";
+        $query .= "FROM campaign_keyword AS ck \n";
+        $query .= "LEFT JOIN users AS u on (ck.copy_writer_id = u.user_id) \n";
+        $query .= "LEFT JOIN articles AS ar ON (ck.keyword_id = ar.keyword_id) \n";
+        $query .= "LEFT JOIN client_campaigns AS cc ON (ck.campaign_id = cc.campaign_id) \n";
+        $query .= ' WHERE  1 ';
+        $query .= $qw . "\n";
+        $query .= "GROUP BY  ck.copy_writer_id, ".  $group_by ;
+        $rs = &$conn->Execute($query);
+        if ($rs) {
+            $i = 0;
+            while (!$rs->EOF) {
+                $result[$i] = $rs->fields;
+                $rs->MoveNext();
+                $i++;
+            }
+            $rs->Close();
+        }
+        return $result;
+    } // end getCountGroupByCampaigns
+
+    function getPrefByCampaignID($campaign_id)
+    {
+        global $conn, $feedback;
+
+        $campaign_id = addslashes(htmlspecialchars(trim($campaign_id)));
+        if ($campaign_id == '') {
+            return null;
+        }
+
+        $q = "SELECT * FROM preference ".
+             "WHERE pref_table = 'campaign_keyword' ".
+             "AND pref_field = 'keyword_category' ".
+             "AND pref_id IN (SELECT keyword_category FROM campaign_keyword ".
+                             "WHERE campaign_id = '".$campaign_id."') ".
+             "ORDER BY pref_id ASC";
+
+        $rs = $conn->Execute($q);
+        
+        if ($rs) {
+            $arr = array();
+            while (!$rs->EOF) {
+                //$arr[] = $rs->fields['pref_value'];
+                //$arr[] = $rs->fields;
+                $arr[$rs->fields['pref_id']] = $rs->fields['pref_value'];
+                $rs->MoveNext();
+            }
+            $rs->Close();
+            if (!$arr) {
+                return null;
+            }
+            return $arr;
+        }
+        return null;
+
+    }//end function getPrefByCampaignID()
+
+	function getCampaignIDByKeywordID( $keyword_id )
+	{
+		global $conn, $feedback;
+		$sql = "SELECT `campaign_id` FROM `campaign_keyword` WHERE keyword_id='$keyword_id'";
+		$rs = $conn->Execute( $sql );
+		if ($rs) 
+		{
+            $arr = array();
+            if (!$rs->EOF) 
+			{
+                $campaign_id = $rs->fields['campaign_id'];
+            }
+            $rs->Close();
+            if ( strlen( $campaign_id )===0 )
+			{
+               $campaign_id = 0;
+            }
+        }
+		return $campaign_id;
+	}
+
+    /**
+     * confirm self pending articles
+     *
+     *
+     *
+     * @return boolean  if success return ture, else return false;
+     */
+    function confirmPending()
+    {
+        global $conn, $feedback;
+        //global $g_tag;
+
+        $month = date('Ym', time());
+        $conn->Execute("UPDATE cp_campaign_article_summary ".
+                       "SET is_paid = '1' ".
+                       "WHERE copy_writer_id = '".User::getID()."' AND month = '".$month."'");
+
+        if ($conn->Affected_Rows() == 1) {
+            $feedback = 'Success';
+            return true;
+        } else {
+            $feedback = 'Failure, Please try again';
+            return false;
+        }
+        
+    }//end confirmPending()
+
+	/*
+	 *Added By Snug 14:31 2006-8-25
+	 *Function Description: set status of a set of campaigns or a campaign
+	 *@param $campaign_id array or string
+	 *@param $status int: 0 means  uncompleted campaign; 1 means completed campaign
+	 *@param $is_in: 
+	 *@return boolean  if success return ture, else return false;
+	 */
+	function setCampaignStatus( $status, $campaign_id, $is_in )
+	{
+		global $conn;		
+		if( is_array( $campaign_id ) )//check whether the campaign_id is array or not
+			$campaign_ids = implode("','", $campaign_id );
+		else
+			$campaign_ids = $campaign_id;
+		if( $is_in==1 )
+			$qw = 'IN';
+		else
+			$qw = 'NOT IN';
+		$sql = "UPDATE `client_campaigns` SET `status`='$status' WHERE campaign_id $qw ( ' $campaign_ids ' )";
+		$conn->Execute( $sql );
+		if( $conn->Affected_Rows()>0||$conn->Affected_Rows()===0)
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}//end setCampaignStatus
+
+	/*
+	 *Added By Snug 2007-06-04 19:45
+	 *Function Description: set editor notes of a a campaign
+	 *@param $campaign_id int
+	 *@param $key string: client_campaign field name
+	 *@param $value string: value of last field name
+	 *@return boolean  if success return ture, else return false;
+	 */
+    function setCampaignFieldByID( $key, $value, $campaign_id)
+	{
+		global $conn;		
+        if ($campaign_id > 0)
+        {
+		    $sql = "UPDATE `client_campaigns` SET `{$key}`='{$value}' WHERE campaign_id ={$campaign_id}";
+        }
+		$conn->Execute( $sql );
+		if( $conn->Affected_Rows()>0 || $conn->Affected_Rows()===0)
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}//end setCampaignFieldByID
+
+   // added by snug xu 2008-01-11 23:32 - STARTED
+    function __getConditions($p, $opt = '=')
+    {
+        $conditions = array();
+        foreach ($p as $k => $rows)
+        {
+            $k = strtolower($k);
+            switch ($k)
+            {
+            case 'like':
+                $conditions = array_merge($conditions, self::__getConditions($rows, $k));
+                break;
+            default:
+                if (is_array($rows))
+                    $conditions[] = "`{$k}` IN ('" .  implode( "', '", $rows) . "') ";
+                else
+                    $conditions[] = "`{$k}` {$opt} '{$rows}' ";
+                break;
+            }
+        }
+        return $conditions;
+    }
+   // added by snug xu 2008-01-11 23:32 - END
+    
+    /**
+     * get campaign ids by params
+     * @param array $p
+     * @return array 
+     */
+    function getCampaignsByParam($p, $fields)
+    {
+        global $conn;
+        $conditions = self::__getConditions($p);
+        $conditions[] = '1=1';
+        // $conditions[] = 'cc.campaign_id != 34';
+
+        if (is_array($fields)) $query = implode(', ', $fields);
+        else if (is_string($fields)) $query = $fields;
+        $sql  = "SELECT {$query} ";
+        $sql .= "FROM client_campaigns AS cc  ";
+        $sql .= "WHERE " . implode(" AND ", $conditions);
+		$rs = &$conn->Execute($sql);
+        if ($rs) {
+            $result = array();
+            while(!$rs->EOF) {
+                if (is_array($fields)) {
+                    $result[] = $rs->fields;
+                } else {
+                    $result[] = $rs->fields['campaign_id'];
+                }
+                $rs->MoveNext();
+            }
+            $rs->Close();
+        }
+        return $result;
+    }
+
+	/**
+	 *Added By Snug 14:31 2006-8-25
+	 *Function Description: set status of a set of campaigns or a campaign
+	 *@param $p array:
+		$p['is_single_status']:1 means single article status; 0 means multi article status
+	 *@return array: campaign id set
+	 */
+	function getCampaignIdsByArticleStatus( $p )
+	{
+		global $conn;
+		$is_single_status = addslashes(htmlspecialchars(trim($p['is_single_status'])));
+		$ar_status = addslashes(htmlspecialchars(trim($p['ar_status'])));//article status
+		$cc_status = addslashes(htmlspecialchars(trim($p['cc_status'])));//client campaign status
+		$qw = ' 1 ';
+		if( $is_single_status == 1 )
+		{
+			$qw .= "AND ar.article_status='$ar_status' ";
+		}
+		else
+		{
+			$qw .= "AND ar.article_status  REGEXP '$ar_status' ";
+		}
+		$query = "SELECT campaign_id FROM client_campaigns WHERE campaign_id NOT IN ( SELECT DISTINCT ck.campaign_id FROM campaign_keyword AS ck left join articles AS ar ON (ar.keyword_id=ck.keyword_id) WHERE $qw)";
+		$rs = &$conn->Execute( $query );
+		while( !$rs->EOF )
+		{
+			$result[] = $rs->fields['campaign_id'];
+			$rs->MoveNext();
+		}
+		$rs->Close();
+		return $result;
+	}//end getCampaignIdsByArticleStatus();
+
+    /**
+	 *Added By Liu ShuFen  2007-11-4
+	 *Function Description: get the data of copywriter and campiagns
+	 *@param $p array: variable $_GET array
+	 *@return array: copywriter and campaign data, pager links and total pages
+	 */ 
+    function getAllCampaign($p) {
+        global $conn;
+        global $g_pager_params;
+        global $g_tag;
+        $g_article_types = $g_tag['article_type'];
+
+        $qw = ' WHERE 1 ';
+        $current_month = mysql_escape_string(htmlspecialchars(trim($p['month'])));
+		if (strlen($current_month)) {
+			$now = changeTimeFormatToTimestamp($current_month);
+		} else {
+			$now = time();
+            $current_month = date("Ym", $now);
+		}
+        $next_month  = strtotime('+1 month', $now);
+        $last_month  = strtotime('-1 month', $now);
+        $month_end   = date('Y-m', $next_month) . "-01 00:00:00";
+        $month_start = date('Y-m', $now)."-01 00:00:00";
+        $qw .= "\n AND aa.created_time >='".$month_start."'";//
+        $qw .= "\n AND aa.created_time <='" . $month_end. "'";
+        $qw .= "\n AND aa.status =4 AND aa.new_status =5 ";
+        $qw .= "\n AND aa.curr_flag=1";
+        $qw .= "\n AND us.user_id > 0";
+        
+        $user_status = isset($p['status']) ? trim($p['status']) : 'All';        
+        $qw .= ($user_status == 'All') ? '' : " AND us.status ='".$user_status. "'";
+        $campaign_id = isset($p['campaign_id']) ? $p['campaign_id'] : '';
+        $qw .= ($campaign_id == '') ? '' : ' AND cc.campaign_id ='.$p['campaign_id'];        
+        $qw .= "\n AND ( ar.article_status =5 OR ar.article_status =6 )";
+        $sql_by = "\n ORDER BY ck.copy_writer_id ";
+        
+        $page_sql = " SELECT count(DISTINCT ck.campaign_id, us.user_id) AS num ".                
+                    "\n FROM campaign_keyword AS ck ".
+                    "\n LEFT JOIN client_campaigns AS cc ON ( cc.campaign_id = ck.campaign_id ) ".
+                    "\n LEFT JOIN articles AS ar ON ( ar.keyword_id = ck.keyword_id ) ".
+                    "\n LEFT JOIN article_action AS aa ON ( aa.article_id = ar.article_id ) ".
+                    "\n LEFT JOIN users as us ON (us.user_id = ck.copy_writer_id)";
+        $page_sql .= $qw;
+        $page_sql .= $sql_by;
+        $rs_all = $conn->getAll($page_sql);
+        $count = $rs_all[0]['num'];
+        if ($count != 0) {
+            if (trim($p['perPage']) > 0) {
+                $perpage = $p['perPage'];
+            } else {
+                $perpage= 50;
+            }
+
+            require_once 'Pager/Pager.php';
+            $params = array(
+                'perPage'    => $perpage,
+                'totalItems' => $count
+            );
+            $page_sql = " SELECT DISTINCT ck.campaign_id, us.user_id, us.user_name,".
+                        "\n us.first_name, us.last_name, us.status, us.email ".
+                        "\n FROM campaign_keyword AS ck ".
+                        "\n LEFT JOIN client_campaigns AS cc ON ( cc.campaign_id = ck.campaign_id ) ".
+                        "\n LEFT JOIN articles AS ar ON ( ar.keyword_id = ck.keyword_id ) ".
+                        "\n LEFT JOIN article_action AS aa ON ( aa.article_id = ar.article_id ) ".
+                        "\n LEFT JOIN users as us ON (us.user_id = ck.copy_writer_id)";
+            $page_sql .= $qw;
+            $page_sql .= $sql_by;
+            $pager = &Pager::factory(array_merge($g_pager_params, $params));
+            list($from, $to) = $pager->getOffsetByPageId();
+            $rs = &$conn->SelectLimit($page_sql, $perpage, ($from - 1));
+            if ($rs) {
+                $users = array();
+                while (!$rs->EOF) {
+                    $uids[$rs->fields['user_id']]     = $rs->fields['user_id'];
+                    $key = $rs->fields['user_id'] . $rs->fields['campaign_id'];
+                    $users[$key] = $rs->fields;
+                    $users[$key][0] = 0;
+                    $users[$key][1] = 0;
+                    $users[$key][2] = 0;
+                    $users[$key]['total'] = 0;
+                    $rs->MoveNext();               
+                }
+                $rs->Close();
+            } else {
+                return null;
+            }
+            $user_ids = implode(",", $uids);
+            $user_ids = trim($user_ids, ",");
+            $q = "SELECT cc.campaign_id, cc.campaign_name, ck.article_type, us.user_id, ".
+                 "\n COUNT( DISTINCT ck.keyword_id ) AS num ".
+                 "\n FROM campaign_keyword AS ck " .
+                 "\n LEFT JOIN articles AS ar ON ( ar.keyword_id = ck.keyword_id ) ".
+                 "\n LEFT JOIN client_campaigns AS cc ON ( cc.campaign_id = ck.campaign_id ) ".
+                 "\n LEFT JOIN users as us ON (us.user_id = ck.copy_writer_id)".  
+                 "\n LEFT JOIN article_action AS aa ON ( aa.article_id = ar.article_id ) ";
+            
+            $qw .= " AND ck.copy_writer_id IN (" . $user_ids .")";
+            
+            $q_by = "\n GROUP BY ck.campaign_id, ck.article_type, us.user_id ";
+            $q_by .= "\n  ORDER BY ck.copy_writer_id";
+
+            $q .= $qw . $q_by;
+            $arr = $conn->getAll($q);
+            if (!empty($arr)) {
+                foreach($arr as $rs) {
+                    $user_id = $rs['user_id'];
+                    $campaign_id = $rs['campaign_id'];
+                    $j = intval($user_id.$campaign_id);
+                   
+                    //use this judgment to use initialized array store data
+                    //this set is useful to prevent other uninitialized array
+                    if (isset($users[$j])) {
+                        $users[$j]['campaign_name']= $rs['campaign_name'];
+                        $users[$j][$rs['article_type']] = $rs['num'];
+                        $users[$j]['total'] += $rs['num'];
+                    }
+                }
+            }
+            return array('pager'  =>$pager->links,
+                         'total'  => $pager->numPages(),
+                         'result' => $users
+                         );
+        }
+        else {return null;}
+    }//END getAllCampaign()
+
+    //add by liu shu fen 12:01 2007-12-24
+    function getCampaignByCampaignId($fields, $p) {
+        global $conn;
+        $qw[] = " WHERE 1 ";
+        if (!empty($fields) || count($fields)) {
+            if (is_array($fields)) {
+                $select = implode(",", $fields);
+            } else $select = trim($fields);
+        }
+        if (isset($p['campaign_id']) && !empty($p['campaign_id'])) {
+            if (is_array($p['campaign_id'])) {
+                $qw[] = " campaign_id IN (" . implode(",", $p['campaign_id']) . ") ";
+            } else $qw[] = " campaign_id=" . $p['campaign_id'] . " ";
+        }
+        if (isset($p['category_id']) && !empty($p['category_id'])) {
+            if (is_array($p['category_id'])) {
+                $qw[] = " category_id IN (" . implode(",", $p['category_id']) .")";
+            } else {
+                $qw[] = " category_id=" . $p['category_id'];
+            }
+            
+        }
+        $sql = "SELECT " . $select . " FROM client_campaigns ";
+        if (!empty($qw))
+            $sql .= implode(" AND ", $qw);
+        $res = $conn->getAll($sql);
+        if (!empty($res)) {
+            return $res;
+        } else return null;
+    }//end
+
+    //add by liu shu fen 12:02 2007-12-24
+    function getUnassignedKeyword($p) {
+        //TODO
+        global $conn;
+        $qw[] = " WHERE 1 ";
+        if (isset($p['fields']) && !empty($p['fields'])) {
+            if (is_array($p['fields'])) {
+                $fields = implode(",", $p['fields']);
+            } else {
+                $fields = trim($p['fields']);
+            }
+        } else {
+            $fields = "keyword_id, campaign_id, keyword, article_type, keyword_description, date_start, date_end";
+        }
+        if (isset($p['campaign_id']) && !empty($p['campaign_id'])) {
+            if (is_array($p['campaign_id'])) {
+                $qw[] = " campaign_id IN (" . implode(",", $p['campaign_id']) . ")";
+            } else {
+                $qw[] = " campaign_id=" . $p['campaign_id'];
+            }
+        }
+        $qw[] = " copy_writer_id=0 ";
+        $sql = "SELECT " . $fields . " FROM campaign_keyword ";
+        if (!empty($qw)) {
+            $sql .= implode(" AND ", $qw);
+        }
+        $order = " ORDER BY date_created DESC";
+        $limit = " LIMIT 0, 50 ";
+
+        $sql .= $order;
+        $sql .= $limit;
+        $res = $conn->getAll($sql);
+        if ($res) {
+            return $res;
+        } else {
+            return null;
+        }
+    }//END
+
+    //add by liu shu fen 7:26 2007-12-25
+    function assignKeywordByCp($p) {
+        //TODO
+        global $conn, $feedback;
+        $feedback = '';
+        $assign_date = date("Y-m-d H:i:s");
+        $set[] = " date_assigned='" . $assign_date . "' ";
+        if (isset($p['copywriter_id']) && !empty($p['copywriter_id'])) {
+            $set[] = " copy_writer_id=" . trim($p['copywriter_id']);
+        } else {
+            $feedback = "Please Login First!";
+            return false;
+        }
+        if (isset($p['editor_id']) && !empty($p['editor_id'])) {
+            $editors = $p['editor_id'];
+        }
+        if (isset($p['keyword_id']) && !empty($p['keyword_id'])) {
+            if (is_array($p['keyword_id'])) {
+                if (!isset($p['is_forced_not_free']))
+                {
+                    // added by snug xu 2007-12-27 10:02 - STARTED
+                    $sql = "SELECT MAX(date_end) AS end_date, MIN(date_start) AS start_data \n";
+                    $sql .= "FROM campaign_keyword AS ck ";
+                    $sql .= "WHERE 1  AND ck.keyword_id IN (" . implode(',', $p['keyword_id']) . ") \n";
+                    $sql .= "AND ck.date_start != '0000-00-00' ";
+                    $rs = &$conn->Execute($sql);
+                    if ($rs)
+                    {
+                        $date_end  = $rs->fields['end_date'];
+                        $date_start = $rs->fields['start_data'];
+                        $param = array(
+                            'user_id' => $copy_writer_id,
+                            'is_free' => 0,
+                            '>=' => array('c_date' => $date_start),
+                            '<=' => array('c_date' => $date_end),
+                        );
+                        $rs->Close();
+                        $dates = UserCalendar::getListByParam($param);
+                        if (!empty($dates))
+                        {
+                            $feedback = 'You are not free in ' . implode(', ', $dates) . ".\n please try again";
+                            return false;
+                        }
+                    }
+                }
+                // end 
+               
+                foreach ($p['keyword_id'] as $num => $k_id) {
+                    if ($k_id > 0) {
+                        if (!empty($editors)) {
+                            if (!empty($editors[$num])) {
+                                $set_editor_id = " editor_id=" . $editors[$num];
+                            }
+                        }
+                        unset($qw);
+                        $qw[] = " WHERE 1 ";
+                        $qw[] = " keyword_id=" . trim($k_id);
+                        $sql = "UPDATE campaign_keyword SET ";
+                        if (!empty($set)) {
+                            $sql .= implode(",", $set);
+                        }
+                        if (!empty($set_editor_id)) {
+                            $sql .= "," . $set_editor_id;
+                        }
+                        if (!empty($qw)) {
+                            $sql .= implode(" AND ", $qw);
+                        }
+                        $res = $conn->Execute($sql);
+                        if (!$res) {
+                            $feedback .= "Keyword ID:" . $k_id . " Assign Failed! ";
+                            continue;
+                        }
+                    }
+                }
+            }
+        } else {
+            $feedback = "Please Select Keywords First!";
+            return false;
+        }
+        if ($feedback == '') {
+            return true;
+        } else {
+            return false;
+        }
+    }//END
+
+    //add by liu shu fen 16:57 2007-12-29
+    function getAllKeywordsByCp($p, $fields = array()) {
+        global $conn;
+        $qw[] = " WHERE 1 ";
+        // $qw[] = " status='A' ";
+        if (isset($p['copywriter_id']) && !empty($p['copywriter_id'])) {
+            $cp_id = trim($p['copywriter_id']);
+            $qw[] = " copy_writer_id=" . $cp_id;
+        }
+        if (isset($p['campaign_id']) && !empty($p['campaign_id'])) {
+            $c_id = trim($p['campaign_id']);
+            $qw[] = " campaign_id=" . $c_id;
+        }
+        // modified by snug xu 2008-01-14 14:51 - STARTED
+        if (empty($fields)) $fields[] = 'keyword_id';
+        $sql = "SELECT " . implode(', ', $fields). " FROM campaign_keyword ";
+        // modified by snug xu 2008-01-14 14:51 - END
+        if (!empty($qw)) {
+            $sql .= implode(" AND ", $qw);
+        }
+        $ret = $conn->getAll($sql);
+        if ($ret) {
+            return $ret;
+        } else {
+            return null;
+        }
+    }//end
+
+    /**
+     * Search Keywords that need to search
+     *
+     * @param array $p  the form submited value.
+     * 
+     * @return array
+     * @access public
+     */
+    function searchAdjustKeyword($p = array())
+    {
+        global $conn, $feedback;
+
+        global $g_pager_params;
+         
+        $show_cb = false;
+
+        $q = "";
+
+        $campaign_id = addslashes(htmlspecialchars(trim($p['campaign_id'])));
+        if ($campaign_id != '') {
+            $q .= "\nAND ck.campaign_id IN ( ".$campaign_id." ) ";
+        }
+        $keyword_id = addslashes(htmlspecialchars(trim($p['keyword_id'])));
+        if ($keyword_id != '') {
+            $q .= "\nAND ck.keyword_id = '".$keyword_id."' ";
+        }
+        $copy_writer_id = addslashes(htmlspecialchars(trim($p['copy_writer_id'])));
+        $editor_id = addslashes(htmlspecialchars(trim($p['editor_id'])));
+        $user_id = $p['user_id'];
+        $role = addslashes(htmlspecialchars(trim($p['role'])));
+        if ($role == 'copy writer') {
+            $user_field = 'copy_writer_id';
+            $copy_writer_id = $user_id;
+        } else {
+            $user_field = 'editor_id';
+            $editor_id = $user_id;
+        }
+        if ($copy_writer_id != '') {
+            $q .= "\nAND ck.copy_writer_id = '".$copy_writer_id."' ";
+        }
+        
+        if ($editor_id != '') {
+            $q .= "\nAND ck.editor_id = '".$editor_id."' ";
+        }
+        $creation_user_id = addslashes(htmlspecialchars(trim($p['creation_user_id'])));
+        if ($creation_user_id != '') {
+            $q .= "\nAND ck.creation_user_id = '".$creation_user_id."' ";
+        }
+
+        $article_type = addslashes(htmlspecialchars(trim($p['article_type'])));
+        if ($article_type != '') {
+            $q .= "\nAND ck.article_type = '".$article_type."' ";
+        }
+        $keyword_category = addslashes(htmlspecialchars(trim($p['keyword_category'])));
+        if ($keyword_category != '') {
+            $q .= "\nAND ck.keyword_category = '".$keyword_category."' ";
+        }
+        $date_start = addslashes(htmlspecialchars(trim($p['date_start'])));
+        if ($date_start != '') {
+            $q .= "\nAND ck.date_start >= '".$date_start."' ";
+        }
+        $date_end = addslashes(htmlspecialchars(trim($p['date_end'])));
+        if ($date_end != '') {
+            $q .= "\nAND ck.date_end <= '".$date_end."' ";
+        }
+
+        $keyword_description = addslashes(htmlspecialchars(trim($p['keyword_description'])));
+        if ($keyword_description != '') {
+            $q .= "\nAND cc.keyword_description LIKE '%".$keyword_description."%' ";
+        }
+        
+        $article_status = $p['article_status'];
+        if (is_array($article_status) && !empty($article_status))
+        {
+            $q .= "\nAND ar.article_status IN ('". implode("', '", $article_status)."') ";
+        }
+        else
+        {
+            $article_status = addslashes(htmlspecialchars(trim($article_status)));
+            if ($article_status != '') {
+                if ($article_status == -1) {
+                    $q .= "\nAND ck.copy_writer_id = '0' ";
+                } else {
+                    $q .= "\nAND ar.article_status = '".$article_status."' ";
+                }
+            }
+        }
+        
+        $current_month = mysql_escape_string(htmlspecialchars(trim($p['month'])));
+        // modified by snug 2007-05-13 10:35
+        if( strlen($current_month) == 0 ) {
+            $now		   = time();
+            $current_month = date("Ym");
+        } else {
+            $now = changeTimeFormatToTimestamp($current_month);
+        }
+        $role = $p['role'];
+        $param['now']     = $now;
+        $param['user_id'] = $p['user_id'];
+        $param['role'] = $role;
+        $param['forced_adjust'] = isset($p['forced_adjust']) ? $p['forced_adjust'] : 0;
+        $forced_adjust =  $param['forced_adjust'];
+        $param['include_google_clean'] = isset($p['include_google_clean']) ? $p['include_google_clean'] : 0;
+        $include_gc =  $param['include_google_clean'];
+        $param['include_editor_approval'] = isset($p['include_editor_approval']) ? $p['include_editor_approval'] : 0;
+        $include_ea =  $param['include_editor_approval'];
+        $param['show_current_month'] = $p['show_current_month'];
+        $param['type']     = 'keyword-adjust';
+        $sqls = User::getAccountingConditionOrSql($param, $role);
+        if (!empty($sqls['where'])) $sqls['where'] = ' AND  ' . $sqls['where'];
+
+        $next_month = date("Ym",strtotime('+1 month', $now));
+        $show_current_month = mysql_escape_string(htmlspecialchars(trim($p['show_current_month'])));
+
+        if (trim($p['keyword']) != '') {
+            require_once CMS_INC_ROOT.'/Search.class.php';
+            $search = new Search($p['keyword'], "AND"); // use AND operator
+            if ($search->getError() != '') {
+                //do nothing
+                $feedback = $search->getError();
+            } else {
+                $q .= "\nAND ".$search->getLikeCondition("CONCAT(cl.user_name, cl.company_name, cl.company_address, cl.city, cl.state, cl.zip, cl.company_phone, cl.email, cc.campaign_name, cc.campaign_requirement, ck.keyword, ck.keyword_description)")." ";
+            }
+        }
+        $where = "\nWHERE 1 {$sqls['where']} {$q}";
+		$query = "\nSELECT COUNT(DISTINCT ck.keyword_id) AS count ".
+                $sqls['left'] . 
+                "\nLEFT JOIN users AS uc ON (ck.copy_writer_id = uc.user_id) ".
+                "\nLEFT JOIN users AS ue ON (ck.editor_id = ue.user_id) ".
+                "\nLEFT JOIN users AS cu ON (ck.creation_user_id = cu.user_id) ".
+                "\nLEFT JOIN client_campaigns AS cc ON (cc.campaign_id = ck.campaign_id) ".
+                "\nLEFT JOIN `client` AS cl ON (cl.client_id = cc.client_id) ".
+                $where;
+        $rs = &$conn->Execute($query);
+        if ($rs) {
+            $count = $rs->fields['count'];
+            $rs->Close();
+        }
+
+        if ($count == 0 || !isset($count)) {
+            $feedback = "Couldn\'t find any information,Please try again";//找不到相关的信息，请重新设置搜索条件
+            return false;
+        }
+
+        $perpage = 50;
+        if (trim($_GET['perPage']) > 0) {
+            $perpage = $_GET['perPage'];
+        }
+
+        require_once 'Pager/Pager.php';
+        $params = array(
+            'perPage'    => $perpage,
+            'totalItems' => $count
+        );
+        $pager = &Pager::factory(array_merge($g_pager_params, $params));
+
+        $users = User::getCpPaymentHistory(array('role' => $role), false);
+        
+        $q = "SELECT `ck`.`keyword_id`, `ck`.`campaign_id`, `ck`.`copy_writer_id`, `ck`.`editor_id`, `ck`.`keyword`, `ck`.`article_type`, `ck`.`keyword_description`, `ck`.`date_start`, `ck`.`date_end`,  `ck`.`status`, `ck`.`is_sent`,`ar`.`cp_updated`, ar.article_id, ar.article_number, ar.google_approved_time, ar.approval_date, ar.client_approval_date, IF (apl.log_id > 0 , apl.is_canceled, ar.is_canceled) as is_canceled , apl.log_id, apl.pay_month , apl.paid_time,  ar.article_status, cl.client_id, cl.user_name, cl.company_name, cc.campaign_name, ar.total_words as word_count , CONCAT(uc.first_name, ' ', uc.last_name) AS uc_name , CONCAT(ue.first_name, ' ', ue.last_name) AS ue_name \n" . 
+         $sqls['left'] .
+         "\nLEFT JOIN users AS uc ON (ck.copy_writer_id = uc.user_id) \n".
+         "LEFT JOIN users AS ue ON (ck.editor_id = ue.user_id) ".
+         "LEFT JOIN users AS cu ON (ck.creation_user_id = cu.user_id) \n".
+         "LEFT JOIN client_campaigns AS cc ON (cc.campaign_id = ck.campaign_id) \n".
+         "LEFT JOIN `client` AS cl ON (cl.client_id = cc.client_id)".
+         $where;
+        $q .= "\nGROUP BY ar.article_id";
+        $q .= "\nORDER BY ar.client_approval_date";
+        list($from, $to) = $pager->getOffsetByPageId();
+        $rs = &$conn->SelectLimit($q, $params['perPage'], ($from - 1));
+        if ($rs) {
+            $result = array();
+            $i = 0;
+            while (!$rs->EOF) {
+                $result[$i] = $rs->fields;
+				/****决定是否显示move to next pay period按纽*****/
+                $google_approved_time = $rs->fields['google_approved_time'];
+                $article_status = $rs->fields['article_status'];
+                if (strlen($google_approved_time) == 0) 
+                {
+                    $google_approved_time = $rs->fields['approval_date'];
+                }
+                $pay_month = $rs->fields['pay_month'];
+                $paid_time = $rs->fields['paid_time'];
+                $not_paid = ($paid_time=='' || $paid_time=='0000-00-00 00:00:00');
+                $gc_ym = date( "Ym", strtotime($google_approved_time));
+                if ($not_paid) {
+                    if ( $gc_ym == $current_month && empty($pay_month)) {
+                        $result[$i]['pay_this_month'] = ($include_gc && $article_status == '1gc' || $include_ea && $article_status == '4' );
+                    } else {
+                        $result[$i]['pay_this_month'] = false;
+                    }
+                    $result[$i]['is_show_adjust'] = ($pay_month == $current_month);
+                    if ($show_current_month == 1 && ($include_gc && $article_status == '1gc' || $include_ea && $article_status == '4' || $pay_month == $next_month)) {
+                        $result[$i]['add_to_this_month'] = ($gc_ym == $next_month  && !$pay_month || $pay_month == $next_month)? true :false;
+                    }
+                }
+                $user_id = $rs->fields[$user_field];
+                $result[$i]['payment_flow_status'] = $users[$user_id][$current_month]['payment_flow_status'];
+                $result[$i]['user_id'] = $user_id;
+                $rs->MoveNext();
+                $i ++;
+            }
+            $rs->Close();
+        }
+
+        return array('pager'  => $pager->links,
+                     'total'  => $pager->numPages(),
+                     'result' => $result,
+                     );
+
+    }//end search()
+}
+?>

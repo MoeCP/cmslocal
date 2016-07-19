@@ -1,0 +1,41 @@
+
+
+2011-03-02-21-04-42
+array (
+  'mc_gross' => '75.00',
+  'protection_eligibility' => 'Ineligible',
+  'payer_id' => 'GLRXANK82A9QU',
+  'tax' => '0.00',
+  'payment_date' => '19:03:49 Mar 02, 2011 PST',
+  'payment_status' => 'Completed',
+  'charset' => 'windows-1252',
+  'first_name' => 'Test',
+  'mc_fee' => '2.48',
+  'notify_version' => '3.0',
+  'custom' => '',
+  'payer_status' => 'verified',
+  'business' => 'techni_1297287905_biz@blueglass.com',
+  'quantity' => '1',
+  'verify_sign' => 'AFcWxV21C7fd0v3bYYYRCpSSRl31ASRfYeXczV-kS-AuoPkBOXuO2Kwt',
+  'payer_email' => 'techni_1297288135_per@blueglass.com',
+  'txn_id' => '9D888362FL4970718',
+  'payment_type' => 'instant',
+  'last_name' => 'User',
+  'receiver_email' => 'techni_1297287905_biz@blueglass.com',
+  'payment_fee' => '2.48',
+  'receiver_id' => '83MAR8NLZHPXL',
+  'txn_type' => 'web_accept',
+  'item_name' => 'CopyPress Articles',
+  'mc_currency' => 'USD',
+  'item_number' => '393',
+  'residence_country' => 'US',
+  'test_ipn' => '1',
+  'handling_amount' => '0.00',
+  'transaction_subject' => 'CopyPress Articles',
+  'payment_gross' => '75.00',
+  'shipping' => '0.00',
+)
+
+2011-03-02-21-14-21
+array (
+)

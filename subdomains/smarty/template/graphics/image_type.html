@@ -1,0 +1,101 @@
+{include file="themes/$theme/header.html"}
+
+{if $feedback ne ''}
+<script language="JavaScript">
+<!--
+alert('{$feedback}');
+//-->
+</script>
+{/if}
+<script language="JavaScript">
+var page_url = '{$page_url}';
+{literal}
+function check_f_image_type( operation )
+{
+  $('operation').value = operation;
+  if ($('type_name').value == '')
+  {
+    alert("Please input image type name");
+    return false;
+  }
+	$('f_image_type').submit();
+}
+function redirect(type_id)
+{
+  if (type_id.length > 0)
+  {
+    page_url += "?type_id=" + type_id;
+  }
+  window.location.href = page_url;
+}
+
+function changeParentId(parent_id, type_id)
+{
+  ajaxAction('/graphics/load_image_type.php?tid='+ parent_id+ '&cid=' + type_id, 'loaddivid');
+}
+{/literal}
+</script>
+<div id="page-box1">
+  <h2>Add/Edit Image Type</h2>
+  <div id="campaign-search" >
+    <strong>Please enter Image Type Name.</strong>
+  </div>
+  <div id="loaddivid" ></div>
+  <div class="form-item" >
+<form action="" method="post" name="f_image_type" id="f_image_type" >
+<table cellspacing="0" cellpadding="4" align="center" width="99%">
+  <input type="hidden" name="operation" id="operation" value="" />
+  <input type="hidden" name="type_id" id="type_id" value="{$info.type_id}" />
+  <input type="hidden" name="parent_image_type" id="parent_image_type" value="{$parent_image_type}" />
+  <input type="hidden" name="query_string" id="query_string" value="{$query_string}" />
+  <tr>
+	  <td class="bodyBold">Basic Information</td>
+	  <td align="right" class="requiredHint" colspan="10" >Required Information</td>
+  </tr>
+  <tr>
+	  <td class="blackLine" colspan="10"><img src="/image/misc/s.gif"></td>
+  </tr>
+  {if $type_num > 0}
+  <tr>
+	  <td class="requiredInput">
+    </td>
+	  <td align="left" >&nbsp;
+    <select name="image_type" id="image_type" onchange="redirect(this.value)" >
+      {html_options options=$image_types selected=$selected_type}
+    </select>
+    </td>
+    <td>
+    <input type="button" name="add" id="add" class="button"  value="Add Image Type" onclick="redirect('')"/>
+    </td>
+  </tr>
+  {/if}
+  {* modifed by snug xu 2007-05-28 10:38  - STARTED * }
+  {* let  user change type 1, type 2, type 3 info *}
+  <tr>
+    <td class="dataLabel">Parent Type</td>
+    <td colspan="3" >    
+    <select name="parent_id" id="parent_id" onchange="changeParentId(this.value, {if $selected_type == '' || $selected_type < 0}''{else}{$selected_type}{/if})">
+      {html_options options=$roots selected=$info.parent_id}
+    </select>
+    </td>
+  </tr>
+  <tr>
+    <td class="requiredInput">Type Name:</td>
+    <td>&nbsp;&nbsp;<input type="text" name="type_name" id="type_name" value="{$info.type_name}" size="30" />
+    </td>
+  </tr>
+  <tr>
+    <td class="requiredInput"></td>
+    <td><input type="checkbox" name="is_hidden" id="is_hidden" value="1" {if $info.is_hidden == 1}checked{/if} />Hide in client interface?</td>
+  </tr>
+  <tr>
+    <td colspan="3" align="center">
+	    <input type="button" name="save" class="button"  value="Save" onclick="check_f_image_type('save')"  />
+    </td>
+  </tr>
+  {* modifed by snug xu 2007-05-28 10:38  - FINISED * }
+</table>
+</form>
+  </div>
+</div>
+{include file="themes/$theme/footer.html"}

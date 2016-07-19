@@ -1,0 +1,110 @@
+{include file="themes/$theme/header.html"}
+{literal}
+<script type="text/javascript">
+function search_choice() {
+
+    var search = $("s_choice");
+    for (var s = 0; s < search.length ; s++ )
+    {
+        if (s !=0 && search[s].selected == true)
+        {
+            window.location.href = "/client_campaign/cp_performance_report.php?s_choice=" + search[s].value;
+            break;
+        }
+    }
+}
+</script>
+{/literal}
+<div id="page-box1">
+  <h2>Individual Writer Performance Report</h2>
+  <div id="campaign-search" >
+    <div id="campaign-search-box" >
+ <form id="search" name="search" action="" method="get">
+<table cellspacing="0" cellpadding="4">
+  <tbody>
+    <tr align="left" >
+      <td> 
+      <select name="cp_id" id="cp_id">
+      {html_options options=$all_cp selected=$smarty.get.cp_id}
+      </select> 
+      </td>
+      <td>
+      <select name="rmonth" id="rmonth">
+      {html_options options=$monthes selected=$smarty.get.rmonth}
+      </select> 
+      </td>
+      <td><input type="image" src="/images/button-search.gif" value="submit" /></td>
+     </tr>
+  </tbody>
+</table>
+</form>
+    </div>
+  </div>
+</div>
+<div class="tablepadding"> 
+<table id="table-1" cellspacing="0" cellpadding="0" align="center" class="sortableTable">
+  <tr class="sortableTab">
+    <th class="table-left-corner">&nbsp;&nbsp;&nbsp;&nbsp;</th>
+    <td nowrap class="columnHeadInactiveBlack table-left-2">Number</td>
+    <td nowrap class="columnHeadInactiveBlack">Article Number</td>
+    <td nowrap class="columnHeadInactiveBlack">Keyword</td>
+    <td nowrap class="columnHeadInactiveBlack">Campaign</td>
+    <td nowrap class="columnHeadInactiveBlack">Punctuation</td>
+    <td nowrap class="columnHeadInactiveBlack">Grammar</td>
+    <td nowrap class="columnHeadInactiveBlack">Structure</td>
+    <td nowrap class="columnHeadInactiveBlack">AP Style</td>
+    <td nowrap class="columnHeadInactiveBlack">Style Guide</td>
+    <td nowrap class="columnHeadInactiveBlack">Content Guality</td>
+    <td nowrap class="columnHeadInactiveBlack">Communication</td>
+    <td nowrap class="columnHeadInactiveBlack">Cooperativeness</td>
+    <td nowrap class="columnHeadInactiveBlack">Timeliness</td>
+    <td nowrap class="columnHeadInactiveBlack table-right-2">Overall</td>
+    <th class="table-right-corner">&nbsp;&nbsp;&nbsp;</th>
+  </tr>
+  {foreach from=$result item=item name="loop"}
+  <tr class="{if $smarty.foreach.loop.iteration % 2 eq 0}even{else}odd{/if}">
+    <td class="table-left" >&nbsp;</td>
+    <td class="table-left-2">{$smarty.foreach.loop.iteration}</td>
+    <td>{$item.article_number}</td>
+    <td><a href="/article/article_comment_list.php?article_id={$item.article_id}" >{$item.keyword}</a></td>
+    <td><a href="/client_campaign/keyword_list.php?article_id={$item.campaign_id}" >{$item.campaign_name}</a></td>
+    <td>{$item.punctuation}</td>
+    <td>{$item.grammar}</td>
+    <td>{$item.structure}</td>
+    <td>{$item.ap_style}</td>
+    <td>{$item.style_guide}</td>
+    <td>{$item.quality} </td>
+    <td>{$item.communication} </td>
+    <td>{$item.cooperativeness} </td>
+    <td>{$item.timeliness} </td>
+    <td class="table-right-2">{$item.ranking}</td>
+    <td class="table-right" >&nbsp;</td>
+  </tr>
+  {/foreach}
+</table>
+<div class="pagingpaddingleft" >
+  <table align="center" width="100%" border="0" cellspacing="0" cellpadding="0" >
+    <tr><td class="table-left table-paging-left" width="20" height="37" >&nbsp;</td><td class="table-bottom">{$pager} (Total Page:{$total})(Total Count:{$count})</td><td class="table-right table-paging-right" width="21">&nbsp;</td></tr>
+  </table>
+</div>
+</div>
+<script type="text/javascript">
+//<![CDATA[
+{literal}
+var st = new SortableTable(document.getElementById("table-1"),
+  ["None", "Number", "CaseInsensitiveString", "CaseInsensitiveString",  "Number", "Number", "Number", "Number", "Number","Number"]);
+
+st.onsort = function () {
+  var rows = st.tBody.rows;
+  var l = rows.length;
+  for (var i = 0; i < l; i++) {
+    removeClassName(rows[i], i % 2 ? "odd" : "even");
+    addClassName(rows[i], i % 2 ? "even" : "odd");
+  }
+};
+
+st.asyncSort(0);
+{/literal}
+//]]>
+</script>
+{include file="themes/$theme/footer.html"}

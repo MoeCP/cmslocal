@@ -1,0 +1,8 @@
+english-utf-8.inc.php
+from $charset = 'utf8' to $charset = 'gb2312'
+
+mysqli.dbi.lib.php
+//echo $query."<BR>"; at line 113
+
+database_interface.lib.php
+comment at line 163 & 165

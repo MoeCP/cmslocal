@@ -1,0 +1,89 @@
+{include file="themes/$theme/header.html"}
+
+{if $feedback ne ''}
+<script language="JavaScript">
+<!--
+alert('{$feedback}');
+//-->
+</script>
+{/if}
+
+<br />
+<div id="page-box1">
+  <h2>Forecasting Report</h2>
+  <div id="campaign-search" >
+      <div id="campaign-search-box" >
+        <form name="f_assign_keyword_return" action="/client_campaign/estimatecost.php" method="get">
+        <table border="0" cellspacing="1" cellpadding="4">
+          <tr>
+            <td nowrap>Start Month</td>
+            <td><select name="starttime">{html_options options=$monthes selected=$smarty.get.starttime}</select></td>
+            <td nowrap>Number of payroll you wanna show:</td>
+            <td><input type="text" name="nofpayroll" id="nofpayroll" value="{$smarty.get.nofpayroll}"></td>
+            <td ><input type="image" src="/images/button-search.gif" value="submit" /></td>
+            <td nowrap>&nbsp; </td>
+            <td width="70%">&nbsp;</td>
+          </tr>
+          </form>
+        </table>
+        </form>
+      </div>
+  </div>
+</div>
+
+<br />
+<div class="tablepadding"> 
+<table id="table-1" cellspacing="0" cellpadding="0" align="center" class="sortableTable">
+  <thead>
+  <tr class="sortableTab">
+    <th class="table-left-corner">&nbsp;&nbsp;&nbsp;&nbsp;</th>
+    <td nowrap class="columnHeadInactiveBlack table-left-2">Today</td>
+	{foreach from=$estcost.nofprk key=key item=item name="loopkey"}
+	<td nowrap class="columnHeadInactiveBlack">{$item}</td>
+	{/foreach}
+    <td nowrap class="columnHeadInactiveBlack">Total</td>
+  </tr>
+  </thead>
+  <tbody>
+  <tr>
+	<td nowrap class="columnHeadInactiveBlack">Client Approved Cost</td>
+	<td></td>
+	{foreach from=$estcost.nofacost key=key item=item name="loop"}
+	<td>${$item|number_format:1}</td>
+	{/foreach}
+	<td>${$estcost.nofcatotalcost|number_format:1}</td>
+  </tr>
+  <tr>
+	<td class="columnHeadInactiveBlack"># of articles</td>
+	<td></td>
+	{foreach from=$estcost.nofa key=key item=item name="loop"}
+	<td>{$item|number_format}</td>
+	{/foreach}
+	<td>{$estcost.nofcatotal|number_format}</td>
+  </tr>
+  <tr><td colspan="{$estcost.nofpayroll+3}">&nbsp;</td></tr>
+
+  <tr>
+	<td nowrap class="columnHeadInactiveBlack">Est. Editor Approved Cost</td>
+	<td colspan="{$estcost.nofpayroll+2}">${$estcost.esteac|number_format:1}</td>
+  </tr>
+  <tr>
+	<td class="columnHeadInactiveBlack"># of articles</td>
+	<td colspan="{$estcost.nofpayroll+2}">{$estcost.nofoea|number_format}</td>
+  </tr>
+  <tr><td colspan="{$estcost.nofpayroll+3}">&nbsp;</td></tr>
+
+  <tr>
+	<td nowrap class="columnHeadInactiveBlack">Est. All Other Status Cost</td>
+	<td colspan="{$estcost.nofpayroll+2}">${$estcost.estaosc|number_format:1}</td>
+  </tr>
+  <tr>
+	<td class="columnHeadInactiveBlack"># of articles</td>
+	<td colspan="{$estcost.nofpayroll+2}">{$estcost.nofoaos|number_format}</td>
+  </tr>
+  </tbody>
+</table>
+</div>
+
+
+{include file="themes/$theme/footer.html"}

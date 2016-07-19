@@ -1,0 +1,128 @@
+{include file="themes/$theme/header.html"}
+
+{if $feedback ne ''}
+<script language="JavaScript">
+<!--
+alert("{$feedback}");
+//-->
+</script>
+{/if}
+
+<script language="JavaScript">
+<!--
+var login_permission = '{$login_permission}';
+{literal}
+function check_f_vendor()
+{
+}
+{/literal}
+//-->
+</script>
+<div id="page-box1">
+  <h2>{if $user_info.vendor_id > 0}Update{else}Create{/if} Netsuite Vendor for {$user_info.user_name}&nbsp;&nbsp;&nbsp;&nbsp;</h2>
+  <div id="campaign-search" >
+    <strong>Please enter the vendor's required information.</strong>
+  </div>
+  <div class="form-item" >
+<form action="" method="post"  name="f_vendor" {if $js_check eq true} onsubmit="return check_f_vendor()"{/if}>
+<br><table border="0" cellspacing="1" cellpadding="4" align="center" width="100%">
+  <input type="hidden" name="user_id" value="{$user_info.user_id}" />
+  <input type="hidden" name="vendor_id" value="{$user_info.vendor_id}" />
+  <input type="hidden" name="vaddresses" value="{$user_info.vaddresses}" />
+  <input type="hidden" name="pay_pref" value="{$user_info.pay_pref}" />
+  <tr>
+    <td class="bodyBold">Basic Information</td>
+    <td align="right" class="requiredHint">Required Information</td>
+  </tr>
+  <tr>
+    <td class="blackLine" colspan="2"><img src="/image/misc/s.gif"></td>
+  </tr>
+  <tr>
+    <td class="requiredInput">Name</td>
+    <td><input name="firstName" type="text" id="firstName" value="{$user_info.first_name}"  /><input name="middleName" type="text" id="middleName" value="{$user_info.middle_name}" size="5" /><input name="lastName" type="text" id="lastName" value="{$user_info.last_name}"/ ></td>
+  </tr>
+  <tr>
+    <td class="requiredInput">Phone</td>
+    <td><input name="phone" type="text" id="phone" value="{$user_info.phone}" size="50"></td>
+  </tr>
+  <tr>
+    <td class="requiredInput">Email</td>
+    <td><input name="email" type="text" id="email" value="{$user_info.email}" size="50"></td>
+  </tr>
+  <tr>
+    <td class="requiredInput">Global Subscription Status </td>
+    <td><input name="globalSubscriptionStatus" type="text" id="globalSubscriptionStatus" value="Soft Opt-Out" readonly /></td>
+  </tr>
+  <tr>
+    <td class="requiredInput">Email Preference</td>
+    <td><input name="emailPreference" type="text" id="emailPreference" value="Default" readonly /></td>
+  </tr>
+  <tr>
+    <td class="requiredInput">1099 Eligible</td>
+    <td><input name="is1099Eligible" type="checkbox" id="is1099Eligible" value="1" checked readonly /></td>
+  </tr>
+  <tr>
+    <td class="requiredInput">Account Number</td>
+    <td><input name="accountNumber" type="text" id="accountNumber" value="BlueGlass"  size="50" readonly /></td>
+  </tr>
+  <tr>
+    <td class="requiredInput">Tax ID</td>
+    <td><input name="taxIdNum" type="text" id="taxIdNum" value="{$user_info.social_security_number}"  size="50" /></td>
+  </tr>
+{*<tr>
+    <td class="requiredInput">ACH Saving Account</td>
+    <td><input name="achacct[isSavings]" type="checkbox" id="isSavings" value="1" {if $user_info.back_acct_type == 2}checked{/if} readonly /></td>
+  </tr>
+  <tr>
+    <td class="requiredInput">ACH Bank Name</td>
+    <td><input name="achacct[bankName]" type="text" id="bankName" value="{$user_info.bank_name}"  size="50" /></td>
+  </tr>
+  <tr>
+    <td class="requiredInput">ACH Account Number</td>
+    <td><input name="achacct[accountNumber]" type="text" id="accountNumber" value="{$user_info.bank_info}"  size="50" /></td>
+  </tr>
+  <tr>
+    <td class="requiredInput">ACH Routing Number</td>
+    <td><input name="achacct[routingNumber]" type="text" id="routingNumber" value="{$user_info.routing_number}"  size="50" /></td>
+  </tr>*}
+  <tr>
+    <td class="requiredInput">Addressee</td>
+    <td><input name="address[addressee]" type="text" id="addressee" value="{$user_info.fullname}" onchange="javascript:this.value=Trim(this.value)" size="50"></td>
+  </tr>
+  <tr>
+    <td class="requiredInput">Address1</td>
+    <td><textarea name="address[addr1]" cols="60" rows="4" id="addr1">{$user_info.address}</textarea></td>
+  </tr>
+  <tr>
+    <td class="requiredInput">Address2</td>
+    <td><textarea name="address[addr2]" cols="60" rows="4" id="addr2">{$user_info.address2}</textarea></td>
+  </tr>
+  <tr>
+    <td class="requiredInput">City</td>
+    <td><input name="address[city]" type="text" id="city" value="{$user_info.city}" onchange="javascript:this.value=Trim(this.value)" size="20"></td>
+  </tr>
+  <tr>
+    <td class="requiredInput">State</td>
+    <td><input name="address[state]" type="text" id="state" value="{$user_info.state}" onchange="javascript:this.value=Trim(this.value)" size="20"></td>
+  </tr>
+  <tr>
+    <td class="requiredInput">Zip</td>
+    <td><input name="address[zip]" type="text" id="zip" value="{$user_info.zip}" onchange="javascript:this.value=Trim(this.value)" size="20"></td>
+  </tr>
+  <tr>
+    <td class="requiredInput">Country</td>
+    <td><input name="address[country]" type="text" id="country" value="{$user_info.country}" onchange="javascript:this.value=Trim(this.value)" size="50"></td>
+  </tr>
+  <tr>
+    <td class="requiredInput">Notes</td>
+    <td><input name="comments" type="text" id="comments" value="{$user_info.paypal_email}" size="50" /></td>
+  </tr>
+  <tr>
+    <td>&nbsp;</td>
+    <td><input type="submit" value="Submit" class="button">&nbsp;<input type="reset" value="reset" class="button"></td>
+  </tr>
+</table>
+</form>
+  </div>
+</div>
+{include file="themes/$theme/footer.html"}

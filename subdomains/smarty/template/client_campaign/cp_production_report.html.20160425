@@ -1,0 +1,134 @@
+{include file="themes/$theme/header.html"}
+
+{if $feedback ne ''}
+<script language="JavaScript">
+<!--
+alert('{$feedback}');
+//-->
+</script>
+{/if}
+<div style="display:none" id="report_result" ></div>
+<div id="page-box1">
+  <h2>Writer Production Report</h2>
+  <div id="campaign-search" >
+      <div id="campaign-search-box" >
+<form name="f_assign_keyword_return" id="f_assign_keyword_return" action="" method="get">
+<table border="0" cellspacing="1" cellpadding="4">
+  <tr>
+    <td>From:</td>
+    <td>
+      <input type="text" name="date_start" id="date_start" size="10" maxlength="10" value="{$smarty.get.date_start}" readonly/>
+      <input type="button" class="button" id="btn_cal_date_start" value="..." />
+      <script type="text/javascript">
+        Calendar.setup({ldelim}
+            inputField  : "date_start",
+            ifFormat    : "%Y-%m-%d",
+            showsTime   : false,
+            button      : "btn_cal_date_start",
+            singleClick : true,
+            step        : 1,
+            range       : [1990, 2030]
+        {rdelim});
+        </script>
+     </td>
+    <td>To:</td>
+    <td>
+      <input type="text" name="date_end" id="date_end" size="10" maxlength="10" value="{$smarty.get.date_end}" readonly/>
+      <input type="button" class="button" id="btn_cal_date_end" value="...">
+      <script type="text/javascript">
+      Calendar.setup({ldelim}
+          inputField  : "date_end",
+          ifFormat    : "%Y-%m-%d",
+          showsTime   : false,
+          button      : "btn_cal_date_end",
+          singleClick : true,
+          step        : 1,
+          range       : [1990, 2030]
+      {rdelim});
+      </script>
+    </td>
+    <td  nowrap>Campaign</td>
+    <td><select name="campaign_id"><option value="">[choose]</option>{html_options options=$campaign_list  selected=$smarty.get.campaign_id}</select></td>
+    <td  nowrap>Show:</td>
+    <td><select name="perPage" onchange="this.form.submit();">{html_options options=$g_pager_perPage selected=$smarty.get.perPage}</select> row(s)</td>
+    <td colspan="4"><input type="image" src="/images/button-search.gif" value="submit" onclick="$('f_assign_keyword_return').action='{$actionurl}'" />&nbsp;<input type="submit" value="Export CSV" class="moduleButton" onclick="$('f_assign_keyword_return').action='{$exporturl}'" /></td>
+  </tr>
+</table>
+</form>
+    </div>
+  </div>
+</div>
+<div class="tablepadding"> 
+<form action="/client_campaign/cp_production_report.php" name="users_list" id="users_list{$item.user_id}" method="post" >
+  <input type="hidden" name="user_id" />
+  <input type="hidden" name="operation"  value="'auto_reminder'" />
+<table id="table-1" cellspacing="0" align="center" cellpadding="0" class="sortableTable">
+  <thead>
+  <tr class="sortableTab">
+    <th class="table-left-corner">&nbsp;&nbsp;&nbsp;&nbsp;</th>
+    <td nowrap class="columnHeadInactiveBlack table-left-2">No.</td>
+    <td nowrap class="columnHeadInactiveBlack">User</td>
+    <td nowrap class="columnHeadInactiveBlack">First Name</td>
+    <td nowrap class="columnHeadInactiveBlack">Last Name</td>
+    <td nowrap class="columnHeadInactiveBlack">Email</td>
+    <td nowrap class="columnHeadInactiveBlack">Total Campaigns in All Reports</td>
+    <td nowrap class="columnHeadInactiveBlack">Total Assigned</td>    
+    <td nowrap class="columnHeadInactiveBlack">% Submitted</td>
+    <td nowrap class="columnHeadInactiveBlack">% Editor Approved</td> 
+    <td nowrap class="columnHeadInactiveBlack">% Client Approved</td> 
+    <td nowrap class="columnHeadInactiveBlack">Last Login</td>
+      <td nowrap class="columnHeadInactiveBlack table-right-2">Action</td>	
+      <th class="table-right-corner">&nbsp;&nbsp;&nbsp;</th>
+	</tr>
+  </thead>
+  {foreach from=$result item=item name="loop"}
+  <tr id="tr{$item.user_id}" class="{if $smarty.foreach.loop.iteration % 2 eq 0}even{else}odd{/if}">
+    <td class="table-left" >&nbsp;</td>
+    {eval var= $startNo+$smarty.foreach.loop.iteration assign='rowNumber'}
+    <td class="table-left-2">{$rowNumber}</td>
+    <td><a href="javascript:openWindow('/user/user_detail_info.php?user_id={$item.user_id}', 'height=370,width=400,status=no,toolbar=no,menubar=no,location=no,resizable=yes,scrollbars=yes');">{$item.user_name}</a></td>
+    <td>{$item.first_name}</td>
+    <td>{$item.last_name}</td>
+    <td>{$item.email}</td>
+    <td nowrap >{$item.total_camp} {if $item.total_camp}<a href="javascript:void(0)" onclick="appendRsToObj($('tr{$item.user_id}'),this,{$item.total_camp}, '{$ajaxurl}?user_id={$item.user_id}&role={$item.role|escape:"url"}{$query_string|escape:"url"}', 'report_result');return false;" >View Campaigns</a>{/if}</td>
+    <td>{if $item.total > 0}<a href="/article/articles.php?copy_writer_id={$item.user_id}"   >{$item.total}</a>{else}0{/if}</td>
+    <td>{$item.pct_total_submit|default:'0%'} ({$item.total_submit|default:0}) </td>
+    <td>{$item.pct_total_editor_approval|default:'0%'} ({$item.total_editor_approval|default:0}) </td>
+    <td>{$item.pct_total_client_approval|default:'0%'} ({$item.total_client_approval|default:0}) </td>
+    <td nowrap>{if $item.time!=NULL}<font color="red">{$item.time|date_format:"%D %H:%M:%S"}</font>{else}&nbsp;{/if}</td>
+	  <td align="right" nowrap class="table-right-2">
+      <a href="/mail/ck_mailer.php?list1={$item.user_id}" ><input type="button" value="send mail" class="button" /></a>
+      <input type="submit" class="button" value="auto-reminder" onclick="return sendEmail('users_list', 'user_id', '{$item.user_id}', 'operation', 'auto_reminder')" />
+    </td>
+    <td class="table-right" >&nbsp;</td>
+  	</tr>
+  {/foreach}
+</table>
+</form>
+<div class="pagingpaddingleft" >
+  <table align="center" width="100%" border="0" cellspacing="0" cellpadding="0" >
+    <tr><td class="table-left table-paging-left" width="20" height="37" >&nbsp;</td><td class="table-bottom">{$pager} (Total Page:{$total})(Total Count:{$count})</td><td class="table-right table-paging-right" width="21">&nbsp;</td></tr>
+  </table>
+</div>
+</div>
+<script type="text/javascript">
+//<![CDATA[
+{literal}
+var st = new SortableTable(document.getElementById("table-1"),
+  ["None", "Number", "CaseInsensitiveString", "CaseInsensitiveString",  "CaseInsensitiveString", "CaseInsensitiveString", "CaseInsensitiveString", "CaseInsensitiveString", "Number","Number", "CaseInsensitiveString"]);
+
+st.onsort = function () {
+  var rows = st.tBody.rows;
+  var l = rows.length;
+  for (var i = 0; i < l; i++) {
+    removeClassName(rows[i], i % 2 ? "odd" : "even");
+    addClassName(rows[i], i % 2 ? "even" : "odd");
+  }
+};
+
+st.asyncSort(0);
+{/literal}
+//]]>
+</script>
+
+{include file="themes/$theme/footer.html"}

@@ -1,0 +1,133 @@
+{include file="themes/$theme/header.html"}
+{if $feedback ne ''}
+<script language="JavaScript">
+<!--
+alert('{$feedback}');
+//-->
+</script>
+{/if}
+<div id="page-box1">
+  <h2>E-Sign List</h2>
+  <div id="campaign-search" >
+    <strong>You can enter the "Document Key","Email","Message","Sent Documents" etc. into the keyword input to search the relevant  information of E-Sign Documents</strong>
+    <div id="campaign-search-box" >
+  <form name="f_esign_from" action="" id="f_esign_from" method="get">
+  <table border="0" cellspacing="1" cellpadding="4">
+  <tr>
+    <td   nowrap>Keyword</td>
+    <td><input type="text" name="keyword" id="search_keyword"></td>
+    <td   nowrap>Users</td>
+    <td><select name="user_id"><option value="">[show all]</option>{html_options options=$users selected=$smarty.get.user_id}</select></td>
+    {* modified by LSF 2007-11-2 *}
+    <td   nowrap>E-Sign Status:</td>
+    <td><select name="estatus"><option value="">[show all]</option>{html_options options=$estatuses selected=$smarty.get.estatus}</select></td>
+    {*END*}
+    <td><input type="image" src="/images/button-search.gif" value="submit" /></td>
+    <td nowrap>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+    <td width="20%">&nbsp;</td>
+  </tr>
+  </table>
+  </form>
+    </div>
+  </div>
+</div>
+<div class="tablepadding"> 
+<table id="table-1" cellspacing="0" align="center" cellpadding="0" class="sortableTable">
+  <form action="" name="users_list" method="post" />
+  <thead>
+  <tr class="sortableTab">
+    <th class="table-left-corner" rowspan="2">&nbsp;&nbsp;&nbsp;&nbsp;</th>
+    <td nowrap class="columnHeadInactiveBlack table-left-2" rowspan="2" >Number</td>
+    <td nowrap class="columnHeadInactiveBlack" rowspan="2" >User Name</td>
+    <td nowrap class="columnHeadInactiveBlack" rowspan="2" >Email</td>
+    <td nowrap class="columnHeadInactiveBlack" rowspan="2" >Title</td>
+    <td nowrap class="columnHeadInactiveBlack" rowspan="2" >Created Time</td>
+    <td nowrap class="columnHeadInactiveBlack" colspan="6" style="text-align:center" >Document Details</td>
+    <td nowrap class="columnHeadInactiveBlack table-right-2" rowspan="2" >&nbsp;</td>
+    <th class="table-right-corner" rowspan="2">&nbsp;&nbsp;&nbsp;&nbsp;</th>
+ </tr>
+ <tr class="sortableTab">
+    <td nowrap class="columnHeadInactiveBlack" >Document Key</td>
+    <td nowrap class="columnHeadInactiveBlack" >E-Sign Status</td>
+    <td nowrap class="columnHeadInactiveBlack">Sent Time</td>
+    <td nowrap class="columnHeadInactiveBlack">Signed Time</td>
+    <td nowrap class="columnHeadInactiveBlack">Sent Documents</td>
+    <td nowrap class="columnHeadInactiveBlack">&nbsp;</td>
+  </tr>
+  </thead>
+  {foreach from=$result item=item name="loop"}
+  
+  <tr class="{if $smarty.foreach.loop.iteration % 2 eq 0}even{else}odd{/if}">
+    <td class="table-left" >&nbsp;</td>
+    {if $item.total_sub > 1}
+    <td rowspan="{$item.total_sub}" class="table-left-2">{$smarty.foreach.loop.iteration}</td>
+    <td rowspan="{$item.total_sub}">{$item.user_name}</td>
+    <td rowspan="{$item.total_sub}">{$item.email}</td>
+    <td rowspan="{$item.total_sub}"><a href="/user/esign_detail.php?group_id={$item.group_id}" >{$item.title}</a></td>
+    <td rowspan="{$item.total_sub}"  >{$item.created|date_format:"%D %H:%M:%S"}</td>
+    <td colspan="6" class="table-right-2"  ></td>
+    {else}
+    <td class="table-left-2">{$smarty.foreach.loop.iteration}</td>
+    <td>{$item.user_name}</td>
+    <td>{$item.email}</td>
+    <td><a href="/user/esign_detail.php?group_id={$item.group_id}" >{$item.title}</a></td>
+    <td>{$item.created|date_format:"%D %H:%M:%S"}</td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td class="table-right-2"></td>
+    {/if}
+    <td class="table-right" >&nbsp;</td>
+  </tr>
+   {foreach from=$item.sub item=subitem}
+   <tr class="{if $smarty.foreach.loop.iteration % 2 eq 0}even{else}odd{/if}">
+   <td class="table-left" >&nbsp;</td>
+    <td class="table-left-2">{$subitem.doc_key}</td>
+    <td>{$estatuses[$subitem.estatus]}</td>
+    <td>{$subitem.sent|date_format:"%D %H:%M:%S"}</td>
+    <td>{if $subitem.signed != ''}{$subitem.signed|date_format:"%D %H:%M:%S"}{/if}</td>
+    <td>
+      {foreach from=$subitem.docs item=row}
+      Document key:{$row.documentkey}; Name: {$row.name}<br />
+      {/foreach}
+    </td>
+    <td nowrap class="table-right-2">
+      {if $subitem.filename != ''}
+      <input type="button" class="button" value="Download" onclick="javasript:window.location='/user/download.php?user_id={$item.user_id}&f={$subitem.filename}'" />
+      {/if}
+    </td>
+    <td class="table-right" >&nbsp;</td>
+    </tr>
+    {/foreach}
+    <!--<td>
+      <input type="button" class="button" value="Detail" onclick="javasript:window.location='/user/esign_detail.php?esign_id={$item.esign_id}'" />
+    </td>
+  </tr>-->
+  {/foreach}
+  </form>
+</table>
+<div class="pagingpaddingleft" >
+  <table align="center" width="100%" border="0" cellspacing="0" cellpadding="0" >
+    <tr><td class="table-left table-paging-left" width="20" height="37" >&nbsp;</td><td class="table-bottom">{$pager} (Total Page:{$total})(Total Count:{$count})</td><td class="table-right table-paging-right" width="21">&nbsp;</td></tr>
+  </table>
+</div>
+</div>
+<script type="text/javascript">
+{literal}
+function showUserDialog(user_id) {
+  var url = '/user/ajax_user_set.php?user_id=' + user_id;
+  showWindowDialog(url, 500, 500, "Edit User Info.");
+}
+
+function showNoteDialog(user_id) {
+  var url = '/user/ajax_note_add.php?user_id=' + user_id;
+  showWindowDialog(url, 500, 500, "Add User Note");
+}
+
+{/literal}
+//]]>
+</script>
+
+{include file="themes/$theme/footer.html"}

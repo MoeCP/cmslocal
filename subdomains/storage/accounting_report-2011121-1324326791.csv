@@ -1,0 +1,10 @@
+user_id,user_name,first_name,last_name,email,address,status,Type 1,Type 2,Type 3,total,pay_words_total,pay_count_article,pay_amount,payment_preference,payment_status
+902,frankiecalcana,Frankie,Calcana,francis.calcana@huamarketing.com,,Active,0,8596,5166,27814,14052,27,$269.52,,Not Paid
+916,beacanuel,Bea,Canuel,bea.canuel@huamarketing.com,"93 Hernandez Street Catmon, Malabon City",Active,0,3972,2470,8438,1996,12,$87.44,,Not Paid
+927,francismansueto,Francis,Mansueto,francis.mansueto@huamarketing.com,,Active,0,5910,1017,32748,23477,18,$338.27,,Not Paid
+888,charmcglinchey,Charley,McGlinchey,charley_mcg@hotmail.com,21 Bell Pde,Active,0,5325,0,5325,0,10,$80,"Paypal (International Only) ",Not Paid
+36,jillenaobrien,Jillena,O'Brien,jillenabean@gmail.com,82 E 850 S,Active,0,12719,3831,28541,11991,38,$335.865,Direct Deposit,Not Paid
+230,amandarowan,Amanda,Rowan,pandabr18@hotmail.com,422 University Village,Active,0,0,2103,2103,0,16,$24,Direct Deposit,Not Paid
+914,michaelsanchez,Michael,Sanchez,michael.sanchez@huamarketing.com,,Active,0,0,1341,7997,0,24,$77.5,,Not Paid
+47,cstromness,Cara,Stromness,cara.stromness@gmail.com,13127 S Charing Way,Active,0,0,959,959,0,2,$9,Direct Deposit,Not Paid
+859,swilliams,Sherry,Williams,slw9999@live.com,10360 N Donegal Rd.,Active,0,0,2598,4628,2030,6,$78.45,Direct Deposit,Not Paid

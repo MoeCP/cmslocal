@@ -1,0 +1,528 @@
+{include file="themes/$theme/header.html"}
+
+{if $feedback ne ''}
+<script language="JavaScript">
+<!--
+alert("{$feedback}");
+//-->
+</script>
+{/if}
+
+{literal}
+<script language="JavaScript">
+<!--
+function check_f_client_campaign()
+{
+  var f = document.f_client_campaign;
+  tinyMCE.triggerSave(false,false);
+  if (f.campaign_name.value.length == 0) {
+    alert('Please enter campaign\'s name');
+    f.campaign_name.focus();
+    return false;
+  }
+
+  if (f.category_id.value == 0) {
+    alert('Please specify category');
+    f.category_id.focus();
+    return false;
+  }
+
+  if (f.qty.value < 0 || f.qty.value == '')
+  {
+      alert('Please specify the content qty');
+      f.qty.focus();
+      return false;
+  } else if (!isNumeric(f.qty.value)) {
+    alert('Content qty must be a integer');
+      f.qty.focus();
+      return false;
+  }
+  {/literal}
+  {if $user_permission_int <> 5}
+  {literal}
+  if (parseInt(f.total.value) < 50)
+  {
+    alert('Total is less than $50, please check your input');
+    f.total.focus();
+    return false;
+
+  }
+  {/literal}
+  {/if}
+  {literal}
+  if (f.date_start.value.length == 0) {
+    alert('Please enter start date of the campaign');
+    f.date_start.focus();
+    return false;
+  }
+  if (f.date_end.value.length == 0) {
+    alert('Please enter Due Date of the campaign');
+    f.date_end.focus();
+    return false;
+  }
+  var int_date_start = Date.parse(f.date_start.value);
+  var int_date_end = Date.parse(f.date_end.value);
+  if ((int_date_end - int_date_start) < 0)
+  {
+      alert('Incorrect date,Please try again');
+      f.date_end.focus();
+      return false;
+  } else if (((int_date_end - int_date_start)/86400000) < 14 ) {
+    alert('Interval time is less than 14 days,Please try again');
+    f.date_end.focus();
+    return false;
+  }
+  if (parseInt(f.min_word.value)> parseInt(f.max_word.value))
+  {
+    alert('min words is more than max words, please try again');
+    f.min_word.focus();
+    return false;
+  }
+
+  if (f.is_mentioned.value == 1)
+  {
+    if (f.biz_name.length == 0)
+    {
+        alert("Please sepecify the business name");
+        f.biz_name.focus();
+        return false;
+    }
+  }
+
+/*  if (f.campaign_requirement.value == '') {
+    alert('Please enter Additional Style Guide ');
+    f.campaign_requirement.focus();
+    //f.date_end.focus();
+    return false;
+  }
+
+  if (f.sample_content.value == '') {
+    alert('Please enter Sample Content');
+    f.sample_content.focus();
+    return false;
+  }*/
+
+  if (f.keyword_instructions.value == '') {
+    alert('Please enter Content Instructions');
+    f.keyword_instructions.focus();
+    return false;
+  }
+
+  if (f.ordered_by.value == '') {
+    alert('Please enter Ordered By');
+    f.ordered_by.focus();
+    return false;
+  }
+
+  {/literal}
+  {if $client_is_loggedin == 1}
+  {literal}
+  if (!f.agreeterm.checked)
+  {
+      alert('Please agree the terms and conditions');
+      f.agreeterm.focus();
+      return false;
+  }
+  {/literal}
+  {elseif $order_campaign_info.status == 0 && $is_confirm == 1}
+  {literal}
+  if (f.operation.value == 'confirm') {
+      if (f.discount.value.length == 0)
+      {
+          alert('Please specify the discount');
+          f.discount.focus();
+          return false;    
+      }
+      if (f.fees.value.length == 0)
+      {
+          alert('Please specify the fees');
+          f.fees.focus();
+          return false;    
+      }
+   }
+  {/literal}
+  {/if}
+  {literal}
+
+  return true;
+}
+//-->
+function startDateChange(start_date)
+{
+    var int_start_date = Date.parse(start_date)/1000;
+    var int_end_date = (int_start_date + 1209600)*1000;
+    var d = new Date();
+    d.setTime(int_end_date);
+    var dmonth = d.getMonth() + 1;
+    if (dmonth < 10) dmonth = '0' + dmonth;
+    $('date_end').value = d.getFullYear()+"-" + dmonth +"-" + d.getDate();
+    
+}
+
+function isShowBizName(is_mentioned)
+{
+    if (is_mentioned == 1)
+    {
+        $('divbiznameformat').show();
+    }
+    else
+    {
+        $('divbiznameformat').hide();
+    }
+}
+
+function onUncheck(obj, comments)
+{
+    if (!obj.checked && confirm(comments)){
+        obj.checked=false;
+    } else {
+        obj.checked = true;
+    }
+}
+{/literal}
+var source = {if $order_campaign_info.source>0}{$order_campaign_info.source}{else}0{/if};
+{literal}
+function changeclient(client_id)
+{
+    ajaxAction('/client_campaign/getdomains.php?cid='+client_id+'&s='+source, 'domaindiv');
+}
+tinyMCEInit('target_audience,highlight_desc,particular_desc, campaign_requirement,sample_content,keyword_instructions,special_instructions');
+</script>
+{/literal}
+
+<div id="page-box1">
+  <h2>{if $order_campaign_info.order_campaign_id}Client's Order Campaign Information Setting{else}Order New Campaign{/if}</h2>
+  <div id="campaign-search" >
+    <strong>Please enter your campaign order details into the form. Please
+refer to the <a href="/client_campaign/campaignorderguide.pdf" target="_blank" >campaign order guide</a> for more information
+about how to fill out the form properly. If you have any questions
+please contact us at <a href="mailto:support@copypress.com" >support@copypress.com</a></strong>
+  </div>
+  <div class="form-item" >
+<br><table border="0" cellspacing="1" cellpadding="4" align="center" width="100%">
+  <form action="" method="post"  name="f_client_campaign" {if $js_check eq true} onsubmit="return check_f_client_campaign()"{/if}>
+  <input type="hidden" name="order_campaign_id" value="{$order_campaign_info.order_campaign_id}">
+  <input type="hidden" name="operation" id="operation" value="N" />
+  <input type="hidden" name="parent_id" id="parent_id" value="{$order_campaign_info.parent_id|default:0}" />
+  <input type="hidden" name="price_id" id="price_id" value="{$price.price_id|default:0}" />
+  <input type="hidden" name="article_price" id="article_price" value="{$price.article_price|default:0}" />
+
+  <tr>
+    <td class="bodyBold">Basic Information</td>
+    <td align="right" class="requiredHint" colspan="3">Required Information</td>
+  </tr>
+  <tr>
+    <td class="blackLine" colspan="4"><img src="/image/misc/s.gif"></td>
+  </tr>
+  {if $client_is_loggedin == 0}
+  <tr>
+    <td class="requiredInput">Client</td>
+    <td colspan="3"><select name="client_id" onchange="changeclient(this.value)">{html_options options=$all_client selected=$order_campaign_info.client_id}</select>&nbsp;<img src="/image/select.gif" alt="Select" title="Select" LANGUAGE=javascript onclick='return window.open("/client/client_quick_add.php","add_client","width=600,height=450,resizable=1,scrollbars=1");' align="absmiddle" style='cursor:hand;cursor:pointer'></td>
+  </tr>
+  {/if}
+  <tr>
+    <td class="requiredInput">Campaign Name</td>
+    <td><input name="campaign_name" type="text" id="campaign_name" value="{$order_campaign_info.campaign_name}" onchange="javascript:this.value=Trim(this.value)" /></td>
+    <td class="requiredInput">Subtotal</td>
+    <td>$<input name="subtotal" type="text" id="subtotal" value="{$price.subtotal|default:'0.00'}" onchange="javascript:this.value=Trim(this.value)" readonly /></td>
+  </tr>
+  <tr>
+    <td class="dataLabel">Domain</td>
+    <td>{html_options options=$domains name="source" id="source" selected=$order_campaign_info.source}<div id="domaindiv" ></div></td>
+    <td class="requiredInput">Discount</td>
+    <td>$<input name="discount" type="text" id="discount" value="{$price.discount|default:'0.00'}" onchange="javascript:this.value=Trim(this.value);{if $client_is_loggedin == 0}changeTotal(){/if}" {if $is_confirm!=1 || $client_is_loggedin == 1}readonly{/if} /></td>
+  </tr>
+  <tr>
+    <td class="requiredInput">Category</td>
+    <td>{*html_options options=$category name="category_id" selected=$order_campaign_info.category_id*}
+    <select name="category_id">
+    {foreach from=$category item=i key=k }
+    <option value="{$k}" {if $order_campaign_info.category_id == $k}selected{/if}>{$i.name}</option>
+    {foreach from=$i.chidren item=name key=subk }
+    <option value="{$subk}" {if $order_campaign_info.category_id == $subk}selected{/if}>{$name}</option>
+    {/foreach}
+    {/foreach}
+    </select>
+    </td>
+    <td class="requiredInput">Fees</td>
+    <td>$<input name="fees" type="text" id="fees" value="{$price.fees|default:'0.00'}" onchange="javascript:this.value=Trim(this.value);{if $client_is_loggedin == 0}changeTotal(){/if}" {if $is_confirm!=1 || $client_is_loggedin == 1}readonly{/if} /></td>
+  </tr>
+  <tr>
+    <td class="requiredInput">Content Type</td>
+    <td>
+    <select name="article_type" id="article_type" onchange="calculatePrice()" >
+      <option value="-1" >[default]</option>
+      {html_options options=$article_type selected=$order_campaign_info.article_type}
+    </select>
+    </td>
+    <td class="requiredInput">Total</td>
+    <td>$<input name="total" type="text" id="total" value="{$price.total|default:'0.00'}" onchange="javascript:this.value=Trim(this.value)" readonly /></td>
+  </tr>
+  <tr>
+    <td class="requiredInput">Content Qty</td>
+    <td colspan="3"><input name="qty" type="text" id="qty" value="{$order_campaign_info.qty}" onchange="javascript:this.value=Trim(this.value);calculatePrice();"/></td>
+  </tr>
+  <tr>
+    <td class="dataLabel">Min number of Words</td>
+    <td colspan="3">
+      <select id="min_word" name="min_word">
+      {foreach from=$word_options item=total}
+      {if $total <1000}<option value="{$total}" {if $order_campaign_info.min_word  == $total}selected{/if}>{$total}</option>{/if}
+      {/foreach}
+      </select>
+    </td>
+  </tr>
+  <tr>
+    <td class="requiredInput">Max number of Words</td>
+    <td colspan="3">
+      <select id="max_word" name="max_word" onchange="calculatePrice()" >
+      {foreach from=$word_options item=total}
+      {if $total > 50}<option value="{$total}" {if $order_campaign_info.max_word  == $total}selected{/if}>{$total}</option>{/if}
+      {/foreach}
+      </select>
+    </td>
+  </tr>
+{*  <tr>
+    <td class="dataLabel">Campaign Site Url</td>
+    <td><input name="campaign_site_url" type="text" id="campaign_site_url" value="{$order_campaign_info.campaign_site_url}" onchange="javascript:this.value=Trim(this.value)" size="60"></td>
+  </tr>
+  <tr>
+    <td class="dataLabel">Content Level</td>
+    <td>
+    <select name="content_level">
+      <option value="0" >[choose]</option>
+    {html_options options=$all_levels selected=$order_campaign_info.content_level}
+    </select><a href="#" >Description of Content Levels</a></td>
+  </tr>
+  <tr>
+    <td class="dataLabel">Writer Expertise</td>
+    <td>
+    <select name="writer_expertise" id="writer_expertise" >
+      <option value="" >[choose]</option>
+      {html_options values=$expertises output=$expertises  selected=$order_campaign_info.writer_expertise}
+    </select>
+    </td>
+  </tr>
+  <tr>
+    <td class="dataLabel">Article Tone</td>
+    <td>{html_options name="article_tone" options=$tones selected=$order_campaign_info.article_tone}</td>
+  </tr>
+  <tr>
+    <td class="dataLabel">Copywriter cost per word</td>
+    <td><input name="cost_per_article" type="text" id="cost_per_article" value="{$order_campaign_info.cost_per_article}" onchange="javascript:this.value=Trim(this.value)"></td>
+  </tr>
+  <tr>
+    <td class="dataLabel">Editor cost per word</td>
+    <td><input name="editor_cost" type="text" id="editor_cost" value="{$order_campaign_info.editor_cost}" onchange="javascript:this.value=Trim(this.value)" /></td>
+  </tr>
+  <tr>*}
+    <td class="requiredInput"> Start Date</td>
+    <td colspan="3"><input type="text" name="date_start" id="date_start" size="10" maxlength="10" value="{$order_campaign_info.date_start}" readonly onchange="startDateChange(this.value)" />
+        <input type="button" class="button" id="btn_cal_date_start" value="...">
+        <script type="text/javascript">
+        Calendar.setup({ldelim}
+            inputField  : "date_start",
+            ifFormat    : "%Y-%m-%d",
+            showsTime   : false,
+            button      : "btn_cal_date_start",
+            singleClick : true,
+            step        : 1,
+            range       : [1990, 2030]
+        {rdelim});
+        </script></td>
+  </tr>
+  <tr>
+    <td class="requiredInput">Due Date</td>
+    <td colspan="3"><input type="text" name="date_end" id="date_end" size="10" maxlength="10" value="{$order_campaign_info.date_end}" readonly/>
+        <input type="button" class="button" id="btn_cal_date_end" value="...">
+        <script type="text/javascript">
+        Calendar.setup({ldelim}
+            inputField  : "date_end",
+            ifFormat    : "%Y-%m-%d",
+            showsTime   : false,
+            button      : "btn_cal_date_end",
+            singleClick : true,
+            step        : 1,
+            range       : [1990, 2030]
+        {rdelim});
+        </script></td>
+  </tr>
+  <tr>
+    <td></td>
+    <td colspan="4">
+    Who is your target audience (age, gender, expertise level, etc.)?<br />
+    <textarea name="target_audience" cols="50" rows="4" id="target_audience">{$order_campaign_info.target_audience}</textarea></td>
+  </tr>
+  <tr>
+    <td></td>
+    <td colspan="4">
+    Which sales approach would you like us to take in the copy?<select id="sale_type" name="sale_type">
+    <option value="0" >[choose]</option>
+    {html_options options=$sale_types selected=$order_campaign_info.sale_type}</select></td>
+  </tr>
+  <tr>
+    <td></td>
+    <td colspan="4">
+    What tone would you prefer?{html_options name="article_tone" options=$tones selected=$order_campaign_info.article_tone}</td>
+  </tr>
+  <tr>
+    <td></td>
+    <td colspan="4">
+    Do you want your business name mentioned in the text?
+    <select id="is_mentioned" name="is_mentioned" onchange="isShowBizName(this.value)" >{html_options options=$yesorno selected=$order_campaign_info.is_mentioned}</select>
+    <br />
+    <div id="divbiznameformat">
+      If so, how would you like it to appear?<input type="text" name="biz_name" id="biz_name" value="{$order_campaign_info.biz_name}" size="50" />
+    </div>
+    </td>
+  </tr>
+  <tr>
+    <td></td>
+    <td colspan="4">
+    Is there anything in particular about your company that you'd like us to highlight in the content?<br />
+    <textarea name="highlight_desc" cols="50" rows="4" id="highlight_desc">{$order_campaign_info.highlight_desc}</textarea></td>
+  </tr>
+  <tr>
+    <td></td>
+    <td colspan="4">
+    Any particular things that you DO or DON'T want to be discussed in the article/content?<br />
+    <textarea name="particular_desc" cols="50" rows="4" id="particular_desc">{$order_campaign_info.particular_desc}</textarea></td>
+  </tr>
+  <tr>
+    <td></td>
+    <td colspan="4">
+    Do you want an image inserted into each content piece?
+    <select id="is_insert_img" name="is_insert_img">{html_options options=$yesorno selected=$order_campaign_info.is_insert_img}</select>
+    </td>
+  </tr>
+  <tr>
+    <td class="requiredInput"><a href="javascript:void(0)" onclick="openWindow('/manual_content/tip.php?ukey=ORDER_CONTENT_INSTRUCTIONS','height=370,width=450,status=no,toolbar=no,menubar=no,location=no,resizable=yes,scrollbars=yes')" class="classtips">Content Instructions</a></td>
+    <td colspan="3"><textarea name="keyword_instructions" cols="50" rows="4" id="keyword_instructions">{$order_campaign_info.keyword_instructions}</textarea></td>
+  </tr>
+  <tr>
+    <td class="dataLabel"><a href="javascript:void(0)" onclick="openWindow('/manual_content/tip.php?ukey=ORDER_ADDITIONAL_STYLE_GUIDE','height=370,width=450,status=no,toolbar=no,menubar=no,location=no,resizable=no,scrollbars=no')" class="classtips">Additional Style Guide</a></td>
+    <td colspan="3"><textarea name="campaign_requirement" cols="50" rows="4" id="campaign_requirement">{$order_campaign_info.campaign_requirement}</textarea></td>
+  </tr>
+  <tr>
+    <td class="dataLabel"><a href="javascript:void(0)" onclick="openWindow('/manual_content/tip.php?ukey=ORDER_SAMPLE_CONTENT','height=370,width=450,status=no,toolbar=no,menubar=no,location=no,resizable=yes,scrollbars=yes')" class="classtips">Sample Content</a></td>
+    <td colspan="3"><textarea name="sample_content" cols="50" rows="4" id="sample_content">{$order_campaign_info.sample_content}</textarea></td>
+  </tr>
+  <tr>
+    <td class="dataLabel"><a href="javascript:void(0)" onclick="openWindow('/manual_content/tip.php?ukey=ORDER_SPECIAL_INSTRUCTIONS','height=370,width=450,status=no,toolbar=no,menubar=no,location=no,resizable=yes,scrollbars=yes')" class="classtips" >Special Instructions</a></td>
+    <td colspan="3"><textarea name="special_instructions" cols="50" rows="4" id="special_instructions">{$order_campaign_info.special_instructions}</textarea></td>
+  </tr>
+  <tr>
+    <td class="requiredInput">Ordered By</td>
+    <td colspan="3"><input name="ordered_by" type="text" id="ordered_by" value="{$order_campaign_info.ordered_by}" onchange="javascript:this.value=Trim(this.value)" size="60" /></td>
+  </tr>
+  {if $user_permission_int == 5}
+  <tr>
+    <td class="dataLabel">Monthly Recurrent</td>
+    <td>
+      <input type="checkbox" name="monthly_recurrent" id="monthly_recurrent" value="1" {if $client_campaign_info.monthly_recurrent eq 1} checked {/if} onclick="onClickMonthRecurrent(this)"  />
+      <select id="recurrent_time" name="recurrent_time" {if $client_campaign_info.monthly_recurrent neq 1}disabled{/if}>
+      <option value="0" >[choose months]</option>
+      {section  name=foo start=2 loop=13 step=1}
+      <option value="{$smarty.section.foo.index}" {if $order_campaign_info.recurrent_time == $smarty.section.foo.index}selected{/if}>{$smarty.section.foo.index}</option>
+      {/section}
+      </select>
+     </td>
+  </tr>
+  {/if}
+  <tr>
+    <td>
+    </td>
+    <td align="left"  colspan="3">
+      {if $client_is_loggedin == 1 && $is_confirm != 1 || $client_is_loggedin == 0 && $is_confirm == 1}
+      <input name="is_confirm" value="1" type="checkbox" {if $order_campaign_info.is_confirm == 1}checked{/if} onclick="onUncheck(this, 'Does {if $client_is_loggedin==1}admin{else}client{/if} need to confirm order? ')" />{if $client_is_loggedin==1}Do you want to confirm revised content instructions?{else}Does client need to confirm order?{/if}
+      {/if}
+    </td>
+  </tr>
+  {if $client_is_loggedin == 1 && $order_campaign_info.order_campaign_id == ''}
+  <tr>
+    <td>
+    </td>
+    <td align="left"  colspan="3">
+      <input name="agreeterm" value="1" type="checkbox" checked />I Agree to <a href="http://www.copypress.com/terms-and-conditions/ " target="_blank">Terms & Conditions</a>
+    </td>
+  </tr>
+  {/if}
+{*  <tr>
+    <td class="dataLabel"> Upload Keyword File</td>
+    <td><input type="file" name="download_file" id="download_file" value="" size="60" /></td>
+  </tr>*}
+  <tr>
+    <td class="blackLine"  colspan="4" ><img src="/image/misc/s.gif"></td>
+  </tr>
+  <tr>
+    <td>&nbsp;</td>
+    <td  colspan="3">
+    {if $is_confirm == 1}
+      {if $order_campaign_info.status == 0 || $order_campaign_info.status == 4}
+      <input type="submit" value="Confirm" class="button" onclick="$('operation').value='confirm';" />&nbsp;
+      <input type="submit" value="Deny" class="button" onclick="$('operation').value='deny';" />&nbsp;
+      <input type="button" value="Back" class="button" onclick="window.location.href='/client_campaign/order_list.php'" />&nbsp;
+      {/if}
+    {else}
+      <input type="submit" value="Submit" class="button" />&nbsp;
+    {/if}
+    </td>
+  </tr>
+  </form>
+</table>
+  </div>
+</div>
+<script>
+var prices = {$prices};
+{literal}
+function calculatePrice()
+{
+    
+    var type_id = $('article_type').value;
+    var qty = $('qty').value;
+    var max_word = $('max_word').value;
+    var arr = null;
+    if (type_id >= 0 && max_word > 0) {
+      if (isObjectOrNot(prices[type_id]))
+      {
+        arr = prices[type_id][max_word];
+      }
+    }
+    var article_price = null;
+    if (arr){
+      article_price = arr[1];$('price_id').value= arr[0];
+    } else {
+      article_price = 0;
+      $('price_id').value = 0;
+    }
+    var subtotal = qty * article_price;
+    var discount =  parseFloat($('discount').value);
+    var fees =  parseFloat($('fees').value);
+    $('article_price').value = article_price;
+    $('subtotal').value = subtotal;
+    var total = subtotal - discount + fees;
+    $('total').value = decimal(total, 2);
+}
+
+function changeTotal()
+{
+    var subtotal =  parseFloat($('subtotal').value);
+    var discount =  parseFloat($('discount').value);
+    var fees =  parseFloat($('fees').value);
+    var total = subtotal - discount + fees;
+    $('total').value = decimal(total, 2);
+}
+function onClickMonthRecurrent(obj)
+{
+    if (obj.checked) {
+      $('recurrent_time').disabled = false;
+    } else {
+      $('recurrent_time').disabled = true;
+    }
+    return true;
+}
+{/literal}
+calculatePrice();
+startDateChange($('date_start').value);
+</script>
+{include file="themes/$theme/footer.html"}

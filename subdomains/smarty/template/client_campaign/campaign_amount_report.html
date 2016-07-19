@@ -1,0 +1,100 @@
+{include file="themes/$theme/header.html"}
+
+{if $feedback ne ''}
+<script language="JavaScript">
+<!--
+alert('{$feedback}');
+//-->
+</script>
+{/if}
+<div id="page-box1">
+  <h2>
+  Client Approval &nbsp;&nbsp;&nbsp;&nbsp;</h2>
+  <div id="campaign-search" >
+    <div id="campaign-search-box" >
+ <form name="f_assign_keyword_return" id="f_assign_keyword_return"  action="{$actionurl}" method="get">
+<input type="hidden" name="opt_action" id="opt_action" value="" /> 
+<table border="0" cellspacing="1" cellpadding="4">
+  <tr>
+    <td   nowrap>Client</td>
+    <td><select name="client_id"><option value="">[choose]</option>{html_options options=$all_clients selected=$smarty.get.client_id}</select></td>
+    <td nowrap>Month:</td>
+    <td><select name="month" onchange="onsearch('f_assign_keyword_return')">{html_options options=$monthes selected=$month}</select></td>
+    <td nowrap>Show:</td>
+    <td nowrap><select name="perPage" onchange="onsearch('f_assign_keyword_return')">{html_options options=$g_pager_perPage selected=$smarty.get.perPage}</select> row(s)</td>
+    <td colspan="4" nowrap><input type="image" src="/images/button-search.gif" value="submit" onclick="onsearch('f_assign_keyword_return')" />&nbsp;{*<input type="submit" value="Export CSV" class="moduleButton" onclick="exportcsv('f_assign_keyword_return')" />*}</td>
+  </tr>
+</table><br>
+</form>       
+    </div>
+  </div>
+</div>
+<div class="tablepadding"> 
+<div class="pagingpaddingleft" >
+  <table align="center" width="100%" border="0" cellspacing="0" cellpadding="0" >
+    <tr><td class="table-left table-paging-left" width="20" height="37" >&nbsp;</td><td class="table-bottom">Total for {$total_rs} items: ${$total_amount}</td><td class="table-right table-paging-right" width="21">&nbsp;</td></tr>
+  </table>
+</div>
+<table id="table-1" cellspacing="0" align="center" cellpadding="0" class="sortableTable">
+  <thead>
+  <tr class="sortableTab">
+    <th class="table-left-corner">&nbsp;&nbsp;&nbsp;&nbsp;</th>
+    <td nowrap class="columnHeadInactiveBlack table-left-2" rowspan="2">#</td>
+    <td nowrap class="columnHeadInactiveBlack" rowspan="2">Campaign Name</td>
+    <td nowrap class="columnHeadInactiveBlack" rowspan="2">Client Name</td>
+    {if $user_permission_int ==5 }
+    {*<td nowrap class="columnHeadInactiveBlack" rowspan="2">Approved Words for Editor</td>
+    <td nowrap class="columnHeadInactiveBlack" rowspan="2">Approved Articles for Editor</td>*}
+    <td nowrap class="columnHeadInactiveBlack" rowspan="2">Approved Words for Writer</td>
+    <td nowrap class="columnHeadInactiveBlack" rowspan="2">Approved Articles for Writer</td>
+    {else}
+    <td nowrap class="columnHeadInactiveBlack" rowspan="2">Approved Words</td>
+    <td nowrap class="columnHeadInactiveBlack" rowspan="2">Approved Articles</td>
+    {/if}
+    <td nowrap class="columnHeadInactiveBlack table-right-2" rowspan="2">Amount Owed</td>
+    <th class="table-right-corner" rowspan="2">&nbsp;&nbsp;&nbsp;&nbsp;</th>
+  </tr>
+  </thead>
+  {foreach from=$result item=item name="loop"}
+  <tr class="{if $smarty.foreach.loop.iteration % 2 eq 0}even{else}odd{/if}">
+    <td class="table-left" >&nbsp;</td>
+    {eval var= $startNo+$smarty.foreach.loop.iteration assign='rowNumber'}
+    <td class="table-left-2">{$rowNumber}</td>
+    <td><a href="/client_campaign/completed_keywords.php?is_paid=1&campaign_id={$item.campaign_id}&month={$month}&article_type={$item.article_type}" target="_blank" >{$item.campaign_name}</a></td>
+    <td>{$item.user_name}</td>
+    {if $user_permission_int ==5 }
+    {*<td>{$item.total_word_for_editor}</td>
+    <td>{$item.total_article_for_editor}</td>*}
+    <td>{$item.total_word_for_writer}</td>
+    <td>{$item.total_article_for_writer}</td>
+    {else}
+    <td>{$item.total_word}</td>
+    <td>{$item.total_article}</td>
+    {/if}
+    <td class="table-right-2">${$item.cost}</td>
+    <td class="table-right" >&nbsp;</td>
+  </tr>
+  {/foreach}
+</table>
+<div class="pagingpaddingleft" >
+  <table align="center" width="100%" border="0" cellspacing="0" cellpadding="0" >
+    <tr><td class="table-left table-paging-left" width="20" height="37" >&nbsp;</td><td class="table-bottom">{$pager} (Total Page:{$total})(Total Count:{$count})</td><td class="table-right table-paging-right" width="21">&nbsp;</td></tr>
+  </table>
+</div>
+</div>
+{literal}
+<script type="text/javascript">
+//<![CDATA[
+function exportcsv(formId)
+{
+    $('opt_action').value = 'export';
+}
+function onsearch(formId)
+{
+    $('opt_action').value = '';
+    $(formId).submit();
+}
+//]]>
+</script>
+{/literal}
+{include file="themes/$theme/footer.html"}

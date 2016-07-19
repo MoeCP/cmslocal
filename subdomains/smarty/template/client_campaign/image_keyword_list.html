@@ -1,0 +1,322 @@
+{include file="themes/$theme/header.html"}
+
+{if $feedback ne ''}
+<script language="JavaScript">
+<!--
+alert('{$feedback}');
+//-->
+</script>
+{/if}
+
+<br />
+<div id="page-box1">
+  <div id="campaign-actions" >
+  {if $is_pay_adjust == 1}
+   <div id="campaign-actions-label"> Adjust Keywords for Payment</div>
+  {else}
+  <div id="campaign-actions-label">Campaign Actions: </div>
+  <ul id="campaign-nav">
+    {if ($login_permission > 3 || $login_permission == 2) && $campaign_id > 0}{* 2=>3 *}
+        <li><a href="/client_campaign/image_keyword_add.php?campaign_id={$campaign_id}"><img alt="Add Keyword" src="/images/button-add-keyword.gif" /></a></li>
+        <li><a href="/graphics/batch_assign_keyword.php?campaign_id={$campaign_id}" ><img alt="Batch Assignment" src="/images/button-batch-assignment.gif" /></a></li>{/if}
+    {if ($login_role eq 'admin' || $login_role eq 'client') && $campaign_id neq ''}
+        <li><a href="/graphics/download_image_list.php?campaign_id={$campaign_id}" ><img alt="Download Article" src="/images/button-download-article.gif" /></a></li>
+    {/if}
+    {*{if $login_role eq 'admin'}
+      <li><a href="javascript:void(0)" onclick="batchClientApprove()" ><img alt="Batch Client Approve" src="/images/button-batch-client-approve.gif" /></a></li>
+      <li><a href="javascript:void(0)" onclick="batchEditorApprove()" ><img alt="Update Keyword Instructions" src="/images/button-batch-editor-action.gif"></a></li>
+      {if $campaign_id > 0}
+      <li><a href="/graphics/update_keyword_instructions.php?campaign_id={$campaign_id}"><img alt="Update Keyword Instructions" src="/images/button-update-keyword-instructions.gif" /></a></li>
+      <li><a href="/graphics/change_type.php?campaign_id={$campaign_id}"><img alt="Change Article Type" src="/images/button-change-article-type.gif" /></a></li>
+      {/if}
+    {/if}*}
+    {if $campaign_id > 0 && ($login_permission > 3 || $login_permission == 2) && $login_role neq 'client' }
+        <li><a  href="/client_campaign/client_campaign_set.php?campaign_id={$campaign_id}" ><img alt="Update" src="/images/button-update.gif" /></a></li>
+      {if $login_permission !=4 }
+        <li><a href="javascript:void(0)" onclick="return deleteSubmit('campaign_list', 'campaign_id', '{$campaign_id}', 'D', 'This Client Campaign')" ><img alt="Delete" src="/images/button-delete.gif" /></a></li>
+      {/if}
+      {if $login_permission >= 4 }
+      <li><a href="/graphics/acceptance.php?campaign_id={$campaign_id}"><img alt="Assignment Acceptance" src="/images/button-accept-assignment.png" /></a></li>
+      {/if}
+    {/if}
+  </ul>
+  <form action="/client_campaign/list.php" name="campaign_list" method="post" >
+      <input type="hidden" name="campaign_id" />
+      <input type="hidden" name="form_refresh" value="N" />
+       <input type="hidden" name="archived" id="archived" value="{$archived}" />
+  </form>
+  {/if}
+  </div>
+  <div id="campaign-search" >
+    <strong>You can enter the "keyword","campaign name","company name" etc. into the keyword input to search the relevant campaign's keyword information</strong>
+    <div id="campaign-search-box" >
+    <form name="f_assign_keyword_return" id="f_assign_keyword_return" action="/client_campaign/image_keyword_list.php" method="get">
+    <table border="0" cellspacing="1" cellpadding="4">
+      <tr>
+      <td nowrap>Copywriter</td>
+      <td><select name="copy_writer_id"><option value="">[choose]</option>{html_options options=$all_copy_writer selected=$smarty.get.copy_writer_id}</select></td>
+              <!-- ................&copy_writer_id..@_writer_id //-->
+      <input name="campaign_id" type="hidden" id="campaign_id" value="{$campaign_id}" />
+      {* added by snug xu 2007-10-08 11:32 - STARTED*}
+      {if $login_role eq 'admin'}
+      <input name="is_forceclientapprove" id="is_forceclientapprove" type="hidden" value="{$smarty.get.is_forceclientapprove}"/>
+      {/if}
+      <td >Editor</td>
+      <td><select name="editor_id"><option value="">[choose]</option>{html_options options=$all_editor selected=$smarty.get.editor_id}</select></td>
+      <td nowrap>Image Type</td>
+      <td colspan="1"><select name="image_type"><option value="">[choose]</option>{html_options options=$image_type selected=$smarty.get.image_type}</select>
+      </td>
+      <td nowrap>Status</td>
+      <td colspan="2" nowrap>
+        <select name="image_status" id="image_status" ><option value="">[show all]</option>{html_options options=$image_status selected=$smarty.get.image_status}</select>&nbsp;&nbsp;&nbsp;
+      </td>
+      <td rowspan="2" >
+        <input type="image" src="/images/button-search.gif" value="submit">
+      </td>
+    </tr>
+    <tr>
+       <td nowrap>Keyword</td>
+       <td   ><input type="text" name="keyword" id="search_keyword"></td>
+       {*<td nowrap>Topic</td>
+       <td {if $is_pay_adjust!=1}colspan="3"{/if}><select name="keyword_category"><option value="">[choose]</option>{html_options options=$keyword_categorys selected=$smarty.get.keyword_category}</select></td>*}
+       <td>Client</td>
+       <td><select name="client_id"><option value="">[choose]</option>{html_options options=$all_clients selected=$smarty.get.client_id}</select></td>
+       <td nowrap>Campaign</td>
+       <td nowrap><select name="campaign_id"><option value="">[choose]</option>{html_options options=$all_campaigns selected=$smarty.get.campaign_id}</select></td>
+       <td nowrap>Show:</td>
+       <td nowrap>
+        <select name="perPage" onchange="this.form.submit();">{html_options options=$g_pager_perPage selected=$smarty.get.perPage}</select> row(s)&nbsp;&nbsp;&nbsp;
+        </td>
+        <td nowrap>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+        <td>&nbsp;</td>
+      </tr>
+    </table>
+    </form>
+    </div>
+  </div>
+</div>
+<br>
+<div class="tablepadding"> 
+<div class="pagingpaddingleft" >
+  <table align="center" width="100%" border="0" cellspacing="0" cellpadding="0" >
+    <tr><td class="table-left table-paging-left" width="20" height="37" >&nbsp;</td><td class="table-bottom">{$pager} (Total Page:{$total})(Total Count:{$count})</td><td class="table-right table-paging-right" width="21">&nbsp;</td></tr>
+  </table>
+</div>
+<form action="{$smarty.server.REQUEST_URI}" name="campaign_keyword_list" method="post" />
+<input type="hidden" name="skeyword_id" />
+<input type="hidden" name="campaign_id" value="{$campaign_id}" />
+<input type="hidden" name="image_id" />
+<input type="hidden" name="target_pay_month" />
+<input type="hidden" name="current_month" />
+<input type="hidden" name="google_approved_time" />
+<input type="hidden" name="operation" id="operation" />
+<input type="hidden" name="is_forced_adjust" id="is_forced_adjust" value="0" />
+<input type="hidden" name="is_canceled" />
+<input type="hidden" name="is_delay" />
+<input type="hidden" name="form_refresh" value="N" />
+<table id="table-1" cellspacing="0" cellpadding="0" align="center" class="sortableTable">
+  <thead>
+  <tr class="sortableTab">
+    <th class="table-left-corner" rowspan="2" >&nbsp;&nbsp;&nbsp;&nbsp;</th>
+    <td nowrap class="columnHeadInactiveBlack table-left-2">
+{if $is_pay_adjust != 1 && $total}
+    {if $show_cb == true || ($is_forceclientapprove==1 && $smarty.get.image_status == '4') || ($is_googlecheck == 1 && $login_role neq 'client' && $login_role neq 'copywriter' && $smarty.get.image_status == '1') }
+      <input type="checkbox" name="Select_All" title="Select All" onClick="javascript:checkAll('isUpdate[]')" />    
+    {/if}
+{/if}
+</td>
+    <td nowrap class="columnHeadInactiveBlack table-left-2 table-right-2">Number</td>
+    <td nowrap class="columnHeadInactiveBlack">Keyword</td>
+    <td nowrap class="columnHeadInactiveBlack">Image Number</td>
+    <td nowrap class="columnHeadInactiveBlack">Status</td>
+    <td nowrap class="columnHeadInactiveBlack">Company Name</td>
+    <td nowrap class="columnHeadInactiveBlack">Campaign Name</td>
+    <td nowrap class="columnHeadInactiveBlack">Copywriter</td>
+    <td nowrap class="columnHeadInactiveBlack">Editor</td>
+    <td nowrap class="columnHeadInactiveBlack">Start Date</td>
+    <td nowrap class="columnHeadInactiveBlack">Due Date</td>
+    <td nowrap class="columnHeadInactiveBlack">Submit Date</td>
+    <td nowrap class="columnHeadInactiveBlack">Editor Submit Date</td>
+    <td nowrap class="columnHeadInactiveBlack">Client Approve Date</td>
+    <td nowrap class="columnHeadInactiveBlack">Image Type</td>
+    <td nowrap class="columnHeadInactiveBlack table-right-2">&nbsp;</td>
+    <th class="table-right-corner">&nbsp;&nbsp;&nbsp;</th>
+  </tr>
+  </thead>
+  <tbody>
+  {foreach from=$result item=item name="loop"}
+  <tr class="{if $smarty.foreach.loop.iteration % 2 eq 0}even{else}odd{/if}">
+  <td class="table-left" >&nbsp;</td>
+  <td class="table-left-2" >
+  {*{if $is_pay_adjust != 1}
+    {if ($is_forceclientapprove==1 && $item.image_status == '4') || $item.image_status == '1gc' || $item.image_status == '3' || ($is_googlecheck == '1' && $login_role neq 'client' && $login_role neq 'copywriter' && $smarty.get.image_status == '1')}
+      <input type="checkbox" name="isUpdate[]" id="isUpdate_{$smarty.foreach.loop.iteration}" value="{$smarty.foreach.loop.iteration}" onclick="javascript:checkItem('Select_All', campaign_keyword_list)" />
+    {/if}
+  {/if}*}
+      <input type="hidden" name="keyword_id[{$smarty.foreach.loop.iteration}]" id="keyword_id_{$smarty.foreach.loop.iteration}" value="{$item.keyword_id}" />
+    </td>
+    {eval var= $startNo+$smarty.foreach.loop.iteration assign='rowNumber'}
+    <td class="table-left-2 table-right-2" >{$rowNumber}</td>
+    <td>
+    {* modified by snug xu 2006-11-24 18:31*}
+    {* only show the keyword for agency*}
+    {if $login_permission == 2 || $login_permission == 4 && ($item.image_status <= '1' || $item.image_status == '1gd')}
+	{$item.keyword}
+    {else}
+	<a href="/graphics/approve_image.php?image_id={$item.image_id}&keyword_id={$item.keyword_id}&{$query_string}" onMouseOver="return overlib('<table width=500><tr><td nowrap>Keyword Instructions</td><td >{$item.keyword_description|nl2br|strip|escape:html}</td></tr></table>');" onMouseOut="return nd();">{$item.keyword}</a>
+    {/if}
+    </td>
+    <td>{$item.image_number}</td>
+    <td>
+    {$image_status[$item.image_status]}
+    </td>
+    <td>{$item.company_name|truncate:20:"..."}</td>
+    <td>{if $login_permission == 5}<a href="/client_campaign/client_campaign_set.php?campaign_id={$item.campaign_id}" target="_blank" >{$item.campaign_name|truncate:20:"..."}</a>{else}{$item.campaign_name|truncate:20:"..."}{/if}</td>
+    <td>{if $login_role eq 'agency' || $login_permission == 4}{$item.uc_name}{else}<a href="javascript:void(0)" onclick="openWindow('/user/user_detail_info.php?user_id={$item.copy_writer_id}', 'height=300,width=400,status=no,toolbar=no,menubar=no,location=no,resizable=yes,scrollbars=yes');">{$item.uc_name}</a>{if $item.pay_level > 0}&nbsp;[{$item.pay_level}]{/if}{/if}</td>
+    <td>{if $login_role eq 'agency' || $login_permission == 4}{$item.ue_name}{else}<a href="javascript:void(0)" onclick="openWindow('/user/user_detail_info.php?user_id={$item.editor_id}', 'height=300,width=400,status=no,toolbar=no,menubar=no,location=no,resizable=yes,scrollbars=yes');">{$item.ue_name}</a>{/if}</td>
+    <td>{$item.date_start|date_format:"%m-%d-%Y"}</td>
+    <td>{$item.date_end|date_format:"%m-%d-%Y"}</td>
+    <td>{if $item.image_status == '0' || $item.image_status == ''}n/a{else}{$item.cp_updated|date_format:"%m-%d-%Y"}{/if}</td>
+    <td>{if $item.approval_date > 0 && ($item.image_status == '3' || $item.image_status == '4' || $item.image_status == '5' || $item.image_status == '6')}{$item.approval_date}{/if}</td>
+    <td>{if $item.client_approval_date > 0 && ($item.image_status == '5' || $item.image_status == '6')}{$item.client_approval_date}{/if}</td>
+    <td>{$image_type[$item.image_type]}</td>
+    <td align="left" nowrap class="table-right-2">
+    {if $login_permission > 3}{* 2=>3 *}
+    {if $login_role neq 'copy writer' && $item.image_id > 0}
+    {if $login_permission == 4 && ($item.image_status <= '1')}
+    {else}
+    <input type="button" class="button" value="Preview" onclick="openLink('/graphics/image_comment_list.php?image_id={$item.image_id}');" />
+    {/if}
+    {else if $item.image_id > 0}
+    <input type="button" class="button" value="Comment" onclick="openLink('/graphics/image_comment_list.php?image_id={$item.image_id}');" />
+    {/if}
+		{*<input type="button" class="button" value="Update" onclick="openLink('/graphics/keyword_set.php?keyword_id={$item.keyword_id}');" />
+    {if $item.image_status <> 5 && $item.image_status <> 6}
+		<input type="button" class="button" value="Assign" onclick="openLink('/graphics/assign_keyword.php?keyword_id={$item.keyword_id}');" />
+ 		<input type="submit" class="button" value="Delete" onclick="return deleteSubmit('campaign_keyword_list', 'skeyword_id', '{$item.keyword_id}', 'D', 'This Campaign Keyword')" />
+    {/if}*}
+    {if $item.image_status == '5'}
+		<input type="submit" class="button" value="Publish" onclick="return doSubmit('campaign_keyword_list', 'image_id', '{$item.image_id}', 'P')" />
+    {/if}
+    {elseif $login_permission == 2}
+      <input type="button" class="button" value="Preview" onclick="window.open('/graphics/image_comment_list.php?image_id={$item.image_id}');" />
+    {/if}
+     </td>
+     <td class="table-right" >&nbsp;</td>
+  </tr>
+  {/foreach}
+  </tbody>
+</table>
+<div class="pagingpaddingleft" >
+  <table align="center" width="100%" border="0" cellspacing="0" cellpadding="0" >
+    <tr><td class="table-left table-paging-left" width="20" height="37" >&nbsp;</td><td class="table-bottom">{$pager} (Total Page:{$total})(Total Count:{$count})</td><td class="table-right table-paging-right" width="21">&nbsp;</td></tr>
+  </table>
+</div>
+<table align="center" width="100%" >
+</table>
+{*{if $total}
+  {if $show_cb == true}
+  <table>
+  <tr>
+    <td class="requiredInput">Comments:&nbsp;&nbsp;
+    <td >
+          <textarea name="comment" style="width: 700px; height: 160px;" id="comment"></textarea>
+    </td>
+  </tr>
+  <tr>
+    <td colspan="2" align="center" >
+     <input type="submit" value="Edit Request" class="button" onclick="$('operation').value='editor_rejected';" >
+     {if $login_role eq 'admin'}
+     <input type="submit" value="Editor Approve" class="button" onclick="$('operation').value='editor_approve';" >
+     {/if}
+   </td>
+  </tr>
+ </table>
+  {else}
+   {if $is_forceclientapprove == 1 && $login_role eq 'admin' && $smarty.get.image_status == '4' }
+   <table width="100%" >
+    <tr>
+    <td align="center" >
+    <input type="submit" value="Force Client Approve" class="button" onclick="$('operation').value='client_approve';" />
+    </td>
+    </tr>
+    </table>
+    {/if}
+  {/if}
+{/if}*}
+  </form>
+</div>
+<script type="text/javascript">
+//<![CDATA[
+
+var st = new SortableTable(document.getElementById("table-1"),
+  [{if $is_pay_adjust != 1}'None',{/if}'None',"Number", "CaseInsensitiveString", "CaseInsensitiveString", "CaseInsensitiveString", "CaseInsensitiveString", "CaseInsensitiveString", "CaseInsensitiveString", "Date", "Date", "None"]);
+{literal}
+st.onsort = function () {
+  var rows = st.tBody.rows;
+  var l = rows.length;
+  for (var i = 0; i < l; i++) {
+    removeClassName(rows[i], i % 2 ? "odd" : "even");
+    addClassName(rows[i], i % 2 ? "even" : "odd");
+  }
+};
+st.asyncSort(0);
+function updateTargetPayMonth( image_id, google_approved_time, target_pay_month, current_month, is_delay )
+{
+	var f  = document.campaign_keyword_list;
+	f.image_id.value = image_id;
+	f.google_approved_time.value = google_approved_time;
+	f.target_pay_month.value = target_pay_month;
+	f.current_month.value = current_month;
+	f.is_delay.value = is_delay;
+  if ($('forced_adjust').checked)
+  {
+    f.is_forced_adjust.value = 1;
+  }
+  else
+  {
+    f.is_forced_adjust.value = 0;
+  }
+	f.operation.value = 'move_to_next_pay_peried';
+	f.submit();
+}
+
+
+function showCurrentMonthKeywords()
+{
+	var f = document.f_assign_keyword_return;
+	f.show_current_month.value = 1;
+}
+
+function batchGoogleCheck()
+{
+  $("is_googlecheck").value = 1;
+  $("image_status").value = 1;
+  $('f_assign_keyword_return').submit();
+}
+
+function batchClientApprove()
+{
+    if (isObjectOrNot($('is_pay_adjust')))
+    {
+        $('is_pay_adjust').value = '';
+    }
+    $("is_forceclientapprove").value = 1;
+    $("image_status").value = 4;
+    $('f_assign_keyword_return').submit();
+}
+function batchEditorApprove()
+{
+    if (isObjectOrNot($('is_pay_adjust')))
+    {
+        $('is_pay_adjust').value = '';
+    }
+    $("image_status").value = '1gc';
+    $("is_forceclientapprove").value = 0;
+    $('f_assign_keyword_return').submit();
+}
+{/literal}
+//]]>
+</script>
+
+{include file="themes/$theme/footer.html"}

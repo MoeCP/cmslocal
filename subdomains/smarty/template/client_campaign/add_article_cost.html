@@ -1,0 +1,93 @@
+{include file="themes/$theme/header_jump.html"}
+
+{if $feedback ne ''}
+<script language="JavaScript">
+<!--
+alert("{$feedback}");
+//-->
+</script>
+{/if}
+{literal}
+<script language="JavaScript">
+function redirect(article_type, campaign_id)
+{
+  var param = '';
+  var url = '/client_campaign/add_article_cost.php?campaign_id=' + campaign_id;
+  if (article_type.length > 0)
+  {
+    param = "&article_type=" + article_type;
+    changeReturn(url, param);
+  }
+}
+
+function check_f_new_article_cost( operation )
+{
+	var f = document.f_new_article_cost;
+	f.operation.value = operation;
+	f.submit();
+}
+</script>
+{/literal}
+<div id="page-box1">
+  <h2>Specify New Article Type for {$campaign_info.campaign_name}</h2>
+  <div class="form-item" >
+<form action="" method="post" name="f_new_article_cost" id="f_new_article_cost" >
+  <input type="hidden" name="operation" id="operation" value="" />
+  <input type="hidden" name="invoice_status" id="invoice_status" value="" />
+  <input type="hidden" name="query_string" id="query_string" value="{$query_string}" />
+  <input type="hidden" name="campaign_id" id="campaign_id" value="{$campaign_info.campaign_id}" />
+  <input type="hidden" name="cost_id" id="cost_id" value="" />
+<br><table border="0" cellspacing="1" cellpadding="4" align="center" width="100%">
+  <tr>
+    <td class="moduleTitle" colspan="2" ></td>
+  </tr>
+  <tr>
+    <td class="bodyBold">Basic Information</td>
+    <td align="right" class="requiredHint">Required Information</td>
+  </tr>
+  <tr>
+    <td class="blackLine" colspan=2><img src="/image/misc/s.gif"></td>
+  </tr>
+  {if $total_selected > 0}
+  <tr>
+    <td class="dataLabel">Selected Article Types:</td>
+    <td><select name="selected_article_type" id="selected_article_type" size="5" >{html_options options=$selected_types}</select></td>
+  </tr>
+  {/if}
+  <tr>
+    <td class="requiredInput">Article Types:</td>
+    <td><select name="article_type" id="article_type" onchange="redirect(this.value, {$campaign_info.campaign_id})" >{html_options options=$all_types  selected=$smarty.get.article_type}</select></td>
+  </tr>
+  <tr>
+    <td class="dataLabel">Default Copywriter cost per word for this campaign:</td>
+    <td>$<input type="text" name="cp_cost" id="cp_cost" value="{$type_info.cp_cost}"  /></td>
+  </tr>
+  <tr>
+    <td class="dataLabel">Default  Editor cost per word for this campaign:</td>
+    <td>$<input type="text" name="editor_cost" id="editor_cost" value="{$type_info.editor_cost}"  /></td>
+  </tr>
+  <tr>
+    <td></td>
+    <td><input type="checkbox" name="pay_by_article" id="pay_by_article" value="1" {if $type_info.pay_by_article == 1}checked{/if} />Pay by Article</td>
+  </tr>
+  <tr>
+    <td class="dataLabel">Default Copywriter cost per article for this campaign:</td>
+    <td>$<input type="text" name="cp_article_cost" id="cp_article_cost" value="{$type_info.cp_article_cost}"  /></td>
+  </tr>
+  <tr>
+    <td class="dataLabel">Default  Editor cost per article for this campaign:</td>
+    <td>$<input type="text" name="editor_article_cost" id="editor_article_cost" value="{$type_info.editor_article_cost}"  /></td>
+  </tr>
+  <tr>
+    <td class="blackLine" colspan="2"><img src="/image/misc/s.gif"></td>
+  </tr>
+
+  <tr>
+    <td>&nbsp;</td>
+    <td><input type="button" name="save" class="button" value="Save" onclick="check_f_new_article_cost('save')"/></td>
+  </tr>
+</table>
+</form>
+  </div>
+</div>
+{include file="themes/$theme/footer_jump.html"}

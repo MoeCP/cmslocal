@@ -1,0 +1,58 @@
+{include file="themes/$theme/header_jump.html"}
+<script language="JavaScript">
+<!--
+var login_permission = '{$login_permission}';
+{literal}
+check_f_category = function()
+{
+  var f = document.f_note;
+  if (f.name.value.length == 0) {
+      alert('Please enter name');
+      f.title.focus();
+      return false;
+  }
+  return true;
+}
+{/literal}
+//-->
+</script>
+<div id="page-box1">
+  <h2>User Note Category</h2>
+  <div id="campaign-search" >
+    <strong>Please enter required information of user note category.</strong>
+  </div>
+  <div class="form-item" >
+<form action="{$request_uri}" method="post"  name="f_note" id="f_note" {if $js_check eq true} onsubmit="return check_f_category()"{/if}>
+<input type="hidden" name="category_id" id="category_id" value="{$category_id}" />
+<input type="hidden" name="created" id="created" value="{$info.created}" />
+<input type="hidden" name="modified" id="modified" value="{$info.modified}" />
+<input type="hidden" name="modified_by" id="modified_by" value="{$info.modified_by}" />
+<input type="hidden" name="created_by" id="created_by" value="{$info.created_by}" />
+<br /><table border="0" cellspacing="1" cellpadding="4" align="center" width="100%">
+  <tr>
+    <td class="bodyBold" nowrap>Basic Information</td>
+    <td align="right" class="requiredHint">Required Information</td>
+  </tr>
+  <tr>
+    <td class="blackLine" colspan="2" ><img src="/image/misc/s.gif"></td>
+  </tr>
+  <tr>
+    <td class="requiredInput">Name&nbsp;</td>
+    <td><input name="name" type="text" id="name" size="40" value="{$info.title}" onchange="javascript:this.value=Trim(this.value)"></td>
+  </tr>
+  <tr>
+    <td class="requiredInput">Description&nbsp;</td>
+    <td><textarea name="description" cols="35" rows="6" id="description">{$info.description}</textarea></td>
+  </tr>
+  <tr>
+    <td class="blackLine" colspan="2"><img src="/image/misc/s.gif"></td>
+  </tr>
+  <tr>
+    <td>&nbsp;</td>
+    <td><input type="submit" value="Submit" class="button">&nbsp;<input type="reset" value="reset" class="button"></td>
+  </tr>
+</table>
+</form>
+  </div>
+</div>
+{include file="themes/$theme/footer_jump.html"}

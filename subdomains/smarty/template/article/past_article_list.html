@@ -1,0 +1,135 @@
+{include file="themes/$theme/header.html"}
+
+{if $feedback ne ''}
+<script language="JavaScript">
+<!--
+alert('{$feedback}');
+//-->
+</script>
+{/if}
+<div id="page-box1">
+  <h2>Articles List</h2>
+  <div id="campaign-search" >
+    <strong>You can enter the "campaign name","keyword","article content" etc. into the keyword input to search the relevant article's information, And you can download finished articles</strong>
+     <div id="campaign-search-box" >
+<table border="0" cellspacing="1" cellpadding="4">
+  <form name="f_past_article" action="" method="get">
+  <tr>
+    <td nowrap>Campaign</td>
+    <td><select name="campaign_id"><option value="">[choose]</option>{html_options options=$campaigns selected=$smarty.get.campaign_id}</select></td>
+    <td>Start Date</td>
+    <td><input type="text" name="date_start" id="date_start" size="10" maxlength="10" value="{$smarty.get.date_start}" readonly/>
+        <input type="button" class="button" id="btn_cal_date_start" value="...">
+        <script type="text/javascript">
+        Calendar.setup({ldelim}
+            inputField  : "date_start",
+            ifFormat    : "%Y-%m-%d",
+            showsTime   : false,
+            button      : "btn_cal_date_start",
+            singleClick : true,
+            step        : 1,
+            range       : [1990, 2030]
+        {rdelim});
+        </script></td>
+    <td>Due Date</td>
+    <td><input type="text" name="date_end" id="date_end" size="10" maxlength="10" value="{$smarty.get.date_end}" readonly/>
+        <input type="button" class="button" id="btn_cal_date_end" value="...">
+        <script type="text/javascript">
+        Calendar.setup({ldelim}
+            inputField  : "date_end",
+            ifFormat    : "%Y-%m-%d",
+            showsTime   : false,
+            button      : "btn_cal_date_end",
+            singleClick : true,
+            step        : 1,
+            range       : [1990, 2030]
+        {rdelim});
+        </script></td>
+	<td><input type="image" src="/images/button-search.gif" value="submit" /></td>
+    <td nowrap>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+    <td width="30%">&nbsp;</td>
+  </tr>
+  </form>
+</table><br>
+    </div>
+  </div>
+</div>
+<div class="tablepadding"> 
+<table id="table-1" cellspacing="0" cellpadding="0" align="center" class="sortableTable">
+  <thead>
+  <tr class="sortableTab">
+    <th class="table-left-corner">&nbsp;&nbsp;&nbsp;&nbsp;</th>
+    <td nowrap class="columnHeadInactiveBlack table-left-2">No.</td>
+    <td nowrap class="columnHeadInactiveBlack">Keyword</td>
+    <td nowrap class="columnHeadInactiveBlack">Article Number</td>
+    <td nowrap class="columnHeadInactiveBlack">Enabled</td>
+    <td nowrap class="columnHeadInactiveBlack">Copywriter</td>
+    <td nowrap class="columnHeadInactiveBlack">Editor</td>
+    <td nowrap class="columnHeadInactiveBlack">Start Date</td>
+    <td nowrap class="columnHeadInactiveBlack">Due Date</td>
+    <td nowrap class="columnHeadInactiveBlack">status</td>
+    <td nowrap class="columnHeadInactiveBlack table-right-2">Download</td>
+    <th class="table-right-corner">&nbsp;&nbsp;&nbsp;</th>
+  </tr>
+  </thead>
+  {foreach from=$result item=item name="loop"}
+  <tr class="{if $smarty.foreach.loop.iteration % 2 eq 0}even{else}odd{/if}">
+    <td class="table-left" >&nbsp;</td>
+    {eval var= $startNo+$smarty.foreach.loop.iteration assign='rowNumber'}
+    <td class="table-left-2">{$rowNumber}</td>
+    <td>{if $item.article_id neq 0}<a href="article_details_info.php?article_id={$item.article_id}"  target="_blank">{$item.keyword}</a>{else}{$item.keyword}{/if}</td>
+    <td>{$item.article_number}</td>
+    <td>{if $item.article_id neq 0}<font color="red">&radic;</font>{else}&times;{/if}</td>
+    <td>{$item.uc_name}</td>
+    <td>{$item.ue_name}</td>
+    <td>{$item.date_start|date_format:"%m-%d-%Y"}</td>
+    <td>{$item.date_end|date_format:"%m-%d-%Y"}</td>
+    <td>{if $item.article_status eq '1gd'}<a href='{$item.checking_url}' >{$article_status[$item.article_status]}</a>{else}{$article_status[$item.article_status]}{/if}</td>
+    <td nowrap class="table-right-2">
+     {if $item.article_status eq 5}
+     <a href='/article/download_article.php?article_id={$item.article_id}&keyword_id={$item.keyword_id}&mode=html'>Html</a>
+     &nbsp; | &nbsp;
+     <a href='/article/download_article.php?article_id={$item.article_id}&keyword_id={$item.keyword_id}&mode=text'>Text</a> 
+     {/if}
+    </td>
+    <td class="table-right" >&nbsp;</td>
+  </tr>
+  {/foreach}
+  <tr>
+    <td class="table-left" >&nbsp;</td>
+    <td colspan="8" align="right" class="table-left-2"><b>Download ALL completed articles(zip):</b>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+    <td align="left" colspan="2" class="table-right-2">
+    <a href='/article/download_campaign.php?campaign_id={$campaign_id}&mode=html_zip' target="_blank">Html</a>
+    &nbsp; | &nbsp;
+    <a href='/article/download_campaign.php?campaign_id={$campaign_id}&mode=text_zip' target="_blank">Text</a> 
+  </td>
+  <td class="table-right" >&nbsp;</td>
+  </tr>
+</table>
+<div class="pagingpaddingleft" >
+  <table align="center" width="100%" border="0" cellspacing="0" cellpadding="0" >
+    <tr><td class="table-left table-paging-left" width="20" height="37" >&nbsp;</td><td class="table-bottom">{$pager} (Total Page:{$total})(Total Count:{$count})</td><td class="table-right table-paging-right" width="21">&nbsp;</td></tr>
+  </table>
+</div>
+</div>
+<script type="text/javascript">
+//<![CDATA[
+{literal}
+var st = new SortableTable(document.getElementById("table-1"),
+  ["Number", "CaseInsensitiveString", "CaseInsensitiveString", "CaseInsensitiveString", "CaseInsensitiveString", "CaseInsensitiveString",  "Number", "Date", "Date", "None"]);
+
+st.onsort = function () {
+  var rows = st.tBody.rows;
+  var l = rows.length;
+  for (var i = 0; i < l; i++) {
+    removeClassName(rows[i], i % 2 ? "odd" : "even");
+    addClassName(rows[i], i % 2 ? "even" : "odd");
+  }
+};
+
+st.asyncSort(0);
+{/literal}
+//]]>
+</script>
+
+{include file="themes/$theme/footer.html"}

@@ -1,0 +1,673 @@
+User Id,User Name,First Name,Last Name,Email,Hire Date,Role,Status
+1,admin,Andrew,Pineda,apineda@blueglass.com,0000-00-00,admin,Active
+3,testagency,test,agency,administrator@163.com,2009-08-06,agency,Active
+4,projectmanager,project,manager,pm@I9cms.com,2006-01-01,project manager,Active
+6,writer,writer,jones,rdecanaga@copypress.com,2006-01-01,copy writer,Active
+30,jessicabyard,Jessica,Byard,arisreoin@gmail.com,2009-12-29,copy writer,Active
+34,carastromness,Cara,Stromness,cara.stromness@gmail.com,2009-12-30,copy writer,Active
+36,jillenaobrien,Jillena,O'Brien,jillenabean@gmail.com,2009-12-30,copy writer,Active
+39,kathyeckel,Kathy,Eckel,kathy@thisweekinparkcity.com,2010-01-07,copy writer,Active
+53,andreabuginsky,Andrea,Buginsky,andreabuginsky@yahoo.com,2010-01-21,copy writer,Active
+54,missyshelton,Missy,Belote,zekeandlilysmom@gmail.com,2010-01-21,copy writer,Active
+58,jobrian,Jillena,O'Brien,jillenabean@gmail.com,2010-01-22,editor,Active
+70,daniellebowser,Danielle,Bowser,mommy.mission@att.net,2010-02-25,copy writer,Active
+84,kristielorette,Kristie,Lorette,kristie@actionmarketingcopy.com,2010-03-18,copy writer,Active
+89,data-entry,data entry,data entry,nancy@infinitenine.com,2010-03-22,project manager,Active
+100,mattthompson,Matt,Thompson,nowwithemus@gmail.com,2010-03-29,copy writer,Active
+105,jessicamcrooks,Jessica,McCurdy Crooks,jmccurdycrooks@gmail.com,2010-03-31,copy writer,Active
+161,alliemuelleck,Allison,Blackham,allie.blackham@gmail.com,2010-05-28,copy writer,Active
+217,alananelson,Alana,Birky,alana.g.nelson@gmail.com,2010-06-30,copy writer,Active
+281,natashamier,Natasha,Mier,natasha.mier@gmail.com,2010-08-02,copy writer,Active
+301,saralegge,Sara,Legge,mrs.saralegge@yahoo.com,2010-08-06,copy writer,Active
+325,sandybaker,Sandy,Baker,contentbysandy@gmail.com,2010-08-17,copy writer,Active
+336,cindyhannikman,Cynthia,Hannikman,angelicbaby1313@gmail.com,2010-08-17,copy writer,Active
+339,tanyadavis,Tanya,Davis,tanyap94@msn.com,2010-08-17,copy writer,Active
+349,katiblake,Kati,Blake,kati.blake7@gmail.com,2010-08-17,copy writer,Active
+385,rwhitney,Ryan,Whitney,rwhitney@copypress.com,2010-09-07,admin,Active
+408,michelegoudie,Michele,Goudie,michelegoudie@gmail.com,2010-11-02,copy writer,Active
+416,sszczerbiak,Sarah,Szczerbiak,supportlivemusic@gmail.com,2010-11-02,copy writer,Active
+439,zkatzstein,Zachary,Katz-Stein,zachary.katzstein@gmail.com,2010-11-02,copy writer,Active
+446,darrylking,Darryl,King,darryl@ireckon.com,2010-11-10,project manager,Active
+451,aliciabodine,Alicia,Bodine,bodine_alicia@yahoo.com,2010-11-17,copy writer,Active
+507,jackiemasloff,Jackie,Masloff,jackiejom@outlook.com,2010-11-22,copy writer,Active
+544,jennmcknight,Jennifer,McKnight,jmd.mcknight@gmail.com,2010-11-23,copy writer,Active
+568,aliciarades,Alicia,Rades,ajrades@gmail.com,2010-11-24,copy writer,Active
+605,erinrivera,Erin,Rivera,Enarivera28@gmail.com,2010-11-29,copy writer,Active
+658,kristeencherney,Kristeen,Cherney,kristeen.writes@gmail.com,2010-12-06,copy writer,Active
+664,lisagove,Lisa,Gove,lgwork70@gmail.com,2010-12-07,copy writer,Active
+831,farryllast,Farryl,Last,farryl.last@gmail.com,2011-01-28,copy writer,Active
+871,CPaustralia,Darry,King,darryl@irekon.com,2011-05-06,agency,Active
+872,BGAgency,BlueGlass,Agency,apineda@blueglass.com,2011-05-06,agency,Active
+873,dking,Darryl,King,darryl@ireckon.com,2011-05-18,project manager,Active
+874,janeseedhouse,Jane,Seedhouse,jseedhouse@steelcast.com,2011-05-19,admin,Active
+883,ericthuesen,Eric,Thuesen,bigtallturtle@yahoo.com,2011-07-08,editor,Active
+891,monicaliriano,Monica,Liriano,mliriano@copypress.com,2011-08-15,admin,Active
+892,chaneladams,Chanel,Adams,adams.chanel2@gmail.com,2011-08-17,copy writer,Active
+905,raubiperilli,Raubi,Perilli,rperilli@copypress.com,2011-09-07,copy writer,Active
+908,lyndsierobinson,Lyndsie,Robinson,poisonveined@gmail.com,2011-09-09,copy writer,Active
+909,rperilli,Raubi,Perilli,rmp@raubimarie.com,2011-09-12,copy writer,Active
+917,joaniewang,Joanie,Wang,joaniewangnyc@gmail.com,2011-10-05,copy writer,Active
+923,astringfellow,Angela,Stringfellow,arstringfellow@gmail.com,2011-10-18,copy writer,Active
+971,philipschawillie,Philip,Schawillie,phil.schawillie@digitaltechguide.com,2012-01-03,copy writer,Active
+988,raubimperilli,Raubi,Perilli,raubi19@gmail.com,2012-02-22,copy writer,Active
+995,rperillieditor,Raubi,Perilli,rperilli@copypress.com,2012-03-28,editor,Active
+1004,mandirogier,Mandi,Rogier,amrogier@gmail.com,2012-04-02,copy writer,Active
+1012,jonathanlister,Jonathan,Lister,jnthnlister@gmail.com,2012-04-09,copy writer,Active
+1036,darcychadwick,Darcy,Chadwick,dchadwick06@yahoo.com,2012-04-16,copy writer,Active
+1037,deniserandall,Denise,Randall,denisedenise1207@yahoo.com,2012-04-16,copy writer,Active
+1039,jeremygreen,Jeremy,Green,jayclaygreen@yahoo.com,2012-04-18,copy writer,Active
+1043,sandyjames,Sandy,James,sandyjames294@gmail.com,2012-04-19,copy writer,Active
+1100,kathykaradza,Kathy,Karadza,kkaradza@gmail.com,2012-05-07,copy writer,Active
+1136,rkarraneditor,Rajiv,Karran,rajivkarran@gmail.com,2012-05-29,editor,Active
+1151,donnasundblad,Donna,Sundblad,luvofwriting@gmail.com,2012-06-11,copy writer,Active
+1184,sharonhurleyh,Sharon,Hurley Hall,webadmin@sharonhurleyhall.com,2012-07-09,copy writer,Active
+1206,dharmon,Deneatra,Harmon,dharmon265@gmail.com,2012-11-13,copy writer,Active
+1212,vsimon,Vasanth,Simon,vsimon83@yahoo.com,2012-12-13,copy writer,Active
+1213,HarveyGEditor,Harvey,Gladden,hgladden@steelcast.com,2012-12-20,admin,Active
+1214,HarveyGWriter,Harvey,Gladden,hgladden@steelcast.com,2012-12-28,copy writer,Active
+1217,CBerghoefer,Courtni,Berghoefer,cberghoefer@steelcast.com,2013-01-17,admin,Active
+1218,CourtniWriter,Courtni,Berghoefer,cberghoefer@steelcast.com,2013-01-17,copy writer,Active
+1219,testwriter,test,writer,nancy@infinitenine.com,2013-01-18,copy writer,Active
+1223,spencerbaselice,Spencer,Baselice,sbaselice@gmail.com,2013-02-06,copy writer,Active
+1225,ericschad,Eric,Schad,eric.n.schad@gmail.com,2013-02-06,copy writer,Active
+1231,bgoldsmith,Bobby,Goldsmith,bobby.goldsmith@gmail.com,2013-02-11,copy writer,Active
+1233,laurenkatulka,Lauren,Katulka,lauren@qblix.com,2013-02-12,copy writer,Active
+1235,michaelgeer,Michael,Geer,mycgeer@gmail.com,2013-02-27,copy writer,Active
+1243,cynthianardis,Cynthia,Nardis,cynnardis@yahoo.com,2013-03-06,copy writer,Active
+1249,gretchenmueller,Gretchen,Mueller,romilly@goldencircledesigns.com,2013-03-27,copy writer,Active
+1259,lesliefloyd,Leslie,Floyd,lesliefsu85@yahoo.com,2013-04-10,copy writer,Active
+1264,michaelsarko,Michael,Sarko,sarko.michael@gmail.com,2013-04-13,copy writer,Active
+1266,claireselman,Claire,Selman,claires@mail.usf.edu,2013-04-13,copy writer,Active
+1268,adamgroff,Adam,Groff,adamsgroff@gmail.com,2013-04-13,copy writer,Active
+1270,joynelson,Joy,Nelson,jen2345_24@hotmail.com,2013-04-13,copy writer,Active
+1271,benferguson,Ben,Ferguson,revbenferguson@gmail.com,2013-04-16,copy writer,Active
+1272,emilyscott,Emily,Scott,elscottwrites@gmail.com,2013-04-19,copy writer,Active
+1274,vtritsarolis,Vanessa,Tritsarolis,vtritsarolis@gmail.com,2013-04-19,copy writer,Active
+1276,KellyQuigley,Kelly,Quigley,kquigley@copypress.com,2013-04-22,admin,Active
+1280,ephatayaelery,Ephataya,Elery,teleryconsulting@gmail.com,2013-04-29,copy writer,Active
+1281,tamilamcdonald,Tamila,McDonald,tkmcdonald@inbox.com,2013-04-30,copy writer,Active
+1286,kerryjones,Kerry,Jones,kjones@copypress.com,2013-05-13,copy writer,Active
+1287,KJonesWriter,Kerry,Jones,kjones@copypress.com,2013-05-13,copy writer,Active
+1288,dreenadtaplin,Dreena,Clark,dreenat@comcast.net,2013-05-14,copy writer,Active
+1301,michaelvyskocil,Michael,Vyskocil,vyskocil.michael@gmail.com,2013-06-10,copy writer,Active
+1308,CCampbellWriter,Caroline,Campbell,ccampbell@copypress.com,2013-06-18,copy writer,Active
+1309,stevenrichmond,Steven,Richmond,yawndomino@gmail.com,2013-06-19,copy writer,Active
+1318,jmaldonado,Jose,Maldonado,j.a.maldonado.mfa@gmail.com,2013-06-24,copy writer,Active
+1331,angeloverzosa,Angelo,Verzosa,chadverzosa02@gmail.com,2013-06-28,copy writer,Active
+1336,krystalbutherus,Krystal,Butherus,krystalbutherus@gmail.com,2013-07-09,copy writer,Active
+1339,tinavolpe,Tina,Volpe,tvolpe11@gmail.com,2013-07-16,copy writer,Active
+1341,lexhogan,Alexa,Hogan,lexphogan@gmail.com,2013-07-17,copy writer,Active
+1344,heatherhobbs,Heather,Waugh,h.s.hobbs@gmail.com,2013-07-22,copy writer,Active
+1348,saranapier,Sara,Napier,kingdomjournal@gmail.com,2013-07-23,copy writer,Active
+1349,judithcampbell,Judith,Campbell,judithmay27@yahoo.com,2013-07-24,copy writer,Active
+1350,viveksaxena,Vivek,Saxena,vsaxena@plexity.net,2013-07-24,copy writer,Active
+1355,ashostak,Alexandra,Shostak,alexandrashostak@gmail.com,2013-07-30,copy writer,Active
+1357,francescamartin,Francesca,Martin,francescamartin52@gmail.com,2013-07-30,copy writer,Active
+1362,JRakowskiPaid,John,Rakowski,johnprakowski@gmail.com,2013-08-02,copy writer,Active
+1363,richardfernandez,Richard,Fernandez,grtcommunications@gmail.com,2013-08-05,copy writer,Active
+1364,melissaschmitz,Melissa,Schmitz,melissanott@yahoo.com,2013-08-05,copy writer,Active
+1366,lucindawatrous,Lucinda,Watrous,LEWatrous@gmail.com,2013-08-07,copy writer,Active
+1370,mspellbinder,Maurice,Spellbinder,mauricespellbinder@gmail.com,2013-08-15,copy writer,Active
+1373,AWithersPaid,Ashley,Withers,withers.ashley@gmail.com,2013-09-03,copy writer,Active
+1375,BonusEditor,Bonus,Editor,echilds@steelcast.com,2013-09-18,admin,Active
+1376,JaimeWriter,Jaime,Spector,jspector@steelcast.com,2013-09-23,copy writer,Active
+1377,TommyWriter,Tommy,Wyher,wyher88@gmail.com,2013-09-23,copy writer,Active
+1380,RaubiWriter,Raubi,Perilli,rperilli@steelcast.com,2013-09-24,copy writer,Active
+1394,CCampbellPaid,Caroline,Campbell,CarolineBarryC@Gmail.com,2013-09-24,copy writer,Active
+1399,adodgepaid,Amanda,Dodge,amandadodge4@gmail.com,2013-09-24,copy writer,Active
+1400,deleteraubi,raubi,perilli,rperilli@copypress.com,2013-10-07,editor,Active
+1403,CarolineCampbell,Caroline,Campbell,Ccampbell@steelcast.com,2013-10-08,admin,Active
+1412,bryanhufford,Bryan,Hufford,trippmarxx@mchsi.com,2013-10-30,copy writer,Active
+1413,sheilaolson,Sheila,Olson,sheila.martin.olson@gmail.com,2013-10-30,copy writer,Active
+1417,laurenmylacraine,Lauren,Mylacraine,lmylacraine@gmail.com,2013-11-05,copy writer,Active
+1419,AmandaWriter,Amanda,Dodge,adodge@copypress.com,2013-11-07,copy writer,Active
+1423,christinagreen,Christina,Green,christina@christinargreen.com,2013-11-20,copy writer,Active
+1425,vcastrillo,Victoria,Castrillo,vcastrillo@copypress.com,2013-12-04,admin,Active
+1426,kathygleason,Kathy,Gleason,katgleason79@gmail.com,2013-12-13,copy writer,Active
+1429,TestEditor,Test,Editor,rperilli@copypress.com,2014-01-07,editor,Active
+1431,sarahhenkel,Sarah,Henkel,sarah.henkel89@gmail.com,2014-01-11,copy writer,Active
+1435,sandrabrown,Sandra,Brown,sandib80@yahoo.com,2014-01-15,copy writer,Active
+1438,ninahauptman,Nina,Hauptman,nina.kate@hotmail.com,2014-01-17,copy writer,Active
+1440,acopeland,Andrew,Copeland,acopeland1087@gmail.com,2014-01-17,copy writer,Active
+1441,CMorrisWriter,Caroline,Morris,cmorris@steelcast.com,2014-01-22,copy writer,Active
+1442,dalecudmore,Dale,Cudmore,dale.cudmore@gmail.com,2014-01-23,copy writer,Active
+1443,dcimino,Davanna,Cimino,davannacimino@yahoo.com,2014-01-23,copy writer,Active
+1444,kristenmccalla,Kristen,McCalla,kastanton01@yahoo.com,2014-01-23,copy writer,Active
+1445,deborahheuvel,Deborah,Heuvel,debvandenheuvel@hotmail.com,2014-01-23,copy writer,Active
+1451,meerapatel,Meera,Patel,mpatel@copypress.com,2014-01-28,admin,Active
+1453,raphaelcanton,Raphael,Canton,raphaelpcanton@yahoo.com,2014-01-29,copy writer,Active
+1456,kathymcgraw,Kathy,McGraw,kmcgraw@articleright.com,2014-01-31,copy writer,Active
+1457,jessicaholscher,Jessica,Holscher,mcle8282@gmail.com,2014-02-05,copy writer,Active
+1458,gwinston,Gabriel,Winston,gabrielwinston100@gmail.com,2014-02-12,copy writer,Active
+1459,lisaaltmann,Lisa,Altmann,parrot27964@hotmail.com,2014-02-12,copy writer,Active
+1460,ckoepnick,Catherine,Koepnick,earlybirdwriting@gmail.com,2014-02-12,copy writer,Active
+1461,meghanwilliams,Meghan,Williams,meghan.williams6@gmail.com,2014-02-13,copy writer,Active
+1463,jackiesakura,Jacqueline,Sakura Mahoney,jackiesakura@gmail.com,2014-02-19,copy writer,Active
+1464,karlinreed,Karlin,Reed,karlinsummerreed@gmail.com,2014-02-19,copy writer,Active
+1467,idasalitti,Ida,Salitti,artsfarm@msn.com,2014-02-27,copy writer,Active
+1469,jfortunatopaid,Joseph,Fortunato,jmfortunato8@gmail.com,2014-02-27,copy writer,Active
+1470,phyliciabridges,Phylicia,Bridges,pbridges06@gmail.com,2014-03-03,copy writer,Active
+1471,kmooneyham,Kimberly,Mooneyham,kimberly.mooneyham8@gmail.com,2014-03-04,copy writer,Active
+1472,tomcholewa,Thomas,Cholewa,cholewathomas@hotmail.com,2014-03-05,copy writer,Active
+1473,aletheamiddleton,Alethea,Middleton,apgerardot@yahoo.com,2014-03-06,copy writer,Active
+1474,christclayton,Chris,Clayton,christopherclayton@outlook.com,2014-03-06,copy writer,Active
+1475,ekaufman,Eric,Kaufman,ekaufman@copypress.com,2014-03-07,admin,Active
+1476,amandasuazo,Amanda,Suazo,aprzybyla3@gmail.com,2014-03-10,copy writer,Active
+1477,megantilley,Megan,Tilley,mt11g@my.fsu.edu,2014-03-11,copy writer,Active
+1478,CristieRivera,Cristie,Rivera,crivera@copypress.com,2014-03-13,admin,Active
+1480,alexsilbajoris,Alex,Silbajoris,alexs@aasilbajo.com,2014-03-17,copy writer,Active
+1481,shaunabowling,Shauna,Bowling,bravewarrior33@gmail.com,2014-03-19,copy writer,Active
+1482,kerilynnengle,KeriLynn,Engel,kle321@gmail.com,2014-03-20,copy writer,Active
+1483,hzakowicz,Halina,Zakowicz,admin@haelix.com,2014-03-20,copy writer,Active
+1484,ptristram,Penny,Tristram,pennytristram@gmail.com,2014-03-21,copy writer,Active
+1485,anitacooper,Anita,Cooper,northwoodswriter@gmail.com,2014-03-21,copy writer,Active
+1486,sarahjennings,Sarah,Jennings,carrerasarah@yahoo.com,2014-03-24,copy writer,Active
+1487,mishamiller,Misha,Miller,misha_miller@yahoo.com,2014-03-26,copy writer,Active
+1488,tiffanywright,Tiffany,Wright,twright@tocafamilyservices.com,2014-03-26,copy writer,Active
+1490,IgnacioLucea,Ignacio,Lucea,ilucea@copypress.com,2014-03-31,admin,Active
+1491,JillianLenzo,Jillian,Lenzo,jlenzo@copypress.com,2014-04-01,admin,Active
+1494,ZachLeetePaid,Zach,Leete,zacharyleete@mail.usf.edu,2014-04-03,copy writer,Active
+1495,JaimeSpector,Jaime,Spector,jspector@copypress.com,2014-04-03,admin,Active
+1496,taylorhansen,Taylor,Hansen,tay-hansen@hotmail.com,2014-04-03,copy writer,Active
+1497,trevorsuich,Trevor,Suich,trevor.suich@yahoo.com,2014-04-04,copy writer,Active
+1499,jasonhannula,Jason,Hannula,jasonhannula@gmail.com,2014-04-07,copy writer,Active
+1500,ARadesEditor,Alicia,Rades,ajrades@gmail.com,2014-04-07,editor,Active
+1502,stephanievarney,Stephanie,Varney,stephv73@yahoo.com,2014-04-08,copy writer,Active
+1503,MRichardsonEdit,Marissa,Richardson,mricha14@gmail.com,2014-04-08,editor,Active
+1504,carawerner,Cara,Werner,cara_werner@yahoo.com,2014-04-08,copy writer,Active
+1505,ADodgeEditor,Amanda,Dodge,adodge@copypress.com,2014-04-09,admin,Active
+1506,MeghanPaulEditor,Meghan,Paul,mkpaul@knights.ucf.edu,2014-04-09,editor,Active
+1507,meghanpaul,Meghan,Paul,mkpaul@knights.ucf.edu,2014-04-09,copy writer,Active
+1511,SaraNapierEditor,Sara,Napier,Iheartpurpleclothing@gmail.com,2014-04-10,editor,Active
+1512,DHarmonEditor,Deneatra,Harmon,dharmon265@gmail.com,2014-04-10,editor,Active
+1513,AWithersEditor,Ashley,Withers,withers.ashley@gmail.com,2014-04-10,editor,Active
+1514,bonnielaquitara,Bonnie,Laquitara,bonniecarrigan@comcast.net,2014-04-11,copy writer,Active
+1515,KKaradzaEditor,Kathy,Karadza,kkaradza@gmail.com,2014-04-17,editor,Active
+1516,JoyNelsonEditor,Joy,Nelson,jen2345_24@hotmail.com,2014-04-17,editor,Active
+1517,CRodmanEditor,Cassandra,Rodman,ajkeene.rn@gmail.com,2014-04-17,editor,Active
+1518,BJollyEditor,Britney,Jolly,bjolly88_work@yahoo.com,2014-04-17,editor,Active
+1521,KSandrikEditor,Kellie,Sandrik,kellie@ndreport.com,2014-04-18,editor,Active
+1522,APerellaEditor,Alisha,Perella,alisha.perella@outlook.com,2014-04-18,editor,Active
+1523,MCaldarelliEdit,Mary,Caldarelli,caldarelli@aol.com,2014-04-18,editor,Active
+1524,blaireoneal,Blaire,O'Neal,bmoneal@mail.usf.edu,2014-04-22,copy writer,Active
+1525,KaraParlinEditor,Kara,Parlin,kparlin@gmail.com,2014-04-22,editor,Active
+1526,margocatts,Margaret,Catts,margo.catts@gmail.com,2014-04-22,copy writer,Active
+1527,CMorrisEditor,Caroline,Morris,cmorris@steelcast.com,2014-04-23,admin,Active
+1528,daninorton,Dani,Norton,dpnorton@hotmail.com,2014-04-29,copy writer,Active
+1529,SFrazierEditor,Stuart,Frazier,frazier.stuart@gmail.com,2014-05-01,editor,Active
+1530,sdusenberry,Stephen,Dusenberry,SDusenberry26@gmail.com,2014-05-06,copy writer,Active
+1531,ashleyannis,Ashley,Annis,ashleyannis@mail.usf.edu,2014-05-06,copy writer,Active
+1532,gregelder,Greg,Elder,greg@gregelderauthor.com,2014-05-16,copy writer,Active
+1533,kelliesandrik,Kellie,Sandrik,kellie@ndreport.com,2014-05-16,copy writer,Active
+1534,NHauptmanEdit,Nina,Hauptman,nina.kate@hotmail.com,2014-05-16,editor,Active
+1535,DCudmoreEditor,Dale,Cudmore,dale.cudmore@gmail.com,2014-05-16,editor,Active
+1536,bobdiddlebock,Bob,Diddlebock,diddlebock@pcisys.net,2014-05-16,copy writer,Active
+1537,jimmakos,Jim,Makos,jim@jimmakos.com,2014-05-19,copy writer,Active
+1539,CaitlinEditor,Caitlin,Malone,cmalone@steelcast.com,2014-05-19,editor,Active
+1540,emmasiemasko,Emma,Siemasko,emmafaye@gmail.com,2014-05-22,copy writer,Active
+1541,brianliang,Brian,Liang,btl118@yahoo.com,2014-05-22,copy writer,Active
+1542,mirunacorneanu,Miruna,Corneanu,miruna.corneanu@gmail.com,2014-05-23,copy writer,Active
+1543,chriscloutier,Christopher,Cloutier,chriscloutier4@gmail.com,2014-05-23,copy writer,Active
+1544,gauravhasijaNO,Gaurav,hasija,cberghoefer@copypress.com,2014-05-23,copy writer,Active
+1545,kategreunke,Kate,Greunke,kate.capitaledits@gmail.com,2014-05-27,copy writer,Active
+1546,aprilthompson,April,Thompson,adthomps@gmail.com,2014-05-29,copy writer,Active
+1547,ryanbrownNO,Ryan,Brown,cberghoefer@copypress.com,2014-05-29,copy writer,Active
+1548,shaunrobertsonNO,Shaun,Robertson,cberghoefer@copypress.com,2014-05-29,copy writer,Active
+1549,rebeccametz,Rebecca,Metz,rebeccametz@gmail.com,2014-05-29,copy writer,Active
+1551,shereenrayle,Shereen,Rayle,srayle@comcast.net,2014-05-29,copy writer,Active
+1552,rebeccacallahan,Rebecca,Callahan,rccallahan@gmail.com,2014-05-30,copy writer,Active
+1553,marissawilson,Marissa,Wilson,marissa088@gmail.com,2014-06-03,copy writer,Active
+1554,jonmclelland,Jonathan,McLelland,inmanmountainwriting@gmail.com,2014-06-03,copy writer,Active
+1555,shanehall,Shane,Hall,shanecarlhall@gmail.com,2014-06-03,copy writer,Active
+1556,anitasippy,Anita,Sippy,asippy10@yahoo.com,2014-06-03,copy writer,Active
+1557,melodyamsel,Melody,Amsel-Arieli,goldenjerusalem@yahoo.com,2014-06-03,copy writer,Active
+1558,seattledredgeNO,Seattle,Dredge,cberghoefer@copypress.com,2014-06-03,copy writer,Active
+1559,lynnsmythe,Lynn,Smythe,lynnsmythe48@yahoo.com,2014-06-04,copy writer,Active
+1560,vickycoaten,Victoria,Coaten,vickycoaten@gmail.com,2014-06-04,copy writer,Active
+1561,amandagraber,Amanda,Graber,amandagraber@gmail.com,2014-06-04,copy writer,Active
+1562,nickhilden,Nick,Hilden,nickhilden@gmail.com,2014-06-04,copy writer,Active
+1563,alishasmith,Alisha,Smith,alisha100@googlemail.com,2014-06-04,copy writer,Active
+1564,davidmiah,David,Miah,thedavidmiah@gmail.com,2014-06-04,copy writer,Active
+1565,jacquelinethomas,Jacqueline,Thomas,pearlofafrika@gmail.com,2014-06-04,copy writer,Active
+1566,marywest,Mary,West,west158485@bellsouth.net,2014-06-04,copy writer,Active
+1567,maryeaudet,Marye,Audet,maudet8816@aol.com,2014-06-04,copy writer,Active
+1568,shawandajames,Shawanda,James,shawanda.james.writer@gmail.com,2014-06-04,copy writer,Active
+1569,courtneyburrows,Courtney,Burrows,cnellis8@yahoo.com,2014-06-05,copy writer,Active
+1570,emilysullivan,Emily,Sullivan,emily.w.sullivan@gmail.com,2014-06-05,copy writer,Active
+1572,sabahkarimi,Sabah,Karimi,sabahk@gmail.com,2014-06-05,copy writer,Active
+1573,jeanettehummel,Jeanette,Hummel,j@fitgirltravels.com,2014-06-05,copy writer,Active
+1574,andyhayes,Andy,Hayes,andrewghayes@gmail.com,2014-06-05,copy writer,Active
+1575,laurenhaas,Lauren,Haas,Lauren@LaurenHaas.com,2014-06-05,copy writer,Active
+1576,jonathanhale,Jonathan,Hale,halejon@gmail.com,2014-06-06,copy writer,Active
+1577,rachelleflick,Rachelle,Flick,flick@uoregon.edu,2014-06-06,copy writer,Active
+1578,ericmohrman,Eric,Mohrman,emohrman@hotmail.com,2014-06-06,copy writer,Active
+1579,laurafarkas,Laura,Farkas,laura@toucan-marketing.biz,2014-06-06,copy writer,Active
+1580,cthongkham,Cheylene,Thongkham,cheylene@girlinlondon.com,2014-06-06,copy writer,Active
+1581,paulabeaton,Paula,Beaton,Amber0307@gmail.com,2014-06-06,copy writer,Active
+1582,jalbukhari,Janelle,Albukhari,jenkhari@gmail.com,2014-06-06,copy writer,Active
+1583,mariehernandez,Marie,Hernandez,marie@seriouslytravel.com,2014-06-06,copy writer,Active
+1584,ashleyhenshaw,Ashley,Henshaw,ahenshaw12@gmail.com,2014-06-06,copy writer,Active
+1585,marciafrost,Marcia,Frost,Marcia@pwta.com,2014-06-06,copy writer,Active
+1586,ASilbajorisEdit,Alex,Silbajoris,alexs@aasilbajo.com,2014-06-10,editor,Active
+1587,dawnhutchins,Dawn,Hutchins,Chefdawn@hotmail.com,2014-06-10,copy writer,Active
+1588,emilyprice,Emily,Price,seeemilywrite@gmail.com,2014-06-10,copy writer,Active
+1589,elaineheng,Elaine,Heng,breatheeatlive@gmail.com,2014-06-10,copy writer,Active
+1590,pinartarhan,Pinar,Tarhan,pinartarhan@windowslive.com,2014-06-10,copy writer,Active
+1591,annaridley,Anna,Ridley,annaridley7@hotmail.com,2014-06-10,copy writer,Active
+1592,tiffanysmith,Tiffany,Smith,tnsmith.ma@gmail.com,2014-06-10,copy writer,Active
+1593,lindaforshaw,Linda,Forshaw,inthe@sky.com,2014-06-10,copy writer,Active
+1594,ashleynevis,Ashley,Nevis,ashley.nevis2012@gmail.com,2014-06-10,copy writer,Active
+1595,ShandaSilerEdit,Shanda,Siler,shandasiler@yahoo.com,2014-06-10,editor,Active
+1596,mikecheng,Michael,Cheng,mike.c4@gmail.com,2014-06-10,copy writer,Active
+1597,mattberry,Matthew,Berry,berrywords@gmail.com,2014-06-10,copy writer,Active
+1598,artiebeaty,Artie,Beaty,aobeaty@gmail.com,2014-06-10,copy writer,Active
+1599,cczajkowski,Cherri,Czajkowski,cczajkowski@rocketmail.com,2014-06-10,copy writer,Active
+1600,tammybanfield,Tammy,Banfield,tammybanfield@gmail.com,2014-06-10,copy writer,Active
+1601,edemeirow,Eden,Meirow,emeirow1@gmail.com,2014-06-10,copy writer,Active
+1602,asahieveleth,Asahi,Eveleth,asahieveleth@gmail.com,2014-06-10,copy writer,Active
+1603,lindamanning,Linda,Manning,LindaManning23@gmail.com,2014-06-10,copy writer,Active
+1604,melissakennedy,Melissa,Kennedy,melyssafaye@gmail.com,2014-06-11,copy writer,Active
+1605,schyllerhall,Schyller,Hall,schyllerwade@gmail.com,2014-06-11,copy writer,Active
+1606,lalexander,Lexington,Alexander,lexington.alexander@lycos.com,2014-06-11,copy writer,Active
+1607,kelleygardiner,Kelley,Gardiner,kelleygard@gmail.com,2014-06-11,copy writer,Active
+1608,sandymitchell,Sandy,Mitchell,sandymitchellsmm@aol.com,2014-06-16,copy writer,Active
+1609,beththomas,Beth,Thomas,beththomas777@gmail.com,2014-06-16,copy writer,Active
+1610,DHeuvelEdit,Deborah,Heuvel,debvandenheuvel@hotmail.com,2014-06-16,editor,Active
+1611,TAndersonEditor,Theresa,Anderson,traanderson@gmail.com,2014-06-16,editor,Active
+1612,camillewillemain,Camille,Willemain - Green,camillewillemain@gmail.com,2014-06-16,copy writer,Active
+1613,shannonmcinerney,Shannon,McInerney,shannonmcinerney@gmail.com,2014-06-17,copy writer,Active
+1614,kaitlingladney,Kaitlin,Gladney,kaitlin.gladney@gmail.com,2014-06-17,copy writer,Active
+1615,adamhopkins,Adam,Hopkins,adam@ahoplaw.com,2014-06-17,copy writer,Active
+1616,joecortez,Joseph,Cortez,joecortezmedia@gmail.com,2014-06-17,copy writer,Active
+1617,dalemyers,Dale,Myers,irelanditaly14@yahoo.com,2014-06-17,copy writer,Active
+1618,genevievenino,Genevieve,Nino,genevievenino@yahoo.com,2014-06-17,copy writer,Active
+1619,robinraven,Robin,Raven,RobinRaven@gmail.com,2014-06-17,copy writer,Active
+1620,lauraroberts,Laura,Roberts,laura.roberts98@gmail.com,2014-06-17,copy writer,Active
+1621,MSchaeferEdit,Megan,Schaefer,mrschaef@butler.edu,2014-06-18,editor,Active
+1622,ABrownEditor,Angela,Brown,divisible.by.three@gmail.com,2014-06-18,editor,Active
+1623,catherineperkins,Catherine,Perkins,catherinekietsu@gmail.com,2014-06-19,copy writer,Active
+1624,matthewpotter,Matthew,Potter,pottermt@outlook.com,2014-06-19,copy writer,Active
+1626,darlabarar,Darla,Barar,darla.barar@alumni.utexas.net,2014-06-19,copy writer,Active
+1627,DBararEditor,Darla,Barar,darla.barar@alumni.utexas.net,2014-06-19,editor,Active
+1628,EMacEachernEdit,Erin,MacEachern,erinmac1101@gmail.com,2014-06-19,editor,Active
+1629,JRichardsonEdit,Joshua,Richardson,passatdreams@hotmail.com,2014-06-19,editor,Active
+1630,BenFergusonEdit,Benjamin,Ferguson,revbenferguson@gmail.com,2014-06-19,editor,Active
+1631,barbarahazelden,Barbara,Hazelden,hazeldenopportunities@gmail.com,2014-06-19,copy writer,Active
+1632,carriedahle,Carrie,Dahle,cdahle@yahoo.com,2014-06-20,copy writer,Active
+1633,sarahmcwilliams,Sarah,McWilliams,sarahjmcwilliams@gmail.com,2014-06-20,copy writer,Active
+1634,LWhittleEditor,Leigh,Whittle,leighannwhittle1@gmail.com,2014-06-20,editor,Active
+1635,AnnaKuehlEditor,Anna,Kuehl,gfjetset@gmail.com,2014-06-20,editor,Active
+1636,JamesMonroeEdit,James,Monroe,james.monroe621@gmail.com,2014-06-20,editor,Active
+1637,DorotaEditor,Dorota,Szczepanska,Dorota@dsews.com,2014-06-20,editor,Active
+1638,JGabrielsonEdit,Julie,Gabrielson,juliemgabrielson@gmail.com,2014-06-20,editor,Active
+1639,ClareDemingEdit,Clare,Deming,clare_deming@hotmail.com,2014-06-20,editor,Active
+1640,ABeckstettEdit,Alexandra,Beckstett,a.beckstett@gmail.com,2014-06-20,editor,Active
+1641,MeganTilleyEdit,Megan,Tilley,mt11g@my.fsu.edu,2014-06-20,editor,Active
+1643,BillMcSteenEdit,Bill,McSteen,billmcsteen@gmail.com,2014-06-20,editor,Active
+1644,joshuarichardson,Joshua,Richardson,passatdreams@hotmail.com,2014-06-23,copy writer,Active
+1645,ShaneHallEdit,Shane,Hall,shanecarlhall@gmail.com,2014-06-23,editor,Active
+1646,CHemmingsEdit,Carolyn,Hemmings,cphemm@msn.com,2014-06-23,editor,Active
+1647,jamesloop,James,Loop,loop1221@gmail.com,2014-06-23,copy writer,Active
+1648,MaryCrottyEdit,Mary,Crotty,marycrottywriting@gmail.com,2014-06-23,editor,Active
+1649,AlexStrineEdit,Alex,Strine,strine.alex@gmail.com,2014-06-23,editor,Active
+1650,rayburow,Ray,Burow,rayburow@yahoo.com,2014-06-23,copy writer,Active
+1651,KZeedickEditor,Karen,Zeedick,klzeedick@hotmail.com,2014-06-23,editor,Active
+1652,marlenespector,Marlene,Spector,marlene.spector@cox.net,2014-06-23,copy writer,Active
+1653,jenniferfinney,Jennifer,Finney,JenniferGFinney@gmail.com,2014-06-23,copy writer,Active
+1654,juanluckey,Juan,Luckey,acuario2015@gmail.com,2014-06-23,copy writer,Active
+1655,JPowlisonEdit,Jennifer,Powlison,jenniferpowlison@gmail.com,2014-06-23,editor,Active
+1656,KatGrayEditor,Kat,Gray,abovethelevelplain@gmail.com,2014-06-24,editor,Active
+1657,crystalthompson,Crystal,Thompson,ct28664@live.com,2014-06-24,copy writer,Active
+1658,RachelKirkEdit,Rachel,Kirk,rlkirk28@gmail.com,2014-06-24,editor,Active
+1660,lauraellis,Laura,Ellis,lauraellis90@gmail.com,2014-06-24,copy writer,Active
+1661,noreenkhan,Noreen,Khan-Kassem,noreenk3@gmail.com,2014-06-24,copy writer,Active
+1662,KGardinerEdit,Kelley,Gardiner,kelleygard@gmail.com,2014-06-25,editor,Active
+1663,jennyschafer,Jenny,Schafer,jenny@celebritybabyscoop.com,2014-06-25,copy writer,Active
+1664,bridgetteoutten,Bridgette,Outten,bridgette@bridgetteoutten.com,2014-06-25,copy writer,Active
+1665,joymontefusco,Joy,Montefusco,writer732@gmail.com,2014-06-25,copy writer,Active
+1666,nancykoziol,Nancy,Koziol,Nancy.Koziol.writer@gmail.com,2014-06-25,copy writer,Active
+1667,amyguertin,Amy,Guertin,amyguertin@att.net,2014-06-25,copy writer,Active
+1668,CPerkinsEditor,Catherine,Perkins,catherinekietsu@gmail.com,2014-06-25,editor,Active
+1669,dianarowe,Diana,Rowe Crawley,diana@dianarowe.com,2014-06-25,copy writer,Active
+1670,seanzearfoss,Sean,Zearfoss,seanzearfoss@gmail.com,2014-06-26,copy writer,Active
+1671,KhaeliWriter,Khaeli,McKown,kmckown@steelcast.com,2014-06-26,copy writer,Active
+1672,KhaeliEditor,Khaeli,McKown,kmckown@steelcast.com,2014-06-26,editor,Active
+1673,AdamWriter,Adam,Corson,acorson@steelcast.com,2014-06-26,copy writer,Active
+1674,AdamEditor,Adam,Corson,acorson@steelcast.com,2014-06-26,editor,Active
+1675,tiersabuckley,Tiersa,Buckley,tbuckley12001@yahoo.com,2014-06-26,copy writer,Active
+1676,CMueriEditor,Christine,Mueri,camueri@gmail.com,2014-06-26,editor,Active
+1677,rebeccateeters,Rebecca,Teeters,becky.brych@gmail.com,2014-06-26,copy writer,Active
+1678,katgray,Kat,Gray,abovethelevelplain@gmail.com,2014-06-26,copy writer,Active
+1679,pamelagentry,Pamela,Gentry,pamelagentrywriter@yahoo.com,2014-06-26,copy writer,Active
+1680,scotttruelove,Scott,Truelove,scottelearning@gmail.com,2014-06-27,copy writer,Active
+1681,erindesantiago,Erin,De Santiago,erin_desantiago@yahoo.com,2014-06-27,copy writer,Active
+1682,michelleallen,Michelle,Allen,rideforblue2002@yahoo.com,2014-06-30,copy writer,Active
+1684,melaniejones,Melanie,Jones,mel_jones@mac.com,2014-06-30,copy writer,Active
+1685,annakuehl,Anna,Kuehl,gfjetset@gmail.com,2014-06-30,copy writer,Active
+1686,allisonkelley,Allison,Kelley,allison.suzanne.kelley@gmail.com,2014-06-30,copy writer,Active
+1687,CMoriarityEdit,Caitlin,Moriarity,clmoriarity@gmail.com,2014-07-01,editor,Active
+1688,amyrigby,Amy,Rigby,rigby22@gmail.com,2014-07-01,copy writer,Active
+1689,RMetzEditor,Rebecca,Metz,rebeccametz@gmail.com,2014-07-01,editor,Active
+1690,amandaoliver,Amanda,Oliver,aeoliver111@gmail.com,2014-07-01,copy writer,Active
+1691,PSchawillieEdit,Philip,Schawillie,phil.schawillie@digitaltechguide.com,2014-07-01,editor,Active
+1692,maekowalke,Mae,Kowalke,mkowalke@gmail.com,2014-07-01,copy writer,Active
+1693,kellyvance,Kelly,Vance,kel@fairsing.com,2014-07-01,copy writer,Active
+1695,ninagass,Nina,Gass,nina@ninagass.com,2014-07-02,copy writer,Active
+1696,rebeccasavastio,Rebecca,Savastio,bsavastio@yahoo.com,2014-07-02,copy writer,Active
+1697,lisawood,Lisa,Wood,lmwoodie1@gmail.com,2014-07-02,copy writer,Active
+1698,monicawolyniec,Monica,Wolyniec,hello@myflaircode.com,2014-07-02,copy writer,Active
+1699,angelayoungman,Angela,Youngman,angelayoungman@aspects.net,2014-07-02,copy writer,Active
+1700,BDesmondEdit,Buddah,Desmond,buddahdesmond@yahoo.com,2014-07-02,editor,Active
+1701,dianebarton,Diane,Barton,gryph62@gmail.com,2014-07-02,copy writer,Active
+1702,jeanniemark,Jeannie,Mark,nomadic.chick@gmail.com,2014-07-02,copy writer,Active
+1703,vickieferguson,Vickie,Ferguson,vickie_ki_a@yahoo.com,2014-07-02,copy writer,Active
+1704,crismueller,Cris,Mueller,moustachewriters@gmail.com,2014-07-03,copy writer,Active
+1705,NHollandEditor,Nikki,Holland,hollnik07@gmail.com,2014-07-03,editor,Active
+1706,nikkiholland,Nikki,Holland,hollnik07@gmail.com,2014-07-03,copy writer,Active
+1707,CBrittainEditor,Chloe,Brittain,chloebrittain@hotmail.com,2014-07-03,editor,Active
+1708,ginaapruzzese,Gina,Apruzzese,ginavincetta@yahoo.com,2014-07-03,copy writer,Active
+1709,michaelamitchell,Michaela,Mitchell,michaela@workerbeemarketing.com,2014-07-03,copy writer,Active
+1710,corinnemcdermott,Corinne,McDermott,corinnemcdermott@gmail.com,2014-07-03,copy writer,Active
+1711,christopherpratt,Christopher,Pratt,C.Pratt32@yahoo.com,2014-07-03,copy writer,Active
+1712,jacevickers,Jace,Vickers,jacevickers@gmail.com,2014-07-03,copy writer,Active
+1713,laurencenorah,Laurence,Norah,laurence@findingtheuniverse.com,2014-07-03,copy writer,Active
+1714,audreybergner,Audrey,Bergner,bergner.audrey@gmail.com,2014-07-07,copy writer,Active
+1715,erinmcneaney,Erin,McNeaney,sianderin@neverendingvoyage.com,2014-07-07,copy writer,Active
+1716,hannahwhiteoak,Hannah,Whiteoak,sh.whiteoak@gmail.com,2014-07-07,copy writer,Active
+1717,raymondwalsh,Raymond,Walsh,raymond@manonthelam.com,2014-07-07,copy writer,Active
+1718,laurenjuliff,Lauren,Juliff,lauren@neverendingfootsteps.com,2014-07-07,copy writer,Active
+1719,robertschrader,Robert,Schrader,robert@leaveyourdailyhell.com,2014-07-07,copy writer,Active
+1720,whitneycann,Whitney,Cann,whitneyleighwhite1423@gmail.com,2014-07-08,copy writer,Active
+1721,kirstysnare,Kirsty,Snare,kirsty_snare@yahoo.com,2014-07-08,copy writer,Active
+1722,meganmcdonough,Megan,McDonough,meganeileen.mcd@gmail.com,2014-07-08,copy writer,Active
+1723,stephanieyoder,Stephanie,Yoder,Steph@Twenty-SomethingTravel.com,2014-07-08,copy writer,Active
+1724,emilycrone,Emily,Crone,crone.emily@gmail.com,2014-07-08,copy writer,Active
+1725,jenniferpowlison,Jennifer,Powlison,jenniferpowlison@gmail.com,2014-07-08,copy writer,Active
+1726,DMumpowerEdit,David,Mumpower,mumpower@gmail.com,2014-07-08,editor,Active
+1727,katesupino,Kate,Supino,email@katesupino.com,2014-07-08,copy writer,Active
+1728,jennifermitchell,Jennifer,Mitchell,jenniferamitchell@outlook.com,2014-07-08,copy writer,Active
+1729,theresaanderson,Theresa,Anderson,traanderson@gmail.com,2014-07-08,copy writer,Active
+1730,cameronwears,Cameron,Wears,camwears@hotmail.com,2014-07-08,copy writer,Active
+1731,christywoodrow,Christy,Woodrow,christyandscott@ordinarytraveler.com,2014-07-08,copy writer,Active
+1732,junoumathieu,Junou,Mathieu,traci.math@yahoo.com,2014-07-11,copy writer,Active
+1733,dancooper,Dan,Cooper,dancooper09@gmail.com,2014-07-11,copy writer,Active
+1734,cmakepeace,Caroline,Makepeace,cazcraig@ytravelblog.com,2014-07-11,copy writer,Active
+1735,robbingheesling,Robbin,Gheesling,robbin@vineyardadventures.com,2014-07-14,copy writer,Active
+1736,anilpolat,Anil,Polat,anil@foxnomad.com,2014-07-14,copy writer,Active
+1737,lilianraji,Lilian,Raji,lilian@lmrpr.com,2014-07-21,copy writer,Active
+1738,jessicafesta,Jessica,Festa,jdfesta7@gmail.com,2014-07-21,copy writer,Active
+1739,johnnyward,Johnny,Ward,johnnyward4321@gmail.com,2014-07-21,copy writer,Active
+1740,jodiemichalak,Jodie,Michalak,simplycottage2003@yahoo.com,2014-07-21,copy writer,Active
+1741,tesstaylor,Tess,Taylor,info@contentwritenow.com,2014-07-21,copy writer,Active
+1742,judithevans,Judith,Evans,reconciledheartjj@gmail.com,2014-07-21,copy writer,Active
+1743,elissagilbert,Elissa,Gilbert,elissa.gilbert@verizon.net,2014-07-21,copy writer,Active
+1744,joewarnimont,Joe,Warnimont,joe@writewithwarnimont.com,2014-07-22,copy writer,Active
+1745,sundeealon,Sundee,Alon,travelingwithiris@gmail.com,2014-07-22,copy writer,Active
+1746,emilyrogers,Emily,Rogers,emily.lynn.hope@gmail.com,2014-07-24,copy writer,Active
+1747,kaylenjackson,Kaylen,Jackson,kshubrick@gmail.com,2014-07-24,copy writer,Active
+1748,erincurtin,Erin,Curtin,erinjcurtin@gmail.com,2014-07-24,copy writer,Active
+1749,carmensantiago,Carmen,Santiago,cmsantiago77@gmail.com,2014-07-24,copy writer,Active
+1750,nicolegiacobone,Nicole,Giacobone,nikkigiacobone@gmail.com,2014-07-24,copy writer,Active
+1751,karynstrait,Karyn,Strait,karynjeanne12@gmail.com,2014-07-24,copy writer,Active
+1752,roseanderson,Rose,Marshall-Anderson,rose.k.anderson@gmail.com,2014-07-28,copy writer,Active
+1753,caitlinmalone,Caitlin,Malone,caitlin.malone@spartans.ut.edu,2014-07-29,copy writer,Active
+1754,monicaschultz,Monica,Schultz,monica@windblowncommunications.com,2014-07-29,copy writer,Active
+1755,jackierogers,Jackie,Rogers,jackienoel@ymail.com,2014-07-29,copy writer,Active
+1756,karenharrison,Karen,Harrison,kszabel@gmail.com,2014-07-29,copy writer,Active
+1757,chrisbacke,Chris,Backe,chrisbacke@gmail.com,2014-07-30,copy writer,Active
+1758,jessicawest,Jessica,West,jpwest6@gmail.com,2014-08-01,copy writer,Active
+1759,robidol,Rob,Idol,info@robidol.com.au,2014-08-01,copy writer,Active
+1760,TheresaLiuEdit,Theresa,Liu,tmiller62@wi.rr.com,2014-08-01,editor,Active
+1761,katyagordeeva,Katya,Gordeeva,katya.gordeeva@yahoo.com,2014-08-01,copy writer,Active
+1762,melissayost,Melissa,Yost,missyyost@blogmissy.com,2014-08-01,copy writer,Active
+1763,hollygorin,Holly,Gorin,avpm795@gmail.com,2014-08-01,copy writer,Active
+1764,keithfuchs,Keith,Fuchs,themyththepoet@gmail.com,2014-08-11,copy writer,Active
+1765,lyndseypierce,Lyndsey,Pierce,binser27@hotmail.com,2014-08-11,copy writer,Active
+1766,caribousfield,Cari,Bousfield,writeoncarijean@outlook.com,2014-08-11,copy writer,Active
+1767,brucemillstein,Bruce,Millstein,bdmills5@gmail.com,2014-08-12,copy writer,Active
+1768,JWestEditor,Jessica,West,jpwest6@gmail.com,2014-08-12,editor,Active
+1769,davidstillwell,David,Stillwell,davenmidtown@gmail.com,2014-08-12,copy writer,Active
+1770,morganperry,Morgan,Perry,morganperry021@gmail.com,2014-08-12,copy writer,Active
+1771,kaseyrubenstein,Kasey,Rubenstein,krubenst11@gmail.com,2014-08-12,copy writer,Active
+1772,davidmumpower,David,Mumpower,mumpower@gmail.com,2014-08-12,copy writer,Active
+1773,darnelljackson,Darnell,Jackson,email@darnelljackson.com,2014-08-12,copy writer,Active
+1774,kaylagulic,Kayla,Gulec,kcgulec@gmail.com,2014-08-13,copy writer,Active
+1775,ACopelandEditor,Andrew,Copeland,acopeland@steelcast.com,2014-08-18,admin,Active
+1776,bobprice,Bob,Price,radiobob2002@yahoo.com,2014-08-18,copy writer,Active
+1777,katherinepugh,Katherine,Pugh,katie@bohemianonrye.com,2014-08-18,copy writer,Active
+1778,jameslivingood,James,Livingood,daxamite@gmail.com,2014-08-25,copy writer,Active
+1779,shannonlake,Shannon,Lake,shannonclake@gmail.com,2014-08-25,copy writer,Active
+1780,marisalavalette,Marisa,LaValette,mklavalette@gmail.com,2014-08-25,copy writer,Active
+1781,domoniquepowell,Domonique,Powell,domonique.powell77@gmail.com,2014-08-25,copy writer,Active
+1782,courtneysnider,Courtney,Snider,courtney.snider@comcast.net,2014-08-25,copy writer,Active
+1783,williampope,William,Pope,casadorpope@gmail.com,2014-08-25,copy writer,Active
+1784,renaylefink,Renayle,Fink,renaylefink@yahoo.com,2014-08-25,copy writer,Active
+1785,michellemazzola,Michelle,Mazzola,mazzola.michelle@yahoo.com,2014-08-26,copy writer,Active
+1786,WGoodingEditor,William,Gooding,william.gooding@gmail.com,2014-08-26,editor,Active
+1787,LisaWynneEdit,Lisa,Wynne,lisa.c.wynne@gmail.com,2014-08-26,editor,Active
+1788,troypatterson,Troy,Patterson,tjtpatterson@hotmail.com,2014-08-26,copy writer,Active
+1789,lindapaull,Linda,Paull,lindapaullcontent@gmail.com,2014-08-27,copy writer,Active
+1790,JRakowskiEdit,John,Rakowski,johnprakowski@gmail.com,2014-08-27,editor,Active
+1791,bradlowry,Brad,Lowry,thepantry@sbcglobal.net,2014-09-02,copy writer,Active
+1792,erincoleman,Erin,Coleman,ecscharer@gmail.com,2014-09-02,copy writer,Active
+1793,larrywalker,Larry,Walker,findideashere@gmail.com,2014-09-02,copy writer,Active
+1794,lindachambara,Linda,Chambara,sakaigirl@yahoo.com,2014-09-02,copy writer,Active
+1795,AmyJonesEdit,Amy,Jones,amyj913@yahoo.com,2014-09-03,editor,Active
+1796,eightysix,Eighty,Six,daklenda@yahoo.com,2014-09-03,copy writer,Active
+1797,ezekielrudick,Ezekiel,Rudick,writer@ezekieljams.com,2014-09-05,copy writer,Active
+1798,natalietomasso,Natalie,Tomasso,nctomasso@gmail.com,2014-09-08,copy writer,Active
+1799,julietdownes,Juliet,Downes,info@julietdownes.com,2014-09-08,copy writer,Active
+1800,staceyjohnson,Stacey,Johnson,stacey@brownberrygroup.com,2014-09-08,copy writer,Active
+1801,brucetroxell,Bruce,Troxell,cbtroxell@verizon.net,2014-09-10,copy writer,Active
+1802,kristalroberts,Kristal,Roberts,kristal.roberts@gmail.com,2014-09-10,copy writer,Active
+1803,ceciliaaleman,Cecilia,Aleman,cpaleman91@gmail.com,2014-09-11,copy writer,Active
+1805,darlenemacauley,Darlene,MacAuley,kekoaskye@gmail.com,2014-09-12,copy writer,Active
+1806,kathrynwilliams,Kathryn,Williams,kathrynwilliams109@gmail.com,2014-09-15,copy writer,Active
+1807,PegBowmanEditor,Peg,Bowman,pegbow291@gmail.com,2014-09-15,editor,Active
+1808,talonwindwalker,Talon,Windwalker,1dad1kid@gmail.com,2014-09-15,copy writer,Active
+1809,joshrueff,Josh,Rueff,jrueff7@gmail.com,2014-09-15,copy writer,Active
+1810,adelinawong,Adelina,Wong,adelina@packmeto.com,2014-09-15,copy writer,Active
+1811,jessicawarrick,Jessica,Warrick,punkrockmommajess@gmail.com,2014-09-16,copy writer,Active
+1812,sharontherien,Sharon,Therien,sharontwriting@gmail.com,2014-09-16,copy writer,Active
+1813,erinschambach,Erin,Schambach,Erin.schambach@icloud.com,2014-09-16,copy writer,Active
+1814,benjacobson,Ben,Jacobson,bjacobson@gmail.com,2014-09-16,copy writer,Active
+1815,derekfreal,Derek,Freal,derek4real@theholidaze.com,2014-09-17,copy writer,Active
+1816,ezgiakarsu,Ezgi,Akarsu,ezgi.akarsu.92@gmail.com,2014-09-17,copy writer,Active
+1817,jimcheney,Jim,Cheney,jim@uncoveringpa.com,2014-09-17,copy writer,Active
+1818,clintjohnston,Clint,Johnston,clint@triphackr.com,2014-09-17,copy writer,Active
+1819,ASpencerEditor,Ashley,Spencer,aspencer@steelcast.com,2014-09-17,admin,Active
+1820,ASpencerWriter,Ashley,Spencer,aspencer@steelcast.com,2014-09-17,copy writer,Active
+1821,mickikosman,Micki,Kosman,micki@thebarefootnomad.com,2014-09-17,copy writer,Active
+1822,michaelrichard,Michael,Richard,mike@vagabondish.com,2014-09-17,copy writer,Active
+1823,paulamcinerney,Paula,McInerney,contentedtraveller@gmail.com,2014-09-18,copy writer,Active
+1824,pennysadler,Penny,Sadler,penny@adventuresofacarryon.com,2014-09-18,copy writer,Active
+1825,dianaedelman,Diana,Edelman,dtravelsround@gmail.com,2014-09-18,copy writer,Active
+1826,alisiacompton,Alisia,Compton,alisia@somewriters.com,2014-09-18,copy writer,Active
+1827,charlimoore,Charli,Moore,charli@wlst.us,2014-09-18,copy writer,Active
+1828,jeroenvanmarle,Jeroen,van Marle,jeroen@vanmarle.net,2014-09-22,copy writer,Active
+1829,tammylowe,Tammy,Lowe,tammyonthemove@outlook.com,2014-09-22,copy writer,Active
+1830,sarahfazendin,Sarah,Fazendin,sarah@aweekatthebeach.com,2014-09-22,copy writer,Active
+1831,kristinmckinley,Kristin,McKinley,Kristinfriesen81@gmail.com,2014-09-22,copy writer,Active
+1832,serenaleonard,Serena,Star Leonard,serena@star-coaching.net,2014-09-22,copy writer,Active
+1833,michaelhodson,Michael,Hodson,michaelshodson@yahoo.com,2014-09-22,copy writer,Active
+1834,fmazurkiewicz,Francesca,Mazurkiewicz,francesca.fm@gmail.com,2014-09-22,copy writer,Active
+1835,alouisedittrick,Alouise,Dittrick,takeme2theworld@gmail.com,2014-09-22,copy writer,Active
+1836,alyssajames,Alyssa,James,workwithme@alyssawrites.com,2014-09-22,copy writer,Active
+1837,suzannerudge,Suzanne,Rudge,rudges2@gmail.com,2014-09-22,copy writer,Active
+1838,oceanbelcher,Ocean,Belcher,oceanbelcher@gmail.com,2014-09-22,copy writer,Active
+1839,paigetotaro,Paige,Totaro,paige@alloverthemap.net,2014-09-22,copy writer,Active
+1840,natashaamar,Natasha,Amar,natasharamar@gmail.com,2014-09-22,copy writer,Active
+1841,zofiabaldyga,Zofia,Baldyga,zofia.baldyga@gmail.com,2014-09-22,copy writer,Active
+1842,traceytullis,Tracey,Tullis,ttullis@expatexperiment.com,2014-09-22,copy writer,Active
+1843,zaraquiroga,Zara,Quiroga,zara@bkpk.me,2014-09-22,copy writer,Active
+1844,lyneproulx,Lyne,Proulx,ottawamommyclub@hotmail.com,2014-09-22,copy writer,Active
+1845,megansmith,Megan,Smith,meganotravels@gmail.com,2014-09-23,copy writer,Active
+1846,erinbender,Erin,Bender,erin@travelwithbender.com,2014-09-23,copy writer,Active
+1847,amberkillmon,Amber,Killmon,amber@simplebeautifullife.net,2014-09-23,copy writer,Active
+1848,kathrynlavallee,Kathryn,Lavallee,mommy.kat@live.ca,2014-09-23,copy writer,Active
+1849,illiastrikhar,Illia,Strikhar,crazzzytravel@gmail.com,2014-09-23,copy writer,Active
+1850,vheckstall,Victoria,Heckstall,funmom91@gmail.com,2014-09-23,copy writer,Active
+1851,arnabnandy,Arnab,Nandy,travelandysite@gmail.com,2014-09-24,copy writer,Active
+1852,jennymarshall,Jenny,Marshall,athingforwords@gmail.com,2014-09-24,copy writer,Active
+1853,christyrabil,Christy,Rabil,christydavis_98@yahoo.com,2014-09-24,copy writer,Active
+1854,davidkindervater,David,Kindervater,davidkindervater@gmail.com,2014-09-24,copy writer,Active
+1855,melindakaiden,Melinda,Kaiden,melinda.kaiden@gmail.com,2014-09-25,copy writer,Active
+1856,megandonoghue,Megan,Donoghue,meganjerrard@gmail.com,2014-09-25,copy writer,Active
+1857,willpeach,Will,Peach,willpeach85@gmail.com,2014-09-25,copy writer,Active
+1858,alucas,Angela,Lucas,alucas@steelcast.com,2014-09-25,admin,Active
+1859,hayleygriffiths,Hayley,Griffiths,hayley@lovepuffin.me,2014-09-25,copy writer,Active
+1860,zoricaloncar,Zorica,Loncar,zorica@eurotribe.com,2014-09-25,copy writer,Active
+1861,jamielynnmorgan,Jamie Lynn,Morgan,jamie@jmorgan.us,2014-09-25,copy writer,Active
+1862,juliahaase,Julia,Haase,J.Haase@htp-tel.de,2014-09-25,copy writer,Active
+1863,mattgibson,Matt,Gibson,xpatmatt@gmail.com,2014-09-29,copy writer,Active
+1864,ryanabshire,Ryan,Abshire,ryanallenabshire@gmail.com,2014-09-29,copy writer,Active
+1865,jenniferbowles,Jennifer,Bowles,socioseer@gmail.com,2014-09-30,copy writer,Active
+1866,MVyskocilEditor,Michael,Vyskocil,vyskocil.michael@gmail.com,2014-09-30,editor,Active
+1867,jdevaulthale,Jessica,De Vault Hale,jessica.devault@gmail.com,2014-09-30,copy writer,Active
+1868,elaineschoch,Elaine,Schoch,elaineschoch@gmail.com,2014-10-01,copy writer,Active
+1869,beckienright,Becki,Enright,bordersofadventure@gmail.com,2014-10-01,copy writer,Active
+1870,alaplante,Alexandre,Laplante,canadianbloghouse@gmail.com,2014-10-01,copy writer,Active
+1871,dylanlowe,Dylan,Lowe,dylan@thetravellingeditor.com,2014-10-01,copy writer,Active
+1872,adrienntakacs,Adrienn,Takacs,cityoftheweek@yahoo.com,2014-10-01,copy writer,Active
+1873,reneebutler,Renee,Butler,reneeannbutler@gmail.com,2014-10-01,editor,Active
+1874,karaparlin,Kara,Parlin,kparlin@gmail.com,2014-10-01,copy writer,Active
+1875,valendawson,Valen,Dawson,info@thiswaytoparadise.com,2014-10-03,copy writer,Active
+1876,doveanapetty,Doveana,Petty,djpetty@gmail.com,2014-10-03,copy writer,Active
+1877,deniseschwerin,Denise,Schwerin,Chinadee2005@gmail.com,2014-10-03,copy writer,Active
+1878,baileyshawley,Bailey,Shawley,baileyshawley@gmail.com,2014-10-07,copy writer,Active
+1879,danieleholmberg,Daniele,Holmberg,DanisDecadentDeals@gmail.com,2014-10-08,copy writer,Active
+1880,samanthawei,Samantha,Wei,mytanfeet@gmail.com,2014-10-08,copy writer,Active
+1881,jkilbride,Jacqueline,Kilbride,jackilbride@gmail.com,2014-10-13,copy writer,Active
+1882,leighannwhittle,Leighann,Whittle,leighannwhittle1@gmail.com,2014-10-14,copy writer,Active
+1883,BillMcSteen,Bill,McSteen,billmcsteen@gmail.com,2014-10-14,copy writer,Active
+1884,CindyFangEdit,Cindy,Fang,cfang711@gmail.com,2014-10-15,editor,Active
+1885,reneeannbutler,Renee,Butler,reneeannbutler@gmail.com,2014-10-16,copy writer,Active
+1886,marieabendroth,Marie,Abendroth,m.abendroth@hotmail.com,2014-10-17,copy writer,Active
+1887,kirstinhavice,Kirstin,Havice,kirstinhavice@gmail.com,2014-10-20,copy writer,Active
+1888,MarieCashEdit,Marie,Cash,cash6455@bears.unco.edu,2014-10-20,editor,Active
+1889,KyleJacksonEdit,Kyle,Jackson,kyle@krj81.com,2014-10-20,editor,Active
+1890,KateMillerEdit,Kate,Miller,dberkemeier@woh.rr.com,2014-10-20,editor,Active
+1891,SBerlantEdit,Samantha,Berlant,samantha.berlant@gmail.com,2014-10-20,editor,Active
+1892,jennifergardner,Jennifer,Gardner,jennifer@visualpeople.com,2014-10-21,copy writer,Active
+1893,LukeSalazarEdit,Luke,Salazar,lukewsalazar@gmail.com,2014-10-22,editor,Active
+1894,JJohnsonEditor,Jennifer,Johnson,jen@seejenwrite.com,2014-10-22,editor,Active
+1895,annalysakowska,Anna,Lysakowska,anna1988poland@gmail.com,2014-10-22,copy writer,Active
+1896,LisaVothEditor,Lisa,Voth,lisavoth@gmail.com,2014-10-23,editor,Active
+1897,steffanirussell,Steffani,Russell,steffi1190@gmail.com,2014-10-23,copy writer,Active
+1898,annegoetz,Anne,Goetz,annemgoetz@gmail.com,2014-10-23,copy writer,Active
+1899,juliefox,Julie,Fox,julie@juliedawnfox.com,2014-10-23,copy writer,Active
+1900,darlaferrara,Darla,Ferrara,fdarlaus@aol.com,2014-10-24,copy writer,Active
+1901,SVize,Shannon,Vize,svize@steelcast.com,2014-10-29,admin,Active
+1902,SVizeWriter,Shannon,Vize,svize@steelcast.com,2014-10-31,copy writer,Active
+1903,matthewbailey,Matthew,Bailey,mattbaileyinc@gmail.com,2014-11-03,copy writer,Active
+1904,sabinedewitte,Sabine,de Witte,sabine@yourambassadrice.com,2014-11-03,copy writer,Active
+1905,SHamilton,Sydney,Hamilton,shamilton@copypress.com,2014-11-04,admin,Active
+1906,SDuffy,Sarah,Duffy,sduffy@copypress.com,2014-11-04,admin,Active
+1907,margheritaragg,Margherita,Ragg,thecrowdedplanet@gmail.com,2014-11-05,copy writer,Active
+1908,christinagmyr,Christina,Gmyr,christina.gmyr@gmail.com,2014-11-05,copy writer,Active
+1909,keninbassart,Kenin,Bassart,marketing@theconstantrambler.com,2014-11-06,copy writer,Active
+1910,shamiltonwriter,Sydney,Hamilton,shamilton@copypress.com,2014-11-07,copy writer,Active
+1911,sduffywriter,Sarah,Duffy,sduffy@copypress.com,2014-11-07,copy writer,Active
+1912,JMcCarthyEditor,Julianna,McCarthy,McCarthy.Julianna@gmail.com,2014-11-11,editor,Active
+1913,teresagotay,Teresa,Gotay,goteresae@gmail.com,2014-11-11,copy writer,Active
+1914,williamkann,William,Kann,kanndide@gmail.com,2014-11-14,copy writer,Active
+1915,MLaValetteEdit,Marisa,LaValette,mklavalette@gmail.com,2014-08-25,editor,Active
+1916,juliecallahan,Julie,Callahan,worldinbetween@gmail.com,2014-11-14,copy writer,Active
+1917,kateday,Kate,Day,katelynday@shaw.ca,2014-11-14,copy writer,Active
+1918,jenniemitchell,Jennie,Mitchell,jenniermitchell@gmail.com,2014-11-14,copy writer,Active
+1919,jamesbaldwin,James,Baldwin,james@healtheditor.org,2014-11-17,copy writer,Active
+1920,tarakimball,Tara,Kimball,tara@couchesandclassrooms.com,2014-11-18,copy writer,Active
+1921,blakemandelberg,blake,mandelberg,stylisland@gmail.com,2014-11-18,copy writer,Active
+1922,johnburns,John,Burns,john.burns.sg@googlemail.com,2014-11-19,copy writer,Active
+1923,LauraCollegeEdit,Laura,College,lauracollege1@aol.com,2014-11-21,editor,Active
+1924,muyenpeng,Muyen,Peng,muyenp@yahoo.com,2014-11-21,copy writer,Active
+1925,LSwensonEdit,Laurie,Swenson,laurieswensonmail@gmail.com,2014-11-21,editor,Active
+1926,lauracollege,Laura,College,lauracollege1@aol.com,2014-11-21,copy writer,Active
+1927,williamtang,William,Tang,psyched@goingawesomeplaces.com,2014-11-24,copy writer,Active
+1928,RSliwaEditor,Rebecca,Sliwa,bekki.sliwa@gmail.com,2014-11-24,editor,Active
+1929,sbalakrishnan,SHILPA,Balakrishnan,shilpa.krishb@gmail.com,2014-11-24,copy writer,Active
+1930,MYostEditor,Melissa,Yost,missy@roadtohappytravels.com,2014-11-24,editor,Active
+1931,rthild,RT,Hild,rthild@yahoo.com,2014-11-24,copy writer,Active
+1932,CTuttleEdit,Craig,Tuttle,catuttle@hotmail.com,2014-11-24,editor,Active
+1933,AWilsonEditor,Anne,Wilson,annemwilson4@gmail.com,2014-11-25,editor,Active
+1934,LisaDavisEdit,Lisa,Davis,davisljo@gmail.com,2014-11-25,editor,Active
+1935,barbaraaguirre,Barbara,Aguirre,blbaird2000@yahoo.com,2014-11-25,copy writer,Active
+1936,AMejiasEditor,Amanda,Mejias,amandacf05@gmail.com,2014-12-02,editor,Active
+1937,alexbradbeer,Alex,Bradbeer,alexbradbeer@gmail.com,2014-12-02,copy writer,Active
+1938,annelowrey,Anne,Lowrey,parttimetravel@gmail.com,2014-12-02,copy writer,Active
+1939,JGhannamEditor,Jeff,Ghannam,jghannam@crystalcommunicationsllc.com,2014-12-03,editor,Active
+1940,NRobbinsEditor,Nicholas,Robbins,nicholaswrobbins1@gmail.com,2014-12-05,editor,Active
+1941,marcodelgado,Marco,Delgado,marcodh50@gmail.com,2014-12-09,copy writer,Active
+1942,bethwilliams,Beth,Williams,beth@travelsintranslation.com,2014-12-10,copy writer,Active
+1943,lindsaybuckley,Lindsay,Buckley,lindsay@frugalfrolicker.com,2014-12-10,copy writer,Active
+1944,jessicadawdy,Jessica,Dawdy,jessica@waysofwanderers.com,2014-12-10,copy writer,Active
+1945,mariacoelho,Maria Joao,Coelho,yarabahia@yahoo.com.br,2014-12-10,copy writer,Active
+1946,davidbriggs,David,Briggs,dave@davestravelpages.com,2014-12-10,copy writer,Active
+1947,candicewalsh,Candice,Walsh,candicewalsh@gmail.com,2014-12-10,copy writer,Active
+1948,jnarzary,Jitaditya,Narzary,jitadityaec@gmail.com,2014-12-10,copy writer,Active
+1949,chriswalkerbush,Chris,Walker-Bush,cwbush83@gmail.com,2014-12-10,copy writer,Active
+1950,carlocretaro,Carlo,Cretaro,carlo@majesticcontent.com,2014-12-11,copy writer,Active
+1951,hasmitanair,Hasmita,Nair,Hasmita.bhana@gmail.com,2014-12-11,copy writer,Active
+1952,calventosa,Chelsea,Alventosa,Chelsea.alventosa@gmail.com,2014-12-11,copy writer,Active
+1953,mtaboclaon,Ma Aleah,Taboclaon,aleah.taboclaon@gmail.com,2014-12-11,copy writer,Active
+1954,mcarruthers,Miranda,Carruthers,carruthersmiranda@gmail.com,2014-12-11,copy writer,Active
+1955,chantaereden,Chantae,Reden,reden@usc.edu,2014-12-11,copy writer,Active
+1956,valeriecaulin,Valerie,Caulin,info@valcaulin.com,2014-12-11,copy writer,Active
+1957,timanderson,Tim,Anderson,twanderson@marginalboundaries.com,2014-12-11,copy writer,Active
+1958,crystalcollins,Crystal,Collins,myhindiheart@gmail.com,2014-12-11,copy writer,Active
+1959,aprylthomas,Apryl,Thomas,aprylchapmanthomas@gmail.com,2014-12-11,copy writer,Active
+1960,amandamouttaki,Amanda,Mouttaki,amandamouttaki@gmail.com,2014-12-11,copy writer,Active
+1961,kristinaddis,Kristin,Addis,addis.kristin@gmail.com,2014-12-11,copy writer,Active
+1962,marissasutera,Marissa,Sutera,littlethingstravel@gmail.com,2014-12-11,copy writer,Active
+1963,cwinowiecki,Clay,Winowiecki,claywinowiecki@headedabroad.com,2014-12-11,copy writer,Active
+1964,joannakalafatis,Joanna,Kalafatis,goroadtripping@gmail.com,2014-12-11,copy writer,Active
+1965,jonjared,Jon,Jared,savvytravellerecuador@gmail.com,2014-12-11,copy writer,Active
+1966,jillkozak,Jill,Kozak,jkozak86@gmail.com,2014-12-16,copy writer,Active
+1967,tianataylor,Tiana,Taylor,lettherebetravel@gmail.com,2014-12-16,copy writer,Active
+1968,janross,Jan,Ross,janross53@gmail.com,2014-12-16,copy writer,Active
+1969,catherinesmith,Catherine,Smith,hilocate@gmail.com,2014-12-16,copy writer,Active
+1970,ahollingsworth,Adrian,Hollingsworth,aatravelbloginfo@gmail.com,2014-12-16,copy writer,Active
+1971,patriciapatton,PATRICIA A.,Patton,jzshore@gmail.com,2014-12-16,editor,Active
+1972,nicolebrewer,Nicole,Brewer,nicoletbrewer@yahoo.com,2014-12-16,copy writer,Active
+1973,angelicawilk,Angelica,Wilk,brooklynchicktravels@gmail.com,2014-12-17,copy writer,Active
+1974,MSpectorEditor,Marlene,Spector,marlene.spector@cox.net,2014-12-17,editor,Active
+1975,ATonkensEditor,Ashley,Tonkens,ashleytee314@gmail.com,2014-12-17,editor,Active
+1976,DonnaMayersEdit,Donna,Mayers,dcmayers@earthlink.net,2014-12-18,editor,Active
+1977,eileencotter,Eileen,Cotter,cotterep@gmail.com,2014-12-18,copy writer,Active
+1978,moniquerubin,Monique,Rubin,mswoodenshoes@yahoo.com,2014-12-18,copy writer,Active
+1979,katiebell,Katie,Bell,theworldonmynecklace@outlook.com,2014-12-18,copy writer,Active
+1980,brandybell,Brandy,Bell,brandyleebell@gmail.com,2014-12-18,copy writer,Active
+1981,jonabering,Jona,Branzuela Bering,jonabering@gmail.com,2014-12-18,copy writer,Active
+1982,oksanasimakina,Oksana,Simakina,oksana@drinkteatravel.com,2014-12-18,copy writer,Active
+1983,jasonbeinstein,jason,beinstein,jason.beinstein@gmail.com,2014-12-18,copy writer,Active
+1984,kvonetheridge,Karen,von Etheridge,wellkeptone@yahoo.com,2014-12-18,admin,Active
+1986,marieking,Marie,King,marieking32@gmail.com,2014-12-18,copy writer,Active
+1987,mikecotton,Mike,Cotton,mike@nomadsontheroad.com,2014-12-18,copy writer,Active
+1988,petrachappell,Petra,Chappell,petra@theglobalcouple.com,2014-12-18,copy writer,Active
+1989,nataliesayin,Natalie,Sayin,natalie@turkishtravelblog.com,2014-12-18,copy writer,Active
+1990,shirinaparven,Mst. Shirina,Parven,randaw05@gmail.com,2014-12-18,copy writer,Active
+1991,simonettafalvo,Simonetta,Falvo,simon.falvo@gmail.com,2014-12-18,copy writer,Active
+1992,fionavantyne,Fiona,Van Tyne,fiona.vantyne@gmail.com,2014-12-18,copy writer,Active
+1993,gemmaorrock,Gemma,Orrock,gemma@twoscotsabroad.com,2014-12-18,copy writer,Active
+1994,kiaragallop,Kiara,Gallop,galloparoundtheglobe@gmail.com,2014-12-18,copy writer,Active
+1995,LEtheredgeEdit,Lynne,Etheredge,lynne.etheredge@gmail.com,2014-12-18,editor,Active
+1996,zoecalhoun,Zoe,Calhoun,Calhounzc@gmail.com,2014-12-18,copy writer,Active
+1997,tellewis,Tel,Lewis,telanca@yahoo.com,2014-12-19,copy writer,Active
+1998,alysonmead,Alyson,Mead,alyson@pageturnermedia.com,2014-12-19,copy writer,Active
+1999,ceubanks,Caroline,Eubanks,caroline.eubanks@gmail.com,2014-12-19,copy writer,Active
+2000,melissatrinidad,Melissa,Trinidad,melissa.a.trinidad@gmail.com,2014-12-19,copy writer,Active
+2001,matthewinman,Matthew,Inman,mlinman@ncsu.edu,2014-12-19,copy writer,Active
+2002,jmahnaz,Jennifer,Mahnaz,Witnesshumanity@gmail.com,2014-12-19,copy writer,Active
+2003,rubymelton,Ruby,Melton,ruby.melton@yahoo.com,2014-12-19,copy writer,Active
+2004,carlhedinger,Carl,Hedinger,hedinger81@gmail.com,2014-12-19,copy writer,Active
+2005,davidcole,David,Cole,cooksipgo@gmail.com,2014-12-19,copy writer,Active
+2006,bramreusen,Bram,Reusen,bramreusen@hotmail.com,2014-12-19,copy writer,Active
+2007,katiemcgrain,Katie,McGrain,katie@aroundtheworldinktdays.com,2014-12-19,copy writer,Active
+2008,laurapayne,Laura,Payne,paynel@rocketmail.com,2014-12-19,copy writer,Active
+2009,bberryman,Blayne,Berryman,blayneberryman@gmail.com,2014-12-19,copy writer,Active
+2010,SRiveraEditor,Sonia,Rivera,soniallrivera@gmail.com,2014-12-19,editor,Active
+2011,jonnyblair,Jonny,Blair,jonny@dontstopliving.net,2014-12-19,copy writer,Active
+2012,EVanOrmanEdit,Eric,Van Orman,eric.vanorman@gmail.com,2014-12-19,editor,Active
+2013,bryanrichards,Bryan,Richards,bmrich@gmail.com,2014-12-19,copy writer,Active
+2014,tonyaprater,Tonya,Prater,thetravelingpraters@gmail.com,2014-12-19,copy writer,Active
+2015,DaveEvansEdit,Dave,Evans,dae06c@acu.edu,2014-12-19,editor,Active

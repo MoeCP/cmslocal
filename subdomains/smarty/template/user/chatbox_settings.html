@@ -1,0 +1,59 @@
+{include file="themes/$theme/header.html"}
+
+{if $feedback ne ''}
+<script language="JavaScript">
+<!--
+alert("{$feedback}");
+//-->
+</script>
+{/if}
+
+{literal}
+<script language="JavaScript">
+<!--
+function esign()
+{
+  var f = document.f_esign;
+
+  return true;
+}
+//-->
+</script>
+{/literal}
+<div id="page-box1">
+  <h2>Chat Box Settings</h2>
+
+  <div class="form-item" >
+<br>
+<form action="" method="post"  name="f_chatbox_settings">
+<input type="hidden" name="pref_id" id="pref_id" value="{$settings.pref_id}" />
+<table border="0" cellspacing="1" cellpadding="4" align="center" width="100%">
+  <tr>
+    <td class="bodyBold" nowrap>Basic Information</td>
+    <td align="right" class="requiredHint">Required Information</td>
+  </tr>
+  <tr>
+    <td class="blackLine" colspan="2"><img src="/image/misc/s.gif"></td>
+  </tr>
+  <tr>
+    <td class="requiredInput">Turn The Chat Box On?</td>
+    <td>
+      <select name="status" id="status">
+        <option value="1" {if $settings.pref_value eq 1}selected{/if}>Yes</option>
+        <option value="0" {if $settings.pref_value eq 0}selected{/if}>No</option>
+      </select>
+	</td>
+  </tr>
+  <tr>
+    <td class="blackLine" colspan="2"><img src="/image/misc/s.gif"></td>
+  </tr>
+  <tr>
+    <td>&nbsp;</td>
+    <td><input type="submit" value="Submit" class="button">&nbsp;<input type="reset" value="reset" class="button"></td>
+  </tr>
+</table>
+</form>
+<br>
+  </div>
+</div>
+{include file="themes/$theme/footer.html"}

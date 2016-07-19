@@ -1,0 +1,67 @@
+{include file="themes/$theme/header_jump.html"}
+
+{if $feedback ne ''}
+<script language="JavaScript">
+<!--
+alert("{$feedback}");
+//-->
+</script>
+{/if}
+
+{literal}
+<script type='text/javascript' language='JavaScript'>
+function set_return(keyword_category) {
+    var k = keyword_category;
+    k = k.replace(/&amp;/g, "&");
+    k = k.replace(/&quot;/g, "\"");
+    k = k.replace(/&lt;/g, "<");
+    k = k.replace(/&gt;/g, ">");
+    k = k.replace(/&apos;/g, "\'");
+    window.opener.document.f_keyword.keyword_category.value = k;
+}
+</script>
+{/literal}
+
+<br><table id="table-1" cellspacing="0" cellpadding="0" align="center" class="sortableTable">
+  <form action="" method="post" />
+  <thead>
+  <tr class="sortableTab">
+    <th class="table-left-corner">&nbsp;&nbsp;&nbsp;&nbsp;</th>
+    <td nowrap class="columnHeadInactiveBlack table-left-2 table-right-2">Company Name</td>
+    <th class="table-right-corner">&nbsp;&nbsp;&nbsp;</th>
+  </tr>
+  </thead>
+  {foreach from=$result.keyword_category item=item name="loop"}
+  <tr class="{if $smarty.foreach.loop.iteration % 2 eq 0}even{else}odd{/if}">
+    <td class="table-left" >&nbsp;</td>
+    <td  class="table-left-2 table-right-2" ><a href="a" LANGUAGE=javascript onclick='set_return("{$item|escape}"); window.close()'>{$item}</a></td>
+    <td class="table-right" >&nbsp;</td>
+  </tr>
+  {/foreach}
+  </form>
+</table>
+<!-- <table align="center">
+  <tr><td>{$pager} (Total Page:{$total})</td></tr>
+</table> -->
+
+<script type="text/javascript">
+//<![CDATA[
+{literal}
+var st = new SortableTable(document.getElementById("table-1"),
+  ["None","CaseInsensitiveString"]);
+
+st.onsort = function () {
+  var rows = st.tBody.rows;
+  var l = rows.length;
+  for (var i = 0; i < l; i++) {
+    removeClassName(rows[i], i % 2 ? "odd" : "even");
+    addClassName(rows[i], i % 2 ? "even" : "odd");
+  }
+};
+
+st.asyncSort(0);
+{/literal}
+//]]>
+</script>
+
+{include file="themes/$theme/footer_jump.html"}

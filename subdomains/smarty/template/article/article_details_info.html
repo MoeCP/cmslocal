@@ -1,0 +1,123 @@
+{include file="themes/$theme/header.html"}
+
+
+{if $feedback ne ''}
+<script language="JavaScript">
+<!--
+alert("{$feedback}");
+//-->
+</script>
+{/if}
+<div id="page-box1">
+  <h2>Article Details Info</h2>
+  <div class="view-item" >
+<br><table border="0" cellspacing="1" cellpadding="4" align="center" width="95%">
+  <tr>
+    <td class="bodyBold" colspan=4>Current Article Version Information</td>
+  </tr>
+  <tr>
+    <td class="blackLine" colspan=4><img src="/image/misc/s.gif"></td>
+  </tr>
+  <tr>
+    <td class="requiredInput">Campaign Name</td>
+    <td>{$article_info.campaign_name}</td>
+    <td class="requiredInput">Campaign Keywords</td>
+    <td>{$article_info.keyword}</td>
+  </tr>
+  <tr>
+    <td class="requiredInput">Start Date</td>
+    <td>{$article_info.date_start|date_format:"%m-%d-%Y"}</td>
+    <td class="requiredInput">Due Date</td>
+    <td>{$article_info.date_end|date_format:"%m-%d-%Y"}</td>
+  </tr>
+  {if $article_info.tags}
+  <tr>
+    <td class="requiredInput">Tags</td>
+    <td colspan="3" >{$article_info.tags}</td>
+  </tr>
+  {/if}
+  <tr>
+  {if $login_role neq 'client'}
+    <td class="requiredInput">Copywriter</td>
+    <td>{$keyword_info.uc_name}</td>
+  {/if}
+    <td class="requiredInput">Editor</td>
+    <td>{$keyword_info.ue_name}</td>
+  </tr>
+  <tr>
+    <td class="requiredInput">Date Created</td>
+    <td>{$article_info.creation_date|date_format:"%m-%d-%Y %H:%M:%S"}</td>
+    <td class="requiredInput">Project Manager</td>
+    <td>{$keyword_info.pm_name}</td>
+  </tr>
+  <tr>
+    <td class="requiredInput">Article Content</td>
+    <td colspan="3">{if $article_info.richtext_body eq ''}{$article_info.body|nl2br}{else}{$article_info.richtext_body}{/if}</td>
+  </tr>
+  <tr>
+    <td class="blackLine" colspan=4><img src="/image/misc/s.gif"></td>
+  </tr>
+</table>
+
+{if $comment_count neq 0}
+{if $login_role eq 'client'}
+<br><table border="0" cellspacing="1" cellpadding="4" align="center" width="95%">
+  <tr>
+    <td class="bodyBold" colspan=8>Article Comments Information</td>
+  </tr>
+  <tr>
+    <td class="blackLine" colspan=8><img src="/image/misc/s.gif"></td>
+  </tr>
+  {foreach from=$article_info.comment item=item name="loop"}
+  {if $item.creation_role eq 'client' || $item.creation_role eq 'editor'}
+  <tr class="{if $smarty.foreach.loop.iteration % 2 eq 0}even{else}odd{/if}">
+    <td class="requiredInput">Role</td>
+    <td>{$item.creation_role}</td>
+    <td class="requiredInput">Creator</td>
+    <td>{$item.creator}</td>
+    <td class="requiredInput">Comment Date</td>
+    <td>{$item.creation_date|date_format:"%m-%d-%Y %H:%M:%S"}</td>
+    <td class="requiredInput">Version</td>
+    <td>{$item.version_number}</td>
+  </tr>
+  <tr class="{if $smarty.foreach.loop.iteration % 2 eq 0}even{else}odd{/if}">
+    <td colspan=8>{$item.comment|nl2br}</td>
+  </tr>
+  {/if}
+  {/foreach}
+  <tr>
+    <td class="blackLine" colspan=8><img src="/image/misc/s.gif"></td>
+  </tr>
+</table>
+{else}
+<br><table border="0" cellspacing="1" cellpadding="4" align="center" width="95%">
+  <tr>
+    <td class="bodyBold" colspan=8>Article Comments Information</td>
+  </tr>
+  <tr>
+    <td class="blackLine" colspan=8><img src="/image/misc/s.gif"></td>
+  </tr>
+  {foreach from=$article_info.comment item=item name="loop"}
+  <tr class="{if $smarty.foreach.loop.iteration % 2 eq 0}even{else}odd{/if}">
+    <td class="requiredInput">Role</td>
+    <td>{$item.creation_role}</td>
+    <td class="requiredInput">Creator</td>
+    <td>{$item.creator}</td>
+    <td class="requiredInput">Comment Date</td>
+    <td>{$item.creation_date|date_format:"%m-%d-%Y %H:%M:%S"}</td>
+    <td class="requiredInput">Version</td>
+    <td>{$item.version_number}</td>
+  </tr>
+  <tr class="{if $smarty.foreach.loop.iteration % 2 eq 0}even{else}odd{/if}">
+    <td colspan=8>{$item.comment|nl2br}</td>
+  </tr>
+  {/foreach}
+  <tr>
+    <td class="blackLine" colspan=8><img src="/image/misc/s.gif"></td>
+  </tr>
+</table>
+{/if}
+{/if}
+  </div>
+</div>
+{include file="themes/$theme/footer.html"}

@@ -1,0 +1,37 @@
+{include file="themes/$theme/header.html"}
+{if $feedback ne ''}
+<script language="JavaScript">
+<!--
+alert("{$feedback}");
+//-->
+</script>
+{/if}
+<center><div style="color:red">{$feedback}</div></center>
+<div id="page-box1">
+  <h2>Campaign Contact Form</h2>
+  <div id="campaign-search" >
+    <strong>Please use this form to submit any questions or concerns regarding a particular campaign. We will respond to your inquiry within one business day</strong>
+  </div>
+  <div class="form-item" >
+<form action="" method="post">
+<table width="90%">
+{if $campaigns && $role == 'client'}
+<tr>
+  <td width="15%" align="right">Campaigns</td>
+  <td>{html_options options=$campaigns selected=$campaign_id name="campaign_id" }</td>
+</tr>
+{/if}
+<tr>
+  <td width="15%" align="right" class="requiredInput">Subject</td><td width="85%"><input style="width:460px;" type="text" value="{$subject}" name="subject"></td>
+</tr>
+<tr>
+  <td align="right" class="requiredInput">Message</td><td><textarea name="content" cols="70" rows="20">{$content}</textarea></td>
+</tr>
+<tr>
+  <td></td><td><input type="submit" class="button" value="Submit"></td>
+</tr>
+</table>
+</form>
+  </div>
+</div>
+{include file="themes/$theme/footer.html"}

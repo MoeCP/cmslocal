@@ -1,0 +1,6 @@
+{include file="themes/$theme/header_jump.html"}
+<div id="page-box1">
+  <h2>{$info.title}{if $info.is_required == 1}(Required){elseif $info.is_required==0}(Optional){/if}</h2>
+  <div class="view-item">{$info.description}</div>
+</div>
+{include file="themes/$theme/footer_jump.html"}

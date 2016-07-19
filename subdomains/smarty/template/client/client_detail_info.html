@@ -1,0 +1,128 @@
+{include file="themes/$theme/header_jump.html"}
+
+{if $feedback ne ''}
+<script language="JavaScript">
+<!--
+alert("{$feedback}");
+//-->
+</script>
+{/if}
+
+<br><table border="0" cellspacing="1" cellpadding="4" align="center" width="100%">
+  <tr>
+    <td class="moduleTitle" colspan=2>Client's Information setting</td>
+  </tr>
+  <tr>
+    <td class="bodyBold">Basic Information</td>
+    <td align="right" class="requiredHint">Required Information</td>
+  </tr>
+  <tr>
+    <td class="blackLine" colspan=2><img src="/image/misc/s.gif"></td>
+  </tr>
+  <tr>
+    <td class="requiredInput">User Name</td>
+    <td>{$client_info.user_name}</td>
+  </tr>
+  <tr>
+    <td class="requiredInput">Company Name</td>
+    <td>{$client_info.company_name}</td>
+  </tr>
+  <tr>
+    <td class="dataLabel">Company Address</td>
+    <td>{$client_info.company_address}</td>
+  </tr>
+  <tr>
+    <td class="requiredInput">Country</td>
+    <td>{$client_info.country}</td>
+  </tr>
+  <tr>
+    <td class="requiredInput">City</td>
+    <td>{$client_info.city}</td>
+  </tr>
+  <tr>
+    <td class="requiredInput">State</td>
+    <td>{$client_info.state}</td>
+  </tr>
+  <tr>
+    <td class="requiredInput">Zip</td>
+    <td>{$client_info.zip}</td>
+  </tr>
+  <tr>
+    <td class="requiredInput">Email</td>
+    <td>{$client_info.email}</td>
+  </tr>
+  <tr>
+    <td class="dataLabel">Company Url</td>
+    <td>{$client_info.company_url}</td>
+  </tr>
+  {if $login_role == 'admin'}
+  <tr>
+    <td class="dataLabel">Contact Name</td>
+    <td>{$client_info.contact_name}</td>
+  </tr>
+  {/if}
+  <tr>
+    <td class="dataLabel">Company Phone Number</td>
+    <td>{$client_info.company_phone}</td>
+  </tr>
+  <tr>
+    <td class="dataLabel">Company Fax</td>
+    <td>{$client_info.company_fax}</td>
+  </tr>
+  <tr>
+    <td class="dataLabel">Billing Email</td>
+    <td>{$client_info.bill_email}</td>
+  </tr>
+  <tr>
+    <td class="dataLabel">Billing Office Phone</td>
+    <td>{$client_info.bill_office_phone}</td>
+  </tr>
+  <tr>
+    <td class="dataLabel">Billing Cell Phone</td>
+    <td>{$client_info.bill_cell_phone}</td>
+  </tr>
+  <tr>
+    <td class="dataLabel">Billing Fax</td>
+    <td>{$client_info.bill_cell_phone}</td>
+  </tr>
+  <tr>
+    <td class="dataLabel">Technical Email</td>
+    <td>{$client_info.technical_email}</td>
+  </tr>
+  <tr>
+    <td class="dataLabel">Technical Office Phone</td>
+    <td>{$client_info.technical_office_phone}</td>
+  </tr>
+  <tr>
+    <td class="dataLabel">Technical Cell Phone</td>
+    <td>{$client_info.technical_cell_phone}</td>
+  </tr>
+  <tr>
+    <td class="dataLabel">Payment History</td>
+    <td>{$client_info.payment_history}</td>
+  </tr>
+  {if $user_permission_int >= 5 || $user_permission_int == 2}
+  <tr>
+    <td class="dataLabel">Agency</td>
+    <td>{$agencies[$client_info.agency_id]}</td>
+  </tr>
+  {/if}
+  <tr>
+    <td class="requiredInput">Referrer Type:</td>
+    <td>{$referrer_types[$client_info.referrer_type]}</td>
+  </tr>
+  <tr>
+    <td class="requiredInput">Referrer Name:</td>
+    <td>{$client_info.referrer_name}</td>
+  </tr>
+  <tr>
+    <td class="dataLabel">Referrer Tracking:</td>
+    <td>{$client_info.referrer_tracking}</td>
+  </tr>
+  <tr>
+    <td class="blackLine" colspan=2><img src="/image/misc/s.gif"></td>
+  </tr>
+
+</table>
+
+{include file="themes/$theme/footer_jump.html"}

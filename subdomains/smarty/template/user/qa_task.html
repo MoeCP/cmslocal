@@ -1,0 +1,13 @@
+<h2>QA Task</h2>
+<table border="0" cellspacing="1" cellpadding="4" align="left" width="99%" class="sortableTable campaign-table" border="0" id="notification_table">
+<tr>
+  <th nowrap class="campaign-table-top-left">Campaign Name</th>
+  <th class="campaign-table-top-right" >Total Assigned to me</th>
+</tr>
+{foreach from=$tasks item=item name="loop"}
+<tr  class="{if $smarty.foreach.loop.iteration % 2 eq 0}even{else}odd{/if}">
+  <td><a href="/client_campaign/keyword_list.php?campaign_id={$item.campaign_id}">{$item.campaign_name}</a></td>
+  <td>{$item.total}</td>
+</tr>
+{/foreach}
+</table>

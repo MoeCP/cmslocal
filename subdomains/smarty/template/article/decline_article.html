@@ -1,0 +1,49 @@
+{include file="themes/$theme/header_jump.html"}
+<script language="JavaScript">
+<!--
+var login_permission = '{$login_permission}';
+{literal}
+check_f_decline_article = function ()
+{ 
+  var f = document.f_decline_article;
+  var len = f.decline_reason.length;
+  for (var i=0;i < len ; i++) {
+    if (f.decline_reason[i].checked) {
+      return true;
+    }
+  }
+  alert('Please specify the decline reason');
+  return false;
+}
+{/literal}
+//-->
+</script>
+<div id="page-box1">
+  <h2>What is your reason for declining this article</h2>
+  <div class="form-item" >
+<form action="decline_article.php" method="post"  id="f_decline_article" name="f_decline_article" {if $js_check eq true} onsubmit="return check_f_decline_article()"{/if}>
+<input type="hidden" name="keyword_id" value="{$keyword_ids}">
+<br /><table border="0" cellspacing="1" cellpadding="4" align="center" width="100%">
+  <tr>
+    <td class="bodyBold">Basic Information</td>
+    <td align="right" class="requiredHint">Required Information</td>
+  </tr>
+  <tr>
+    <td class="blackLine" colspan="2" ><img src="/image/misc/s.gif"></td>
+  </tr>
+  <tr>
+    <td colspan="2" >{html_radios name='decline_reason' options=$decline_reason separator='<br />'}</td>
+  </tr>
+  <tr>
+    <td class="blackLine" colspan="2"><img src="/image/misc/s.gif"></td>
+  </tr>
+  <tr>
+    <td></td>
+    <td><input type="submit" value="Submit" class="button" />&nbsp;<input type="reset" value="reset" class="button"></td>
+  </tr>
+</table>
+</form>
+  </div>
+</div>
+
+{include file="themes/$theme/footer_jump.html"}

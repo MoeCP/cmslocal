@@ -1,0 +1,73 @@
+{include file="themes/$theme/header.html"}
+
+{if $feedback ne ''}
+<script language="JavaScript">
+<!--
+alert("{$feedback}");
+//-->
+</script>
+{/if}
+
+{literal}
+<script language="JavaScript">
+<!--
+function checkNotes()
+{
+  var f = document.add_general_note;
+  if (f.subject.value.length == 0) {
+    alert('Please enter note\'s subject');
+    f.subject.focus();
+    return false;
+  }
+  if (f.body.value.length == 0) {
+    alert('Please enter note\'s body');
+    f.body.focus();
+    return false;
+  }
+  f.submit();
+}
+//-->
+</script>
+{/literal}
+
+<div id="page-box1">
+  <h2>General Editorial Notes Setting&nbsp;&nbsp;&nbsp;&nbsp;<input type="button" class="button" value="Go Back" onclick="javascript:history.go(-1);" /></h2>
+  <div id="campaign-search" >
+    <strong>Please enter the genral notes required information.</strong>
+  </div>
+  <div class="form-item" >
+
+
+<br><table border="0" cellspacing="1" cellpadding="4" align="center" width="100%">
+  <form action="" method="post"  name="add_general_note">
+  <input type="hidden" name="general_note_id" value="{$notes.general_note_id}">
+  <input type="hidden" name="created_by" value="{$notes.created_by}">
+  <input type="hidden" name="created_role" value="{$notes.created_role}">
+  <tr>
+    <td class="bodyBold">Basic Information</td>
+    <td align="right" class="requiredHint">Required Information</td>
+  </tr>
+  <tr>
+    <td class="blackLine" colspan=2><img src="/image/misc/s.gif"></td>
+  </tr>
+  <tr>
+    <td class="requiredInput">Subject</td>
+    <td><input name="subject" type="text" id="subject" value="{$notes.subject}" onchange="javascript:this.value=Trim(this.value)" size="50"></td>
+  </tr>
+  <tr>
+    <td class="requiredInput">Body</td>
+    <td><textarea name="body" cols="80" rows="10" id="body">{$notes.body}</textarea></td>
+  </tr>
+  <tr>
+    <td class="blackLine" colspan=2><img src="/image/misc/s.gif"></td>
+  </tr>
+  <tr>
+    <td>&nbsp;</td>
+    <td><input type="button" value="Submit" class="button" onclick="checkNotes()">&nbsp;<input type="reset" value="reset" class="button"></td>
+  </tr>
+  </form>
+</table>
+<br>
+  </div>
+</div>
+{include file="themes/$theme/footer.html"}

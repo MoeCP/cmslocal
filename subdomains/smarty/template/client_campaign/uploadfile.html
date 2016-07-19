@@ -1,0 +1,70 @@
+{include file="themes/$theme/header.html"}
+
+{if $feedback ne ''}
+<script language="JavaScript">
+<!--
+alert("{$feedback}");
+//-->
+</script>
+{/if}
+
+{literal}
+<script language="JavaScript">
+<!--
+function check_f_client_campaign()
+{
+  var f = document.f_client_campaign;
+  if (f.uploadfile.value == '') {
+    if (f.download_file.value.length == 0)
+    {
+      alert("Please specify the file");
+      f.download_file.focus();
+      return false;
+    }
+  }
+
+  return true;
+}
+//-->
+</script>
+{/literal}
+
+<div id="page-box1">
+  <h2>Content Details(Optional)</h2>
+  <div id="campaign-search" >
+    <strong>Specify details each individual piece of content</strong>
+  </div>
+  <div class="form-item" >
+<br><table border="0" cellspacing="1" cellpadding="4" align="center" width="100%">
+  <form action="" method="post"  name="f_client_campaign" {if $js_check eq true} onsubmit="return check_f_client_campaign()"{/if} enctype="multipart/form-data">
+  <input type="hidden" name="order_id" value="{$order_id}" />
+  <input type="hidden" name="uploadfile" value="{$uploadfile}" />
+  <tr>
+    <td class="bodyBold"><h3>Step 1: Upload File</h3></td>
+  </tr>
+  <tr>
+    <td class="bodyBold" colspan="2" >
+    Upload a csv file with four columns only and the same number of rows as the content ordered . <a href="/ordercampaign/content-details-file-example.csv" >Download Example FIle</a><br /> The four optional fields may be used for any reference material or instructions you may have for each individual piece of content.  You can use any of the options for the header: focus topic, content title, destination website, keywords, links to include, example URLs, URLs to rewrite, notes
+    </td>
+  </tr>
+  <tr>
+    <td class="blackLine" colspan=2><img src="/image/misc/s.gif"></td>
+  </tr>
+  <tr>
+    <td class="dataLabel"> Upload Keyword File</td>
+    <td><input type="file" name="download_file" id="download_file" value="" size="60" /></td>
+  </tr>
+  <tr>
+    <td class="blackLine" colspan="2" ><img src="/image/misc/s.gif"></td>
+  </tr>
+  <tr>
+    <td>&nbsp;</td>
+    <td>&nbsp;
+    <input type="button" value="Back" onclick="window.location.href='/client_campaign/order_campaign_set.php?order_campaign_id={$order_id}'" class="button" />&nbsp;<input type="submit" value="Next" class="button" />&nbsp; <input type="button" value="Skip" onclick="window.location.href='/client_campaign/order_list.php'" class="button" />&nbsp;
+    </td>
+  </tr>
+  </form>
+</table>
+  </div>
+</div>
+{include file="themes/$theme/footer.html"}

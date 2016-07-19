@@ -1,0 +1,140 @@
+{include file="themes/$theme/header.html"}
+
+{if $feedback ne ''}
+<script language="JavaScript">
+<!--
+alert('{$feedback}');
+//-->
+</script>
+{/if}
+<script language="JavaScript">
+var page_url = '{$page_url}';
+{literal}
+function check_f_article_type( operation )
+{
+  $('operation').value = operation;
+  if ($('type_name').value == '')
+  {
+    alert("Please input article type name");
+    return false;
+  }
+  if ($('cp_cost').value == '')
+  {
+    alert("Please input Copywriter Cost");
+    return false;
+  }
+  if ($('editor_cost').value == '')
+  {
+    alert("Please input Editor Cost");
+    return false;
+  }
+	$('f_article_type').submit();
+}
+function redirect(type_id)
+{
+  if (type_id.length > 0)
+  {
+    page_url += "?type_id=" + type_id;
+  }
+  window.location.href = page_url;
+}
+
+function changeParentId(parent_id, type_id)
+{
+  ajaxAction('/article/load_article_type.php?tid='+ parent_id+ '&cid=' + type_id, 'loaddivid');
+}
+{/literal}
+</script>
+<div id="page-box1">
+  <h2>Add/Edit Article Type</h2>
+  <div id="campaign-search" >
+    <strong>Please enter the Article Type Cost per word And Article Type Name.</strong>
+  </div>
+  <div id="loaddivid" ></div>
+  <div class="form-item" >
+<form action="" method="post" name="f_article_type" id="f_article_type" >
+<table cellspacing="0" cellpadding="4" align="center" width="99%">
+  <input type="hidden" name="operation" id="operation" value="" />
+  <input type="hidden" name="type_id" id="type_id" value="{$info.type_id}" />
+  <input type="hidden" name="parent_article_type" id="parent_article_type" value="{$parent_article_type}" />
+  <input type="hidden" name="query_string" id="query_string" value="{$query_string}" />
+  <tr>
+	  <td class="bodyBold">Basic Information</td>
+	  <td align="right" class="requiredHint" colspan="10" >Required Information</td>
+  </tr>
+  <tr>
+	  <td class="blackLine" colspan="10"><img src="/image/misc/s.gif"></td>
+  </tr>
+  {if $type_num > 0}
+  <tr>
+	  <td class="requiredInput">
+    </td>
+	  <td align="left" >&nbsp;
+    <select name="article_type" id="article_type" onchange="redirect(this.value)" >
+      {html_options options=$article_types selected=$selected_type}
+    </select>
+    </td>
+    <td>
+    <input type="button" name="add" id="add" class="button"  value="Add Article Type" onclick="redirect('')"/>
+    </td>
+  </tr>
+  {/if}
+  {* modifed by snug xu 2007-05-28 10:38  - STARTED * }
+  {* let  user change type 1, type 2, type 3 info *}
+  <tr>
+    <td class="dataLabel">Parent Type</td>
+    <td colspan="3" >    
+    <select name="parent_id" id="parent_id" onchange="changeParentId(this.value, {if $selected_type == '' || $selected_type < 0}''{else}{$selected_type}{/if})">
+      {html_options options=$roots selected=$info.parent_id}
+    </select>
+    </td>
+  </tr>
+  <tr>
+    <td class="dataLabel">QB LISTID</td>
+    <td colspan="3" ><input type="text" name="qd_listid" id="qd_listid" value="{$info.qd_listid}" size="30" /></td>
+  </tr>
+  <tr>
+    <td class="requiredInput">Type Name:</td>
+    <td>&nbsp;&nbsp;<input type="text" name="type_name" id="type_name" value="{$info.type_name}" size="30" />
+    </td>
+    <td><input type="checkbox" name="pay_by_article" id="pay_by_article" value="1" {if $info.pay_by_article == 1}checked{/if} />Pay by Article</td>
+  </tr>
+  <tr>
+    <td class="requiredInput">Copywriter Cost per Word:</td>
+    <td>
+      $<input type="text" name="cp_cost" id="cp_cost" value="{if $info.type_id != ''}{$info.cp_cost}{else}0{/if}"  />
+    </td>
+    <td class="dataLabel">Copywriter Cost per Article</td>
+    <td>
+      $<input type="text" name="cp_article_cost" id="cp_article_cost" value="{if $info.type_id != ''}{$info.cp_article_cost}{else}0{/if}"  />
+    </td>
+  </tr>
+  <tr>
+    <td class="requiredInput">Editor Cost per word:</td>
+    <td>
+      $<input type="text" name="editor_cost" id="editor_cost" value="{if $info.type_id != ''}{$info.editor_cost}{else}0{/if}"  />
+    </td>
+    <td class="dataLabel">Editor Cost per Article</td>
+    <td>
+      $<input type="text" name="editor_article_cost" id="editor_article_cost" value="{if $info.type_id != ''}{$info.editor_article_cost}{else}0{/if}"  />
+    </td>
+  </tr>
+  <tr>
+    <td class="requiredInput"></td>
+    <td><input type="checkbox" name="is_hidden" id="is_hidden" value="1" {if $info.is_hidden == 1}checked{/if} />Hide in client interface?</td>
+    {if $info.parent_id > 0 || $info.parent_id == 0}
+    <td class="requiredInput"></td>
+    <td><input type="checkbox" name="is_inactive" id="is_inactive" value="2" {if $info.is_inactive == 2}checked{/if} />Hide this article Type for all?</td>
+    {/if}
+  </tr>
+  <tr>
+    <td colspan="3" align="center">
+	    <input type="button" name="save" class="button"  value="Save" onclick="check_f_article_type('save')"  />
+    </td>
+  </tr>
+  {* modifed by snug xu 2007-05-28 10:38  - FINISED * }
+</table>
+</form>
+  </div>
+</div>
+{include file="themes/$theme/footer.html"}

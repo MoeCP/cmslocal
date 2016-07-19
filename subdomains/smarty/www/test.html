@@ -1,0 +1,36 @@
+<div class="title-top-box" id="navWorkExperience" >Test</div>
+<div class="form-item">
+  <div class="title-desc-box"><strong>Instructions: Writers must make the necessary revisions on this article to improve the overall quality and flow. Editors must revise this article and ensure that there are no grammatical errors and provide a brief section for critiques and feedback you would provide the writer for improvements.</strong></div>
+<form action="" method="post"  name="f_candidate_test" >
+<input type="hidden" name="candidate_id" value="{$cid}"/>
+<input type="hidden" name="opt_index" value="6" />
+<br>
+<table border="0" cellspacing="1" cellpadding="4" align="center" width="100%">  
+  <tr><td colspan="5" >Original Article<br />When questioned regarding the personal elements in his lifelong interest in matters Gnostic, Professor Gilles Quispel, the noted Gnostic expert and associate of C.G. Jung, tells a remarkable story. During the dark and hopeless years of World War II, when life and the world seemed lacking in hope and joy, Quispel turned to the study of the message of the great Gnostic teacher and poet, Valentinus. The inspiration, comfort, and faith derived from the writings of Valentinus were instrumental in turning Quispel into a devoted and thoroughly sympathetic scholar of Gnosticism. It would not be a gross exaggeration to state that the experience of the Dutch scholar is far from unique and that numerous persons in our contemporary world are finding the message of this greatest of all Gnostic teachers of eminent and helpful relevance in their lives.</td></tr>
+  <tr>
+    <td class="bodyBold" colspan="2">Basic Information</td>
+    <td align="right"  colspan="3" class="requiredHint">Required Information</td>
+  </tr>
+  <tr>
+    <td class="blackLine" colspan="5"><img src="/image/misc/s.gif"></td>
+  </tr>
+  <tr><td colspan="5"  align="left" >Revised Article<td></tr>
+  <tr>
+    <td colspan="5" ><textarea name="revised_article" cols="150" rows="10" >{$info.revised_article}</textarea></td>
+  </tr>
+  <tr><td colspan="5"  align="left" >Provide Feedback(Editor Only)<td></tr>
+  <tr>
+    <td colspan="5" ><textarea name="feedback" cols="150" rows="10" >{$info.feedback}</textarea></td>
+  </tr>
+  <tr>
+    <td class="blackLine" colspan="5"><img src="/image/misc/s.gif"></td>
+  </tr>
+  <tr>
+    <td colspan="5" >
+      &nbsp;Having trouble submitting the form? Send email to hr@copypress.com &nbsp;&nbsp;
+      <input type="button" value="Submit Test" class="button" onclick="check_f_candidate_test()" />
+    </td>
+  </tr>
+</table>
+</form>
+</div>

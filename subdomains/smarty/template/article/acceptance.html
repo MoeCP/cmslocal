@@ -1,0 +1,414 @@
+{include file="themes/$theme/header.html"}
+
+{if $feedback ne ''}
+<script language="JavaScript">
+<!--
+alert('{$feedback}');
+//-->
+</script>
+{/if}
+
+<br />
+<div id="page-box1">
+  <div id="campaign-actions" >
+  <div id="campaign-actions-label"> Assignment Acceptance</div>
+  </div>
+  <div id="campaign-search" >
+    <!--<strong>You can enter the "keyword","campaign name"  etc. into the keyword input to search the relevant campaign's keyword information</strong>-->
+    <div id="campaign-search-box" >
+    <form name="f_assign_keyword_return" id="f_assign_keyword_return" action="/article/acceptance.php" method="get">
+    <table border="0" cellspacing="1" cellpadding="4">
+      <tr>
+       <td nowrap>Keyword</td>
+       <td><input type="text" name="keyword" id="search_keyword"></td>
+       <td nowrap>Article Status</td>
+       <td colspan="1"><select name="article_status"><option value="">[choose]</option>{html_options options=$article_statuses selected=$smarty.get.article_status}</select></td>
+       <td nowrap>Article Type</td>
+       <td colspan="1"><select name="article_type"><option value="">[choose]</option>{html_options options=$article_type selected=$smarty.get.article_type}</select></td>
+       {if $login_permission <>1}
+       <td nowrap>Editor Status</td>
+       <td colspan="1"><select name="editor_status"><option value="">[choose]</option>{html_options options=$assign_statuses selected=$smarty.get.editor_status}</select>
+       </td>
+       {/if}
+       {if $login_permission <>3}
+       <td nowrap>Copywriter Status</td>
+       <td colspan="1"><select name="cp_status"><option value="">[choose]</option>{html_options options=$assign_statuses selected=$smarty.get.cp_status}</select>
+       </td>
+       {/if}
+       <td nowrap>Show:</td>
+       <td nowrap>
+        <select name="perPage" onchange="this.form.submit();">{html_options options=$g_pager_perPage selected=$smarty.get.perPage}</select> row(s)&nbsp;&nbsp;&nbsp;
+        </td>
+        <td nowrap>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+        <td>&nbsp;</td>
+      <td rowspan="2" >
+        <input type="image" src="/images/button-search.gif" value="submit">
+      </td>
+    </tr>
+    <tr>
+      {if $login_permission >= 4}
+      <td nowrap>Copywriter</td>
+      <td><select name="copy_writer_id"><option value="">[choose]</option>{html_options options=$all_copy_writer selected=$smarty.get.copy_writer_id}</select></td>
+      <input name="campaign_id" type="hidden" id="campaign_id" value="{$campaign_id}" />
+      <td >Editor</td>
+      <td><select name="editor_id"><option value="">[choose]</option>{html_options options=$all_editor selected=$smarty.get.editor_id}</select></td>
+       <td>Client</td>
+       <td><select name="client_id"><option value="">[choose]</option>{html_options options=$all_clients selected=$smarty.get.client_id}</select></td>
+       <td nowrap>Campaign</td>
+       <td nowrap><select name="campaign_id"><option value="">[choose]</option>{html_options options=$all_campaigns selected=$smarty.get.campaign_id}</select></td>
+       {/if}
+      </tr>
+    </table>
+    </form>
+    </div>
+  </div>
+</div>
+<br>
+<div class="tablepadding"> 
+<div class="pagingpaddingleft" >
+  <table align="center" width="100%" border="0" cellspacing="0" cellpadding="0" >
+    <tr><td class="table-left table-paging-left" width="20" height="37" >&nbsp;</td><td class="table-bottom">{$pager} (Total Page:{$total})(Total Count:{$count})</td><td class="table-right table-paging-right" width="21">&nbsp;</td></tr>
+  </table>
+</div>
+<form action="{$smarty.server.REQUEST_URI}" name="campaign_keyword_list" method="post" />
+<input type="hidden" name="single_keyword_id" id="keyword_id" value="" />
+<input type="hidden" name="user_status" id="user_status" value="" />
+<input type="hidden" name="operation" id="operation" value="" />
+<input type="hidden" name="form_refresh" value="N" />
+<table id="table-1" cellspacing="0" cellpadding="0" align="center" class="sortableTable">
+  <thead>
+  <tr class="sortableTab">
+    <th class="table-left-corner" rowspan="2" >&nbsp;&nbsp;&nbsp;&nbsp;</th>
+    <td nowrap class="columnHeadInactiveBlack table-left-2">
+      {if $show_cb}<input type="checkbox" name="Select_All" title="Select All" onClick="javascript:checkAll('isUpdate[]')" />{/if}    
+    </td>
+    
+    <td nowrap class="columnHeadInactiveBlack table-left-2 table-right-2">Number</td>
+    <td nowrap class="columnHeadInactiveBlack">Keyword</td>
+    <td nowrap class="columnHeadInactiveBlack">Article Number</td>
+    <td nowrap class="columnHeadInactiveBlack">Campaign Name</td>
+    <td nowrap class="columnHeadInactiveBlack">Copywriter</td>
+    <td nowrap class="columnHeadInactiveBlack">Editor</td>
+    <td nowrap class="columnHeadInactiveBlack">Campaign Start Date</td>
+    <td nowrap class="columnHeadInactiveBlack">Writer Due Date</td>
+    <td nowrap class="columnHeadInactiveBlack">Article Status</td>
+    <td nowrap class="columnHeadInactiveBlack">Article Type</td>
+    <td nowrap class="columnHeadInactiveBlack">Editor Status</td>
+    <td nowrap class="columnHeadInactiveBlack">Copywriter Status</td>
+    <td nowrap class="columnHeadInactiveBlack table-right-2">&nbsp;</td>
+    <th class="table-right-corner">&nbsp;&nbsp;&nbsp;</th>
+  </tr>
+  </thead>
+  <tbody>
+  {foreach from=$result item=item name="loop_all"}
+  <tr class="{if $smarty.foreach.loop_all.iteration % 2 eq 0}even{else}odd{/if}">
+  <td class="table-left" >&nbsp;</td>
+  
+   <td class="table-left-2" >
+   {if $item.show_cb}
+      <input type="checkbox" name="isUpdate[]" id="isUpdate_{$smarty.foreach.loop_all.iteration}" value="{$smarty.foreach.loop_all.iteration}" onclick="javascript:checkItem('Select_All', campaign_keyword_list)" />
+   {/if}
+      <input type="hidden" name="keyword[]" id="keyword_{$smarty.foreach.loop_all.iteration}" value="{$item.keyword}" />
+    <input type="hidden" name="keyword_id[]" id="keyword_id_{$smarty.foreach.loop_all.iteration}" value="{$item.keyword_id}" />
+      <input type="hidden" name="note_id[]" id="note_id_{$smarty.foreach.loop_all.iteration}" value="{$item.note_id}" />
+      <input type="hidden" name="old_notes[]" id="notes_{$smarty.foreach.loop_all.iteration}" value="{$item.notes}" />
+   
+   </td>
+   
+    {eval var= $startNo+$smarty.foreach.loop_all.iteration assign='rowNumber'}
+    <td class="table-left-2 table-right-2" >{$rowNumber}</td>
+    <td>{$item.keyword}</td>
+    <td>{$item.article_number}</td>
+    <td>{if $login_permission == 5}<a href="/client_campaign/client_campaign_set.php?campaign_id={$item.campaign_id}" target="_blank" >{$item.campaign_name|truncate:20:"..."}</a>{else}<a href="/article/acceptance.php?campaign_id={$item.campaign_id}" >{$item.campaign_name|truncate:20:"..."}</a>{/if}</td>
+    <td>{if $login_permission <= 4}{$item.cp_name}{else}<a href="javascript:void(0)" onclick="openWindow('/user/user_detail_info.php?user_id={$item.copy_writer_id}', 'height=300,width=400,status=no,toolbar=no,menubar=no,location=no,resizable=yes,scrollbars=yes');">{$item.cp_name}</a>{/if}</td>
+    <td>{if $login_permission <= 4}{$item.ue_name}{else}<a href="javascript:void(0)" onclick="openWindow('/user/user_detail_info.php?user_id={$item.editor_id}', 'height=300,width=400,status=no,toolbar=no,menubar=no,location=no,resizable=yes,scrollbars=yes');">{$item.ue_name}</a>{/if}</td>
+    <td>{$item.date_start|date_format:"%m-%d-%Y"}</td>
+    <td>{$item.date_end|date_format:"%m-%d-%Y"}</td>
+    <td>{$article_statuses[$item.article_status]}</td>
+    <td>{$article_type[$item.article_type]}</td>
+    {*<td>{if $item.editor_status == -2}Auto Denied{else}{$assign_statuses[$item.editor_status]}{/if}</td>*}
+    <td>{if $item.editor_status==-2}Auto Denied{else}{$assign_statuses[$item.editor_status]}{if $item.editor_status == 0 && $item.e_deny_memo && $login_permission >= 4}<br />Reason:{$item.e_deny_memo}{/if}{/if}</td>
+    <td>{if $item.cp_status==-2}Auto Denied{else}{$assign_statuses[$item.cp_status]}{if $item.cp_status == 0 && $item.deny_memo && $login_permission >= 4}<br />Reason:{$item.deny_memo}{/if}{/if}</td>
+    <td align="left" nowrap class="table-right-2">
+    {if  $login_permission == 1 || $login_permission == 3}
+    <input type="button" class="button" value="Style Guide" onclick="javascript:openWindow('/client_campaign/campaign_style_guide.php?campaign_id={$item.campaign_id}', 'height=500,width=600,status=no,toolbar=no,menubar=no,location=no,resizable=yes,scrollbars=yes');" />
+    {/if}
+    {if $login_permission >= 4}
+    {if $item.show_cb}
+    <input type="button" class="button" value="Re-Assign" onclick="openLink('/client_campaign/assign_keyword.php?keyword_id={$item.keyword_id}&frm=acceptance');" />
+    {/if}
+    {if $item.editor_status eq '0' || $item.cp_status eq '0'}
+    <input type="button" class="button" value="Back Waiting Accept" onclick="javascript:backWaitingAccept('{$item.keyword_id}','{if $item.editor_status eq '0' && $item.cp_status eq '1'}editor{elseif $item.editor_status eq '1' && $item.cp_status eq '0'}cp{else}all{/if}')" />
+    {/if}
+    <input type="button" class="button" value="Update" onclick="openLink('/client_campaign/keyword_set.php?keyword_id={$item.keyword_id}');" />
+    {elseif  $login_permission == 1 && $item.cp_status == -1 || $login_permission == 3 && $item.editor_status == -1 } {*&& $item.cp_status == 1*}
+    <input type="button" class="button" value="Accept" onclick="javascript:assignedAction('{$item.keyword_id}',1)" />
+    <input type="button" class="button" value="Decline" onclick="javascript:assignedAction('{$item.keyword_id}',0)" />
+    {/if}
+     </td>
+     <td class="table-right" >&nbsp;</td>
+  </tr>
+  {/foreach}
+  </tbody>
+</table>
+<div class="pagingpaddingleft" >
+  <table align="center" width="100%" border="0" cellspacing="0" cellpadding="0" >
+    <tr><td class="table-left table-paging-left" width="20" height="37" >&nbsp;</td><td class="table-bottom">{$pager} (Total Page:{$total})(Total Count:{$count})</td><td class="table-right table-paging-right" width="21">&nbsp;</td></tr>
+  </table>
+</div>
+</div>
+  {if $show_cb == true}
+   <table align="center">
+    <tr>
+    <td align="center" >
+    {if $login_permission >= 4}
+    <table border="0" cellspacing="1" cellpadding="4" width="100%">
+  <tr>
+    <td >
+    <table class="helpTable" cellspacing="0" cellpadding="4">
+      <tr><td valign="top">&nbsp;&#8226;&nbsp;</td><td>Please choose some keywords that you need update,enter the relevant information you need,then submit it.</td></tr></table></td>
+  </tr>
+    <tr>
+    <td>
+    <table border="0" cellspacing="1" cellpadding="4">
+      <tr>
+        <td class="dateLable">Editor Notes</td>
+        <td><textarea name="notes" cols="60" rows="4" id="notes">{$smarty.post.notes}</textarea></td>
+        <td>New or Append</td>
+        <td>
+          <select name="new_or_append">
+            <option value="Append">Append</option>
+            <option value="New">New</option>
+          </select>
+	      </td>
+        <td></td>
+      </tr> 
+     </table>
+   </td>
+  </tr>
+  <tr>
+  <td>
+  <table border="0" cellspacing="1" cellpadding="4">
+  <tr>
+  <td class="dateLable">Start Date</td>
+  <td><input name="date_start" type="text" id="date_start" readonly value="{$smarty.post.date_start}" />
+    <input type="button" value="..." id="btn_cal_date_start" class="button">
+    <script type="text/javascript">
+    Calendar.setup({ldelim}
+      inputField  : "date_start",
+      ifFormat  : "%Y-%m-%d",
+      showsTime   : false,
+      button    : "btn_cal_date_start",
+      singleClick : true,
+      step    : 1,
+      range     : [1990, 2030]
+    {rdelim});
+    </script></td>
+  <td class="dateLable">Due Date</td>
+  <td>
+    <input name="date_end" type="text" id="date_end" readonly value="{$smarty.post.date_end}" />
+    <input type="button" value="..." id="btn_cal_date_end" class="button">
+    <script type="text/javascript">
+    Calendar.setup({ldelim}
+      inputField  : "date_end",
+      ifFormat  : "%Y-%m-%d",
+      showsTime   : false,
+      button    : "btn_cal_date_end",
+      singleClick : true,
+      step    : 1,
+      range     : [1990, 2030]
+    {rdelim});
+    </script></td>
+  </tr>
+  </table></td></tr>
+  <tr>
+    <td>
+      <input type="checkbox" name="is_forced_not_free" id="is_forced_not_free" value="1" />
+      <label for="is_forced_not_free" >Force Assign when the copywriter/editor is busy between start date and Due Date</label><br />
+			<input type="checkbox" name="is_reserve_content" id="is_reserve_content" value="1" checked onclick="confirm_reserve_content(this)"/>
+      <label for="is_reserve_content" >Keep article content upon reassignment</label>
+      <br />
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <table border="0" cellspacing="1" cellpadding="4">
+        <tr>
+          <td class="dateLable">Copywriter</td>
+          <td>
+          <select name="copy_writer_id" id="assign_copy_writer_id" >
+            <option value="">[choose]</option>
+            <option value="0">No Copywriter</option>
+            {$copy_writer_options}
+          </select>
+          </td>
+          <td><a href="javascript:void(0)" onclick="if ($('assign_copy_writer_id').value) javascript:openWindow('/client_campaign/cp_assignment_ranking.php?copywriter_id=' + $('assign_copy_writer_id').value + '&campaign_id={$campaign_id}', 'height=300,width=400,status=no,toolbar=no,menubar=no,location=no,resizable=yes,scrollbars=yes'); else alert('Please choose a copywriter');" >View Copywriter's Assignment Ranking</a></td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+{if $login_permission >= 5}
+  <tr>
+    <td>
+      <table border="0" cellspacing="1" cellpadding="4">
+        <tr>
+          <td class="dateLable">QAer</td>
+          <td>
+          <select name="qaer_id" id="assign_qaer_id" >
+            <option value="">[choose]</option>
+            <option value="0">No QAer</option>
+            {html_options options=$all_qaer selected=$campaign_info.qaer_id}</select>
+          </select>
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>  
+{/if}
+  <tr>
+    <td>
+      <table border="0" cellspacing="1" cellpadding="4">
+        <tr>
+          {if $campaign_info.article_type == -1 || $campaign_info.article_type==''}
+          <td class="dateLable">Article Type</td>
+          <td>
+            <select name="article_type">
+              <option value="">[default]</option>
+              {html_options options=$leaf_types selected=$smarty.post.article_type}
+            </select>
+          </td>
+          {/if}
+          <td class="dateLable">Editor
+          <select name="editor_id" id="assign_editor_id" >
+            <option value="">[choose]</option>
+            <option value="0">No Editor</option>
+            {$editor_options}
+          </select>
+          </td>
+          <td colspan="2">
+            <input type="submit" class="button" value="Re-Assign" />&nbsp;&nbsp;
+            <input type="reset" class="button" value="Reset" />
+          </td>
+        </tr>
+      </table>
+     </td>
+     </tr>
+     </table>
+    {elseif $login_permission == 1 || $login_permission==3}
+    <input type="submit" value="Accept" class="button" onclick="$('user_status').value='1';" />
+    <input type="button" value="Decline" class="button" onclick="denyKeywords();" />
+    {/if}
+    </td>
+    </tr>
+    </table>
+  {/if}
+  </form>
+
+<script type="text/javascript">
+//<![CDATA[
+
+var st = new SortableTable(document.getElementById("table-1"),
+  [{if $is_pay_adjust != 1}'None',{/if}'None',"Number", "CaseInsensitiveString", "CaseInsensitiveString", "CaseInsensitiveString", "CaseInsensitiveString", "CaseInsensitiveString", "CaseInsensitiveString", "Date", "Date", "None"]);
+{literal}
+st.onsort = function () {
+  var rows = st.tBody.rows;
+  var l = rows.length;
+  for (var i = 0; i < l; i++) {
+    removeClassName(rows[i], i % 2 ? "odd" : "even");
+    addClassName(rows[i], i % 2 ? "even" : "odd");
+  }
+};
+st.asyncSort(0);
+function assignedAction( keyword_id, status )
+{
+  if (status == 1)
+  {
+    var f  = document.campaign_keyword_list;
+    f.keyword_id.value = keyword_id;
+    f.user_status.value = status;
+    f.operation.value = 'assignedAction';
+    f.submit();
+  } else if (status == 0) {
+     url = '/article/decline_article.php?keyword_id=' + keyword_id;
+     showWindowDialog(url, 600, 500, 'What is your reason for declining this article');
+  }
+}
+
+function denyKeywords()
+{
+    var f = document.campaign_keyword_list;
+    var ck_values = document.getElementsByName('isUpdate[]'); 
+    var keyword_id = '';
+    for (var i =0;i < ck_values.length ; i++) {
+      if (ck_values[i].checked) {
+        keyword_id += '|' + $('keyword_id_' + ck_values[i].value).value;
+      }
+    }
+    if (keyword_id == '') {
+      alert("Please choose an keyword");
+      return false;
+    }
+    url = '/article/decline_article.php?keyword_id=' + keyword_id;
+    showWindowDialog(url, 600, 500, 'What is your reason for declining this article');
+}
+
+function backWaitingAccept(keyword_id, role)
+{
+  var rolename  = (role == 'all' ? 'copy writer and editor' : (role=='cp') ? 'copy writer': role);
+    if (confirm('Are you sure back Waiting Accept for the ' + rolename)) {
+        var f  = document.campaign_keyword_list;
+        f.keyword_id.value = keyword_id;
+        f.operation.value = (role == 'editor') ? 'editorback' : (role=='cp'?'writerback':'allback');
+        f.user_status.value = -1;
+        f.submit();
+    }
+}
+
+
+var f_common = "document.f_assign_keyword.";
+var f = document.f_assign_keyword;
+function check_f_assign_keyword(result_count) {
+  var is_checked;
+  var f = document.f_assign_keyword;
+
+  for (i = 1; i <= result_count; i++) {
+    var is_update_id = 'isUpdate_' + i;
+    var keyword = document.getElementById("keyword_"+i).value;
+    if (document.getElementById(is_update_id).checked)
+    {
+      is_checked = true;
+    }
+  }
+
+  if (!is_checked) {
+    alert("Please choose one keyword.");  
+    return false;
+  }
+
+  if (f.editor_id.value.length == 0 && f.copy_writer_id.value.length == 0) {
+      if (f.date_start.value.length == 0 && f.date_end.value.length == 0) {
+          alert('Please choose a copywriter or a editor for keyword');
+          f.copy_writer_id.focus();
+          return false;
+      }
+  }
+  return true;
+}
+
+function confirm_reserve_content(obj)
+{
+  if (!obj.checked)
+  {
+      if (!confirm('Are you sure you don\'t want to keep articles upon reassignment'))
+      {
+        obj.checked = true;
+      }
+  }
+}
+
+
+{/literal}
+//]]>
+</script>
+
+{include file="themes/$theme/footer.html"}

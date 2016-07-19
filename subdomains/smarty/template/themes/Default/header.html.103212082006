@@ -1,0 +1,110 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD html 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset={$sys_charset}">
+<title>{$page_title}</title>
+<style type="text/css">@import url("/themes/{$theme}/style.css"); </style>
+<link href="/themes/{$theme}/navigation.css" rel="stylesheet" type="text/css" />
+<link rel="stylesheet" type="text/css" media="all" href="/js/calendar/calendar.css" />
+<link type="text/css" rel="StyleSheet" href="/js/sortabletable/sortabletable.css" />
+
+<script language="javascript" src="/themes/{$theme}/menu.js"></script>
+<script language="javascript" src="/js/cookie.js"></script>
+<script type="text/javascript" src="/js/calendar/calendar.js"></script>
+<script type="text/javascript" src="/js/calendar/lang/calendar-en.js"></script>
+<script type="text/javascript" src="/js/calendar/calendar-setup.js"></script>
+<script type="text/javascript" src="/js/sortabletable/sortabletable.js"></script>
+<script type="text/javascript" src="/js/common.js"></script>
+<script type="text/javascript" src="/js/overlib/overlib_mini.js"></script>
+<script type="text/javascript" src="/js/prototype.js"></script>
+<script type="text/javascript" src="/js/rico.js"></script>
+<script type="text/javascript" src="/js/tiny_mce/tiny_mce.js"></script>
+<link id="luna-tab-style-sheet" type="text/css" rel="stylesheet" href="/js/tabpane/tabpane.css" />
+<script type="text/javascript" src="/js/tabpane/tabpane.js"></script>
+
+<body {$onload} background="/image/bgall.jpg">
+<table cellspacing="0" cellpadding="0" border="0" width="100%">
+<tr height="20">
+  <td align="left" valign="bottom">&nbsp;
+  {*
+  <table border="0" cellspacing="1" cellpadding="4">
+    <tr>
+      <td colspan="4" class="moduleTitle">Keyword Search</td></tr>
+    <!-- <tr><td colspan="4" nowrap><table class="helpTable" width="100%" cellspacing="0" cellpadding="4">
+        <tr><td nowrap>Please Input Some Keyword</td></tr></table></td></tr> -->
+    <form name="f_cms_search_kw" action="/search.php" method="get">
+    <tr>
+      <td class="requiredInput" nowrap>Search Type:</td>
+      <td><select name="search_type">{html_options options=$search_type selected=$smarty.get.search_type}</select></td>
+      <td class="requiredInput" nowrap>Enter Keywords:</td>
+      <td><input type="text" name="keyword" size="20" value="{$smarty.get.keyword}" title='It can search some important information. Please separate the keyword by space bar. for example:"copywriter test".'/></td>
+      <td><input type="submit" value="Search" class="moduleButton"></td>
+      <!-- <td nowrap><a href="#">Advanced Search</a></td> -->
+    </tr>
+    </form>
+  </table>
+  *}
+  </td>
+  <td class="welcome" width="240" align="right" valign="top">Welcome,{$loggedin_user_name}&nbsp;|&nbsp;<a href="#">Help</a>&nbsp;|&nbsp;<a href="/logout.php">Logout</a>&nbsp;</td>
+</tr>
+</table>
+
+<table cellpadding="4" cellspacing="0" width="97%">
+<tr><td><div class="tab-page" id="content-pane">
+<script type="text/javascript">var tabPane1 = new WebFXTabPane( document.getElementById( "content-pane" ), 0 );</script>
+
+{foreach from=$main_menu item=module name="loop_module"}
+<div class="tab-page" id="tabPage{$smarty.foreach.loop_module.index}">
+  <h2 class="tab">
+ {if $module.tab eq 'pop' && $user_role neq 'client'  }<a href="#"onclick="window.open('{$module.url}')">{$module.module_name}</a>
+ {else}<a href="#"  onclick="window.location='{$module.url}'" target="_self" >{$module.module_name}</a>{/if}
+  </h2>
+  <script type="text/javascript">tabPane1.addTabPage(document.getElementById("tabPage{$smarty.foreach.loop_module.index}"));</script>
+  <table border="0" cellspacing="1" cellpadding="3" width="100%">
+    <tr class="subMenuTr">
+      {foreach from=$module.sub_menu item=sub_menu name="loop_sub_menu"}
+      <td class="subMenuLabel"><a href="{$sub_menu.url}">{$sub_menu.image}{$sub_menu.label}</a></td>
+      {/foreach}
+	</tr>
+  </table></div>
+{/foreach}
+
+</div></td></tr>
+</table>
+
+<script type="text/javascript">
+//<![CDATA[
+// restore the class names
+{literal}
+function showTab(sIndex) {
+  if (typeof tabPane1 != "undefined" ) {
+    tabPane1.setSelectedIndex(sIndex);
+  }
+}
+{/literal}
+
+showTab('{$current_menu_index}');
+
+//]]>
+</script>
+
+<table cellspacing="0" cellpadding="0" border="0" width="100%">
+<tr><td>
+  <table cellspacing="0" cellpadding="0" border="0" width="100%">
+  <tr>
+  {if $is_include_left eq true}
+  <td class="leftRegion">{include file="themes/$theme/left.html"}</td>
+  {/if}<td class="mainContent">
+
+  <!-- quick pane start -->
+  <div class="tab-page">
+  <table border="0" class="quick_pane" cellspacing="1" cellpadding="3" width="100%">
+    <tr class="subMenuTr">
+	<td class="subMenuLabel">
+      {foreach from=$quick_pane item=quick_menu name="loop_quick_menu"}
+      <a href="{$quick_menu.url}">{$quick_menu.lable}</a>&nbsp;&gt;
+      {/foreach}
+	</td></tr>
+  </table>
+  </div>
+  <!-- quick pane start -->

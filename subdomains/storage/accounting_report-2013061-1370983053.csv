@@ -1,0 +1,12 @@
+user_name,status,email,contact_name,client_id,total_word,total_word_for_editor,total_article_for_editor,total_word_for_writer,total_article_for_writer,pay_total_words_for_editor,pay_total_words_for_writer,pay_total_articles_for_editor,pay_total_articles_for_writer,cost
+paydayclient,A,payday@paydaycompany.com,,2,1518,759,5,759,5,461,461,2,2,$56.34
+testclient,A,rdecanaga@copypress.com,,105,10,5,1,5,1,5,5,0,0,$0.3
+ethanhathaway,A,vincent.po@ethanhathaway.com,Vincent Po,210,8200,4100,11,4100,11,4100,4100,0,0,$225
+connection,A,rwhitney@copypress.com,Ryan Whitney,225,171000,85500,167,85500,167,85500,85500,0,0,$5130
+CasinoBonuses,A,cberghoefer@steelcast.com,,238,5000,2500,5,2500,5,2500,2500,0,0,$150
+seerlamps,A,mliriano@steelcast.com,,248,900,450,9,450,9,450,450,0,0,$13.5
+stantonoptical,A,lsmythe@stantonoptical.com,Lynn Smythe,251,8400,4200,12,4200,12,4200,4200,0,0,$210
+CopyPressDigital,A,JKunzler@steelcast.com,,258,1000,500,1,500,1,500,500,0,0,$30
+ConnectionExtras,A,rwhitney@copypress.com,Ryan Whitney,262,6000,3000,4,3000,4,3000,3000,0,0,$180
+UrgentCare,A,cberghoefer@copypress.com,,265,1000,500,1,500,1,500,500,0,0,$30
+CMPR,A,cberghoefer@copypress.com,,266,3000,1500,3,1500,3,1500,1500,0,0,$90

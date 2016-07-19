@@ -1,0 +1,76 @@
+{include file="themes/$theme/header.html"}
+
+{if $feedback ne ''}
+<script language="JavaScript">
+<!--
+alert('{$feedback}');
+//-->
+</script>
+{/if}
+
+<br />
+<div id="page-box1">
+  <h2>Feed Confirm</h2>
+</div>
+<br>
+<div class="tablepadding"> 
+<form action="{$smarty.server.REQUEST_URI}" name="form_feeds" id="form_feeds" method="post" />
+<input type="hidden" name="campaign_id" value="{$campaign_id}" />
+<input type="hidden" name="form_refresh" value="N" />
+<table id="table-1" cellspacing="0" cellpadding="0" align="center" class="sortableTable">
+  <thead>
+  <tr class="sortableTab">
+    <th class="table-left-corner" rowspan="2" >&nbsp;&nbsp;&nbsp;&nbsp;</th>
+    <td nowrap class="columnHeadInactiveBlack table-left-2">{if $total_unstored > 0}<input type="checkbox" name="Select_All" title="Select All" onClick="javascript:checkAll('isUpdate[]')" />{/if}</td>
+    <td nowrap class="columnHeadInactiveBlack">ID</td>
+    <td nowrap class="columnHeadInactiveBlack">Title</td>
+    <td nowrap class="columnHeadInactiveBlack">Link</td>
+    <td nowrap class="columnHeadInactiveBlack table-right-2">&nbsp;</td>
+    <th class="table-right-corner">&nbsp;&nbsp;&nbsp;</th>
+  </tr>
+  </thead>
+  <tbody>
+  {foreach from=$result item=item name="loop"}
+  <tr class="{if $smarty.foreach.loop.iteration % 2 eq 0}even{else}odd{/if}" id="action_tr{$item.keyword_id}" >
+  <td class="table-left" >&nbsp;</td>
+    <td class="table-left-2" >
+    {if $item.article_id == 0}
+      <input type="checkbox" name="isUpdate[]" id="isUpdate_{$smarty.foreach.loop_all.iteration}" value="{$item.id}" onclick="javascript:checkItem('Select_All', form_feeds)" />
+    {/if}
+    </td>
+    <td>{$item.id}</td>
+    <td>{$item.title}</td>
+    <td>{$item.link}</td>
+    <td align="left" nowrap class="table-right-2" >
+      <input type="button" class="button" value="view" onclick="showDialog({$item.id})" />
+    </td>
+    <td class="table-right" >&nbsp;</td>
+  </tr>
+  {/foreach}
+  </tbody>
+</table>
+<div class="pagingpaddingleft" >
+  <table align="center" width="100%" border="0" cellspacing="0" cellpadding="0" >
+    <tr><td class="table-left table-paging-left" width="20" height="37" >&nbsp;</td><td class="table-bottom">{$pager} (Total Page:{$total})(Total Count:{$count})</td><td class="table-right table-paging-right" width="21">&nbsp;</td></tr>
+  </table>
+</div>
+{if $total_unstored > 0}
+<div>
+<table align="center" width="100%">
+  <tr>
+    <td align="center" ><input type="submit" value="Save" class="button" /></td>
+  </tr>
+</table>
+</div>
+{/if}
+  </form>
+</div>
+{literal}
+<script language="JavaScript">
+function showDialog(id) {
+  var url = '/client_campaign/feed_view.php?id=' + id;
+  showWindowDialog(url, 700, 450, "Feed Detail");
+}
+</script>
+{/literal}
+{include file="themes/$theme/footer.html"}

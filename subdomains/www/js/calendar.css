@@ -1,0 +1,66 @@
+.calendar_main {
+width:300px;
+height:230px;
+border:1px solid #1B75BC;
+}
+.calendar_title {
+	background-color:#1B75BC;
+	width:300px;
+	font:bold 12px verdana;
+	border:1px solid #1B75BC;
+	color:#fff;
+}
+.calendar_month {
+	/*background-color:#1B75BC;*/
+	background: url(/image/headerbg.jpg) top repeat;
+	font:bold 12px verdana;
+	color:#000;
+}
+.calendar_daysofweek {
+	background-color:#f6f6f6;
+	font:bold 12px verdana;
+	color:#000;
+}
+.calendar_days {
+	font-size: 12px;
+	font-family:verdana;
+	cursor:pointer;
+	background-color: #fff;
+	padding: 2px;
+	color:black;
+}
+.calendar_days .calendar_today{
+font-weight: bold;
+color: red;
+}
+.calendar_nextprev {
+	font-weight: bold;
+	color: blue;
+	cursor:pointer;
+	background-color:white;
+}
+#cal-prev-month,#cal-next-month {
+	width:26px;
+}
+.calendar_todaytitle{
+font-weight: bold;
+color: red;
+cursor:pointer;
+background-color:white;
+}
+.calendar_hightlight {
+	background-color:#1B75BC;
+	background:url(/image/cal_del.png) no-repeat left 0px;
+}
+
+.calendar_days_td{
+	background-color:lightyellow;
+	color:black;
+	cursor:pointer;
+	font-family:verdana;
+	font-size:12px;
+	padding:2px;
+	position:relative;
+}
+
+.calendar_del{ background:url(/image/cal_del.png) no-repeat left 0px; position:absolute; left:10px; top:2px; width:19px; height:15px;}

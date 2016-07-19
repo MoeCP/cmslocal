@@ -1,0 +1,146 @@
+{include file="themes/$theme/header.html"}
+
+{if $not_select ne ''}
+<div id="page-box1">
+<table border="0" cellspacing="1" cellpadding="4"><tr><td align="center" style="font-size:12;color:red">{$not_select}</td></tr></table></div>
+{else}
+  {if $feedback neq ''}
+  <script>
+  alert("{$feedback}");
+  </script>
+  {/if}
+{literal}
+<script type="text/javascript">
+function checkSubmit(total) {
+    var i, selected = 0;
+    var box;
+    for (i = 1; i <= total; i++) {
+         box = "isUpdate_" + i;
+         if ($(box).checked == true) {
+             selected++;
+         } else {
+             var keyword = "keyword_id_" + i;
+             $(keyword).value = 0;
+         }
+    }
+    
+    if (selected == 0) {
+        alert("Please select at least one keyword");
+    } else if ( selected > 25) {
+        alert("Keywords can't be more than 25");
+    } else {
+        $("unassign_keyword").submit();
+    }
+     return true;
+    
+}
+var total = {/literal}{$total}{literal};
+function checkAll() {
+    var i;
+    if ($("select_all").checked == true) {
+        for (i = 1; i <= total; i++) {
+            var box = "isUpdate_" + i;
+            $(box).checked = true;
+        }
+    }else {
+        for (i = 1; i <= total; i++) {
+             var box = "isUpdate_" + i;
+             $(box).checked = false;
+        }
+    }
+}
+function search() {
+    var s = $("campaign_id");
+    for (var i = 0; i < s.length ; i++) {
+        if ( s[i].selected == true) {
+            $("campaign_search").submit();
+            break;
+        }
+    }
+}
+</script>
+{/literal}
+
+<br />
+<div id="page-box1">
+  <h2>Copywriter Select Keyword</h2>
+  <div id="campaign-search" >
+    <strong>You can enter the "client name","campaign name","company name" etc. into the keyword input to search the relevant client's campaign information</strong>
+    <div id="campaign-search-box" >
+    <form name="campaign_search" id="campaign_search" method="post" action="">
+    <table border="0" cellspacing="1" cellpadding="4" id="1">
+      <tr>
+        <td>Campaign</td>
+        <td><select name="campaign_id" id="campaign_id" onchange="javascript:search()">{html_options options=$campaign_list selected=$selected_c}</select></td>
+      </tr>
+    </table>
+    </form>
+    </div>
+  </div>
+  <div class="tablepadding" >
+<form action="/client_campaign/unassigned_keyword.php" name="unassign_keyword" id="unassign_keyword" method="post">
+    <input type="hidden" id="copywriter_id" name="copywriter_id" value={$copywriter_id} />
+    <input type="hidden" id="campaign_id" name="campaign_id" value={$camp_id} />
+  <table id="table-1" cellspacing="0" cellpadding="0" align="center" class="sortableTable">
+    <thead>
+      <tr class="sortableTab">
+        <th class="table-left-corner">&nbsp;&nbsp;&nbsp;&nbsp;</th>
+        <td class="table-left-2" ><input type="checkbox" name="select_all" id="select_all" onClick="checkAll()" /></td>
+        <td nowrap class="columnHeadInactiveBlack">Number</td>
+        <td nowrap class="columnHeadInactiveBlack">Keyword</td>
+        <td nowrap class="columnHeadInactiveBlack">Campaign Name</td>
+        <td nowrap class="columnHeadInactiveBlack">Article Type</td>
+        <td nowrap class="columnHeadInactiveBlack">Start Date</td>
+        <td nowrap class="columnHeadInactiveBlack">Due Date</td>
+        <th class="table-right-corner table-right-2">&nbsp;&nbsp;&nbsp;&nbsp;</th>
+      </tr>
+    </thead>
+    <tbody>
+    {foreach from=$keyword_info item=item name="keyword_loop"} 
+    <tr class="{if $smarty.foreach.keyword_loop.iteration % 2 eq 0}even{else}odd{/if}">
+      <input type="hidden" name="keyword_id[]" id="keyword_id_{$smarty.foreach.keyword_loop.iteration}" value="{$item.keyword_id}" />
+      <td class="table-left" >&nbsp;</td>
+      <td class="table-left-2"><input type="checkbox" name="isUpdate[]" id="isUpdate_{$smarty.foreach.keyword_loop.iteration}" value="{$smarty.foreach.keyword_loop.iteration}" /></td>
+      <td>{$smarty.foreach.keyword_loop.iteration}</td>
+      <td><a href="#" target="_self" onMouseOver="return overlib('<table width=500><tr><td nowrap>Keyword Instructions</td><td>{$item.keyword_description|nl2br|strip|escape:html}</td></tr></table>');" onMouseOut="return nd();">{$item.keyword}</a></td>
+      <td>{$campaign_names[$item.campaign_id]}</td>
+      <td>{$article_type[$item.article_type]}</td>
+      <td>{$item.date_start}</td>
+      <td class="table-right-2">{$item.date_end}</td>
+      <td class="table-right" >&nbsp;</td>
+    </tr>
+    {/foreach}
+   </tbody>
+</table>
+<table>
+  <tr><td align="center" colspan="12" ><input type="button" value="submit" onclick="checkSubmit({$total})" class="button" /></td></tr>
+</table>
+</form>
+  </div>
+</div>
+<script language="JavaScript">
+<!--
+//var post_checkbox_array = '{$post_checkbox_array}';
+//checkPostItem('Select_All', post_checkbox_array, 'isUpdate[]', f_common);
+//-->
+</script>
+<script type="text/javascript">
+//<![CDATA[
+var st = new SortableTable(document.getElementById("table-1"),
+  ["None", "None", "Number",  "None", "CaseInsensitiveString", "CaseInsensitiveString", "CaseInsensitiveString", "CaseInsensitiveString", "None", "None", "None"]);
+
+// restore the class names
+st.onsort = function () {ldelim}
+  var rows = st.tBody.rows;
+  var l = rows.length;
+  for (var i = 0; i < l; i++) {ldelim}
+    removeClassName(rows[i], i % 2 ? "odd" : "even");
+    addClassName(rows[i], i % 2 ? "even" : "odd");
+  {rdelim}
+{rdelim};
+
+st.asyncSort(1);
+//]]>
+</script>
+{/if}
+{include file="themes/$theme/footer.html"}

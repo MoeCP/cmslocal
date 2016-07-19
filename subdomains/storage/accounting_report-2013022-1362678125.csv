@@ -1,0 +1,5 @@
+user_id,user_name,first_name,last_name,email,address,status,Digital Media,Type 1,Type 2,Type 3,total,pay_words_total,pay_count_article,pay_amount,payment_preference,payment_status
+274,keckel,Kathy,Eckel,kathy@thisweekinparkcity.com,PO Box 840564,Active,0,32000,0,0,32000,0,64,$320,Direct Deposit,Not Paid
+5,editor,editor,jones,rdecanaga@copypress.com,316 W 2nd St,Active,0,12,0,0,12,12,0,$0,Direct Deposit,Not Paid
+36,jillenaobrien,Jillena,O'Brien,jillenabean@gmail.com,902 N. Arbutus Ave.,Active,0,30000,0,0,48000,30000,36,$480,Direct Deposit,Not Paid
+47,cstromness,Cara,Stromness,cara.stromness@gmail.com,4086 W 5010 S,Active,0,28000,0,0,28000,0,56,$280,Direct Deposit,Not Paid

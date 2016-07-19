@@ -1,0 +1,70 @@
+{include file="themes/$theme/header.html"}
+
+{if $feedback ne ''}
+<script language="JavaScript">
+<!--
+alert('{$feedback}');
+//-->
+</script>
+{/if}
+<div id="page-box1">
+  <h2>Email Template &nbsp;&nbsp;&nbsp;&nbsp; {if $user_permission_int ge 5}<input type="button" class="button" value="Add Template" onclick="javasript:window.location='/mail/add.php';" />{/if}</h2>
+  <div id="campaign-search" >
+    <strong>These templates will be useful.Utilize the email templates to accurately and canonical portray some notice automatically.</strong>
+  </div>
+</div>
+<div class="tablepadding"> 
+<table id="table-1" cellspacing="0" cellpadding="4" align="center" class="sortableTable" width="98%">
+  <form action="/mail/list.php" name="mail_list" method="post" />
+  <input type="hidden" name="template_id" />
+  <input type="hidden" name="form_refresh" value="N" />
+  <thead>
+  <tr class="sortableTab">
+    <th class="table-left-corner">&nbsp;&nbsp;&nbsp;&nbsp;</th>
+    <td nowrap class="columnHeadInactiveBlack table-left-2">Template Name</td>
+    <td nowrap class="columnHeadInactiveBlack">Subject</td>
+    <td nowrap class="columnHeadInactiveBlack table-right-2">&nbsp;</td>
+    <th class="table-right-corner">&nbsp;&nbsp;&nbsp;</th>
+  </tr>
+  </thead>
+  {foreach from=$all_templates item=item name="loop"}
+  <tr class="{if $smarty.foreach.loop.iteration % 2 eq 0}even{else}odd{/if}">
+    <td class="table-left" >&nbsp;</td>
+    <td class="table-left-2">{$email_event[$item.event_id]}</td>
+    <td>{$item.subject}</td>
+    <td align="right" nowrap class="table-right-2">
+	  <input type="button" class="button" value="Update" onclick="javasript:window.location='/mail/set.php?template_id={$item.template_id}';" />
+      <input type="submit" class="button" value="Delete" onclick="return deleteSubmit('mail_list', 'template_id', '{$item.template_id}', 'D', 'This Template')" />
+    </td>
+    <td class="table-right" >&nbsp;</td>
+  </tr>
+  {/foreach}
+  </form>
+</table>
+{*<div class="pagingpaddingleft" >
+  <table align="center" width="100%" border="0" cellspacing="0" cellpadding="0" >
+    <tr><td class="table-left table-paging-left" width="20" height="37" >&nbsp;</td><td class="table-bottom">{$pager} (Total Page:{$total})(Total Count:{$count})</td><td class="table-right table-paging-right" width="21">&nbsp;</td></tr>
+  </table>
+</div>*}
+</div>
+<script type="text/javascript">
+//<![CDATA[
+{literal}
+var st = new SortableTable(document.getElementById("table-1"),
+  ["None", "CaseInsensitiveString", "CaseInsensitiveString", "None"]);
+
+st.onsort = function () {
+  var rows = st.tBody.rows;
+  var l = rows.length;
+  for (var i = 0; i < l; i++) {
+    removeClassName(rows[i], i % 2 ? "odd" : "even");
+    addClassName(rows[i], i % 2 ? "even" : "odd");
+  }
+};
+
+st.asyncSort(0);
+{/literal}
+//]]>
+</script>
+
+{include file="themes/$theme/footer.html"}

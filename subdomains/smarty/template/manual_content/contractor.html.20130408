@@ -1,0 +1,186 @@
+{include file="themes/$theme/header.html"}
+<script language=javascript>
+{literal}
+
+function doPrint() {
+    var html = '<html><head></head><body>';
+    html += $('print_part').innerHTML + '</body></html>';
+    var printWin = window.open("","printSpecial");
+    printWin.document.open();
+    printWin.document.write(html);
+    printWin.document.close();
+    printWin.print();
+}
+{/literal}
+</script> 
+<div style="text-align: right;" >
+<a href="#" onclick="doPrint()" ><img src="/image/icons/print.jpg" border="0" width="24" height="24" /></a>&nbsp;
+{*<a href="/doc/W-9.pdf" target="_blank"><img src="/image/icons/pdf.png" border="0"  width="24" height="24" />W-9.pdf</a>&nbsp;
+{if $pay_pref == 2}
+<a href="/doc/BlueGlassDirect-Deposit-Form.doc" target="_blank"><img src="/image/icons/word.png" border="0"  width="24" height="24" />BlueGlassDirect Deposit Form</a>&nbsp;
+{/if}*}
+</div>
+<div id="print_part" >
+<p style="font-family: Times New Roman;font-size: 18px;"  align="center"><strong><u>INDEPENDENT CONTRACTOR AGREEMENT</u></strong></p> 
+<p>&nbsp;</p>
+<p style="font-family: Times New Roman;font-size: 16px;" >&nbsp;&nbsp;&nbsp;&nbsp;This INDEPENDENT CONTRACTOR AGREEMENT (&#8220;Agreement&#8221;), is made and effective as of this _____ day of ______________, 20___, by and between BlueGlass Interactive, Inc., LLC, a United States of America, Florida limited liability company (&#8220;Company&#8221;) and ______________________________, an _____________ (&#8220;Contractor&#8221;) functioning in the capacity of an Independent Contractor, for consulting services to be rendered by Contractor on behalf of Company.</p> 
+<p>&nbsp;</p>
+<p style="font-family: Times New Roman;font-size: 16px;" >&nbsp;&nbsp;&nbsp;&nbsp; 1) <u>Services</u>. Company agrees to engage Contractor to perform the services and undertake the duties and responsibilities set forth in <strong>Schedule A</strong> attached hereto and incorporated herein (collectively, the &#8220;Services&#8221;) and Contractor agrees to render the Services under the terms and conditions set forth in this Agreement. In addition to the terms set forth in Schedule A, Contractor agrees to write and edit original articles for web publication and/or distribution by Company. Contractor further agrees to provide editor feedback and reasonable rewrites to comply with editor&#8217;s comments. As part of the Services to be provided, Contractor shall use Contractor&#8217;s best efforts to promote the Services represented by Company, shall timely perform its services consistent with Company&#8217;s quality standards and shall assist Company in promoting the goodwill of Company. </p> 
+<p>&nbsp;</p>
+<p style="font-family: Times New Roman;font-size: 16px;" >&nbsp;&nbsp;&nbsp;&nbsp; 2) <u>Term</u>. The term of this Agreement (the &#8220;Term&#8221;) shall commence as of the date set forth above, and shall remain in full force and effect until terminated by either party as provided herein.</p> 
+<p>&nbsp;</p>
+<p style="font-family: Times New Roman;font-size: 16px;" >&nbsp;&nbsp;&nbsp;&nbsp; 3) <u>Termination</u>. Either party may terminate this Agreement prior to the expiration of the Term upon providing the other party with ten (10) days advance written notice of such party's intent to terminate. Upon termination, any current projects in process shall be completed by Contractor unless otherwise specified by Company. </p> 
+<p>&nbsp;</p>
+<p style="font-family: Times New Roman;font-size: 16px;" >&nbsp;&nbsp;&nbsp;&nbsp; 4) <u>Consulting Fee</u>. As payment for the Services, Contractor shall receive fees as set forth in the BlueGlass Interactive, Inc. orientation Manual, attached hereto and incorporated herein by this reference, for each article accepted by Company for publication, received by the respective deadline, and timely delivered to Company for web publication which shall constitute complete payment for the Services. Company has complete discretion to adjust fees at any time upon prior written notice to Contractor. Fees shall not be due or earned until actually paid by Company. To the extent that any fees are to be paid by Company based upon payments from the client to Company, no fees shall be earned until Company actually receives such fees from the client. Company shall pay the fees to Contractor within 120 days of client-approval. </p> 
+<p>&nbsp;</p>
+<p style="font-family: Times New Roman;font-size: 16px;" >&nbsp;&nbsp;&nbsp;&nbsp; 5) <u>Relationship</u>. </p> 
+<p>&nbsp;</p>
+<p style="font-family: Times New Roman;font-size: 16px;" >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;5.1 <u>Independent Contractor Status</u>. The parties expressly intend, agree and understand that the relationship between them created by this Agreement is that of owner-independent contractor, and does not constitute a hiring by either party. Contractor does not have any Company title and shall not be an employee, partner or joint venturer of Company. Contractor represents to Company that Contractor holds himself/herself out as an independent contractor to other firms and companies, and will continue to do so during the term of this Agreement and thereafter. </p> 
+<p>&nbsp;</p>
+<p style="font-family: Times New Roman;font-size: 16px;" >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;5.2 <u>No Authority to Bind Company</u>. Contractor is not an agent of Company and CONTRACTOR SHALL HAVE NO AUTHORITY TO BIND COMPANY TO ANY CONTRACT OR AGREEMENT UNLESS EXPRESSLY AGREED TO IN WRITING BY COMPANY IN ADVANCE OF THE CONTRACT OR AGREEMENT. </p> 
+<p>&nbsp;</p>
+<p style="font-family: Times New Roman;font-size: 16px;" >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;5.3 <u>Not Eligible for Benefits</u>. Contractor shall not be treated as an employee of Company for federal or state tax purposes, unemployment or disability benefits, or for any other withholding tax or insurance purposes or any other Company benefits. Contractor is responsible for his or her own worker&#8217;s compensation coverage and waives any right to make a claim under Company&#8217;s worker&#8217;s compensation policy. Contractor shall file all tax returns, forms and filings as may be required for payment of federal, state and municipal income tax as an independent contractor and not as an employee of Company. </p> 
+<p>&nbsp;</p>
+<p style="font-family: Times New Roman;font-size: 16px;" >&nbsp;&nbsp;&nbsp;&nbsp; 6) <u>Conduct of Contractor</u>. </p> 
+<p>&nbsp;</p>
+<p style="font-family: Times New Roman;font-size: 16px;" >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;6.1 <u>Control Lies with Contractor</u>. The conduct and control of the Services to be performed by Contractor under this Agreement shall lie with Contractor. Company is interested only in the results obtained under this Agreement and, if otherwise in compliance with the provisions of this Agreement, the manner and means of performing the Services shall be under the sole control of Contractor.</p> 
+<p>&nbsp;</p>
+<p style="font-family: Times New Roman;font-size: 16px;" >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;6.2 <u>Ethics, Environment, Health, and Safety Standards</u>. Contractor shall perform the Services in accordance with currently approved methods and ethical standards applicable to the performance of the Services in consultation with Company. In performing its Services, Contractor agrees to observe Company&#8217;s rules and regulations, including its environmental, health, safety and security rules and regulations when performing any Services for Company.</p> 
+<p>&nbsp;</p>
+<p style="font-family: Times New Roman;font-size: 16px;" >&nbsp;&nbsp;&nbsp;&nbsp; 7) <u>Indemnification</u>. Contractor shall indemnify, defend and hold harmless Company, its agents and employees from any and all claims, demands, damages, judgments, losses, liabilities and costs, including reasonable attorneys&#8217; fees arising from or in connection with any claims caused by the acts or omissions of Contractor or its employees, agents or customers, or from any breach of this Agree&shy;ment by Contractor.</p> 
+<p>&nbsp;</p>
+<p style="font-family: Times New Roman;font-size: 16px;" >&nbsp;&nbsp;&nbsp;&nbsp; 8) <u>Rights to Work</u>. </p> 
+<p>&nbsp;</p>
+<p style="font-family: Times New Roman;font-size: 16px;" >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 8.1 <u>Original Work/Plagiarism</u>. Contractor represents and warrants to Company that the work of Contractor in performance of services under this Agreement is original work and has not been copied or duplicated from any person or entity including Contractor&#8217;s prior work, nor does any such work infringe any patents or copyrights of any other person or entity. Contractor further represents and warrants that all articles and written works it submits to Company under this Agreement have not been plagiarized, including self-plagiarized, are original works of authorship of Contractor and will not infringe any patents or copyrights of any other person or entity. If any act of plagiarism or self-plagiarism is detected in Contractor&#8217;s articles or written works, the Company may immediately terminate this Agreement and Contractor will not receive any compensation for any portion of the plagiarized work and will be held liable for all damages to Company resulting from the plagiarism. </p> 
+<p>&nbsp;</p>
+<p style="font-family: Times New Roman;font-size: 16px;" >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 8.2 <u>Ownership</u>. Contractor understands that the work and services performed under this Agreement is &#8220;work made for hire&#8221; as defined under 101 of the 1976 Copyright Act, the products from and ownership of which shall belong exclusively to Company. Contractor hereby assigns to Company all right, title and interest in and to all tangible and intangible work and work products developed or produced under this Agreement by or on behalf of Contractor for Company, and all right, title and interest in and to patents, copyrights, trade secrets, trademarks and other intellectual property derived from such work and work products. Contractor agrees not to assert patents and copyrights owned or controlled by Contractor against Company in connection with any work product or other subject matter directly or indirectly derived from work done hereunder. Contractor may employ similar projects, including content of the same nature as content submitted to Company, for third parties, provided that Contractor will refrain from reprinting, republishing, or permitting any person or entity to reprint or republish any article submitted to Company under this Agreement without the prior written approval of Company.</p> 
+<p>&nbsp;</p>
+<p style="font-family: Times New Roman;font-size: 16px;" >&nbsp;&nbsp;&nbsp;&nbsp; 9) <u>Contractor Information</u>. No information, whether written or oral, provided by Contractor to Company shall be considered confidential information unless such information is owned by Company. Contractor shall not provide any information to Company unless Contractor is entitled or legally authorized to disclose such information or provide such information to Company. </p>
+<p>&nbsp;</p>
+<p style="font-family: Times New Roman;font-size: 16px;" >&nbsp;&nbsp;&nbsp;&nbsp;10) <u>Confidentiality</u>.</p> 
+<p>&nbsp;</p>
+<p style="font-family: Times New Roman;font-size: 16px;" >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;10.1 <u>Covenant Not to Disclose</u>. During the period of this Agreement with Company and at all times thereafter, regardless of the basis for termination, Contractor covenants and agrees that Contractor will not disclose or communicate to any person or entity, for any purpose or reason whatsoever, trade secrets of Company or other confidential information including without limitation, any and all information provided to Contractor regarding the services to be provided by Contractor, the client to whom service are provided, or the nature of the project contemplated by the services, and other technical data or customer information, including without limitation, CMS software. After termination of this Agreement, Contractor shall not retain any document or record of any type or format, including electronic, containing confidential information and shall either destroy any such documents or records or return them to Company.</p> 
+<p>&nbsp;</p>
+<p style="font-family: Times New Roman;font-size: 16px;" >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;10.2 <u>Covenant to Safeguard</u>. Contractor will take the necessary safeguards to maintain any trade secrets or confidential information in a secure manner and to prevent the observation of such information by any party outside this Agreement.</p> 
+<p>&nbsp;</p>
+<p style="font-family: Times New Roman;font-size: 16px;" >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;10.3 <u>Company&#8217;s Remedies</u>. The parties recognize that irreparable injury will result to Company, its business and property and its clients in the event of a breach of this Agreement by Contractor, and that this Agreement is an inducement to Company to hire Contractor. It is hereby agreed that in the event of breach, Company shall be entitled, in addition to any other remedies and damages available, to an injunction to restrain the violation thereof by Contractor and all other persons acting for or with Contractor. No action hereunder by Company shall constitute an election by Company to forego other remedies and Company shall have the right to assert other claims and remedies, including all other remedies available at equity or law.</p> 
+<p>&nbsp;</p>
+<p style="font-family: Times New Roman;font-size: 16px;" >&nbsp;&nbsp;&nbsp;&nbsp;11. <u>Covenants Not to Compete</u>. During the Term of this Agreement, and for a period of one year thereafter, Contractor, whether acting in Contractor's individual capacity or acting directly or indirectly as an employee, officer, director, majority shareholder, consultant, or otherwise for any person, firm or entity, will abide by the following covenants:</p> 
+<p>&nbsp;</p>
+<p style="font-family: Times New Roman;font-size: 16px;" >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;11.1 <u>No Contact or Solicitation</u>. Contractor covenants and agrees that Contractor will not directly or indirectly contact or solicit work, projects or assignments of any nature or type from any client of Company, whether or not Contractor was introduced to the client by Company, or if Contractor introduced Company to the client. It is acknowledged that if Contractor was responsible for bringing a client to Company, and services were performed by Contractor, the client relationship is deemed to transfer to Company. Contractor will not directly or indirectly induce, or attempt to induce, any client, former client or professional references and referral sources of Company to reduce the level of business with or to cease or refrain from doing business with Company, or in any way to interfere or attempt to interfere with the business or professional relationship between Company, its affiliates and any such persons. Contractor will not directly or indirectly induce or attempt to induce, proselyte, or hire for any purpose any of the employees, agents or independent contractors of Company, and will not attempt to alienate any such persons from Company, or otherwise attempt to interfere with the relationship between Company and any such persons.</p> 
+<p>&nbsp;</p>
+<p style="font-family: Times New Roman;font-size: 16px;" >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;11.2 <u>No Services for Customers</u>. Contractor covenants and agrees that Contractor will not directly or indirectly become employed with, provide services for, or consult with any client of Company, where any such employment, services or consultation are within the scope of services which reasonably could be provided by Company, even if Contractor introduced the client to Company, it being acknowledged that at the time Company contracted with a client that any relationship with Contractor is deemed to be transferred to the Company. </p> 
+<p>&nbsp;</p>
+<p style="font-family: Times New Roman;font-size: 16px;" >&nbsp;&nbsp;&nbsp;&nbsp;12. <u>Attorneys&#8217; Fees</u>. In the event either party shall commence any arbitration, action or proceeding against the other party by reason of any breach or claimed breach in the performance of this Agreement, or to see a judicial declaration of rights hereunder, the prevailing party in such action, as determined by the court or arbitrator, shall be entitled to recover reasonable costs and attorneys&#8217; fees.</p> 
+<p>&nbsp;</p>
+<p style="font-family: Times New Roman;font-size: 16px;" >&nbsp;&nbsp;&nbsp;&nbsp;13. <u>Governing Law</u>. All dispute, claims, actions, resolutions, and other matters including, but not limited to those arising from this Agreement shall be interpreted and enforced in accordance with the laws of the State of Florida, United States of America. Any action hereunder shall be brought solely within the State of Florida, United States of America. The parties submit to the jurisdiction of the courts in such jurisdictions. </p> 
+<p>&nbsp;</p>
+<p style="font-family: Times New Roman;font-size: 16px;" >&nbsp;&nbsp;&nbsp;&nbsp;14. <u>Interpretation</u>. As each party has had opportunity to consult counsel, any rule of construction to the effect that any ambiguities are to be resolved against the drafting party shall not be employed in the interpretation of this Agreement.</p> 
+<p>&nbsp;</p>
+<p style="font-family: Times New Roman;font-size: 16px;" >&nbsp;&nbsp;&nbsp;&nbsp;15. <u>Entire Agreement</u>. This Agreement constitutes the entire agreement between the parties as to the matters covered in this Agreement, and may be waived, modified or amended only by an agreement in writing signed by both parties and referring to this Agreement.</p> 
+<p>&nbsp;</p>
+<p style="font-family: Times New Roman;font-size: 16px;" >&nbsp;&nbsp;&nbsp;&nbsp;16. <u>Severability</u>. If any term, provision, covenant or condition of this Agreement is held by a court of competent jurisdiction to be invalid, void or unenforceable, the remaining portions of this Agreement shall remain in full force and effect and shall not be affected or invalidated.</p> 
+<p>&nbsp;</p>
+<p style="font-family: Times New Roman;font-size: 16px;" >&nbsp;&nbsp;&nbsp;&nbsp;17. <u>Assignment</u>. This Agreement shall inure to the benefit of, and be binding upon, the successors and assigns of the parties hereto. Except as provided herein, this Agreement may not be assigned by Contractor.</p> 
+<p>&nbsp;</p>
+<p style="font-family: Times New Roman;font-size: 16px;" >&nbsp;&nbsp;&nbsp;&nbsp;18. <u>Waiver</u>. No covenant, term or condition of this Agreement or breach thereof shall be deemed waived unless the waiver is in writing, signed by the party against whom enforcement is sought, and any waiver shall not be deemed to be a waiver of any preceding or succeeding breach of the same or any other covenant, term or condition.</p> 
+<p>&nbsp;</p>
+<p style="font-family: Times New Roman;font-size: 16px;" >&nbsp;&nbsp;&nbsp;&nbsp;19. <u>Notices</u>. All notices and other communications required or permitted to be given under this Agreement shall be in writing and shall be deemed to have been given if delivered personally or sent by first class mail, postage prepaid, to the parties at the following addresses or to such other address as either party to this Agreement shall specify by notice to the other:</p> 
+<p>&nbsp;</p>
+<p style="font-family: Times New Roman;font-size: 16px;" >&nbsp;&nbsp;&nbsp;&nbsp;If to Company:</p> 
+<p>&nbsp;</p>
+<p style="font-family: Times New Roman;font-size: 16px;" >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; BlueGlass Interactive, Inc., LLC</p> 
+<p style="font-family: Times New Roman;font-size: 16px;" >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 2701 W. Busch Blvd. Suite 165</p> 
+<p style="font-family: Times New Roman;font-size: 16px;" >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Tampa, FL 33618 </p> 
+<p style="font-family: Times New Roman;font-size: 16px;" >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; United States of America</p>
+<p>&nbsp;</p>
+<p style="font-family: Times New Roman;font-size: 16px;" >&nbsp;&nbsp;&nbsp;&nbsp;With a copy to:</p> 
+<p>&nbsp;</p>
+<p style="font-family: Times New Roman;font-size: 16px;" >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Paul W. Jones, Esq.</p> 
+<p style="font-family: Times New Roman;font-size: 16px;" >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;3 Triad Center, Suite 500</p> 
+<p style="font-family: Times New Roman;font-size: 16px;" >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Salt Lake City, UT 84180</p> 
+<p style="font-family: Times New Roman;font-size: 16px;" >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;United States of America</p> 
+<p>&nbsp;</p>
+<p style="font-family: Times New Roman;font-size: 16px;" >&nbsp;&nbsp;&nbsp;&nbsp;If to Contractor:</p>
+<p>&nbsp;</p>
+<p style="font-family: Times New Roman;font-size: 16px;" >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;___________________________________</p> 
+<p style="font-family: Times New Roman;font-size: 16px;" >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;___________________________________</p> 
+<p style="font-family: Times New Roman;font-size: 16px;" >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;___________________________________</p> 
+<p style="font-family: Times New Roman;font-size: 16px;" >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;___________________________________</p> 
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p style="font-family: Times New Roman;font-size: 16px;" >&nbsp;&nbsp;&nbsp;&nbsp;21. <u>Time of the Essence</u>. Time is of the essence in construing each and every provision of this Agreement.</p> 
+<p>&nbsp;</p>
+<p style="font-family: Times New Roman;font-size: 16px;" >&nbsp;&nbsp;&nbsp;&nbsp;22. <u>Counterparts</u>. This Agreement may be executed in counterparts.</p> 
+<p>&nbsp;</p>
+<p style="font-family: Times New Roman;font-size: 16px;" >&nbsp;&nbsp;&nbsp;&nbsp;23. <u>Contractor&#8217;s Acknowledgment of BlueGlass Interactive, Inc. orientation Manual</u>. By signing this Agreement, Contractor represents that Contractor has read, understands, and agrees to the terms and provisions set forth in the BlueGlass Interactive, Inc. orientation Manual posted in the CMS. </p> 
+<p>&nbsp;</p>
+<p style="font-family: Times New Roman;font-size: 16px;" >&nbsp;&nbsp;&nbsp;&nbsp;IN WITNESS WHEREOF, the parties have caused this Agreement to be executed effective as of the date set forth above.</p> 
+<p>&nbsp;</p>
+<p style="font-family: Times New Roman;font-size: 16px;" >COMPANY: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CONTRACTOR</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p style="font-family: Times New Roman;font-size: 16px;" >By___________________________________ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;By________________________________</p> 
+<p style="font-family: Times New Roman;font-size: 16px;" >&nbsp;&nbsp;&nbsp;&nbsp;<strong> Name:_____________________________&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Name:__________________________</strong></p> 
+<p style="font-family: Times New Roman;font-size: 16px;" >&nbsp;&nbsp;&nbsp;&nbsp;<strong> Title: ______________________________ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Title:___________________________ </strong></p> 
+<p>&nbsp;</p> 
+<p>&nbsp;</p> 
+<p>&nbsp;</p> 
+<p>&nbsp;</p> 
+<p>&nbsp;</p>
+<p style="font-family: Times New Roman;font-size: 16px;"  align="center"><strong>SCHEDULE A</strong></p> 
+<p>&nbsp;</p> 
+<p style="font-family: Times New Roman;font-size: 16px;"  align="center"><strong>(Services to be Performed by Contractor)</strong></p> 
+<p style="font-family: Times New Roman;font-size: 16px;" >The services to be performed by contractor will consist of creating and editing original content to be displayed on internet web pages for customers. This original content includes, but is not limited to, written articles or work product, photographs, and artwork. The specific web pages for which Contractor will create content will be assigned by the Company to Contractor. The Company will assign Contractor a deadline by which each page of content written by Contractor for a customer shall be completed.</p> 
+<p>&nbsp;</p> 
+<p>&nbsp;</p> 
+<p>&nbsp;</p> 
+<p>&nbsp;</p> 
+<p>&nbsp;</p> 
+<p>&nbsp;</p> 
+<p>&nbsp;</p> 
+<p>&nbsp;</p> 
+<p>&nbsp;</p> 
+<p>&nbsp;</p> 
+<p>&nbsp;</p> 
+<p>&nbsp;</p> 
+<p>&nbsp;</p> 
+<p>&nbsp;</p> 
+<p>&nbsp;</p> 
+<p>&nbsp;</p> 
+<p>&nbsp;</p> 
+<p>&nbsp;</p> 
+<p>&nbsp;</p> 
+<p>&nbsp;</p> 
+<p>&nbsp;</p> 
+<p>&nbsp;</p> 
+<p>&nbsp;</p> 
+<p>&nbsp;</p> 
+<p>&nbsp;</p> 
+<p>&nbsp;</p> 
+<p>&nbsp;</p> 
+<p>&nbsp;</p> 
+<p>&nbsp;</p> 
+<p>&nbsp;</p> 
+<p>&nbsp;</p> 
+<p>&nbsp;</p> 
+<p>&nbsp;</p> 
+<p>&nbsp;</p>
+<p style="font-family: Times New Roman;font-size: 16px;"  align="center"><strong>BLUEGLASS INTERACTIVE, INC. ORIENTATION MANUAL</strong></p> 
+<p style="font-family: Times New Roman;font-size: 16px;"  align="center"><strong>ACKNOWLEDGEMENT OF RECIEPT</strong></p> 
+<p>&nbsp;</p>
+<p style="font-family: Times New Roman;font-size: 16px;" >I_________________________ acknowledge that I have read and understand the BlueGlass Interactive orientation manual. I understand that this manual replaces any and all prior verbal and written communications regarding BlueGlass Interactive, Inc.&#8217;s working conditions, policies and procedures.</p> 
+<p style="font-family: Times New Roman;font-size: 16px;" >I understand that the working conditions, policies and procedures described in this manual are confidential and may not be distributed in any way nor discussed with anyone who is not a contractor or employee of BlueGlass Interactive, Inc.. </p> 
+<p style="font-family: Times New Roman;font-size: 16px;" >I have read and understand the contents of this manual and will act in accord with these policies and procedures as a condition of my contract work with BlueGlass Interactive, Inc..</p> 
+<p style="font-family: Times New Roman;font-size: 16px;" >I have read and understand the general content guidelines, am familiar with the company&#8217;s plagiarism policy as well as all other standards expected by BlueGlass Interactive, Inc. and I agree to act in accord with these standards as a condition of my contract work for BlueGlass Interactive, Inc.. </p> 
+<p style="font-family: Times New Roman;font-size: 16px;" >I acknowledge that the BlueGlass Interactive, Inc. orientation manual will be updated periodically and it is my responsibility to read and adhere to any changes. </p> 
+<p style="font-family: Times New Roman;font-size: 16px;" >I understand that if I have questions or concerns at any time about the BlueGlass Interactive, Inc. orientation manual, I will consult the content manager for clarification. </p> 
+<p>&nbsp;</p>
+<p style="font-family: Times New Roman;font-size: 16px;" >__________________________</p> 
+<p style="font-family: Times New Roman;font-size: 16px;" >Contractor Signature</p> 
+<p style="font-family: Times New Roman;font-size: 16px;" >___________________________</p> 
+<p style="font-family: Times New Roman;font-size: 16px;" >Date</p> 
+<p style="font-family: Times New Roman;font-size: 16px;" >___________________________</p> 
+<p style="font-family: Times New Roman;font-size: 16px;" >Contractor Name (Please Print)</p>
+</div>
+{include file="themes/$theme/footer.html"}

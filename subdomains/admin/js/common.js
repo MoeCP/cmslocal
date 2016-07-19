@@ -1,0 +1,739 @@
+function getFileType(str)
+{
+    var pos = str.lastIndexOf(".") + 1;
+    var lastname = str.substring(pos,str.length);
+    return lastname.toLowerCase();
+}
+
+function getEditorCount(ed)
+{
+    var text = ed.getContent().unescapeHTML().replace(/<\/?[^>]+>/gi,"").replace(/&nbsp;|&#160;|\.\s+|:s+/gi, ' ').replace(/\s+/g," ");
+    text = trim(text);
+    //alert(text);
+    var arr = text.split(' ');
+    var len = (text.length === 0) ? 0 : (arr.length);
+    if (len > 0 && arr[len-1] == '') {
+        len--;
+    }
+
+	if (typeof(ed.id) == "undefined") {
+		ed = tinyMCE.activeEditor;
+	}
+
+    $(ed.id + '_wordcount').update("<span>" + len + "</span> words, <span>" + text.length + "</span> characters");
+    return len;
+}
+
+function addWordCount(ed) {
+  if (typeof(ed.id) == "undefined") ed = tinyMCE.activeEditor;
+  $('contentdiv').insert({before:'<div id="' + ed.id + '_wordcount" class="wordcount">0 words, 0 characters</div>'});
+  return true;
+}
+
+function getTextFromHtml(content)
+{
+    content = content.replace(new RegExp('</p>', 'g'), '</p>\n');
+    content = content.replace(new RegExp('</div>', 'g'), '</div>\n');
+    content = content.replace(new RegExp('<br[ ]?[/]?>', 'g'), '<br />\n');
+    content = content.replace(new RegExp('(?:<script.*?>)((\n|\r|.)*?)(?:<\/script>)', 'img'), '');
+    content = content.replace(new RegExp('&nbsp;', 'g'), ' ');//replace &nbsp; with space
+    content = unescapeHTML(content);
+    content = content.replace(new RegExp("\r\n", "g"), "\n");
+    return content.replace(new RegExp("\n", "g"), " ");
+}
+
+function occurs(soucetext, targettext) {
+    //targettext = unescapeHTML(targettext);
+    targettext = targettext.replace(/\\/g,'\\\\');
+    targettext = targettext.replace(/\//g,"\\/");
+    targettext = targettext.replace(/\^/g,"\\^");
+    targettext = targettext.replace(/\-/g,"\\-");
+    targettext = targettext.replace(/\+/g,"\\+");
+    targettext = targettext.replace(/[\?\.\$]+$/g,"");
+    targettext = targettext.replace(/\?/g,"\\?");
+    targettext = targettext.replace(/\*/g,"\\*");
+    targettext = targettext.replace(/\$/g,"\\$");
+    targettext = targettext.replace(/\(/g,"\\(");
+    targettext = targettext.replace(/\)/g,"\\)");
+    targettext = targettext.replace(/\{/g,"\\{");
+    targettext = targettext.replace(/\}/g,"\\}");
+    targettext = targettext.replace(/\[/g,"\\[");
+    targettext = targettext.replace(/\]/g,"\\]");
+    targettext = targettext.replace(/\|/g,"\\|");
+    return soucetext.split(eval("/"+targettext+"/i")).length - 1;
+}
+
+function unescapeHTML(content)
+{
+    var div = document.createElement('div');
+    div.innerHTML = content.replace(/<\/?[^>]+>/gi, '');
+    //alert(this._inject(this._$A(div.childNodes), '',function(memo,node){ return memo+node.nodeValue }));
+    return div.childNodes[0] ? (div.childNodes.length > 1 ?
+    this._inject(this._$A(div.childNodes), '',function(memo,node){ return memo+node.nodeValue }) :
+    div.childNodes[0].nodeValue) : ''
+}
+
+function setRecord(url, return_url, id, params)
+{
+  var isSet = new Array(false,id);
+  var isTrue=showModalDialog(url,window,params);
+  if (isTrue)
+  {
+    if (id == '')
+    {
+      window.location = return_url;
+    } else {
+      isSet = isTrue;
+      if (isSet[0])
+      {
+        window.location = return_url + isTrue[1];
+      }
+    }
+  }
+}
+
+function openRecord(url,params){
+  var isTrue=showModalDialog(url,window,params);
+}
+
+function doSubmit(form_name, id_name, id_value, form_refresh_value)
+{
+  eval("document." + form_name + "." + id_name + ".value = " + id_value);
+  form_refresh_value.toString();
+  eval("document." + form_name + ".form_refresh.value = '" + form_refresh_value + "'");
+  eval("document." + form_name + ".submit()");
+}
+
+function deleteSubmit(form_name, id_name, id_value, form_refresh_value, msg)
+{
+  if (confirm("Do You Delete " + msg + "?"))
+  {
+    //eval("document." + form_name + "." + id_name + ".value = " + id_value);
+    eval("document." + form_name + "." + id_name + ".value = '" + id_value + "'");
+    if (form_refresh_value != '')
+    {
+      form_refresh_value.toString();
+      eval("document." + form_name + ".form_refresh.value = '" + form_refresh_value + "'");
+    }
+    eval("document." + form_name + ".submit()");
+  } else {
+    return false;
+  }
+}
+
+function changeUserStatus(form_name, id_name, id_value, form_refresh_value, action, msg)
+{
+    if (form_refresh_value == 'D')
+    {
+        msg = "Are you sure you want to disable " + msg + "?";
+    }
+    else if (form_refresh_value == 'A')
+    {
+        msg = "Are you sure you want to enable " + msg + "?";
+    }
+  if (confirm(msg))
+  {
+    eval("document." + form_name + "." + id_name + ".value = '" + id_value + "'");
+    if (form_refresh_value != '')
+    {
+      form_refresh_value.toString();
+      eval("document." + form_name + ".form_refresh.value = '" + form_refresh_value + "'");
+    }
+    if (action != '')
+    {
+      action.toString();
+      eval("document." + form_name + ".operation.value = '" + action + "'");
+    }
+    eval("document." + form_name + ".submit()");
+  } else {
+    return false;
+  }
+}
+
+function sendEmail( form_name, id_name, id_value, operation_name, operation_value )
+{
+
+	eval("document." + form_name + "." + id_name + ".value = '" + id_value + "'");
+	eval("document." + form_name + "." + operation_name + ".value = '" + operation_value + "'");
+	if( id_value > 0)
+		eval("document." + form_name + ".submit()");
+	else
+		return false;
+}
+
+/*
+ * 此函数是用来实现刷新排列列表
+ * function orderBy(url, sort){
+ *   sort = (sort == 'ASC')?'DESC':'ASC';
+ *   window.location = 'search.php?'+url+'&sort='+sort;
+ * }
+ */
+
+function changeReturn(url, id)
+{
+	window.location = url + id;
+}
+
+function openWindow(url, params)
+{
+	var d = new Date();
+	window.open(url, 'newwindow' +  (d.getTime()), params);
+}
+
+function openLink(url)
+{
+    window.location.href=url;
+}
+
+function addClassName(el, sClassName) {
+	var s = el.className;
+	var p = s.split(" ");
+	var l = p.length;
+	for (var i = 0; i < l; i++) {
+		if (p[i] == sClassName)
+			return;
+	}
+	p[p.length] = sClassName;
+	el.className = p.join(" ").replace( /(^\s+)|(\s+$)/g, "" );
+}
+
+function removeClassName(el, sClassName) {
+	var s = el.className;
+	var p = s.split(" ");
+	var np = [];
+	var l = p.length;
+	var j = 0;
+	for (var i = 0; i < l; i++) {
+		if (p[i] != sClassName)
+			np[j++] = p[i];
+	}
+	el.className = np.join(" ").replace( /(^\s+)|(\s+$)/g, "" );
+}
+
+
+
+
+/////////////////////////////////////////////////////////////////////////
+
+
+function isEmail(string)
+{
+  //if (string.search(/^\w+((-\w+)|(\.\'\w+))*\@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z0-9]{2,4}$/) != -1) {
+  if (string.search('^[-!#$%&\'*+\\./0-9=?A-Z^_`a-z{|}~]+@[-!#$%&\'*+\\/0-9=?A-Z^_`a-z{|}~]+\.[-!#$%&\'*+\\./0-9=?A-Z^_`a-z{|}~]+$') != -1) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
+function isURL(string)
+{
+    var RegexUrl = /(ftp|http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/
+    return RegexUrl.test(string);
+}
+
+// isBlank(value) Returns true if value only contains spaces
+function isBlank(val)
+{
+ if(val==null) return true;
+ for(var i = 0; i < val.length; i ++) {
+  if ((val.charAt(i)!=' ') && (val.charAt(i)!="\t") && (val.charAt(i)!="\n") && (val.charAt(i)!="\r")) {
+      return false;
+    }
+ }
+ return true;
+}
+ 
+// isInteger(value) Returns true if value contains all digits
+function isInteger(val)
+{
+ if (isBlank(val)) return false;
+ 
+ for(var i = 0; i < val.length; i ++) {
+  if(!isDigit(val.charAt(i))) return false;
+ }
+ return true;
+}
+ 
+// isDigit(value) Returns true if value is a 1-character digit
+function isDigit(num) {
+ if (num.length > 1) return false;
+ var string = "1234567890";
+ if (string.indexOf(num) != -1) return true;
+ return false;
+}
+
+function isNumeric(val){
+  return(parseFloat(val,10)==(val*1));
+}
+
+/* check one object is undefined or not */
+function isObjectOrNot(obj)
+{
+    try {
+		if (obj === undefined) return false;
+		if (obj === null) return false;
+		if (obj == "undefined") return false;
+        return true;
+    } catch (e) {
+		return false;
+    }
+}
+ 
+function LTrim(str)
+{
+ if (str==null){return str;}
+ for (var i=0; str.charAt(i)==" " || str.charAt(i)=="\n" || str.charAt(i)=="\t" || str.charAt(i)=="\r"; i++);
+ return str.substring(i,str.length);
+}
+ 
+function RTrim(str)
+{
+ if (str==null){return str;}
+ for (var i=str.length-1; str.charAt(i)==" " || str.charAt(i)=="\n" || str.charAt(i)=="\t" || str.charAt(i)=="\r"; i--);
+ return str.substring(0,i+1);
+}
+ 
+function Trim(str)
+{
+ return LTrim(RTrim(str));
+}
+ 
+// Replace all '\t' and '\r' in a string
+function TRReplace(str)
+{
+  var re = new RegExp('\t|\r', 'gi');
+  var newstr = str.replace(re, '');
+ 
+  return newstr;
+}
+
+function decimal(num,v)
+{
+    var vv = Math.pow(10,v);
+    num = parseFloat(num);
+    return Math.round(num*vv)/vv;
+}
+
+
+//是否全选
+function checkAll(str, evt)
+{
+  var a = document.getElementsByName(str);
+  var n = a.length;
+  //evt = evt ? evt : (window.event ? window.event : null);
+  //var e = evt ? evt.srcelement : (window.event ? window.event.srcElement : null);
+  var e = document.getElementsByName('Select_All');
+  for (var i=0; i<n; i++) {
+      //a[i].checked = evt.srcElement.checked;
+      if (!a[i].disabled)
+      {
+          a[i].checked = e[0].checked;
+      } 
+  }
+}
+
+function checkItem(str, f_str, evt)
+{
+//  //为了能够在firfox上运行；
+//  //evt = evt ? evt : (window.event ? window.event : null);
+//  var e = evt ? evt.srcelement : (window.event ? window.event.srcElement : null);
+//  //var e = evt.srcElement;
+//  var all = eval(f_str + str);
+//  if (e.checked)
+//  {
+//    var a = document.getElementsByName(e.name);
+//    all.checked = true;
+//    for (var i=0; i<a.length; i++)
+//    {
+//      if (!a[i].checked){ all.checked = false; break;}
+//    }
+//  }
+//  else all.checked = false;
+	return false;
+}
+
+function checkPostItem(str, post_checkbox_array, checkbox_name, f_str)
+{
+  var all = eval(f_str + str);
+  var checkbox_array = new Array();
+  checkbox_array = post_checkbox_array.split(",");
+  if (post_checkbox_array != '')
+  {
+    var a = document.getElementsByName(checkbox_name);
+    for (var ca=0; ca<checkbox_array.length; ca++)
+    {
+      var checkboxid = checkbox_array[ca] - 1;
+      a[checkboxid].checked = true;
+      all.checked = true;
+      for (var i=0; i<a.length; i++)
+      {
+        if (!a[i].checked){ all.checked = false; break;}
+      }
+    }
+  } else {
+    all.checked = false;
+  }
+}
+
+function getCssValue(node_id, attr_name) {
+    return Try.these (
+                function() {return eval("document.getElementById('"+node_id+"').currentStyle."+attr_name);},
+                function() {return eval("document.defaultView.getComputedStyle(document.getElementById('"+node_id+"'), null).getPropertyValue('"+attr_name+"')");}
+               );
+}
+
+function removeNotification(row, url)
+{
+    total = parseInt($('total_notifications').innerHTML);
+    $('total_notifications').innerHTML = --total;
+    row.remove();
+    ajaxAction(url);
+}
+
+
+function removeAllNotification(element, url)
+{
+    element.remove();
+    objs = $('notification_table').childElements()[0].childElements();
+    total = objs.length;
+    for (var i=1; i<total; i++){
+        objs[i].remove();
+    }
+    $('total_notifications').innerHTML = '0';
+    ajaxAction(url);
+}
+
+function archiveCampaign(eid, formid)
+{
+    var form = $(formid);
+    ajaxSubmit(form.action, formid,eid, 'post');
+    // $(eid).update('<strong>Archived</strong>');
+    return true;
+}
+
+function changeTemplate(url, tpl_id)
+{ 
+  if (tpl_id != '')
+  {
+      ajaxAction(url + '?tpl_id=' + tpl_id, 'show_result_status');
+  }
+}
+
+var responseText = null;
+function getResponse(response, josn)
+{ 
+    responseText = response.responseText;
+}
+
+function appendRsToObj(obj,currenobj,total_row,url)
+{
+	var div = arguments[4] || '';
+    
+	var options = {asynchronous:false,evalScripts:false,onComplete:getResponse};
+    var oajax = ajaxAction(url, div, options);
+    responseText = responseText.replace(/&nbsp;<tr>/gi, '<tr>');
+    responseText = responseText.replace(/\s+/gi,' ');
+    obj.insert({after:responseText});
+    currenobj.innerHTML = 'Hide Campaigns';
+    // currenobj.setAttribute('onclick', "hideCampaigns(this,$('" + obj.identify() +"'),"+total_row+",'" + url +"','" +div+"');return false;"); only for firefox
+    currenobj.onclick = function() {hideCampaigns(this,$(obj.identify()),total_row, url, div);return false;}; // firefox and ie
+}
+
+function hideCampaigns(currenobj, obj, total_row, url, div)
+{
+    var sibilings = obj.nextSiblings();
+    
+    for (i=0;i< total_row;i++)
+    {
+        sibilings[i].remove();
+    }
+    currenobj.innerHTML = 'View Campaigns';
+    // currenobj.setAttribute('onclick', 'appendRsToObj($(\'' + obj.identify() +'\'), this,'+total_row+',\'' + url +'\', \''+ div +'\');return false;'); only for firefox
+    currenobj.onclick = function(){appendRsToObj($(obj.identify()), this, total_row, url,div);return false;}; // firefox and ie
+}
+
+function resetElement() {
+    $('report_result').innerHTML = 'I am gonna get updated';
+}
+
+function showWindowDialog(url)
+{
+	var awidth  = arguments[1] || '600';
+	var aheight = arguments[2] || '300';
+	var atitle	= arguments[3] || 'Add/Edit';
+
+    var mywin = new Window({className: "mac_os_x", title: atitle, width:awidth, height:aheight,zIndex:5000, recenterAuto:false});
+	mywin.setDestroyOnClose();
+	mywin.setAjaxContent(url, {method:'get', evalJS:true});
+	mywin.showCenter();
+}
+
+var brdetective = {
+  Brd: {
+    IE:     !!(window.attachEvent && !window.opera),
+    Opera:  !!window.opera,
+    WebKit: navigator.userAgent.indexOf('AppleWebKit/') > -1,
+    Gecko:  navigator.userAgent.indexOf('Gecko') > -1 && navigator.userAgent.indexOf('KHTML') == -1
+  }
+}
+
+function IEVersion(){
+  var ua = navigator.userAgent,
+    m,
+    numberify = function(s) {
+      var c = 0;
+      return parseFloat(s.replace(/\./g, function() {
+          return (c++ === 0) ? '.' : '';
+      }));
+    };
+
+  if ((m = ua.match(/MSIE\s([^;]*)/)) && m[1]) {
+    return numberify(m[1]);
+  } else {
+    return 0;
+  }
+
+}
+/**************************************************/
+// sub menu;
+var timeout         = 500;
+var closetimer		= 0;
+var ddmenuitem      = 0;
+
+// open hidden layer
+function mopen(id)
+{	
+	// cancel close timer
+	mcancelclosetime();
+
+	// close old layer
+	if(ddmenuitem) ddmenuitem.style.visibility = 'hidden';
+
+	// get new layer and show it
+	ddmenuitem = document.getElementById(id);
+    var a = IEVersion();
+
+    if (brdetective.Brd.IE && IEVersion() < 8)
+    {
+        if (!ddmenuitem.style.left)
+        {
+            ddmenuitem.style.left = (getElementOffset(ddmenuitem).left - getElementOffset(ddmenuitem.parentNode).width - 3) + "px";
+        }
+        ddmenuitem.style.top = "179px";
+    }
+
+	ddmenuitem.style.visibility = 'visible';
+}
+
+function getElementOffset(e)
+{
+   var t = e.offsetTop;
+   var l = e.offsetLeft;
+   var w = e.offsetWidth;
+   var h = e.offsetHeight - 1;
+
+   while(e = e.offsetParent) {
+     t += e.offsetTop;
+     l += e.offsetLeft;
+   }
+   return {
+     top : t,
+     left : l,
+     width : w,
+     height : h
+   }
+ }
+
+// close showed layer
+function mclose()
+{
+	if(ddmenuitem) ddmenuitem.style.visibility = 'hidden';
+}
+
+// go close timer
+function mclosetime()
+{
+	closetimer = window.setTimeout(mclose, timeout);
+}
+
+// cancel close timer
+function mcancelclosetime()
+{
+	if(closetimer)
+	{
+		window.clearTimeout(closetimer);
+		closetimer = null;
+	}
+}
+
+function browserType()
+{  
+    var type = null;
+    var ua = navigator.userAgent.toLowerCase();
+    if (window.ActiveXObject) {
+    } else if (document.getBoxObjectFor){
+    } else if (window.MessageEvent && !document.getBoxObjectFor){
+    } else if (window.opera){
+    } else if (window.openDatabase){
+    }
+}
+
+function tinyMCEInit(elements)
+{
+    tinyMCE.init({
+    mode : "exact",
+    theme : "advanced",
+    elements : elements,
+    relative_urls : false,
+    remove_script_host : false,
+    theme_advanced_toolbar_location : "top",
+    theme_advanced_toolbar_align : "left",
+    atd_button_url: "/js/tiny_mce/plugins/AtD/atdbuttontr.gif",
+    atd_rpc_url: "/js/tiny_mce/plugins/AtD/server/proxy.php?url=",
+    atd_rpc_id: "dashnine",
+    atd_css_url: "/js/tiny_mce/plugins/AtD/css/content.css",
+    atd_show_types: "Bias Language,Cliches,Complex Expression,Diacritical Marks,Double Negatives,Hidden Verbs,Jargon Language,Passive voice,Phrases to Avoid,Redundant Expression",
+    atd_ignore_strings: "AtD,rsmudge",
+    atd_ignore_enable: "false",
+    plugins : "searchreplace,paste,AtD",
+    theme_advanced_buttons1 : "bold,italic,underline, separator,forecolor ,separator,search,replace,separator,AtD",
+    theme_advanced_buttons1_add_before: "undo,redo,paste,pastetext,pasteword,separator,hr,link,unlink,separator, formatselect, bullist,numlist,outdent,indent,justifyleft,justifycenter,justifyright",
+    theme_advanced_buttons2 :"",
+    theme_advanced_buttons3 : "",
+    paste_auto_cleanup_on_paste : true,
+    directionality: "ltr",
+    force_br_newlines : "false",
+    force_p_newlines : "true",
+    debug : false,
+    cleanup : true,
+    cleanup_on_startup:false,
+    safari_warning:false
+    });
+}
+
+// close layer when click-out
+document.onclick = mclose; 
+
+
+// added by nancy xu 2011-7-4 17:48
+function appendRsToObj(obj,currenobj,total_row,url)
+{
+	var div = arguments[4] || '';
+    
+	var options = {asynchronous:false,evalScripts:false,onComplete:getResponse};
+    var oajax = ajaxAction(url, div, options);
+    responseText = responseText.replace(/&nbsp;<tr>/gi, '<tr>');
+    responseText = responseText.replace(/\s+/gi,' ');
+    obj.insert({after:responseText});
+    currenobj.innerHTML = 'Hide Campaigns';
+    // currenobj.setAttribute('onclick', "hideCampaigns(this,$('" + obj.identify() +"'),"+total_row+",'" + url +"','" +div+"');return false;"); only for firefox
+    currenobj.onclick = function() {hideCampaigns(this,$(obj.identify()),total_row, url, div);return false;}; // firefox and ie
+}
+
+function hideCampaigns(currenobj, obj, total_row, url, div)
+{
+    var sibilings = obj.nextSiblings();
+    
+    for (i=0;i< total_row;i++)
+    {
+        sibilings[i].remove();
+    }
+    currenobj.innerHTML = 'View Campaigns';
+    // currenobj.setAttribute('onclick', 'appendRsToObj($(\'' + obj.identify() +'\'), this,'+total_row+',\'' + url +'\', \''+ div +'\');return false;'); only for firefox
+    currenobj.onclick = function(){appendRsToObj($(obj.identify()), this, total_row, url,div);return false;}; // firefox and ie
+}
+
+function resetElement() {
+    $('report_result').innerHTML = 'I am gonna get updated';
+}
+
+function showWindowDialog(url)
+{
+	var awidth  = arguments[1] || '600';
+	var aheight = arguments[2] || '300';
+	var atitle	= arguments[3] || 'Add/Edit';
+
+    /*
+	var i = parseInt(100*Math.random());
+	var mywin = new Window('window_id' + i, {title: atitle, className: "alphacube", width: awidth, height: aheight});
+    id = parseInt(id);
+	if (id > 0)
+	{
+		url +=  '&id=' + id;
+	}
+    */
+
+    var mywin = new Window({className: "mac_os_x", title: atitle, width:awidth, height:aheight,zIndex:9999, recenterAuto:false});
+	mywin.setDestroyOnClose();
+	mywin.setAjaxContent(url, {method:'get', evalJS:true});
+	mywin.showCenter();
+}
+
+function showWindowRatingDialog(divid)
+{
+	var awidth  = arguments[1] || '450';
+	var aheight = arguments[2] || '300';
+	var atitle	= arguments[3] || 'Please rate the article before approving of this article';
+    var tmpDiv =  'ratingWindowDialog';
+    if (isObjectOrNot($(tmpDiv))) {
+        $(tmpDiv).remove();
+    }
+    var mywin = new Window({'id': tmpDiv, className: "mac_os_x", title: atitle, width:awidth, height:aheight,zIndex:9999,destroyOnClose:true, recenterAuto:false});
+    var str =  $(divid).innerHTML + '<script language="JavaScript">initRating(\'' + tmpDiv+ '\');</script>';
+    //var oDiv = new Element('div', {'id':tmpDiv}).update(str);
+    mywin.getContent().update(str);
+	mywin.showCenter();
+}
+//end
+
+function changedAll(obj)
+{
+    if (obj.checked && confirm('Are you sure  change all for this campaign?')) {
+       obj.checked =true;
+    } else {
+       obj.checked = false;
+    }
+}
+
+function InAvailableArticle(formId)
+{
+    if (confirm('Are you sure set this aricle as NOT Available?')) {
+        $(formId).action = '/article/disabled_article.php';
+        $(formId).article_status.value = '99';
+        $(formId).submit();
+    }
+}
+
+function AvailableArticle(formId)
+{
+    if (confirm('Are you sure back on this article?')) {
+        $(formId).action = '/article/disabled_article.php';
+        $(formId).article_status.value = '0';
+        $(formId).submit();
+    }
+}
+
+function cmsCalcLine(str, divId)
+{
+    var line = str.split("\n").length;
+    divId += '_lines';
+    if (str.length > 0) {
+        $(divId).innerHTML = line + ' Columns';
+        $(divId).addClassName('columnHint');
+        $(divId).show();
+    } else {
+        $(divId).innerHTML = '';
+    }
+    return line;
+}
+
+function cmsCalcLineByFields(field)
+{
+    var fields = field.split(",");
+    var total = fields.length;
+    for (var i=0;i<total ; i++) {
+        field_name = Trim(fields[i]);
+        cmsCalcLine($(field_name).value, field_name);
+    }
+}

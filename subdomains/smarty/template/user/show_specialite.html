@@ -1,0 +1,23 @@
+{include file="themes/$theme/header_jump.html"}
+
+{if $feedback ne ''}
+<script language="JavaScript">
+<!--
+alert("{$feedback}");
+//-->
+</script>
+{/if}
+<div id="page-box1">
+  <h2>Description & Sample Article </h2>
+  <fieldset>
+  <legend><span class="requiredInput" >Description</span></legend>
+  <div class="view-item" >{$info.description|nl2br}</div>
+  </fieldset>
+  <br />
+  <br />
+  <fieldset>
+  <legend><span class="requiredInput" >Sample Article</span></legend>
+  <div class="view-item" >{$info.sample|nl2br}</div>
+  </fieldset>
+</div>
+{include file="themes/$theme/footer_jump.html"}

@@ -1,0 +1,131 @@
+{include file="themes/$theme/header.html"}
+
+{if $feedback ne ''}
+<script language="JavaScript">
+<!--
+alert("{$feedback}");
+//-->
+</script>
+{/if}
+{literal}
+<script language="JavaScript">
+<!--
+function check_f_uploadfeed()
+{
+  var f = document.f_uploadfeed;
+  if (f.feed_url.value.length== 0) {
+      alert("Please specify the file");
+      f.feed_url.focus();
+      return false;
+  } else if (!isURL(f.feed_url.value)) {
+     alert("Invalid URL, please check your input");
+     return false;
+  }
+  f.submit_button.disabled = true;
+  return true;
+}
+//-->
+</script>
+{/literal}
+<div id="page-box1">
+  <h2>Upload Feed</h2>
+  <div id="campaign-search" >
+    <strong></strong>
+  </div>
+  <div class="form-item" >
+<br />
+
+<form action="" method="post"  name="f_uploadfeed" id= "f_uploadfeed" onsubmit="return check_f_uploadfeed();" >
+<table border="0" cellspacing="1" cellpadding="4" align="center" width="100%">
+  <input type="hidden" name="campaign_id" id="campaign_id" value="{$campaign_id}" />
+  <input type="hidden" name="client_id" id="client_id" value="{$client_id}" />
+  <tr>
+    <td class="dataLabel" nowrap >Feed URL</td>
+    <td><input type="text" name="feed_url" id="feed_url" value="" size="60" /></td>
+    <td align="left" width="100%" >&nbsp;<input type="submit" value="Submit" class="button" name="submit_button" id="submit_button"  />&nbsp;</td>
+  </tr>
+  <tr>
+    <td></td>
+    <td><br /><br /><strong>-----------OR--------</strong></td>
+  </tr>
+</table>
+</form>
+<br />
+<script type="text/javascript" src="/js/multifile.js"></script>
+<form action="/client_campaign/upload.php" method="post" enctype="multipart/form-data" target="upload_target" id="uploadform"  name="uploadform" >
+<input type="hidden" name="campaign_id" id="upload_campaign_id" value="{$campaign_id}" />
+<input type="hidden" name="client_id" id="upload_client_id" value="{$client_id}" />
+<table border="0" cellspacing="1" cellpadding="4" align="center" width="100%">
+<tr>
+  <td class="dataLabel" nowrap valign="top" >
+    Feed File
+  </td>
+  <td nowrap>
+    <div id="f1_upload_process" align="left">Loading...<br /><img src="/image/loader.gif" /><br/></div>
+    <div id="f1_upload_form" align="left">
+          <input name="myfile" type="file" size="30" id="my_file_element" /><strong>[Max: {$maxsize}]</strong>
+    </div>    
+  </td>
+  <td width="100%" >&nbsp;</td>
+    </tr>
+    <tr><td colspan="4" ><div id="files_list" ></div></td></tr>
+   <tr>
+    <td class="blackLine" colspan="4"><img src="/image/misc/s.gif"></td>
+   </tr> 
+</table>
+</form>
+<iframe id="upload_target" name="upload_target" src="#" style="width:0;height:0;border:0px solid #fff;"></iframe>
+<table id="table-1" cellspacing="0" cellpadding="0" align="center" class="sortableTable" width="100%" >
+  <thead>
+  <tr class="sortableTab">
+    <th class="table-left-corner" rowspan="2" >&nbsp;&nbsp;&nbsp;&nbsp;</th>
+    <td nowrap class="columnHeadInactiveBlack table-left-2">ID</td>
+    <td nowrap class="columnHeadInactiveBlack">Title</td>
+    <td nowrap class="columnHeadInactiveBlack">Feed URL</td>
+    <td nowrap class="columnHeadInactiveBlack">Link</td>
+    <td nowrap class="columnHeadInactiveBlack">Description</td>
+    <td nowrap class="columnHeadInactiveBlack">Campaign Name</td>
+    <td nowrap class="columnHeadInactiveBlack">Create Date</td>
+    <td nowrap class="columnHeadInactiveBlack table-right-2">&nbsp;</td>
+    <th class="table-right-corner">&nbsp;&nbsp;&nbsp;</th>
+  </tr>
+  </thead>
+  <tbody>
+  {foreach from=$result item=item name="loop"}
+  <tr class="{if $smarty.foreach.loop.iteration % 2 eq 0}even{else}odd{/if}" id="action_tr{$item.keyword_id}" >
+    <td class="table-left" >&nbsp;</td>
+    <td class="table-left-2">{$item.url_id}</td>
+    <td>{$item.title}</td>
+    <td>{$item.feed_url}</td>
+    <td>{$item.link}</td>
+    <td>{$item.description}</td>
+    <td>{$item.campaign_name}</td>
+    <td>{$item.created}</td>
+    <td nowrap class="table-right-2">
+      <input type="button" class="button" value="Feeds" onclick="location.href='/client_campaign/feeds.php?url_id={$item.url_id}&campaign_id={$item.campaign_id}'" />
+      <input type="button" class="button" value="Generate Xml" onclick="location.href='/client_campaign/gfeedxml.php?url_id={$item.url_id}&campaign_id={$item.campaign_id}'" />
+    </td>
+    <td class="table-right" >&nbsp;</td>
+  </tr>
+  {/foreach}
+  </tbody>
+</table>
+<div class="pagingpaddingleft" >
+  <table align="center" width="100%" border="0" cellspacing="0" cellpadding="0" >
+    <tr><td class="table-left table-paging-left" width="20" height="37" >&nbsp;</td><td class="table-bottom">{$pager} (Total Page:{$total})(Total Count:{$count})</td><td class="table-right table-paging-right" width="21">&nbsp;</td></tr>
+  </table>
+</div>
+  </div>
+</div>
+<script language="javascript">
+var multi_selector = new MultiSelector( $( 'files_list' ), $('uploadform'), $('f1_upload_form'),  $('f1_upload_process'), null, 1);
+multi_selector.addElement($( 'my_file_element' ) );
+{literal}
+stopUpload = function(success, filename, prefix){
+      var result = '';
+      multi_selector.stopUpload(success, filename, prefix);
+      return true;   
+}
+{/literal}
+</script>
+{include file="themes/$theme/footer.html"}

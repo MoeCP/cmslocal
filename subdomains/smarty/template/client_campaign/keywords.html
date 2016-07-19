@@ -1,0 +1,142 @@
+{include file="themes/$theme/header.html"}
+
+{if $feedback ne ''}
+<script language="JavaScript">
+<!--
+alert('{$feedback}');
+//-->
+</script>
+{/if}
+
+<br />
+<div id="page-box1">
+  <h2> Inactive/Unassigned Keywords</h2>
+  <div id="campaign-search" >
+    <strong>You can enter the "keyword","campaign name","company name" etc. into the keyword input to search the relevant campaign's keyword information</strong>
+    <div id="campaign-search-box" >
+    <form name="f_assign_keyword_return" id="f_assign_keyword_return" action="{$smarty.server.REQUEST_URI}" method="get">
+    <table border="0" cellspacing="1" cellpadding="4">
+      <tr>
+       <td nowrap>Keyword</td>
+       <td   ><input type="text" name="keyword" id="search_keyword"></td>
+      <td nowrap>Article Type</td>
+      <td colspan="1"><select name="article_type"><option value="">[choose]</option>{html_options options=$article_type selected=$smarty.get.article_type}</select>
+      </td>
+      <td nowrap>Status</td>
+      <td colspan="2" nowrap>
+        <select name="article_status" id="article_status" ><option value="">[show all]</option>{html_options options=$article_status selected=$smarty.get.article_status}</select>&nbsp;&nbsp;&nbsp;
+      </td>
+       <td nowrap>Show:</td>
+       <td nowrap>
+       <select name="perPage" onchange="this.form.submit();">{html_options options=$g_pager_perPage selected=$smarty.get.perPage}</select> row(s)&nbsp;&nbsp;&nbsp;
+      </td>
+      <td>
+        <input type="image" src="/images/button-search.gif" value="submit">
+      </td>
+    </tr>
+    </table>
+    </form>
+    </div>
+  </div>
+</div>
+<br>
+<div class="tablepadding"> 
+<form action="{$smarty.server.REQUEST_URI}" name="form_keywords" id="form_keywords" method="post" />
+<input type="hidden" name="keyword_id" />
+<input type="hidden" name="campaign_id" />
+<input type="hidden" name="status" id="keywordstatus" />
+<input type="hidden" name="form_refresh" value="N" />
+<table id="table-1" cellspacing="0" cellpadding="0" align="center" class="sortableTable">
+  <thead>
+  <tr class="sortableTab">
+    <th class="table-left-corner" rowspan="2" >&nbsp;&nbsp;&nbsp;&nbsp;</th>
+    <td nowrap class="columnHeadInactiveBlack table-left-2 table-right-2">Number</td>
+    <td nowrap class="columnHeadInactiveBlack">Keyword</td>
+    <td nowrap class="columnHeadInactiveBlack">Article Status</td>
+    <td nowrap class="columnHeadInactiveBlack">Keyword Status</td>
+    <td nowrap class="columnHeadInactiveBlack">Company Name</td>
+    <td nowrap class="columnHeadInactiveBlack">Campaign Name</td>
+    <td nowrap class="columnHeadInactiveBlack">Copywriter</td>
+    <td nowrap class="columnHeadInactiveBlack">Editor</td>
+    <td nowrap class="columnHeadInactiveBlack">Start Date</td>
+    <td nowrap class="columnHeadInactiveBlack">Due Date</td>
+    <td nowrap class="columnHeadInactiveBlack">Article Type</td>
+    <td nowrap class="columnHeadInactiveBlack">Total Words</td>
+    <td nowrap class="columnHeadInactiveBlack table-right-2">&nbsp;</td>
+    <th class="table-right-corner">&nbsp;&nbsp;&nbsp;</th>
+  </tr>
+  </thead>
+  <tbody>
+  {foreach from=$result item=item name="loop"}
+  <tr class="{if $smarty.foreach.loop.iteration % 2 eq 0}even{else}odd{/if}" id="action_tr{$item.keyword_id}" >
+  <td class="table-left" >&nbsp;</td>
+    <td class="table-left-2 table-right-2" >{$smarty.foreach.loop.iteration}</td>
+    <td>{$item.keyword}</td>
+    <td>{$article_status[$item.article_status]}</td>
+    <td id="tdstatus{$item.keyword_id}">{$item.status}</td>
+    <td>{$item.company_name|truncate:20:"..."}</td>
+    <td>{$item.campaign_name|truncate:20:"..."}</td>
+    <td><a href="javascript:void(0)" onclick="openWindow('/user/user_detail_info.php?user_id={$item.copy_writer_id}', 'height=300,width=400,status=no,toolbar=no,menubar=no,location=no,resizable=yes,scrollbars=yes');">{$item.uc_name}</a></td>
+    <td><a href="javascript:void(0)" onclick="openWindow('/user/user_detail_info.php?user_id={$item.editor_id}', 'height=300,width=400,status=no,toolbar=no,menubar=no,location=no,resizable=yes,scrollbars=yes');">{$item.ue_name}</a></td>
+    <td>{$item.date_start|date_format:"%m-%d-%Y"}</td>
+    <td>{$item.date_end|date_format:"%m-%d-%Y"}</td>
+    <td>{$article_type[$item.article_type]}</td>
+    <td>{$item.word_count}</td>
+    <td align="left" nowrap class="table-right-2" id="tdaction{$item.keyword_id}" >
+      {if $item.status == 'A'}
+      <input type="button" class="button" value="cancel" onclick="doKeywordAction('D','{$item.keyword_id}', '{$item.campaign_id}')" />
+      {else if $item.status == 'D'}
+      <input type="button" class="button" value="re-active" onclick="doKeywordAction('A', '{$item.keyword_id}', '{$item.campaign_id}')" />
+      {/if}
+     </td>
+     <td class="table-right" >&nbsp;</td>
+  </tr>
+  {/foreach}
+  </tbody>
+</table>
+<div class="pagingpaddingleft" >
+  <table align="center" width="100%" border="0" cellspacing="0" cellpadding="0" >
+    <tr><td class="table-left table-paging-left" width="20" height="37" >&nbsp;</td><td class="table-bottom">{$pager} (Total Page:{$total})(Total Count:{$count})</td><td class="table-right table-paging-right" width="21">&nbsp;</td></tr>
+  </table>
+</div>
+  </form>
+</div>
+<div id="div-active-values" style="display:none;" ></div>
+{literal}
+<script language="JavaScript">
+function doKeywordAction(opt, keyword_id, campaign_id)
+{
+  var hint = (opt == 'A') ? "Are you sure Re-Active this keyword?" : "Are you sue cancel this keyword?";
+  if (confirm(hint))
+  {
+    var  f = document.form_keywords;
+    f.form_refresh.value = opt;
+    f.status.value = opt;
+    f.keyword_id.value = keyword_id;
+    f.campaign_id.value = campaign_id;
+    ajaxSubmit('/client_campaign/keywords.php', 'form_keywords', 'div-active-values', 'post', {onComplete: updateRow});
+  }
+  return false;
+}
+
+function updateRow(response)
+{
+  var data = response.responseText;
+  var arr = data.evalJSON();
+  var keyword_id = arr.keyword_id;
+  var campaign_id = arr.campaign_id;
+  var status = arr.status;
+  $('tdstatus'+keyword_id).update(status);
+  if (status == 'A'){
+      buttonvalue = 'cancel';
+      status = 'D';
+  } else {
+      buttonvalue = 're-active';
+      status='A';
+  }
+  var button = '<input type="button" class="button" value="' + buttonvalue +'" onclick="doKeywordAction(\''+status+'\',\'' + keyword_id +'\',\'' + campaign_id + '\')"/>';
+  $('tdaction'+keyword_id).update(button);
+}
+</script>
+{/literal}
+{include file="themes/$theme/footer.html"}

@@ -1,0 +1,97 @@
+<div class="tab_content" style="display: block;" id="writing_experience">
+  <h2>Writing Experience<br /> </h2>
+  <div>1. Please provide a link to your personal website, portfolio, and/or blog. </div>
+  {*<div><span class="spanlabel">*</span> You must provide at least one. </div>*}
+  <br />
+  <table border="0" cellspacing="1" cellpadding="4" align="center" width="100%">  
+    {foreach from=$plinks item=item key=key name=foo}
+    {if $smarty.foreach.foo.index}{eval var=$smarty.foreach.foo.index assign='pIndex'}{else}{eval var='0' assign='pIndex'}{/if}
+    <tr>
+      <td>{$index}{$item}<input type="hidden" name="plinks[type][]" value="{$key}" /></td>
+      <td><input type="text" name="plinks[value][]" value="{if $info.plinks.value[$pIndex]}{$info.plinks.value[$pIndex]}{else}http://www.{/if}" size="60"/></td>
+    </tr>
+    {/foreach}
+  </table>
+  <br />
+  <br />
+  {*<div>2. What best describes you as a writer?</div>
+  <div><span class="spanlabel">*</span> You must choose at least one.</div>
+  <br />
+  <table border="0" cellspacing="1" cellpadding="4" align="center" width="100%" >
+    {foreach from=$candidate_writers item=item key=key}
+    <tr>
+      <td><input type="checkbox" name="writer_level[]" id="writer_level{$key}" value="{$item}" {if $info.writer_level_checked[$key]}checked{/if}/> {$item}</td>
+      <td width="80%" ></td>
+    </tr>
+    {/foreach}
+  </table>
+  <br />
+  <br />
+  <div>3. Please provide a sample of your best work in the following categories. If you don't have a sample in a particular category, leave it blank.</div>
+  <div><span class="spanlabel" >*</span>You must choose at least one. </div>
+  <br />
+  <table border="0" cellspacing="1" cellpadding="4" align="center" width="100%" >
+      <tr class="titleStyle">
+        <td>Sample Type</td>
+        <td>	Add URL</td>
+        <td class="title2Style" >(or)</td>
+        <td>Upload a PDF/Word Document </td>
+      </tr>
+      {foreach from=$sample_types item=item key=key name=foo}
+      {if $smarty.foreach.foo.index}{eval var=$smarty.foreach.foo.index assign='sIndex'}{else}{eval var='0' assign='sIndex'}{/if}
+      <tr>
+        <td nowrap>{$item}<input type="hidden" name="samples[type][]" value="{$key}" /></td>
+        <td><input type="text" name="samples[link][]" value="{if $info.samples.link[$sIndex]}{$info.samples.link[$sIndex]}{else}http://www.{/if}" size="40"/></td>
+        <td></td>
+        <td><input type="file" name="samples[fileField][]" size="40" /><input type="hidden" name="samples[filename][]" value="{$info.samples.fileField.filename[$sIndex]}" /></td>
+      </tr>
+      {/foreach}
+  </table>
+  <br />
+  <br />*}
+  <div>2. Please list up to three specialities. Only list a specialty if you have a writing sample or relevant experience.</div>
+  <div><span class="spanlabel" >*</span>You must choose at least one. </div>
+  <br />
+
+  <table border="0" cellspacing="1" cellpadding="4" align="center" width="100%">
+       <tr class="titleStyle">
+        <td>Categories</td>
+        <td>	Sub-Category</td>
+        <td colspan="2">Experience/Samples</td>
+        {*<td>	Add URL</td>
+        <td class="title2Style" >(or)</td>
+        <td>Upload a PDF/Word Document </td>
+        <td class="title2Style" >(or)</td>
+        <td>Relevant Experience</td>
+        <td>Description</td>*}
+      </tr>
+      {section name=foo start=0 loop=3}
+      {if $smarty.section.foo.index}{eval var=$smarty.section.foo.index assign='index'}{else}{eval var='0' assign='index'}{/if}
+      {if $info.categories.parent_id[$index]}{eval var=$info.categories.parent_id[$index] assign='parent_id'}{else}{eval var='0' assign='parent_id'}{/if}
+      <tr>
+        <td><select name="categories[parent_id][]" class="selectWidth" >{html_options options=$scategories selected=$parent_id}</select></td>
+        <td><select name="categories[category_id][]" class="selectWidth">{if $subcategeries[$parent_id]}{html_options options=$subcategeries[$parent_id] selected=$info.categories.category_id[$index]}{else}<option value="0" label="Select">Select</option>{/if}</select></td>
+        <td><select name="categories[experience_type][]" id="categories_experience_type_{$index}" class="selectWidth" onchange="experience_type_Change(jQuery(this).val(), '{$index}')"><option value="">Choose One</option>{html_options options=$experience_types selected=$info.categories.experience_type[$index]}</select></td>
+        <td nowrap valign="top">
+          <div id="categories_link_{$index}" style="display:none"><input type="text" name="categories[link][]" value="{if $info.categories.link[$index]}{$info.categories.link[$index]}{else}http://www.{/if}" /></div>
+          <div id="categories_filename_{$index}"  style="display:none"><input type="file" name="categories[fileField][]"  /><input type="hidden" name="categories[filename][]" value="{$info.categories.fileField.filename[$index]}" /></div>
+          <div id="categories_level_{$index}" style="display:none;"><table border="0" cellspacing="0" cellpadding="0" ><tr><td valign="middle"><select name="categories[level][]">{html_options options=$candidate_levels selected=$info.categories.level[$index]}</select><input type="hidden" name="categories[category][]" value="{$info.categories.category[$index]}" /></td><td><textarea name="categories[description][]"  cols="40" rows="5">{$info.categories.description[$index]}</textarea></td></tr></table></div>
+        </td>
+        {*<td><input type="text" name="categories[link][]" value="{if $info.categories.link[$index]}{$info.categories.link[$index]}{else}http://www.{/if}" /></td>
+        <td></td>
+        <td><input type="file" name="categories[fileField][]"  /><input type="hidden" name="categories[filename][]" value="{$info.categories.fileField.filename[$index]}" /></td>
+        <td></td>
+        <td>
+          <select name="categories[level][]">{html_options options=$candidate_levels selected=$info.categories.level[$index]}</select><input type="hidden" name="categories[category][]" value="{$info.categories.category[$index]}" />
+        </td>
+        <td><textarea name="categories[description][]" >{$info.categories.description[$index]}</textarea></td>*}
+      </tr>
+      {/section}
+  </table>
+  <br />
+  <br />
+  <div>3. Additional comments</div>
+  <br />
+  <div><textarea rows="5" cols="50" id="comments" name="comments"></textarea></div>
+  <div><input type="button" value="Next" class="button" onclick="submitTabTwo()" />&nbsp;<small>Having trouble submitting the form? Send email to Community@copypress.com </small>&nbsp;&nbsp;</div>
+</div>

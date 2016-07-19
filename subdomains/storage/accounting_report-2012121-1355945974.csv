@@ -1,0 +1,4 @@
+user_id,user_name,first_name,last_name,email,address,status,Digital Media,Type 1,Type 2,Type 3,total,pay_words_total,pay_count_article,pay_amount,payment_preference,payment_status
+888,charmcglinchey,Charley,McGlinchey,charley_mcg@hotmail.com,21 Bell Pde,Active,0,3500,0,0,3500,3500,0,$35,Paypal,Not Paid
+36,jillenaobrien,Jillena,O'Brien,jillenabean@gmail.com,902 N. Arbutus Ave.,Active,0,600,0,0,600,600,0,$6,Direct Deposit,Not Paid
+995,rperillieditor,Raubi,Perilli,rperilli@copypress.com,,Active,0,500,0,0,500,500,0,$0,,Not Paid

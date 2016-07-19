@@ -1,0 +1,26 @@
+<div class="form-item">
+<table cellspacing="0" cellpadding="5" border="0" width="100%">
+  <tr>
+    <td align="right" class="form-label"><strong>Article Tag</strong></td>
+    <td align="left">
+{foreach from=$tags item=item key=key name="loop"}
+<input type="checkbox" id="article_tag{$key}" onclick="ajaxSubmitTag('{$key}', '{$article_id}')" name="article_tag[]" value="{$key}" {if $item.selected}checked{/if} /><label>{$item.output_name|escape:'html'}</label>
+&nbsp;&nbsp;&nbsp;&nbsp;{if $smarty.foreach.loop.iteration % 6 eq 0}
+<br />   
+{/if}
+{/foreach}
+    </td>
+   </tr>
+</table>
+</div>
+{literal}
+<script language="JavaScript">
+function ajaxSubmitTag(tid, aid) 
+{
+    opt = $('article_tag' + tid).checked? 'add' : 'del';
+    //var element = {'tag_id':tid, 'article_id': aid, 'opt'};
+    var query_str = 'tag_id=' + tid + '&article_id=' +aid + '&opt=' + opt;
+    ajaxAction('/article/add_article_tag.php', '', {parameters:query_str}, 'post');
+}
+</script>
+{/literal}

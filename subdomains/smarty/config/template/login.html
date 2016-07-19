@@ -1,0 +1,99 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD html 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset={$sys_charset}">
+<title>{$page_title}</title>
+<style type="text/css">@import url("login.css");</style>
+<script type="text/javascript" src="/js/common.js"></script>
+<script language="JavaScript">
+<!--
+{literal}
+function check_f_login()
+{
+  var f = document.f_login;
+  if (f.user_name.value.length == 0) {
+      alert('Please enter user name');
+      f.user_name.focus();
+      return false;
+  }
+  if (f.user_pw.value.length == 0) {
+      alert('Please enter password');
+      f.user_pw.focus();
+      return false;
+  }
+  if (f.img_chs.value.length != 4) {
+      alert('You must use 4 digits to enter security code');
+      f.img_chs.focus();
+      return false;
+  }
+}
+{/literal}
+//-->
+</script>
+</head>
+
+{if $feedback ne ''}
+<script language="JavaScript">
+<!--
+alert('{$feedback}');
+//-->
+</script>
+{/if}
+</head>
+
+<body style="padding:0; margin:0;">
+  
+<table border=0 cellspacing=0 cellpadding=0 width=100%>
+<tr>
+  <td align=center>
+    <br><br><br><br>
+    <table border="0" cellspacing="0" cellpadding="0" width="720" class="loginTopBg">
+      <tr><td align=left><img src="/image/ckehr.gif" width="212" height="40" alt="Company Logo" border="0"></td></tr>
+    </table>
+
+    <table border=0 cellspacing=0 cellpadding=0 width=720 class="loginTopShade">
+      <tr><td><img src="/image/loginTopShade.gif"></td></tr>
+    </table>
+
+    <table border=0 cellspacing=0 cellpadding=0 width=720 class="loginBg" >
+      <tr>
+        <td valign=top width=60% height="250" class="loginBillBoard">
+          <div align=left style="padding:20px">
+            <span style="font-size:20px;color:white">{$company_title}</span><br><br>
+          </div>
+      </td>
+      <td valign=top>
+        <br>
+        <table border=0 cellspacing=0 cellpadding=0 width=90% bgcolor=white>
+        <tr>
+          <td>
+            <table border=0 cellspacing=0 cellpadding=0 width=100%><tr><td align=left><img src="/image/loginSITopLeft.gif"></td><td align=right><img src="/image/loginSITopRight.gif"></td></tr></table>
+            <table border=0 cellspacing=0 cellpadding=5 align=center width=90%>
+              <form action="login.php" method="post" name="f_login" onsubmit="return check_f_login()">
+              <tr><td colspan="3" class="loginSignin" style="border-bottom: 1px solid rgb(153, 153, 153); padding: 10px;" align="left">User Login</td></tr>
+              <tr><td class=small align=right nowrap>User Name:</td>
+                <td colspan="2"><input class=textbox type="text" name="user_name" onchange="javascript:this.value=Trim(this.value)" /></td></tr>
+              <tr><td class=small align=right>Password: </td>
+                <td colspan="2"><input class=textbox type="password" size='20' name="user_pw" onchange="javascript:this.value=Trim(this.value)" /></td></tr>
+              <tr><td class=small align=right>Themes: </td>
+                <td colspan="2"><select name="sel_style" class="input">
+                    <option value="Default">Default</option></select></td></tr>
+              <tr><td class=small align=right>Security Code: </td>
+                  <td nowrap><input type="text" class=textbox name="img_chs" size="11" maxlength="4" onchange="javascript:this.value=Trim(this.value)" value="Please enter 4 digits" onfocus="javascript:if (this.value=='Please enter 4 digits') this.value=''"></td>
+                  <td nowrap><img src="sc_img.php" width="70" height="20" border="0"></td></tr>
+              <tr><td colspan="3" style="border-top: 1px solid rgb(153, 153, 153); padding: 10px;">&nbsp;&nbsp;&nbsp;&nbsp;<input class=small type="submit" name="Login" value=" Login " style="width:100; height:25;"></td></tr>
+              </form>
+            </table>
+            <table border=0 cellspacing=0 cellpadding=0 width=100%><tr><td align=left><img src="/image/loginSIBottomLeft.gif"></td><td align=right><img src="/image/loginSIBottomRight.gif"></td><tr></table>
+          </td>
+        </tr>
+        </table>
+        <br>
+      </td>
+      </tr>
+    </table>
+  </td></tr>
+</table>
+
+</body>
+</html>

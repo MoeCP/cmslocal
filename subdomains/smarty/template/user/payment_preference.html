@@ -1,0 +1,59 @@
+{include file="themes/$theme/header.html"}
+
+{if $feedback ne ''}
+<script language="JavaScript">
+<!--
+alert("{$feedback}");
+{literal}
+function check_f_user()
+{
+  var f = document.f_user;
+
+  if (f.pay_pref.value == 3)
+  {
+    if (f.paypal_email.value == '')
+    {
+         alert('Please specify the paypal email address');
+         f.paypal_email.focus();
+         return false;
+    }
+  }
+  if (f.paypal_email.value != '' && !isEmail(f.paypal_email.value)) {
+    alert('Invalid paypal email address');
+    f.paypal_email.focus();
+    return false;
+  }
+  return true;
+}
+{/literal}
+//-->
+</script>
+{/if}
+<form action="" method="post"  name="f_user"  {if $js_check eq true} onsubmit="return check_f_user()"{/if}>
+<br />
+<table border="0" cellspacing="1" cellpadding="4" align="center" width="100%">
+  <input type="hidden" name="user_id" value="{$user_info.user_id}" />
+  <tr>
+    <td class="moduleTitle" colspan="2" >Set your payment preference</td>
+  </tr>
+  <tr>
+    <td class="blackLine" colspan="2"><img src="/image/misc/s.gif"></td>
+  </tr>
+  <tr>
+    <td class="dataLabel">Payment Preference</td>
+    <td><select name="pay_pref">{html_options options=$payment_preference selected=$user_info.pay_pref}</select></td>
+  </tr>
+  <tr>
+    <td class="dataLabel">Paypal Email Address</td>
+    <td><input name="paypal_email" type="text" id="paypal_email" value="{$user_info.paypal_email}" onchange="javascript:this.value=Trim(this.value)"></td>
+  </tr>
+  <tr>
+    <td class="blackLine" colspan="2"><img src="/image/misc/s.gif"></td>
+  </tr>
+  <tr>
+    <td>&nbsp;</td>
+    <td><input type="submit" value="Submit" class="button">&nbsp;<input type="reset" value="reset" class="button"></td>
+  </tr>
+</table>
+</form>
+{include file="themes/$theme/footer.html"}

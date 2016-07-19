@@ -1,0 +1,186 @@
+{include file="themes/$theme/header.html"}
+
+{if $feedback ne ''}
+<script language="JavaScript">
+<!--
+alert("{$feedback}");
+//-->
+</script>
+{/if}
+
+<script language="JavaScript">
+<!--
+{literal}
+check_f_user = function ()
+{ 
+  var f = document.f_user;
+
+  if (f.user_name.value.length == 0) {
+    alert('Please enter user name');
+    f.user_name.focus();
+    return false;
+  }
+  if (login_permission >= 4)
+  {
+      if (f.user_id.value.length == 0)
+      {
+          if (f.user_pw.value.length == 0) {
+            alert('Please enter user password');
+            f.user_pw.focus();
+            return false;
+          }
+          if (f.user_pwnew.value.length == 0) {
+            alert('Please enter confirm password');
+            f.user_pwnew.focus();
+            return false;
+          }
+      }
+
+      if (f.user_pw.value != f.user_pwnew.value)
+      {
+        alert('Password mismatch, Please check your input and enter the password again');
+        f.user_pw.focus();
+        return false;
+      }
+
+      if (f.role.value.length == 0) {
+        alert('Please enter role');
+        f.role.focus();
+        return false;
+      }
+    }
+
+  if (f.first_name.value.length == 0) {
+    alert('Please enter first name');
+    f.first_name.focus();
+    return false;
+  }
+  if (f.last_name.value.length == 0) {
+    alert('Please enter last name');
+    f.last_name.focus();
+    return false;
+  }
+
+  if (!(f.sex[0].checked || f.sex[1].checked)) {
+    alert('Please enter the gender ');
+    return false;
+  }
+
+  if (!isEmail(f.email.value)) {
+    alert('Invalid email address');
+    f.email.focus();
+    return false;
+  }
+  if (f.pay_pref.value == 3)
+  {
+    if (f.paypal_email.value == '')
+    {
+          alert('Please specify the paypal email address');
+          f.paypal_email.focus();
+         return false;
+    }
+  }
+  if (f.paypal_email.value != '' && !isEmail(f.paypal_email.value)) {
+    alert('Invalid paypal email address');
+    f.paypal_email.focus();
+    return false;
+  }
+  return true;
+}
+{/literal}
+//-->
+</script>
+<div id="page-box1">
+  <h2>User's Information setting&nbsp;&nbsp;&nbsp;&nbsp;<input type="button" class="button" value="Go Back" onclick="javascript:history.go(-1);" /></h2>
+  <div id="campaign-search" >
+    <strong>Please enter the user's required information.</strong>
+  </div>
+  <div class="form-item" >
+<form action="" method="post"  name="f_user" {if $js_check eq true} onsubmit="return check_f_user()"{/if}>
+<br><table border="0" cellspacing="1" cellpadding="4" align="center" width="100%">
+  <input type="hidden" name="user_id" value="{$user_info.user_id}" />
+  <input type="hidden" name="candidate_id" id="candidate" value="{if $user_info.candidate_id}{$user_info.candidate_id}{else}0{/if}" />
+  {if $login_permission == 1}
+    <input type="hidden" name="date_join" id="date_join" value="{$user_info.date_join}" />
+    <input type="hidden" name="role" id="role" value="{$user_info.permission}" />
+  {/if}
+  <tr>
+    <td class="bodyBold">Basic Information</td>
+    <td align="right" class="requiredHint">Required Information</td>
+  </tr>
+  <tr>
+    <td class="blackLine" colspan="2"><img src="/image/misc/s.gif"></td>
+  </tr>
+  <tr>
+    <td class="requiredInput">Country</td>
+    <td><select name="country" id="country">{html_options values=$country output=$country selected=$user_info.country} </select></td>
+  </tr>
+  <tr>
+    <td class="requiredInput">City</td>
+    <td><input name="city" type="text" id="city" value="{$user_info.city}" onchange="javascript:this.value=Trim(this.value)" size="20"></td>
+  </tr>
+  <tr>
+    <td class="requiredInput">State</td>
+    <td><input name="state" type="text" id="state" value="{$user_info.state}" onchange="javascript:this.value=Trim(this.value)" size="20"></td>
+  </tr>
+  <tr>
+    <td class="requiredInput">Zip</td>
+    <td><input name="zip" type="text" id="zip" value="{$user_info.zip}" onchange="javascript:this.value=Trim(this.value)" size="20"></td>
+  </tr>
+  <tr>
+    <td class="requiredInput">Address1</td>
+    <td><textarea name="address" cols="35" rows="4" id="address1">{$user_info.address}</textarea></td>
+  </tr>
+  <tr>
+    <td class="requiredInput">Address2</td>
+    <td><textarea name="address2" cols="35" rows="4" id="address2">{$user_info.address2}</textarea></td>
+  </tr>
+  <tr>
+    <td class="dataLabel">Phone Number</td>
+    <td><input name="phone" type="text" id="phone" value="{$user_info.phone}" onchange="javascript:this.value=Trim(this.value)" size="50"></td>
+  </tr>
+  <tr>
+    <td class="dataLabel">Mobile Telephone Number</td>
+    <td><input name="cell_phone" type="text" id="cell_phone" value="{$user_info.cell_phone}" onchange="javascript:this.value=Trim(this.value)"></td>
+  </tr>
+  <tr>
+    <td class="dataLabel">Google Plus URLs</td>
+    <td><input name="googleplus_url" type="text" id="googleplus_url" value="{$user_info.googleplus_url}" onchange="javascript:this.value=Trim(this.value)" size="50"></td>
+  </tr>
+{*  <tr>
+    <td class="dataLabel">Bank Name</td>
+    <td><input name="bank_name" type="text" id="bank_name" value="{$user_info.bank_name}" onchange="javascript:this.value=Trim(this.value)"></td>
+  </tr>
+  <tr>
+    <td class="dataLabel">Bank Rounting Number</td>
+    <td><input name="routing_number" type="text" id="routing_number" value="{$user_info.routing_number}" onchange="javascript:this.value=Trim(this.value)"></td>
+  </tr>
+  <tr>
+    <td class="dataLabel">Account Number</td>
+    <td><input name="bank_info" type="text" id="bank_info" value="{$user_info.bank_info}" onchange="javascript:this.value=Trim(this.value)"></td>
+  </tr>
+  <tr>
+    <td class="dataLabel">Bank Account Type</td>
+    <td>{html_options name="bank_acct_type" options=$acct_types selected=$user_info.bank_acct_type}</td>
+  </tr>*}
+  <tr>
+    <td class="dataLabel">Payment Preference</td>
+    <td><select name="pay_pref">{html_options options=$payment_preference selected=$user_info.pay_pref}</select></td>
+  </tr>
+  <tr>
+    <td class="dataLabel">Paypal Email Address</td>
+    <td><input name="paypal_email" type="text" id="paypal_email" value="{$user_info.paypal_email}" onchange="javascript:this.value=Trim(this.value)"></td>
+  </tr>
+  <tr>
+    <td class="blackLine" colspan="2"><img src="/image/misc/s.gif"></td>
+  </tr>
+
+  <tr>
+    <td>&nbsp;</td>
+    <td><input type="submit" value="Submit" class="button">&nbsp;<input type="reset" value="reset" class="button"></td>
+  </tr>
+</table>
+</form>
+  </div>
+</div>
+{include file="themes/$theme/footer.html"}

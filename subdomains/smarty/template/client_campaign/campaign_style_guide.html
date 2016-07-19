@@ -1,0 +1,168 @@
+{include file="themes/$theme/header_jump.html"}
+<style>
+{literal}
+h1{
+	font-size: 20px;
+	margin: 10px 0;
+}
+h2{
+	height: auto !important;
+}
+.divMain, .divContent, .divTextarea {
+  width:90%;
+  text-align:left;
+  border: 1px solid #8f8377;
+}
+
+.divContent2 {
+  background: #fff;
+  color:#000;
+  overflow:auto;
+  border: 1px solid #8f8377;
+  padding-left: 15px;
+}
+
+.divTextarea {
+  height:100px;
+}
+{/literal}
+</style>
+<div id="page-box1">
+  <h2>{if $smarty.get.qtype eq 'editor_grading_rubric'}Editor Grading Rubric Information{else}Content Production Style Guide Information{/if}</h2>
+  <div class="view-item" >
+<br><table border="0" cellspacing="1" cellpadding="4" align="center" width="100%">
+  <tr>
+    <td class="moduleTitle" colspan="4"></td>
+  </tr>
+  <tr>
+    <td class="blackLine" colspan="4"><img src="/image/misc/s.gif"></td>
+  </tr>
+  <tr>
+    <td class="requiredInput2">Project Name:</td>
+    <td colspan="3"><strong>{$info.campaign_name}</strong></td>
+  </tr>
+  <tr>
+    <td class="requiredInput2">Contact:</td>
+    <td>{$info.contact}</td>
+    <td class="requiredInput2" >Date:</td>
+    <td>{$info.date_start|date_format:"%m-%d-%Y"}</td>
+  </tr>
+
+{if $smarty.get.qtype eq 'editor_grading_rubric'}
+  <tr>
+    <td colspan="4">
+      <div nowrap="nowrap" class="requiredInput2"><a href="javascript:void(0)" onclick="openWindow('/manual_content/tip.php?ukey=EDITOR_GRADING_RUBRIC','height=370,width=450,status=no,toolbar=no,menubar=no,location=no,resizable=no,scrollbars=no')" class="classtips">Editor Grading Rubric</a></div>
+      <div {if $info.style_id > 0}class="divContent"{else}class="divContent2"{/if}>
+	  {if $info.editor_grading_rubric != ''}
+	  {$info.editor_grading_rubric|html_entity_decode}
+	  {else}No rubric provided.<br />
+	  {/if}
+	  </div></td>
+  </tr>
+{else}
+
+
+  {if $info.background != ''}
+  <tr>
+    <td colspan="4" >
+      <div class="requiredInput2" >Background:</div>
+      <div class="divContent" >{$info.background|html_entity_decode}</div>
+    </td>
+  </tr>
+  {/if}
+  {if $info.launch_feature != ''}
+  <tr>
+    <td colspan="4">
+      <div class="requiredInput2" >Launch Features:</div>
+      <div class="divContent" >{$info.launch_feature|html_entity_decode}</div>
+    </td>
+  </tr>
+  {/if}
+  {if $info.audience != ''}
+  <tr>    
+    <td colspan="4">
+      <div class="requiredInput2">The Audience:</div>
+      <div class="divContent" >{$info.audience|html_entity_decode}</div>
+    </td>
+  </tr>
+  {/if}
+  {if $info.challenge != ''}
+  <tr>
+    <td colspan="4">
+      <div class="requiredInput2">Challenges</div>
+      <div class="divContent" >{$info.challenge|html_entity_decode}</div>
+     </td>
+  </tr>
+  {/if}
+  {if $info.objective != ''}
+  <tr>
+    <td colspan="4">
+      <div class="requiredInput2">Objectives:</div>
+      <div class="divContent" >{$info.objective|html_entity_decode}</div>
+    </td>
+  </tr>
+  {/if}
+  {if $info.message != ''}
+  <tr>
+    <td colspan="4">
+      <div class="requiredInput2">The Message: </div>
+      <div class="divContent" >{$info.message|html_entity_decode}</div>
+   </td>
+  </tr>
+  {/if}
+  {if $info.talking_point != ''}
+  <tr>    
+    <td colspan="4">
+      <div class="requiredInput2">The Talking Points: </div>
+      <div class="divContent" >{$info.talking_point|html_entity_decode}</div>
+    </td>
+  </tr>
+  {/if}
+  {if $info.mandatory != ''}
+  <tr>
+    <td colspan="4">
+      <div class="requiredInput2">Mandatories:</div>
+      <div class="divContent" >{$info.mandatory|html_entity_decode}</div>
+    </td>
+  </tr>
+  {/if}
+  {if $info.style_influence != ''}
+  <tr>
+    <td colspan="4">
+      <div class="requiredInput2">Style Influences:</div>
+      <div class="divContent" >{$info.style_influence|html_entity_decode}</div>
+    </td>
+  </tr>
+  {/if}
+  {if $info.others neq ''}
+  <tr>
+    <td colspan="4">
+      <div class="requiredInput2">Anything else:</div>
+      <div class="divContent" >{$info.others|html_entity_decode}</div>
+    </td>
+  </tr>
+  {/if}
+  {if $info.campaign_requirement != ''}
+  <tr>
+    <td colspan="4">
+      <div nowrap="nowrap" class="requiredInput2"><a href="javascript:void(0)" onclick="openWindow('/manual_content/tip.php?ukey=ADDITIONAL_STYLE_GUIDE','height=370,width=450,status=no,toolbar=no,menubar=no,location=no,resizable=no,scrollbars=no')" class="classtips">Additional Style Guide</a></div>
+      <div {if $info.style_id > 0}class="divContent"{else}class="divContent2"{/if}>{$info.campaign_requirement|html_entity_decode}</div></td>
+  </tr>
+  {/if}
+
+  {if $info.sample_content != ''}
+  <tr>
+    <td colspan="4">
+      <div nowrap="nowrap" class="requiredInput2"><a href="javascript:void(0)" onclick="openWindow('/manual_content/tip.php?ukey=SAMPLE_CONTENT','height=370,width=450,status=no,toolbar=no,menubar=no,location=no,resizable=yes,scrollbars=yes')" class="classtips">Sample Content</a></div>
+      <div {if $info.style_id > 0}class="divContent"{else}class="divContent2"{/if}>{$info.sample_content|html_entity_decode}</div></td>
+  </tr>
+  {/if}
+
+{/if}
+  <tr>
+    <td class="blackLine" colspan="4"><img src="/image/misc/s.gif"></td>
+  </tr>
+</table>
+  </div>
+</div>
+{include file="themes/$theme/footer_jump.html"}

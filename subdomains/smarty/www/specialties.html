@@ -1,0 +1,55 @@
+<div class="tab_content" style="display: block;" id="specialties">
+<h2>Specialties<br /> </h2>
+  <div>If you have writing or work experience in any of the following, please select the <strong>FIVE</strong> categories in which you are the most experienced.You must choose a sub-category for each category selected.</div>
+<br />
+<table border="0" cellspacing="1" cellpadding="4" align="center" width="100%">  
+  <tr>
+    <td><input type="button"  class="button" value="+" onclick="addRow('specialtyrow', 5, 'tr')" /></td>
+    <td align="left" >Category</td>
+    <td align="left" >Sub-Category</td>
+    <td align="left" >Level</td>
+  </tr>
+  {if $info.categories && $info.categories.parent_id}
+  {foreach from=$info.categories.parent_id item=item key=key}
+  <tr {if $key == 0}id="specialtyrow"{/if}>
+    <td>{if $key == 0}<span></span>{else}<input type="button"  class="button" value="-" onclick="jQuery(this).parent().parent().remove();" />{/if}</td>
+    <td><select name="categories[parent_id][]">{html_options options=$scategories selected=$item}</select></td>
+    <td><select name="categories[category_id][]">{html_options options=$subcategeries[$item] selected=$info.categories.category_id[$key]}</select></td>
+    <td><select name="categories[level][]">{html_options options=$user_levels selected=$info.categories.level[$key]}</select><input type="hidden" name="categories[category][]" value="{$info.categories.category[$key]}" /></td>
+  </tr>
+  {/foreach}
+  {else}
+  <tr id="specialtyrow">
+    <td><span></span></td>
+    <td><select name="categories[parent_id][]">{html_options options=$scategories}</select></td>
+    <td><select name="categories[category_id][]"><option value="0" >Select</option></select></td>
+    <td><select name="categories[level][]">{html_options options=$user_levels}</select><input type="hidden" name="categories[category][]" value="" /></td>
+  </tr>
+  {/if}
+</table>
+<br />
+<br />
+<br />
+<br />
+<div>Please provide <strong>THREE</strong> writing samples (blog posts, print articles, SEO copywriting, etc.) that best display your writing style and/or expertise in a certain field. Samples may be provided as a URL Link, PDF or Word Document. </div>
+<div><span class="spanlabel" >*</span>Writing Samples </div>
+<table border="0" cellspacing="1" cellpadding="4" align="center" width="100%" >
+  <tr>
+    <td><input type="button"  class="button" value="+" onclick="addRow('samplerow', 3, 'tr', 'Writing Samples')" /></td>
+    <td>Add URLs</td>
+    <td></td>
+    <td>Upload a PDF or a Word Document</td>
+    <td>Link to your online Portfolio</td>
+    <td>Link to your online Blog</td>
+  </tr>
+  <tr id="samplerow">
+    <td><span></span></td>
+    <td><input type="text" name="samples[link][]" /></td>
+    <td>Or</td>
+    <td><input type="file" name="samples[fileField][]" /></td>
+    <td><input type="text" name="samples[portfolio][]" /></td>
+    <td><input type="text" name="samples[blog][]" /></td>
+  </tr>
+</table>
+<div>&nbsp;Having trouble submitting the form? Send email to hr@copypress.com &nbsp;&nbsp;<input type="button" value="Next" class="button" onclick="submitTabTwo()" /></div>
+</div>

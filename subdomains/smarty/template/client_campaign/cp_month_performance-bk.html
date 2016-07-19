@@ -1,0 +1,100 @@
+{include file="themes/$theme/header.html"}
+<div id="page-box1">
+  <h2>Writer Monthly Performance Report</h2>
+  <div id="campaign-search" >
+    <strong>You can search copywriters' ranking</strong>
+    <div id="campaign-search-box" >
+ <form id="search" name="search" action="" method="get">
+<table cellspacing="0" cellpadding="4">
+  <tbody>
+    <tr align="left" >
+      <td>Writer Search ( name, user name )</td>
+      <td><input type="text" name="search_keyword" id="search_keyword" value="{$smarty.get.search_keyword}" /></td>
+      <td> 
+      <select name="s_choice" id="s_choice">
+      {html_options options=$search_choice selected=$smarty.get.s_choice}
+      </select> 
+      </td>
+      <td>
+      <select name="rmonth" id="rmonth">
+      {html_options options=$monthes selected=$smarty.get.rmonth}
+      </select> 
+      </td>
+      <td><input type="image" src="/images/button-search.gif" value="submit" /></td>
+     </tr>
+  </tbody>
+</table>
+</form>
+    </div>
+  </div>
+</div>
+<div class="tablepadding"> 
+<table id="table-1" cellspacing="0" cellpadding="0" align="center" class="sortableTable">
+  <tr class="sortableTab">
+    <th class="table-left-corner">&nbsp;&nbsp;&nbsp;&nbsp;</th>
+    <td nowrap class="columnHeadInactiveBlack table-left-2">Number</td>
+    <td nowrap class="columnHeadInactiveBlack">User</td>
+    <td nowrap class="columnHeadInactiveBlack">Name</td>
+    <td nowrap class="columnHeadInactiveBlack">Email</td>
+    <td nowrap class="columnHeadInactiveBlack">Month</td>
+    <td nowrap class="columnHeadInactiveBlack">Punctuation</td>
+    <td nowrap class="columnHeadInactiveBlack">Grammar</td>
+    <td nowrap class="columnHeadInactiveBlack">Structure</td>
+    <td nowrap class="columnHeadInactiveBlack">AP Style</td>
+    <td nowrap class="columnHeadInactiveBlack">Style Guide</td>
+    <td nowrap class="columnHeadInactiveBlack">Content Guality</td>
+    <td nowrap class="columnHeadInactiveBlack">Communication</td>
+    <td nowrap class="columnHeadInactiveBlack">Cooperativeness</td>
+    <td nowrap class="columnHeadInactiveBlack">Timeliness</td>
+    <td nowrap class="columnHeadInactiveBlack table-right-2">Overall</td>
+    <th class="table-right-corner">&nbsp;&nbsp;&nbsp;</th>
+  </tr>
+  {foreach from=$result item=item name="loop"}
+  <tr class="{if $smarty.foreach.loop.iteration % 2 eq 0}even{else}odd{/if}">
+    <td class="table-left" >&nbsp;</td>
+    {eval var= $startNo+$smarty.foreach.loop.iteration assign='rowNumber'}
+    <td class="table-left-2">{$rowNumber}</td>
+    <td><a href="/client_campaign/cp_performance.php?rmonth={$item.report_month}&user_id={$item.user_id}">{$item.user_name}</a></td>
+    <td>{$item.first_name} {$item.last_name}</td>
+    <td>{$item.email}</td>
+    <td>{$item.month}</td>
+    <td>{$item.punctuation}</td>
+    <td>{$item.grammar}</td>
+    <td>{$item.structure}</td>
+    <td>{$item.ap_style}</td>
+    <td>{$item.style_guide}</td>
+    <td>{$item.quality} </td>
+    <td>{$item.communication} </td>
+    <td>{$item.cooperativeness} </td>
+    <td>{$item.timeliness} </td>
+    <td class="table-right-2">{$item.ranking}</td>
+    <td class="table-right" >&nbsp;</td>
+  </tr>
+  {/foreach}
+</table>
+<div class="pagingpaddingleft" >
+  <table align="center" width="100%" border="0" cellspacing="0" cellpadding="0" >
+    <tr><td class="table-left table-paging-left" width="20" height="37" >&nbsp;</td><td class="table-bottom">{$pager} (Total Page:{$total})(Total Count:{$count})</td><td class="table-right table-paging-right" width="21">&nbsp;</td></tr>
+  </table>
+</div>
+</div>
+<script type="text/javascript">
+//<![CDATA[
+{literal}
+var st = new SortableTable(document.getElementById("table-1"),
+  ["None", "Number", "CaseInsensitiveString", "CaseInsensitiveString",  "Number", "Number", "Number", "Number", "Number","Number"]);
+
+st.onsort = function () {
+  var rows = st.tBody.rows;
+  var l = rows.length;
+  for (var i = 0; i < l; i++) {
+    removeClassName(rows[i], i % 2 ? "odd" : "even");
+    addClassName(rows[i], i % 2 ? "even" : "odd");
+  }
+};
+
+st.asyncSort(0);
+{/literal}
+//]]>
+</script>
+{include file="themes/$theme/footer.html"}
