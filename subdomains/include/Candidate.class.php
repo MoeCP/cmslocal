@@ -4,7 +4,7 @@ class Candidate
 {
 	function __construct()
 	{
-
+    //what what
 	}
 
     function Candidate()
