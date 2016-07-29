@@ -3283,7 +3283,7 @@ class Campaign {
         $e_cost_field = 'ac.editor_article_cost AS ac_e_article_cost, at.editor_article_cost AS at_e_article_cost, ac.editor_cost AS ac_e_word_cost, at.editor_cost AS at_e_word_cost,';
 
         $q = "SELECT DISTINCT `ck`.`keyword_id`, `ck`.`campaign_id`, `cc`.`campaign_name`, `ck`.`copy_writer_id`, \n". 
-            "`ck`.`editor_id`, `ck`.`keyword`, `ck`.`article_type`, `ck`.`keyword_description`, `ck`.`date_assigned`, \n" . 
+            "`ck`.`editor_id`, `ck`.`keyword`, `ck`.`article_type`,  `ck`.`credential_id`,`ck`.`keyword_description`, `ck`.`date_assigned`, \n" . 
             "`ck`.`date_start`, `ck`.`date_end`, `ck`.`creation_user_id`, `ck`.`creation_role`, `ck`.`cp_status`,`ck`.`cp_accept_time`, `ck`.`editor_status`,ck.subcid,  ar.delivered_date, \n" .
             "`ck`.`keyword_category`, `ck`.`status`, `ck`.`cost_per_article`,ck.qaer_id, at.parent_id ,`ck`.`is_sent`,`ar`.`cp_updated`, aei.qa_complete,\n" . 
             "ar.article_id, ar.article_number, ar.approval_date,ar.client_approval_date,  MAX(aa.created_time) AS google_approved_time , \n" . 
