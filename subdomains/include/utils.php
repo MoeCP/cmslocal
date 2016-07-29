@@ -284,6 +284,9 @@ function send_smtp_mail($address, $subject, $body, $mailer_param = array())
         $result = gmail_sent($address, $subject, $body, $mailer_param);
     } else { // amazon  simple email service
         $result = ses_sent($address, $subject, $body, $mailer_param);
+        if(!$result){
+            gmail_sent($address, $subject, $body, $mailer_param);
+        }
     }
     require_once CMS_INC_ROOT  . '/track_email.class.php';
     TrackEmail::storeEmailFromSystem($address, $subject, $body, $mailer_param, $mail);
